@@ -2,7 +2,8 @@
 
 App pessoal de receitas, aprendizado de cozinha, planos alimentares e despensa.
 **Flutter + Riverpod + go_router**, backend Supabase, IA via Gemini (Edge Functions).
-Alvo visual: `pitada.html` (o protótipo é a fonte de verdade). Guia completo:
+Estética: **soft neo-brutalismo pastel** (ver `rules/design-system.md`) — evolução do
+protótipo `pitada.html`. Estudo de estilo vivo: `pitada-estilo.html`. Guia completo:
 `pitada-guia-de-construcao.html`. Interface e conteúdo em **português do Brasil**.
 
 ## Regras de ouro (não negociáveis)
@@ -31,7 +32,7 @@ lib/
   core/
     config/           # env / constantes
     supabase/         # cliente + helpers
-    theme/            # AppColors, AppType, AppSpacing, AppTheme  <- design system
+    theme/            # AppColors, PitadaColors(context.pit), AppType, AppSpacing, AppTheme
     router/           # shell das 4 abas + rotas
     widgets/          # widgets compartilhados (reuso visual)
     utils/            # AppLog, formatação, unidades
@@ -39,7 +40,7 @@ lib/
     <feature>/data/          # modelos + repositório (fala com Supabase)
     <feature>/application/    # controllers/providers Riverpod
     <feature>/presentation/   # telas + widgets da feature
-assets/fonts|brand/    # Cormorant Garamond + Inter, marca
+assets/fonts|brand/    # Space Grotesk + Inter, marca
 .claude/rules/         # as regras detalhadas deste projeto
 ```
 
@@ -48,7 +49,7 @@ assets/fonts|brand/    # Cormorant Garamond + Inter, marca
 1. Ler a spec relevante em `specs/` (ou escrevê-la, se não existir).
 2. Implementar seguindo a spec, os tokens do design system e os templates de comentário.
 3. Garantir < 200 linhas por arquivo e reuso máximo.
-4. Conferir contra o protótipo `pitada.html`.
+4. Conferir contra o estudo de estilo `pitada-estilo.html`.
 
 ## Regras detalhadas
 
@@ -62,4 +63,7 @@ assets/fonts|brand/    # Cormorant Garamond + Inter, marca
 - Identificadores de código em **inglês**; comentários e textos de UI em **pt-BR**.
 - UI nunca chama Supabase direto — só via `provider → repository`.
 - Hardware (scanner, share, câmera) sempre atrás de um service abstrato (real + mock).
-- Proibido no visual: degradê, brilho/sombra colorida, fonte cursiva. Filete > card.
+- **Dois temas** (claro + escuro): cores por tema via `context.pit.*`; marca em `AppColors`.
+- Proibido no visual: degradê, gradiente, **qualquer sombra** (nem "dura"), fonte cursiva.
+- **Bordas** (não filete fino) + pastel + Space Grotesk + tags coloridas. Cards permitidos.
+- **Usabilidade > design:** muito respiro, nunca sobrecarregar a tela de informação.

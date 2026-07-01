@@ -1,6 +1,6 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/core/theme/typography.dart
-// O QUÊ:     Escala tipográfica nomeada (AppType). Cormorant (display) + Inter (ui).
+// O QUÊ:     Escala tipográfica nomeada (AppType). Space Grotesk (display/números) + Inter (ui).
 // USA:       theme/colors (cor padrão de cada estilo) e material (TextStyle).
 // USADO POR: todo texto do app. Nenhum TextStyle novo deve nascer fora daqui.
 // SPEC:      specs/design-system/typography.yaml
@@ -13,60 +13,60 @@ import 'colors.dart';
 class AppType {
   AppType._();
 
-  static const _disp = 'Cormorant Garamond'; // números, títulos, citações
+  static const _disp = 'Space Grotesk'; // números, títulos (geométrica, chunky)
   static const _ui = 'Inter'; // corpo, botões, rótulos
 
-  // —— Display (Cormorant) ——
+  // —— Display (Space Grotesk) ——
   static const displayXl = TextStyle(
     fontFamily: _disp,
     fontSize: 40,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     letterSpacing: -0.5,
-    height: 0.9,
+    height: 0.95,
     color: AppColors.text,
   );
   static const screenTitle = TextStyle(
     fontFamily: _disp,
-    fontSize: 36,
-    fontWeight: FontWeight.w600,
-    letterSpacing: -0.2,
-    height: 0.95,
+    fontSize: 32,
+    fontWeight: FontWeight.w700,
+    letterSpacing: -0.5,
+    height: 1.0,
     color: AppColors.text,
   );
   static const display = TextStyle(
     fontFamily: _disp,
-    fontSize: 34,
-    fontWeight: FontWeight.w600,
-    letterSpacing: -0.3,
-    height: 1.0,
+    fontSize: 30,
+    fontWeight: FontWeight.w700,
+    letterSpacing: -0.5,
+    height: 1.05,
     color: AppColors.text,
   );
   static const title = TextStyle(
     fontFamily: _disp,
-    fontSize: 22,
+    fontSize: 21,
     fontWeight: FontWeight.w600,
-    letterSpacing: -0.1,
-    height: 1.1,
+    letterSpacing: -0.3,
+    height: 1.15,
     color: AppColors.text,
   );
   static const titleSm = TextStyle(
     fontFamily: _disp,
-    fontSize: 20,
+    fontSize: 19,
     fontWeight: FontWeight.w600,
-    letterSpacing: -0.1,
-    height: 1.1,
+    letterSpacing: -0.2,
+    height: 1.15,
     color: AppColors.text,
   );
   static const numeralLg = TextStyle(
     fontFamily: _disp,
-    fontSize: 27,
-    fontWeight: FontWeight.w600,
-    height: 0.9,
+    fontSize: 26,
+    fontWeight: FontWeight.w700,
+    height: 0.95,
     color: AppColors.accent,
   );
   static const numeral = TextStyle(
     fontFamily: _disp,
-    fontSize: 21,
+    fontSize: 20,
     fontWeight: FontWeight.w600,
     height: 1.0,
     color: AppColors.text,
@@ -80,17 +80,17 @@ class AppType {
   );
   static const quote = TextStyle(
     fontFamily: _disp,
-    fontSize: 23,
+    fontSize: 22,
     fontWeight: FontWeight.w500,
-    height: 1.35,
+    height: 1.3,
     color: AppColors.text,
   );
   static const tip = TextStyle(
-    fontFamily: _disp,
-    fontSize: 16,
-    fontWeight: FontWeight.w500,
+    fontFamily: _ui,
+    fontSize: 14.5,
+    fontWeight: FontWeight.w400,
     fontStyle: FontStyle.italic,
-    height: 1.4,
+    height: 1.45,
     color: AppColors.text2,
   );
 
@@ -125,9 +125,10 @@ class AppType {
     color: AppColors.muted,
   );
   static const button = TextStyle(
-    fontFamily: _ui,
+    fontFamily: _disp,
     fontSize: 15,
     fontWeight: FontWeight.w600,
+    letterSpacing: 0.2,
     height: 1.0,
     color: AppColors.text,
   );

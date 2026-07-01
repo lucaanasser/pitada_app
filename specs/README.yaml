@@ -25,6 +25,7 @@ components:                                 # -> lib/core/widgets/
   - specs/components/hairline_row.yaml
   - specs/components/pitada_button.yaml
   - specs/components/pitada_chip.yaml
+  - specs/components/pitada_tag.yaml   # pílula colorida (tags coloridas)
   - specs/components/expiry_tag.yaml
   - specs/components/why_callout.yaml
   - specs/components/nutrition_card.yaml

@@ -1,39 +1,57 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/recipes/presentation/widgets/recipe_meta.dart
-// O QUÊ:     Fonte clicável + meta da receita (porções · tempo · dificuldade).
-// USA:       theme/*, utils/format, Recipe, url_launcher NÃO (link é placeholder).
+// O QUÊ:     Fonte de origem + meta da receita como tags coloridas (porções/tempo/nível).
+// USA:       core/theme (PitadaColors), core/widgets/pitada_tag, utils/format, Recipe.
 // USADO POR: recipe_detail_screen.
 // SPEC:      specs/features/recipes.yaml (RecipeDetailScreen: meta)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/colors.dart';
+import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
 import '../../../../core/theme/typography.dart';
 import '../../../../core/utils/format.dart';
+import '../../../../core/widgets/pitada_tag.dart';
 import '../../data/recipe.dart';
 
-/// Bloco com o link de origem (quando houver) e três metadados da receita.
+/// Bloco com o link de origem (quando houver) e a meta em tags coloridas.
 /// Usada por: recipe_detail_screen.
 class RecipeMeta extends StatelessWidget {
   const RecipeMeta({super.key, required this.recipe});
 
   final Recipe recipe;
 
-  /// Monta a fonte de origem + a linha de três metadados. Usada por: framework.
+  /// Monta a fonte de origem + as tags de meta. Usada por: framework.
   @override
   Widget build(BuildContext context) {
+    final pit = context.pit;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _source(),
-        const SizedBox(height: AppSpacing.lg),
-        Row(
+        _source(pit),
+        const SizedBox(height: AppSpacing.md + 2),
+        Wrap(
+          spacing: AppSpacing.sm,
+          runSpacing: AppSpacing.sm,
           children: [
-            _item('${recipe.servings}', 'porções'),
+            PitadaTag(
+              label: '${recipe.servings} porções',
+              color: pit.card('moss'),
+              icon: Icons.people_alt_outlined,
+            ),
             if (recipe.timeMinutes != null)
-              _item(formatMinutes(recipe.timeMinutes), 'tempo'),
-            if (recipe.difficulty != null) _item(recipe.difficulty!, 'nível'),
+              PitadaTag(
+                label: formatMinutes(recipe.timeMinutes),
+                color: pit.card('teal'),
+                icon: Icons.schedule,
+              ),
+            if (recipe.difficulty != null)
+              PitadaTag(
+                label: recipe.difficulty!,
+                color: pit.card('ochre'),
+                icon: Icons.equalizer,
+              ),
           ],
         ),
       ],
@@ -41,10 +59,10 @@ class RecipeMeta extends StatelessWidget {
   }
 
   /// Link de origem clicável, ou rótulo 'Receita manual'. Usada por: [build].
-  Widget _source() {
+  Widget _source(PitadaColors pit) {
     if (recipe.sourceUrl == null) {
       return Text('Receita manual',
-          style: AppType.on(AppType.caption, AppColors.faint));
+          style: AppType.on(AppType.caption, pit.faint));
     }
     return Row(
       mainAxisSize: MainAxisSize.min,
@@ -59,21 +77,6 @@ class RecipeMeta extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-
-  /// Um metadado: valor em serifa + rótulo em versalete. Usada por: [build].
-  Widget _item(String value, String label) {
-    return Padding(
-      padding: const EdgeInsets.only(right: AppSpacing.xl),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(value, style: AppType.numeralSm),
-          const SizedBox(height: 1),
-          Text(label, style: AppType.on(AppType.caption, AppColors.muted)),
-        ],
-      ),
     );
   }
 

@@ -1,7 +1,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/recipes/presentation/recipe_detail_screen.dart
-// O QUÊ:     Detalhe da receita: galeria, nutrição, ingredientes, passos, técnicas.
-// USA:       recipes_providers, os widgets do detalhe, core/widgets, theme/*.
+// O QUÊ:     Detalhe da receita: galeria grande, kcal, macros, ingredientes, passos.
+// USA:       recipes_providers, widgets do detalhe, core/widgets, core/theme (pit).
 // USADO POR: core/router/router.dart (/recipe/:id).
 // SPEC:      specs/features/recipes.yaml
 // ─────────────────────────────────────────────────────────────────────────────
@@ -10,10 +10,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/colors.dart';
+import '../../../core/theme/pitada_colors.dart';
 import '../../../core/theme/spacing.dart';
 import '../../../core/theme/typography.dart';
+import '../../../core/utils/format.dart';
 import '../../../core/widgets/nutrition_card.dart';
-import '../../../core/widgets/pitada_chip.dart';
+import '../../../core/widgets/pitada_tag.dart';
 import '../../../core/widgets/section_header.dart';
 import '../application/recipes_providers.dart';
 import '../data/recipe.dart';
@@ -33,15 +35,18 @@ class RecipeDetailScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final async = ref.watch(recipeByIdProvider(recipeId));
+    final pit = context.pit;
     return Scaffold(
-      backgroundColor: AppColors.bg,
+      backgroundColor: pit.bg,
       body: async.when(
         loading: () => const Center(
             child: CircularProgressIndicator(color: AppColors.accent)),
-        error: (e, _) => Center(child: Text('Erro: $e', style: AppType.body)),
+        error: (e, _) =>
+            Center(child: Text('Erro: $e', style: AppType.on(AppType.body, pit.text))),
         data: (recipe) => recipe == null
-            ? const Center(
-                child: Text('Receita não encontrada', style: AppType.body))
+            ? Center(
+                child: Text('Receita não encontrada',
+                    style: AppType.on(AppType.body, pit.text)))
             : _content(context, recipe),
       ),
     );
@@ -56,7 +61,7 @@ class RecipeDetailScreen extends ConsumerWidget {
             padding: EdgeInsets.zero,
             children: [
               RecipeGallery(
-                color: AppColors.heroOf(recipe.heroColor),
+                color: context.pit.card(recipe.heroColor),
                 onBack: () => context.pop(),
               ),
               Padding(
@@ -68,7 +73,7 @@ class RecipeDetailScreen extends ConsumerWidget {
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: _sections(recipe),
+                  children: _sections(context, recipe),
                 ),
               ),
             ],
@@ -82,24 +87,20 @@ class RecipeDetailScreen extends ConsumerWidget {
   }
 
   /// As seções do detalhe, de cima para baixo. Usada por: [_content].
-  List<Widget> _sections(Recipe recipe) {
+  List<Widget> _sections(BuildContext context, Recipe recipe) {
+    final pit = context.pit;
     return [
-      Text(recipe.title, style: AppType.display),
-      const SizedBox(height: AppSpacing.md),
+      Text(recipe.title, style: AppType.on(AppType.display, pit.text)),
+      const SizedBox(height: AppSpacing.sm),
+      Text('${formatKcal(recipe.kcal)} kcal',
+          style: AppType.on(AppType.numeralLg, AppColors.accent)),
+      const SizedBox(height: AppSpacing.lg),
       RecipeMeta(recipe: recipe),
       const SizedBox(height: AppSpacing.xl),
       NutritionCard(
-        kcal: recipe.kcal,
         protein: recipe.protein,
         carb: recipe.carb,
         fat: recipe.fat,
-      ),
-      Padding(
-        padding: const EdgeInsets.only(top: AppSpacing.md, left: AppSpacing.xs),
-        child: Text(
-          'As gramas ficam em destaque; a unidade humana é referência.',
-          style: AppType.on(AppType.captionSm, AppColors.faint),
-        ),
       ),
       const SectionHeader(label: 'Ingredientes'),
       for (var i = 0; i < recipe.ingredients.length; i++)
@@ -117,22 +118,20 @@ class RecipeDetailScreen extends ConsumerWidget {
       if (recipe.techniques.isNotEmpty) ...[
         const SectionHeader(label: 'Técnicas desta receita'),
         Wrap(
-          spacing: AppSpacing.sm + 1,
-          runSpacing: AppSpacing.sm + 1,
+          spacing: AppSpacing.sm,
+          runSpacing: AppSpacing.sm,
           children: [
             for (final t in recipe.techniques)
-              PitadaChip(
-                  label: t,
-                  icon: Icons.school_outlined,
-                  variant: PitadaChipVariant.accent),
+              PitadaTag(
+                  label: t, color: pit.card('plum'), icon: Icons.school_outlined),
           ],
         ),
       ],
       const SectionHeader(label: 'Anotações & ajustes'),
       Text(
         recipe.notes ?? 'Sem anotações ainda.',
-        style: AppType.on(AppType.tip,
-            recipe.notes == null ? AppColors.faint : AppColors.text2),
+        style: AppType.on(
+            AppType.tip, recipe.notes == null ? pit.faint : pit.text2),
       ),
     ];
   }

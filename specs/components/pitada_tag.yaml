@@ -1,0 +1,23 @@
+# specs/components/pitada_tag.yaml -> lib/core/widgets/pitada_tag.dart
+component: PitadaTag
+prototype: "tags coloridas das referências (pills sólidas com borda)"
+purpose: >
+  Pílula colorida (fundo pastel + borda tinta + texto), opcional ícone. É a
+  "tag coloridinha". Reage ao tema (claro/escuro) via context.pit.
+uses:
+  - context.pit.border   # borda
+  - context.pit.text     # texto/ícone
+  - AppType.bodySm
+  - AppSpacing.radiusPill
+  - AppSpacing.borderStrong
+api:
+  - label: String
+  - color: Color        # fundo pastel — ex.: context.pit.card('moss')
+  - icon: IconData?
+detalhes: >
+  A cor de fundo vem de fora (um pastel do tema, geralmente context.pit.card(hero));
+  borda e texto vêm do tema. Sem sombra. Cantos totalmente arredondados (pill).
+used_by:
+  - recipe_meta (porções/tempo/nível)
+  - recipe_detail (técnicas)
+  - card de receita (próximo incremento)

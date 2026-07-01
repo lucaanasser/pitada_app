@@ -1,16 +1,24 @@
 # specs/components/nutrition_card.yaml -> lib/core/widgets/nutrition_card.dart
 component: NutritionCard
-prototype: ".nutri (.kc kcal grande + .mr barras de macro)"
-purpose: Cartão de nutrição: kcal grande à esquerda + macros (proteína/carbo/gordura) à direita.
-uses: [AppColors.surf, AppColors.sage, AppColors.accent, AppColors.ochre, AppType.display, AppType.caption, AppSpacing.radiusXl]
+prototype: "caixa quadrada de macros da referência (bordered box)"
+purpose: >
+  Caixa com borda dividida em 3 células — Proteína · Gordura · Carbo. O kcal NÃO
+  fica aqui: vai no título da tela de detalhe (ex.: '520 kcal' em terracota).
+uses:
+  - context.pit.surf     # fundo da caixa
+  - context.pit.border   # borda externa e divisórias
+  - context.pit.muted    # rótulo em versalete
+  - context.pit.text     # valor em Space Grotesk
+  - AppType.label
+  - AppType.numeral
+  - AppSpacing.radiusCard
+  - AppSpacing.borderStrong
 api:
-  - kcal: int
   - protein: num
   - carb: num
   - fat: num
-cores_macro:
-  proteina: AppColors.sage
-  carbo: AppColors.accent
-  gordura: AppColors.ochre
-detalhes: "kcal em AppType.display (Cormorant 34); 'kcal por porção' em versalete; 3 linhas de macro com bolinha colorida + nome + valor."
+detalhes: >
+  Container com borda (pit.border, borderStrong) e cantos radiusCard, clip antiAlias;
+  IntrinsicHeight + Row de 3 Expanded; células 2 e 3 têm borda esquerda. Rótulo em
+  versalete (pit.muted), valor '28 g' em Space Grotesk (pit.text). Sem sombra.
 used_by: [recipe_detail]

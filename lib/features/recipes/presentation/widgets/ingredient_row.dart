@@ -1,13 +1,13 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/recipes/presentation/widgets/ingredient_row.dart
 // O QUÊ:     Linha de ingrediente: nome + grama em destaque + unidade humana menor.
-// USA:       core/widgets/hairline_row, theme/*, utils/format, Ingredient.
+// USA:       core/theme (PitadaColors), core/widgets/hairline_row, utils/format, Ingredient.
 // USADO POR: recipe_detail_screen.
 // SPEC:      specs/features/recipes.yaml (RecipeDetailScreen: IngredientRow)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 
-import '../../../../core/theme/colors.dart';
+import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/typography.dart';
 import '../../../../core/utils/format.dart';
 import '../../../../core/widgets/hairline_row.dart';
@@ -25,21 +25,23 @@ class IngredientRow extends StatelessWidget {
   /// Monta a linha: nome + gramas em destaque + unidade humana. Usada por: framework.
   @override
   Widget build(BuildContext context) {
+    final pit = context.pit;
     return HairlineRow(
       showDivider: showDivider,
       crossAxisAlignment: CrossAxisAlignment.start,
       padding: const EdgeInsets.symmetric(vertical: 14),
-      title: Text(ingredient.name, style: AppType.body),
+      title: Text(ingredient.name, style: AppType.on(AppType.body, pit.text)),
       trailing: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          Text(formatGrams(ingredient.grams), style: AppType.numeral),
+          Text(formatGrams(ingredient.grams),
+              style: AppType.on(AppType.numeral, pit.text)),
           if (ingredient.humanQty != null)
             Padding(
               padding: const EdgeInsets.only(top: 3),
               child: Text(
                 formatHuman(ingredient.humanQty, ingredient.humanUnit),
-                style: AppType.on(AppType.captionSm, AppColors.muted),
+                style: AppType.on(AppType.captionSm, pit.muted),
               ),
             ),
         ],

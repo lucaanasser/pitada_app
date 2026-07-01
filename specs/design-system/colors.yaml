@@ -41,6 +41,35 @@ hero:
 # cor de "tinta" sobre o accent (texto de botão primário)
 sobre_accent: "#1F0D04"
 
+# —— Tema claro (base creme; superfícies + texto) ——
+tema_claro:
+  bgLight:    "#F5EFE3"
+  surfLight:  "#FBF7EE"
+  surf2Light: "#F1EADE"
+  lineLight:  "#E8DFCF"
+  line2Light: "#D9CFBB"
+  textLight:  "#221E17"
+  text2Light: "#6A6252"
+  mutedLight: "#938A78"
+  faintLight: "#B4AB98"
+
+# Tinta/borda neo-brutalista (usada como pit.border)
+ink:
+  claro:  "#221E17"   # inkLight
+  escuro: "#3A3324"   # inkDark
+
+# Fundos tingidos por aba (0..4): Receitas, Aprendizado, Planos, Compras, Perfil
+tab_bg_light: ["#F1E3D4", "#E7EAD3", "#F3E9CF", "#DCE7DF", "#EEDFE0"]
+tab_bg_dark:  ["#1C1611", "#171A10", "#1D1810", "#121A16", "#1B1319"]
+
+# Cor do bloco de foto (card) por hero, em cada tema (pastel / escuro)
+card_light: {clay: "#F3D3BC", moss: "#D3E0B4", ochre: "#F0DFA9", terra: "#F2C9B4", plum: "#E7CBD6", teal: "#BFE0CE", rust: "#F1C4B0"}
+card_dark:  {clay: "#5A3F2E", moss: "#46512F", ochre: "#55482A", terra: "#5E3D2C", plum: "#543742", teal: "#2F4A40", rust: "#5A3A2C"}
+
+# As cores que MUDAM por tema são expostas via ThemeExtension PitadaColors
+# (core/theme/pitada_colors.dart), lidas nos widgets como context.pit.<token>.
+# Marca (accent/sage) e heros são iguais nos dois temas.
+
 notas:
   - Cores rgba viram Color com opacidade em colors.dart.
   - A lista `hero` é indexável por nome; usada como fundo de miniatura de receita

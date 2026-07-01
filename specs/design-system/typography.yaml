@@ -8,8 +8,8 @@ token_class: AppType
 prototype: "pitada.html — .disp/.thead/.rdtitle/.nutri/.step/.ftab/.label/.btn ..."
 
 familias:
-  display: "Cormorant Garamond"   # var(--disp) — títulos, números, citações
-  ui:      "Inter"                # var(--ui)  — corpo, botões, rótulos
+  display: "Space Grotesk"   # _disp — títulos, números (kcal, gramas), botões (chunky)
+  ui:      "Inter"           # _ui  — corpo, rótulos, texto corrido
 
 # Cada estilo: family, size(px), weight, letterSpacing(px), height(mult), italic?
 # A cor não entra aqui (vem de AppColors no ponto de uso); default = text.
@@ -41,4 +41,4 @@ pesos_disponiveis:
 notas:
   - "ls (letter-spacing) em px; no protótipo .label usa .2em ~ 2.1px em 10.5px."
   - "AppType expõe métodos utilitários: .copyWith de cor no ponto de uso."
-  - "Números (kcal, gramas, Opção N) SEMPRE em Cormorant (família display)."
+  - "Números (kcal, gramas, Opção N) SEMPRE em Space Grotesk (família display)."

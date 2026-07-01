@@ -29,6 +29,7 @@ class AppSpacing {
   static const double radiusMd = 11; // input, thumb de receita
   static const double radiusLg = 13; // botão, card de campo
   static const double radiusXl = 14; // card (.meal, .nutri)
+  static const double radiusCard = 18; // card de receita / caixa de macros (chunky)
   static const double radiusXxl = 24; // bottom sheet
   static const double radiusPill = 999; // chip totalmente arredondado
 
@@ -36,6 +37,7 @@ class AppSpacing {
   static const double hair = 1; // divisor padrão
   static const double borderThick = 1.5; // checkbox / destaque
   static const double borderAccent = 2; // aba ativa, borda-esquerda de callout
+  static const double borderStrong = 2; // borda "chunky" de card/tag (neo-brutalista)
 
   // —— Alturas fixas de componentes ——
   static const double button = 52;

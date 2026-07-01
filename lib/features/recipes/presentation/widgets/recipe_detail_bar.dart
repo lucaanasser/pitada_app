@@ -1,13 +1,13 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/recipes/presentation/widgets/recipe_detail_bar.dart
 // O QUÊ:     Barra inferior fixa do detalhe (Cozinhar + adicionar à lista/plano).
-// USA:       core/widgets/pitada_button, theme/*.
+// USA:       core/theme (PitadaColors), core/widgets/pitada_button, theme/spacing.
 // USADO POR: recipe_detail_screen.
 // SPEC:      specs/features/recipes.yaml (RecipeDetailScreen: barra inferior)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 
-import '../../../../core/theme/colors.dart';
+import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
 import '../../../../core/widgets/pitada_button.dart';
 
@@ -28,11 +28,13 @@ class RecipeDetailBar extends StatelessWidget {
   /// Monta o botão Cozinhar + os dois ícones sobre o filete. Usada por: framework.
   @override
   Widget build(BuildContext context) {
+    final pit = context.pit;
     return Container(
-      decoration: const BoxDecoration(
-        color: AppColors.bg,
+      decoration: BoxDecoration(
+        color: pit.bg,
         border: Border(
-            top: BorderSide(color: AppColors.line, width: AppSpacing.hair)),
+          top: BorderSide(color: pit.line, width: AppSpacing.hair),
+        ),
       ),
       padding: const EdgeInsets.fromLTRB(
         AppSpacing.gutter,
@@ -51,17 +53,17 @@ class RecipeDetailBar extends StatelessWidget {
                   onPressed: onCook),
             ),
             const SizedBox(width: AppSpacing.md),
-            _iconBtn(Icons.add_shopping_cart_outlined, onAddToList),
+            _iconBtn(pit, Icons.add_shopping_cart_outlined, onAddToList),
             const SizedBox(width: AppSpacing.md),
-            _iconBtn(Icons.event_note_outlined, onAddToPlan),
+            _iconBtn(pit, Icons.event_note_outlined, onAddToPlan),
           ],
         ),
       ),
     );
   }
 
-  /// Botão quadrado de ícone (.btn-ic) da barra. Usada por: [build].
-  Widget _iconBtn(IconData icon, VoidCallback? onTap) {
+  /// Botão quadrado de ícone com borda "chunky". Usada por: [build].
+  Widget _iconBtn(PitadaColors pit, IconData icon, VoidCallback? onTap) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -69,9 +71,9 @@ class RecipeDetailBar extends StatelessWidget {
         height: AppSpacing.button,
         decoration: BoxDecoration(
           borderRadius: AppSpacing.br(AppSpacing.radiusLg),
-          border: Border.all(color: AppColors.line2),
+          border: Border.all(color: pit.border, width: AppSpacing.borderStrong),
         ),
-        child: Icon(icon, size: 19, color: AppColors.text),
+        child: Icon(icon, size: 19, color: pit.text),
       ),
     );
   }
