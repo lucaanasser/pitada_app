@@ -5,6 +5,7 @@
 // USADO POR: recipe_edit_screen e import_preview (editor de ingredientes).
 // SPEC:      specs/features/recipes.yaml (EditIngredientEditor)
 // ─────────────────────────────────────────────────────────────────────────────
+import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/colors.dart';
@@ -85,7 +86,7 @@ class _EditIngredientRowState extends State<EditIngredientRow> {
           Expanded(flex: 2, child: _box(_unit, 'un')),
           IconButton(
             onPressed: widget.onRemove,
-            icon: const Icon(Icons.close, size: 18, color: AppColors.faint),
+            icon: const Icon(AppIcons.close, size: 18, color: AppColors.faint),
             splashRadius: 18,
           ),
         ],

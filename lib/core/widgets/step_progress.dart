@@ -5,6 +5,7 @@
 // USADO POR: import_sheet (receitas) e add_pantry_sheet (compras).
 // SPEC:      specs/components/atoms.yaml (StepProgress)
 // ─────────────────────────────────────────────────────────────────────────────
+import '../theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import '../theme/colors.dart';
 import '../theme/spacing.dart';
@@ -47,7 +48,7 @@ class StepProgress extends StatelessWidget {
               ),
             ),
             child: done
-                ? const Icon(Icons.check, size: 10, color: AppColors.onAccent)
+                ? const Icon(AppIcons.check, size: 10, color: AppColors.onAccent)
                 : null,
           ),
           const SizedBox(width: AppSpacing.md),

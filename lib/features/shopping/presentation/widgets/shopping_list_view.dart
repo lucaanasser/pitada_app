@@ -6,6 +6,7 @@
 // USADO POR: shopping_screen (corpo da aba Lista).
 // SPEC:      specs/features/shopping.yaml (screens.ShoppingScreen.lista)
 // ─────────────────────────────────────────────────────────────────────────────
+import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -39,7 +40,7 @@ class ShoppingListView extends ConsumerWidget {
         child: EmptyState(
           title: 'Lista vazia',
           message: 'Adicione receitas ao plano para gerar a lista de compras.',
-          icon: Icons.shopping_basket_outlined,
+          icon: AppIcons.basket,
         ),
       );
     }
@@ -73,7 +74,7 @@ class ShoppingListView extends ConsumerWidget {
           ),
           child: PitadaButton(
             label: 'Comprei tudo',
-            icon: Icons.check,
+            icon: AppIcons.check,
             onPressed: () {
               ref.read(shoppingListProvider.notifier).checkAll();
               ScaffoldMessenger.of(context).showSnackBar(

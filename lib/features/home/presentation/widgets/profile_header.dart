@@ -6,6 +6,7 @@
 // USADO POR: ProfileScreen (topo da tela).
 // SPEC:      specs/features/home.yaml (components_da_feature.ProfileHeader)
 // ─────────────────────────────────────────────────────────────────────────────
+import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/colors.dart';
@@ -130,7 +131,7 @@ class _StreakBadge extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Icon(Icons.local_fire_department,
+          const Icon(AppIcons.cook,
               size: 13, color: AppColors.onAccent),
           const SizedBox(width: 2),
           Text('$streak',

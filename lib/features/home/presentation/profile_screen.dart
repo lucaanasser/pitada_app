@@ -8,6 +8,7 @@
 // USADO POR: core/router/router.dart (/profile); aberta pelo botão de perfil.
 // SPEC:      specs/features/home.yaml (screens.ProfileScreen)
 // ─────────────────────────────────────────────────────────────────────────────
+import '../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -47,7 +48,7 @@ class ProfileScreen extends ConsumerWidget {
                 error: (e, _) => EmptyState(
                   title: 'Não deu para carregar o perfil',
                   message: '$e',
-                  icon: Icons.error_outline,
+                  icon: AppIcons.error,
                 ),
                 data: (p) => _content(p),
               ),
@@ -68,12 +69,12 @@ class ProfileScreen extends ConsumerWidget {
       child: Row(
         children: [
           IconButton(
-            icon: const Icon(Icons.arrow_back, color: AppColors.text),
+            icon: const Icon(AppIcons.back, color: AppColors.text),
             onPressed: () => context.pop(),
           ),
           const Spacer(),
           IconButton(
-            icon: const Icon(Icons.settings_outlined, color: AppColors.text2),
+            icon: const Icon(AppIcons.settings, color: AppColors.text2),
             onPressed: () => AppLog.i('home', 'abrir configurações do perfil'),
           ),
         ],

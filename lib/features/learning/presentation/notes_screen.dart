@@ -5,6 +5,7 @@
 // USADO POR: core/router/router.dart (/learning/notes).
 // SPEC:      specs/features/learning.yaml (screens.NotesScreen)
 // ─────────────────────────────────────────────────────────────────────────────
+import '../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -63,7 +64,7 @@ class NotesScreen extends ConsumerWidget {
         child: EmptyState(
           title: 'Nenhuma nota ainda',
           message: 'Guarde aqui o que aprender de uma fonte.',
-          icon: Icons.bookmark_border,
+          icon: AppIcons.bookmark,
         ),
       );
     }
@@ -85,7 +86,7 @@ class NotesScreen extends ConsumerWidget {
           const SizedBox(height: AppSpacing.xxl),
           PitadaButton(
             label: 'Adicionar fonte',
-            icon: Icons.add,
+            icon: AppIcons.add,
             variant: PitadaButtonVariant.outline,
             onPressed: () => ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text('Adicionar fonte — próximo passo')),

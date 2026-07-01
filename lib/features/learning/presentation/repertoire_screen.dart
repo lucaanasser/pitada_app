@@ -6,6 +6,7 @@
 // USADO POR: core/router (/learning/repertoire/:kind).
 // SPEC:      specs/features/learning.yaml (screens.RepertoireScreen — view-racios/subs/harm)
 // ─────────────────────────────────────────────────────────────────────────────
+import '../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -121,14 +122,14 @@ class RepertoireScreen extends ConsumerWidget {
       showDivider: showDivider,
       onTap: () => context.push('/pairing/${p.id}'),
       leading: RecipeThumb(
-          color: AppColors.heroOf('teal'), icon: Icons.hub_outlined),
+          color: AppColors.heroOf('teal'), icon: AppIcons.hub),
       title: Text(p.ingredient, style: AppType.titleSm),
       subtitle: Text(
         '${p.items.length} combinações',
         style: AppType.on(AppType.caption, AppColors.muted),
       ),
       trailing:
-          const Icon(Icons.chevron_right, size: 16, color: AppColors.faint),
+          const Icon(AppIcons.chevron, size: 16, color: AppColors.faint),
     );
   }
 

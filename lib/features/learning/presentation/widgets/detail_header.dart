@@ -6,6 +6,7 @@
 // USADO POR: ProcessLogsScreen, ProcessLogScreen, RepertoireScreen, PairingDetailScreen.
 // SPEC:      specs/features/learning.yaml (layout "voltar/'+', kicker + título + lead")
 // ─────────────────────────────────────────────────────────────────────────────
+import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -49,7 +50,7 @@ class DetailHeader extends StatelessWidget {
           Row(
             children: [
               PitadaIconButton(
-                icon: Icons.arrow_back,
+                icon: AppIcons.back,
                 onPressed: () => context.pop(),
               ),
               const Spacer(),

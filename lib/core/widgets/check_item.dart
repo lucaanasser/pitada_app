@@ -5,6 +5,7 @@
 // USADO POR: shopping (lista de compras = círculo; checklists = quadrado).
 // SPEC:      specs/components/check_item.yaml
 // ─────────────────────────────────────────────────────────────────────────────
+import '../theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import '../theme/colors.dart';
 import '../theme/spacing.dart';
@@ -50,7 +51,7 @@ class CheckItem extends StatelessWidget {
           ),
         ),
         child: checked
-            ? const Icon(Icons.check, size: 14, color: AppColors.onAccent)
+            ? const Icon(AppIcons.check, size: 14, color: AppColors.onAccent)
             : null,
       ),
     );

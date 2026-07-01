@@ -5,6 +5,7 @@
 // USADO POR: ProfileScreen (seção "Amigos").
 // SPEC:      specs/features/home.yaml (components_da_feature.FriendAvatars)
 // ─────────────────────────────────────────────────────────────────────────────
+import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/colors.dart';
@@ -101,7 +102,7 @@ class _AddFriend extends StatelessWidget {
               border:
                   Border.all(color: AppColors.line2, width: AppSpacing.hair),
             ),
-            child: const Icon(Icons.add, size: 20, color: AppColors.muted),
+            child: const Icon(AppIcons.add, size: 20, color: AppColors.muted),
           ),
           const SizedBox(height: AppSpacing.xs + 1),
           Text('Adicionar',

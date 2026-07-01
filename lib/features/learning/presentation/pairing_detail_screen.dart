@@ -6,6 +6,7 @@
 // USADO POR: core/router (/pairing/:id).
 // SPEC:      specs/features/learning.yaml (screens.PairingDetailScreen — view-harm-item)
 // ─────────────────────────────────────────────────────────────────────────────
+import '../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -86,7 +87,7 @@ class PairingDetailScreen extends ConsumerWidget {
       behavior: HitTestBehavior.opaque,
       child: Row(
         children: [
-          const Icon(Icons.restaurant_menu, size: 16, color: AppColors.accent),
+          const Icon(AppIcons.dish, size: 16, color: AppColors.accent),
           const SizedBox(width: AppSpacing.sm),
           Expanded(
             child: Text(
@@ -94,7 +95,7 @@ class PairingDetailScreen extends ConsumerWidget {
               style: AppType.on(AppType.body, AppColors.accent),
             ),
           ),
-          const Icon(Icons.chevron_right, size: 16, color: AppColors.faint),
+          const Icon(AppIcons.chevron, size: 16, color: AppColors.faint),
         ],
       ),
     );

@@ -5,6 +5,7 @@
 // USADO POR: core/router/router.dart (branch /plans).
 // SPEC:      specs/features/plans.yaml (PlansScreen)
 // ─────────────────────────────────────────────────────────────────────────────
+import '../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -60,7 +61,7 @@ class PlansScreen extends ConsumerWidget {
                 const SizedBox(height: AppSpacing.xs),
                 PitadaButton(
                   label: 'Adicionar refeição',
-                  icon: Icons.add,
+                  icon: AppIcons.add,
                   variant: PitadaButtonVariant.outline,
                   onPressed: () => showMealSheet(context),
                 ),
@@ -90,7 +91,7 @@ class PlansScreen extends ConsumerWidget {
             ],
           ),
         ),
-        const PitadaIconButton(icon: Icons.tune),
+        const PitadaIconButton(icon: AppIcons.tune),
       ],
     );
   }

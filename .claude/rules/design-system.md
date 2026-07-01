@@ -25,6 +25,7 @@ de espaçamento dentro de uma tela, PARE — use um token.
   (superfícies/texto que mudam por tema). Nunca `Color(0xFF...)` fora de `colors.dart`.
 - **Texto:** só `AppType.*`. Nunca `TextStyle(fontFamily: ...)` fora de `typography.dart`.
 - **Espaço/raio/borda:** só `AppSpacing.*`. Nunca número mágico de layout na tela.
+- **Ícones:** só `AppIcons.*` (Phosphor). Nunca `Icons.*` (Material) fora de `app_icons.dart`.
 
 ## Dois temas (claro + escuro)
 

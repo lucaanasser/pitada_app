@@ -5,6 +5,7 @@
 // USADO POR: add_pantry_sheet (mantém o sheet enxuto, < 200 linhas).
 // SPEC:      specs/features/shopping.yaml (sheets.showAddPantrySheet)
 // ─────────────────────────────────────────────────────────────────────────────
+import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 
 import '../../data/pantry_item.dart';
@@ -20,10 +21,10 @@ class PantrySource {
 
 /// Origens oferecidas no primeiro passo do sheet. Usada por: add_pantry_sheet.
 const kPantrySources = <PantrySource>[
-  PantrySource('Código de barras', Icons.qr_code_scanner_outlined, scan: true),
-  PantrySource('Cupom fiscal QR', Icons.qr_code_2_outlined, scan: true),
-  PantrySource('Foto do cupom', Icons.photo_camera_outlined, scan: true),
-  PantrySource('À mão', Icons.edit_outlined, scan: false),
+  PantrySource('Código de barras', AppIcons.scan, scan: true),
+  PantrySource('Cupom fiscal QR', AppIcons.qrCode, scan: true),
+  PantrySource('Foto do cupom', AppIcons.camera, scan: true),
+  PantrySource('À mão', AppIcons.edit, scan: false),
 ];
 
 /// Itens reconhecidos de exemplo (preview do sheet). Trocados pelo service real depois.

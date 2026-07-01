@@ -6,6 +6,7 @@
 // USADO POR: recipe_edit_screen, import_preview (campos nome/porções/tempo/pasta).
 // SPEC:      specs/features/recipes.yaml (RecipeEditScreen: EditFieldRow)
 // ─────────────────────────────────────────────────────────────────────────────
+import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/colors.dart';
@@ -77,7 +78,7 @@ class EditStepperField extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           PitadaIconButton(
-            icon: Icons.remove,
+            icon: AppIcons.remove,
             size: AppSpacing.iconButton - 6,
             onPressed: value > min ? () => onChanged(value - 1) : null,
           ),
@@ -89,7 +90,7 @@ class EditStepperField extends StatelessWidget {
             ),
           ),
           PitadaIconButton(
-            icon: Icons.add,
+            icon: AppIcons.add,
             size: AppSpacing.iconButton - 6,
             onPressed: () => onChanged(value + 1),
           ),

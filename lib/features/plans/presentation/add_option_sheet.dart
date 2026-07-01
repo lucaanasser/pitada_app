@@ -5,6 +5,7 @@
 // USADO POR: MealCard ("Adicionar opção" em cada refeição).
 // SPEC:      specs/features/plans.yaml (showAddOptionSheet)
 // ─────────────────────────────────────────────────────────────────────────────
+import '../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -83,7 +84,7 @@ class _AddOptionSheet extends ConsumerWidget {
         child: EmptyState(
           title: 'Sem receitas salvas',
           message: 'Importe uma receita para usá-la como opção.',
-          icon: Icons.menu_book_outlined,
+          icon: AppIcons.book,
         ),
       );
     }

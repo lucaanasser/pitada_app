@@ -7,6 +7,7 @@
 // USADO POR: core/router/router.dart (/diary/:id).
 // SPEC:      specs/features/learning.yaml (screens.DiaryEntryScreen)
 // ─────────────────────────────────────────────────────────────────────────────
+import '../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -67,7 +68,7 @@ class DiaryEntryScreen extends ConsumerWidget {
                 const SizedBox(height: AppSpacing.md),
                 PitadaChip(
                   label: entry.label,
-                  icon: Icons.check_circle_outline,
+                  icon: AppIcons.checkCircle,
                   variant: PitadaChipVariant.accent,
                 ),
               ],

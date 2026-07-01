@@ -7,6 +7,7 @@
 // USADO POR: core/router/router.dart (branch /learning).
 // SPEC:      specs/features/learning.yaml (screens.LearningScreen)
 // ─────────────────────────────────────────────────────────────────────────────
+import '../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/theme/colors.dart';
@@ -71,7 +72,7 @@ class LearningScreen extends StatelessWidget {
               const Expanded(
                   child: Text('Caderno', style: AppType.screenTitle)),
               PitadaIconButton(
-                icon: Icons.add,
+                icon: AppIcons.add,
                 onPressed: () => showCadernoAddSheet(context),
               ),
             ],
@@ -93,14 +94,14 @@ const _knowledge = <HubDestination>[
     title: 'Fichas',
     subtitle: 'Técnicas, frameworks e guias de ingredientes',
     heroColor: 'clay',
-    icon: Icons.menu_book_outlined,
+    icon: AppIcons.book,
     route: '/learning/cards',
   ),
   HubDestination(
     title: 'Notas de fonte',
     subtitle: 'O que fica de livros, vídeos e chefs',
     heroColor: 'ochre',
-    icon: Icons.bookmark_border,
+    icon: AppIcons.bookmark,
     route: '/learning/notes',
   ),
 ];
@@ -111,21 +112,21 @@ const _practice = <HubDestination>[
     title: 'Diário de cozinha',
     subtitle: 'Três perguntas depois de cozinhar',
     heroColor: 'moss',
-    icon: Icons.edit_note_outlined,
+    icon: AppIcons.editNote,
     route: '/learning/diary',
   ),
   HubDestination(
     title: 'Versões de receita',
     subtitle: 'A linha do tempo de cada ajuste',
     heroColor: 'teal',
-    icon: Icons.timeline_outlined,
+    icon: AppIcons.timeline,
     route: '/learning/versions',
   ),
   HubDestination(
     title: 'Logs de processo',
     subtitle: 'Fermentação, sous-vide, cura — avançado',
     heroColor: 'plum',
-    icon: Icons.science_outlined,
+    icon: AppIcons.science,
     route: '/learning/logs',
   ),
 ];
@@ -136,21 +137,21 @@ const _repertoire = <HubDestination>[
     title: 'Rácios',
     subtitle: 'Proporções de confiança',
     heroColor: 'terra',
-    icon: Icons.balance_outlined,
+    icon: AppIcons.balance,
     route: '/learning/repertoire/ratios',
   ),
   HubDestination(
     title: 'Substituições',
     subtitle: 'Trocas testadas na prática',
     heroColor: 'rust',
-    icon: Icons.swap_horiz_outlined,
+    icon: AppIcons.swap,
     route: '/learning/repertoire/subs',
   ),
   HubDestination(
     title: 'Harmonizações',
     subtitle: 'O que combina com o quê',
     heroColor: 'moss',
-    icon: Icons.hub_outlined,
+    icon: AppIcons.hub,
     route: '/learning/repertoire/pairings',
   ),
 ];

@@ -6,6 +6,7 @@
 // USADO POR: cook_mode_screen (ao concluir o último passo) via showCookChatSheet.
 // SPEC:      specs/features/recipes.yaml (SHEET-COOKCHAT)
 // ─────────────────────────────────────────────────────────────────────────────
+import '../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/theme/colors.dart';
@@ -106,7 +107,7 @@ class _CookChatSheetState extends State<_CookChatSheet> {
             if (hasSuggestion)
               PitadaButton(
                 label: 'Salvar ajuste',
-                icon: Icons.check,
+                icon: AppIcons.check,
                 onPressed: _saveAdjust,
               )
             else

@@ -6,6 +6,7 @@
 // USADO POR: LessonCardsScreen (lista de fichas por categoria).
 // SPEC:      specs/features/learning.yaml (screens.LessonCardsScreen)
 // ─────────────────────────────────────────────────────────────────────────────
+import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/colors.dart';
@@ -41,7 +42,7 @@ class LessonCardRow extends StatelessWidget {
           Expanded(child: Text(lesson.title, style: AppType.title)),
           const Padding(
             padding: EdgeInsets.only(top: 2),
-            child: Icon(Icons.chevron_right, size: 20, color: AppColors.faint),
+            child: Icon(AppIcons.chevron, size: 20, color: AppColors.faint),
           ),
         ],
       ),

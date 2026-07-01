@@ -5,6 +5,7 @@
 // USADO POR: recipe_edit_screen (grade de fotos da receita).
 // SPEC:      specs/features/recipes.yaml (EditPhotoStrip)
 // ─────────────────────────────────────────────────────────────────────────────
+import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/colors.dart';
@@ -44,7 +45,7 @@ class PhotoGrid extends StatelessWidget {
                 color: AppColors.heroOf(heroColor),
                 size: _tile,
                 radius: AppSpacing.radiusLg,
-                icon: Icons.photo_outlined,
+                icon: AppIcons.photo,
               ),
             ),
           _addTile(),
@@ -69,7 +70,7 @@ class PhotoGrid extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.add, size: 22, color: AppColors.muted),
+            const Icon(AppIcons.add, size: 22, color: AppColors.muted),
             const SizedBox(height: AppSpacing.xs),
             Text('Foto', style: AppType.on(AppType.captionSm, AppColors.muted)),
           ],

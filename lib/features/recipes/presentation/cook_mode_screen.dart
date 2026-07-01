@@ -7,6 +7,7 @@
 // USADO POR: core/router (/recipe/:id/cook) — via botão "Cozinhar" do detalhe.
 // SPEC:      specs/features/recipes.yaml (CookModeScreen)
 // ─────────────────────────────────────────────────────────────────────────────
+import '../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -105,7 +106,7 @@ class _CookModeScreenState extends ConsumerState<CookModeScreen> {
             child: GestureDetector(
               onTap: () => context.pop(),
               behavior: HitTestBehavior.opaque,
-              child: const Icon(Icons.close, size: 22, color: AppColors.muted),
+              child: const Icon(AppIcons.close, size: 22, color: AppColors.muted),
             ),
           ),
           const SizedBox(height: AppSpacing.sm),

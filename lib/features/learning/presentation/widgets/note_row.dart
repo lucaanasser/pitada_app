@@ -5,6 +5,7 @@
 // USADO POR: NotesScreen.
 // SPEC:      specs/features/learning.yaml (NotesScreen: HairlineRow livro/vídeo/chef)
 // ─────────────────────────────────────────────────────────────────────────────
+import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/colors.dart';
@@ -37,7 +38,7 @@ class NoteRow extends StatelessWidget {
       subtitle:
           Text(_meta(), style: AppType.on(AppType.caption, AppColors.muted)),
       trailing:
-          const Icon(Icons.chevron_right, size: 16, color: AppColors.faint),
+          const Icon(AppIcons.chevron, size: 16, color: AppColors.faint),
     );
   }
 
@@ -59,13 +60,13 @@ class NoteRow extends StatelessWidget {
   IconData _icon() {
     switch (note.kind) {
       case 'Livro':
-        return Icons.menu_book_outlined;
+        return AppIcons.book;
       case 'Vídeo':
-        return Icons.play_circle_outline;
+        return AppIcons.play;
       case 'Curso':
-        return Icons.school_outlined;
+        return AppIcons.school;
       default:
-        return Icons.person_outline;
+        return AppIcons.profile;
     }
   }
 

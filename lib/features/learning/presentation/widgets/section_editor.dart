@@ -6,6 +6,7 @@
 // USADO POR: LessonEditScreen.
 // SPEC:      specs/features/learning.yaml (LessonEditScreen "editor de Seções")
 // ─────────────────────────────────────────────────────────────────────────────
+import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/colors.dart';
@@ -104,7 +105,7 @@ class SectionEditor extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 const Icon(
-                  Icons.remove_circle_outline,
+                  AppIcons.removeCircle,
                   size: 15,
                   color: AppColors.muted,
                 ),

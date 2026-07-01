@@ -6,6 +6,7 @@
 // USADO POR: pantry_view (botão "Adicionar à despensa").
 // SPEC:      specs/features/shopping.yaml (sheets.showAddPantrySheet)
 // ─────────────────────────────────────────────────────────────────────────────
+import '../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -122,7 +123,7 @@ class _AddPantrySheetState extends ConsumerState<_AddPantrySheet> {
                 Icon(kPantrySources[i].icon, size: 22, color: AppColors.accent),
             title: Text(kPantrySources[i].label, style: AppType.body),
             trailing: const Icon(
-              Icons.chevron_right,
+              AppIcons.chevron,
               size: 20,
               color: AppColors.muted,
             ),

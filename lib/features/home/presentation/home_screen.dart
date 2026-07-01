@@ -7,6 +7,7 @@
 // USADO POR: core/router/router.dart (branch /home).
 // SPEC:      specs/features/home.yaml (screens.HomeScreen)
 // ─────────────────────────────────────────────────────────────────────────────
+import '../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -49,7 +50,7 @@ class HomeScreen extends ConsumerWidget {
                 child: EmptyState(
                   title: 'Não deu para carregar o feed',
                   message: '$e',
-                  icon: Icons.error_outline,
+                  icon: AppIcons.error,
                 ),
               ),
               data: (posts) => posts.isEmpty
@@ -58,7 +59,7 @@ class HomeScreen extends ConsumerWidget {
                       child: EmptyState(
                         title: 'Feed vazio',
                         message: 'Quando seus amigos publicarem, aparece aqui.',
-                        icon: Icons.groups_outlined,
+                        icon: AppIcons.groups,
                       ),
                     )
                   : Column(
@@ -97,12 +98,12 @@ class HomeScreen extends ConsumerWidget {
         children: [
           const Expanded(child: Text('Home', style: AppType.screenTitle)),
           PitadaIconButton(
-            icon: Icons.person_outline,
+            icon: AppIcons.profile,
             onPressed: () => context.push('/profile'),
           ),
           const SizedBox(width: AppSpacing.sm),
           PitadaIconButton(
-            icon: Icons.ios_share,
+            icon: AppIcons.share,
             onPressed: () => showShareSheet(context),
           ),
         ],

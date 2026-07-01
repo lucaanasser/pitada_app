@@ -6,6 +6,7 @@
 // USADO POR: recipe_edit_screen e import_preview (mesmo editor nos dois fluxos).
 // SPEC:      specs/features/recipes.yaml (EditIngredientEditor, EditStepEditor)
 // ─────────────────────────────────────────────────────────────────────────────
+import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/spacing.dart';
@@ -58,7 +59,7 @@ class _IngredientsEditorState extends State<IngredientsEditor> {
         const SizedBox(height: AppSpacing.sm),
         PitadaButton(
           label: 'Ingrediente',
-          icon: Icons.add,
+          icon: AppIcons.add,
           variant: PitadaButtonVariant.outline,
           onPressed: () => setState(() {
             items.add(const Ingredient(name: ''));
@@ -109,7 +110,7 @@ class _StepsEditorState extends State<StepsEditor> {
         const SizedBox(height: AppSpacing.sm),
         PitadaButton(
           label: 'Passo',
-          icon: Icons.add,
+          icon: AppIcons.add,
           variant: PitadaButtonVariant.outline,
           onPressed: () => setState(() {
             items.add(const RecipeStep(text: ''));

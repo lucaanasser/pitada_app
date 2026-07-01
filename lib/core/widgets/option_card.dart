@@ -5,6 +5,7 @@
 // USADO POR: plans_screen.
 // SPEC:      specs/components/option_card.yaml
 // ─────────────────────────────────────────────────────────────────────────────
+import '../theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import '../theme/colors.dart';
 import '../theme/spacing.dart';
@@ -108,7 +109,7 @@ class OptionCard extends StatelessWidget {
                 style: AppType.on(AppType.caption, AppColors.muted)),
             if (d.linked) ...[
               const SizedBox(width: AppSpacing.sm),
-              const Icon(Icons.chevron_right, size: 15, color: AppColors.faint),
+              const Icon(AppIcons.chevron, size: 15, color: AppColors.faint),
             ],
           ],
         ),

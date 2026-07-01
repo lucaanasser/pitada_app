@@ -7,6 +7,7 @@
 // USADO POR: core/router/router.dart (/lesson/:id).
 // SPEC:      specs/features/learning.yaml (screens.LessonDetailScreen)
 // ─────────────────────────────────────────────────────────────────────────────
+import '../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -79,10 +80,10 @@ class LessonDetailScreen extends ConsumerWidget {
       child: Row(
         children: [
           PitadaIconButton(
-              icon: Icons.arrow_back, onPressed: () => context.pop()),
+              icon: AppIcons.back, onPressed: () => context.pop()),
           const Spacer(),
           PitadaIconButton(
-            icon: Icons.edit_outlined,
+            icon: AppIcons.edit,
             onPressed: () => context.push('/lesson-edit'),
           ),
         ],

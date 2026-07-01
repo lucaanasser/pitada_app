@@ -7,6 +7,7 @@
 // USADO POR: core/router (/folder/:id).
 // SPEC:      specs/features/recipes.yaml (FolderScreen)
 // ─────────────────────────────────────────────────────────────────────────────
+import '../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -48,7 +49,7 @@ class FolderScreen extends ConsumerWidget {
               child: EmptyState(
                 title: 'Pasta vazia',
                 message: 'Adicione receitas a esta pasta.',
-                icon: Icons.folder_open,
+                icon: AppIcons.folder,
               ),
             )
           else ...[
@@ -102,12 +103,12 @@ class FolderScreen extends ConsumerWidget {
               behavior: HitTestBehavior.opaque,
               child: const Padding(
                 padding: EdgeInsets.only(right: AppSpacing.md),
-                child: Icon(Icons.arrow_back, size: 22, color: AppColors.text),
+                child: Icon(AppIcons.back, size: 22, color: AppColors.text),
               ),
             ),
             Expanded(child: Text(name, style: AppType.screenTitle)),
             PitadaIconButton(
-              icon: Icons.add,
+              icon: AppIcons.add,
               // Mock: seletor de receitas fora da pasta virá com o repositório de escrita.
               onPressed: () =>
                   AppLog.i('recipes', 'adicionar receita à pasta: $folderId'),

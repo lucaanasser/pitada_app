@@ -6,6 +6,7 @@
 // USADO POR: import_sheet (primeiro estágio: choose).
 // SPEC:      specs/features/recipes.yaml (SHEET-IMPORT: choose / ImportSourceGrid)
 // ─────────────────────────────────────────────────────────────────────────────
+import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/colors.dart';
@@ -36,17 +37,17 @@ class ImportSourceGrid extends StatelessWidget {
         const SizedBox(height: AppSpacing.xl),
         Row(
           children: [
-            Expanded(child: _card(Icons.smart_display, 'YouTube', 'youtube')),
+            Expanded(child: _card(AppIcons.play, 'YouTube', 'youtube')),
             const SizedBox(width: AppSpacing.md),
-            Expanded(child: _card(Icons.photo_camera, 'Foto', 'foto')),
+            Expanded(child: _card(AppIcons.camera, 'Foto', 'foto')),
           ],
         ),
         const SizedBox(height: AppSpacing.md),
         Row(
           children: [
-            Expanded(child: _card(Icons.picture_as_pdf, 'PDF', 'pdf')),
+            Expanded(child: _card(AppIcons.pdf, 'PDF', 'pdf')),
             const SizedBox(width: AppSpacing.md),
-            Expanded(child: _card(Icons.edit_note, 'Escrever', 'manual')),
+            Expanded(child: _card(AppIcons.editNote, 'Escrever', 'manual')),
           ],
         ),
       ],

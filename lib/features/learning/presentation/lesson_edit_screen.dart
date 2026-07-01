@@ -7,6 +7,7 @@
 // USADO POR: core/router (/lesson-edit).
 // SPEC:      specs/features/learning.yaml (screens.LessonEditScreen — view-lesson-edit)
 // ─────────────────────────────────────────────────────────────────────────────
+import '../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -115,7 +116,7 @@ class _LessonEditScreenState extends State<LessonEditScreen> {
                     ),
                   PitadaButton(
                     label: 'Adicionar seção',
-                    icon: Icons.add,
+                    icon: AppIcons.add,
                     variant: PitadaButtonVariant.outline,
                     onPressed: _addSection,
                   ),

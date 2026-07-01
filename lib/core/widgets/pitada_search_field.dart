@@ -5,6 +5,7 @@
 // USADO POR: recipes_screen (buscar receita/ingrediente).
 // SPEC:      specs/components/atoms.yaml (PitadaSearchField)
 // ─────────────────────────────────────────────────────────────────────────────
+import '../theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import '../theme/colors.dart';
 import '../theme/spacing.dart';
@@ -35,7 +36,7 @@ class PitadaSearchField extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
       child: Row(
         children: [
-          const Icon(Icons.search, size: 18, color: AppColors.muted),
+          const Icon(AppIcons.search, size: 18, color: AppColors.muted),
           const SizedBox(width: AppSpacing.md),
           Expanded(
             child: TextField(

@@ -7,6 +7,7 @@
 // USADO POR: LearningScreen (as 3 seções Conhecimento/Prática/Repertório).
 // SPEC:      specs/features/learning.yaml (screens.LearningScreen)
 // ─────────────────────────────────────────────────────────────────────────────
+import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -64,7 +65,7 @@ class HubSection extends StatelessWidget {
             ),
             title: Text(destinations[i].title, style: AppType.title),
             subtitle: Text(destinations[i].subtitle, style: AppType.caption),
-            trailing: const Icon(Icons.chevron_right,
+            trailing: const Icon(AppIcons.chevron,
                 size: 20, color: AppColors.faint),
             showDivider: i != destinations.length - 1,
             onTap: () => context.push(destinations[i].route),

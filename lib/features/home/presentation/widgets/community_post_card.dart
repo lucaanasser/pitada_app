@@ -7,6 +7,7 @@
 // USADO POR: HomeScreen (lista do feed da comunidade).
 // SPEC:      specs/features/home.yaml (components_da_feature.FeedPostCard)
 // ─────────────────────────────────────────────────────────────────────────────
+import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/colors.dart';
@@ -97,7 +98,7 @@ class CommunityPostCard extends StatelessWidget {
           ),
         ),
         const SizedBox(width: AppSpacing.md),
-        const Icon(Icons.chevron_right, size: 16, color: AppColors.faint),
+        const Icon(AppIcons.chevron, size: 16, color: AppColors.faint),
       ],
     );
   }

@@ -6,6 +6,7 @@
 // USADO POR: shopping_screen (corpo da aba Despensa).
 // SPEC:      specs/features/shopping.yaml (screens.ShoppingScreen.despensa)
 // ─────────────────────────────────────────────────────────────────────────────
+import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -41,14 +42,14 @@ class PantryView extends ConsumerWidget {
             const EmptyState(
               title: 'Despensa vazia',
               message: 'Escaneie um código de barras ou a nota para começar.',
-              icon: Icons.kitchen_outlined,
+              icon: AppIcons.dish,
             ),
             const SizedBox(height: AppSpacing.xl),
             Padding(
               padding: AppSpacing.screenH,
               child: PitadaButton(
                 label: 'Adicionar à despensa',
-                icon: Icons.add,
+                icon: AppIcons.add,
                 onPressed: () => showAddPantrySheet(context),
               ),
             ),
@@ -83,7 +84,7 @@ class PantryView extends ConsumerWidget {
           ),
           child: PitadaButton(
             label: 'Adicionar à despensa',
-            icon: Icons.add,
+            icon: AppIcons.add,
             onPressed: () => showAddPantrySheet(context),
           ),
         ),

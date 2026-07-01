@@ -6,6 +6,7 @@
 // USADO POR: LearningScreen (botão '+' do hub).
 // SPEC:      specs/features/learning.yaml (sheets.showCadernoAddSheet)
 // ─────────────────────────────────────────────────────────────────────────────
+import '../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -91,7 +92,7 @@ class _CadernoAddSheet extends StatelessWidget {
                 title: Text(_options[i].title,
                     style: AppType.on(AppType.body, AppColors.text)),
                 subtitle: Text(_options[i].subtitle, style: AppType.caption),
-                trailing: const Icon(Icons.chevron_right,
+                trailing: const Icon(AppIcons.chevron,
                     size: 20, color: AppColors.faint),
                 showDivider: i != _options.length - 1,
                 onTap: () {

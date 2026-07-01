@@ -6,6 +6,7 @@
 // USADO POR: cook_mode_screen (barra inferior fixa).
 // SPEC:      specs/features/recipes.yaml (CookModeScreen: CookNavBar)
 // ─────────────────────────────────────────────────────────────────────────────
+import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/colors.dart';
@@ -50,7 +51,7 @@ class CookNavBar extends StatelessWidget {
             Expanded(
               child: PitadaButton(
                 label: 'Voltar',
-                icon: Icons.arrow_back,
+                icon: AppIcons.back,
                 variant: PitadaButtonVariant.outline,
                 // Sem callback = desabilitado no primeiro passo.
                 onPressed: isFirst ? null : onBack,
@@ -60,7 +61,7 @@ class CookNavBar extends StatelessWidget {
             Expanded(
               child: PitadaButton(
                 label: isLast ? 'Concluir' : 'Próximo',
-                icon: isLast ? Icons.check : Icons.arrow_forward,
+                icon: isLast ? AppIcons.check : AppIcons.forward,
                 onPressed: onNext,
               ),
             ),

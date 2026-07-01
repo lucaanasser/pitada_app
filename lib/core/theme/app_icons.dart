@@ -53,4 +53,34 @@ class AppIcons {
   static const time = PhosphorIconsRegular.clock;
   static const difficulty = PhosphorIconsRegular.chartBar;
   static const technique = PhosphorIconsRegular.graduationCap;
+
+  // —— Geral (demais telas) ——
+  static const check = PhosphorIconsRegular.check;
+  static const checkCircle = PhosphorIconsRegular.checkCircle;
+  static const close = PhosphorIconsRegular.x;
+  static const remove = PhosphorIconsRegular.minus;
+  static const removeCircle = PhosphorIconsRegular.minusCircle;
+  static const forward = PhosphorIconsRegular.arrowRight;
+  static const swap = PhosphorIconsRegular.arrowsLeftRight;
+  static const book = PhosphorIconsRegular.book;
+  static const editNote = PhosphorIconsRegular.notePencil;
+  static const bookmark = PhosphorIconsRegular.bookmarkSimple;
+  static const history = PhosphorIconsRegular.clockCounterClockwise;
+  static const timeline = PhosphorIconsRegular.chartLineUp;
+  static const school = PhosphorIconsRegular.graduationCap;
+  static const science = PhosphorIconsRegular.flask;
+  static const hub = PhosphorIconsRegular.treeStructure;
+  static const balance = PhosphorIconsRegular.scales;
+  static const error = PhosphorIconsRegular.warningCircle;
+  static const tune = PhosphorIconsRegular.slidersHorizontal;
+  static const settings = PhosphorIconsRegular.gear;
+  static const groups = PhosphorIconsRegular.usersThree;
+  static const share = PhosphorIconsRegular.shareNetwork;
+  static const basket = PhosphorIconsRegular.basket;
+  static const play = PhosphorIconsRegular.playCircle;
+  static const pdf = PhosphorIconsRegular.filePdf;
+  static const photo = PhosphorIconsRegular.image;
+  static const camera = PhosphorIconsRegular.camera;
+  static const scan = PhosphorIconsRegular.scan;
+  static const qrCode = PhosphorIconsRegular.qrCode;
 }

@@ -7,6 +7,7 @@
 // USADO POR: core/router/router.dart (/learning/cards).
 // SPEC:      specs/features/learning.yaml (screens.LessonCardsScreen)
 // ─────────────────────────────────────────────────────────────────────────────
+import '../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -59,7 +60,7 @@ class LessonCardsScreen extends ConsumerWidget {
               kicker: 'Conhecimento',
               title: 'Fichas',
               lead: 'Sua enciclopédia pessoal de cozinha.',
-              actionIcon: Icons.add,
+              actionIcon: AppIcons.add,
               onAction: () => context.push('/lesson-edit'),
             ),
             const SizedBox(height: AppSpacing.sm),
@@ -97,7 +98,7 @@ class LessonCardsScreen extends ConsumerWidget {
         child: EmptyState(
           title: 'Nada por aqui ainda',
           message: 'Toque em + para criar a primeira ficha desta categoria.',
-          icon: Icons.menu_book_outlined,
+          icon: AppIcons.book,
         ),
       );
     }

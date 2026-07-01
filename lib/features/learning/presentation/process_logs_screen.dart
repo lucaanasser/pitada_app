@@ -5,6 +5,7 @@
 // USADO POR: core/router (/learning/logs).
 // SPEC:      specs/features/learning.yaml (screens.ProcessLogsScreen — view-logs)
 // ─────────────────────────────────────────────────────────────────────────────
+import '../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -77,7 +78,7 @@ class ProcessLogsScreen extends ConsumerWidget {
         child: EmptyState(
           title: 'Nenhum log ainda',
           message: 'Ative um log ao iniciar um processo longo.',
-          icon: Icons.science_outlined,
+          icon: AppIcons.science,
         ),
       );
     }
@@ -102,7 +103,7 @@ class ProcessLogsScreen extends ConsumerWidget {
         onTap: () => context.push('/log/${log.id}'),
         leading: RecipeThumb(
           color: AppColors.heroOf('moss'),
-          icon: Icons.science_outlined,
+          icon: AppIcons.science,
         ),
         title: Text(log.title, style: AppType.titleSm),
         subtitle: Text(
@@ -110,7 +111,7 @@ class ProcessLogsScreen extends ConsumerWidget {
           style: AppType.on(AppType.caption, AppColors.muted),
         ),
         trailing:
-            const Icon(Icons.chevron_right, size: 16, color: AppColors.faint),
+            const Icon(AppIcons.chevron, size: 16, color: AppColors.faint),
       ),
     );
   }

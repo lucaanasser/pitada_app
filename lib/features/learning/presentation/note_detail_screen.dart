@@ -6,6 +6,7 @@
 // USADO POR: core/router/router.dart (/note/:id).
 // SPEC:      specs/features/learning.yaml (screens.NoteDetailScreen)
 // ─────────────────────────────────────────────────────────────────────────────
+import '../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -61,7 +62,7 @@ class NoteDetailScreen extends ConsumerWidget {
             children: [
               if (note.meta.isNotEmpty) ...[
                 const SizedBox(height: AppSpacing.md),
-                PitadaChip(label: note.meta, icon: Icons.person_outline),
+                PitadaChip(label: note.meta, icon: AppIcons.profile),
               ],
               if (note.takeaways.isNotEmpty) ...[
                 const SectionHeader(label: 'O que fica'),

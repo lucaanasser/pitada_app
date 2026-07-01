@@ -5,6 +5,7 @@
 // USADO POR: plans_screen (um card por refeição do plano).
 // SPEC:      specs/features/plans.yaml (MealCard, MealHeaderRow)
 // ─────────────────────────────────────────────────────────────────────────────
+import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -82,7 +83,7 @@ class MealCard extends ConsumerWidget {
         padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
         child: Row(
           children: [
-            const Icon(Icons.add, size: 17, color: AppColors.accent),
+            const Icon(AppIcons.add, size: 17, color: AppColors.accent),
             const SizedBox(width: AppSpacing.sm),
             Text('Adicionar opção',
                 style: AppType.on(AppType.caption, AppColors.accent)),
@@ -110,7 +111,7 @@ class MealHeaderRow extends StatelessWidget {
         children: [
           Text(meal.name, style: AppType.title),
           const SizedBox(width: AppSpacing.sm),
-          const Icon(Icons.edit_outlined, size: 15, color: AppColors.faint),
+          const Icon(AppIcons.edit, size: 15, color: AppColors.faint),
           const Spacer(),
           Text(
             'meta ${formatKcal(meal.kcalGoal)} kcal',

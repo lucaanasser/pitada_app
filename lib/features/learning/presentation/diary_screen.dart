@@ -5,6 +5,7 @@
 // USADO POR: core/router/router.dart (/learning/diary).
 // SPEC:      specs/features/learning.yaml (screens.DiaryScreen)
 // ─────────────────────────────────────────────────────────────────────────────
+import '../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -74,7 +75,7 @@ class DiaryScreen extends ConsumerWidget {
         child: EmptyState(
           title: 'Diário vazio',
           message: 'Cozinhe uma receita para a primeira entrada.',
-          icon: Icons.edit_note_outlined,
+          icon: AppIcons.editNote,
         ),
       );
     }

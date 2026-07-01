@@ -5,6 +5,7 @@
 // USADO POR: VersionsScreen.
 // SPEC:      specs/features/learning.yaml (VersionsScreen: HairlineRow "N versões · def.")
 // ─────────────────────────────────────────────────────────────────────────────
+import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/colors.dart';
@@ -34,12 +35,12 @@ class VersionRow extends StatelessWidget {
       onTap: onTap,
       showDivider: showDivider,
       leading:
-          RecipeThumb(color: AppColors.heroOf('ochre'), icon: Icons.history),
+          RecipeThumb(color: AppColors.heroOf('ochre'), icon: AppIcons.history),
       title: Text(version.recipeName, style: AppType.titleSm),
       subtitle:
           Text(_meta(), style: AppType.on(AppType.caption, AppColors.muted)),
       trailing:
-          const Icon(Icons.chevron_right, size: 16, color: AppColors.faint),
+          const Icon(AppIcons.chevron, size: 16, color: AppColors.faint),
     );
   }
 

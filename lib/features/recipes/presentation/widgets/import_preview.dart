@@ -7,6 +7,7 @@
 // USADO POR: import_sheet (terceiro estágio: preview).
 // SPEC:      specs/features/recipes.yaml (SHEET-IMPORT: preview / ImportPreview)
 // ─────────────────────────────────────────────────────────────────────────────
+import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/spacing.dart';
@@ -71,7 +72,7 @@ class _ImportPreviewState extends State<ImportPreview> {
         const SizedBox(height: AppSpacing.xl),
         PitadaButton(
           label: 'Salvar receita',
-          icon: Icons.check,
+          icon: AppIcons.check,
           onPressed: () {
             draft.title = _name.text;
             widget.onSave();

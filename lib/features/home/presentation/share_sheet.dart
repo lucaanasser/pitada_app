@@ -7,6 +7,7 @@
 // USADO POR: HomeScreen (botão compartilhar do cabeçalho).
 // SPEC:      specs/features/home.yaml (sheets.ShareSheet)
 // ─────────────────────────────────────────────────────────────────────────────
+import '../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/theme/colors.dart';
@@ -40,22 +41,22 @@ class _ShareSheet extends StatelessWidget {
     _ShareOption(
       label: 'Uma receita',
       subtitle: 'Das suas receitas salvas',
-      icon: Icons.restaurant_menu,
+      icon: AppIcons.dish,
     ),
     _ShareOption(
       label: 'Uma técnica ou framework',
       subtitle: 'Do seu Caderno',
-      icon: Icons.school_outlined,
+      icon: AppIcons.school,
     ),
     _ShareOption(
       label: 'Um log de processo',
       subtitle: 'Fermentação, cura, sous-vide…',
-      icon: Icons.timeline_outlined,
+      icon: AppIcons.timeline,
     ),
     _ShareOption(
       label: 'Uma nota de fonte',
       subtitle: 'De um livro, vídeo ou chef',
-      icon: Icons.menu_book_outlined,
+      icon: AppIcons.book,
     ),
   ];
 
@@ -100,7 +101,7 @@ class _ShareSheet extends StatelessWidget {
                   style: AppType.on(AppType.body, AppColors.text),
                 ),
                 subtitle: Text(_options[i].subtitle, style: AppType.caption),
-                trailing: const Icon(Icons.chevron_right,
+                trailing: const Icon(AppIcons.chevron,
                     size: 20, color: AppColors.faint),
                 showDivider: i != _options.length - 1,
                 onTap: () {
