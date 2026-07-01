@@ -1,11 +1,12 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/core/widgets/recipe_thumb.dart
 // O QUÊ:     Miniatura editorial de receita — quadrado colorido com ícone de prato.
-// USA:       theme/colors (cores hero), theme/spacing (raio).
+// USA:       core/theme/app_icons (ícone padrão), theme/spacing (raio).
 // USADO POR: recipes_screen, meal pickers (Planos), qualquer lista de receitas.
 // SPEC:      specs/components/atoms.yaml (RecipeThumb)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
+import '../theme/app_icons.dart';
 import '../theme/spacing.dart';
 
 /// Quadrado colorido (hero_color) com um ícone claro no centro — placeholder de foto.
@@ -15,7 +16,7 @@ class RecipeThumb extends StatelessWidget {
     super.key,
     required this.color,
     this.size = 54,
-    this.icon = Icons.restaurant_menu,
+    this.icon = AppIcons.dish,
     this.radius = AppSpacing.radiusMd,
   });
 

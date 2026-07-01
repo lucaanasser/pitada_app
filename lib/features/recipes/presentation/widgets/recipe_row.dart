@@ -1,12 +1,14 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/recipes/presentation/widgets/recipe_row.dart
 // O QUÊ:     Linha de receita na lista (miniatura + título + meta + seta).
-// USA:       core/widgets (HairlineRow, RecipeThumb), theme/*, utils/format, Recipe.
+// USA:       core/theme (AppIcons, AppColors), core/widgets (HairlineRow, RecipeThumb),
+//            utils/format, Recipe.
 // USADO POR: recipes_screen, folder_screen.
 // SPEC:      specs/features/recipes.yaml (RecipesScreen: RecipeRow)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 
+import '../../../../core/theme/app_icons.dart';
 import '../../../../core/theme/colors.dart';
 import '../../../../core/theme/typography.dart';
 import '../../../../core/widgets/hairline_row.dart';
@@ -37,8 +39,7 @@ class RecipeRow extends StatelessWidget {
       title: Text(recipe.title, style: AppType.titleSm),
       subtitle:
           Text(_meta(), style: AppType.on(AppType.caption, AppColors.muted)),
-      trailing:
-          const Icon(Icons.chevron_right, size: 16, color: AppColors.faint),
+      trailing: const Icon(AppIcons.chevron, size: 16, color: AppColors.faint),
     );
   }
 

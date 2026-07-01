@@ -1,8 +1,8 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/recipes/presentation/recipes_screen.dart
 // O QUÊ:     Aba Receitas: marca, busca, abas de pasta e lista de receitas.
-// USA:       core/widgets (Masthead, PitadaScaffold, SearchField, ChapterTabs...),
-//            recipes_providers, RecipeRow, go_router (navegação).
+// USA:       core/theme/app_icons, core/widgets (Masthead, PitadaScaffold, SearchField,
+//            ChapterTabs...), recipes_providers, RecipeRow, go_router (navegação).
 // USADO POR: core/router/router.dart (branch /recipes).
 // SPEC:      specs/features/recipes.yaml
 // ─────────────────────────────────────────────────────────────────────────────
@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/theme/app_icons.dart';
 import '../../../core/theme/spacing.dart';
 import '../../../core/theme/typography.dart';
 import '../../../core/widgets/chapter_tabs.dart';
@@ -57,7 +58,7 @@ class RecipesScreen extends ConsumerWidget {
               child: EmptyState(
                 title: 'Nada nesta pasta',
                 message: 'Importe uma receita ou escolha outra pasta.',
-                icon: Icons.menu_book_outlined,
+                icon: AppIcons.notebook,
               ),
             )
           else
@@ -94,12 +95,12 @@ class RecipesScreen extends ConsumerWidget {
         children: [
           const Expanded(child: Text('Receitas', style: AppType.screenTitle)),
           PitadaIconButton(
-            icon: Icons.person_outline,
+            icon: AppIcons.profile,
             onPressed: () => context.push('/profile'),
           ),
           const SizedBox(width: AppSpacing.sm),
           PitadaIconButton(
-            icon: Icons.add,
+            icon: AppIcons.add,
             onPressed: () => showImportSheet(context),
           ),
         ],

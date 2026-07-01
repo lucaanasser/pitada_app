@@ -2,12 +2,13 @@
 // lib/features/recipes/presentation/widgets/recipe_gallery.dart
 // O QUÊ:     Cabeçalho-galeria da receita: bloco de cor grande (lugar da foto) +
 //            botões flutuantes. Maior que antes; a foto real preenche este bloco.
-// USA:       core/theme/pitada_colors, core/theme/spacing.
+// USA:       core/theme/app_icons, core/theme/pitada_colors, core/theme/spacing.
 // USADO POR: recipe_detail_screen.
 // SPEC:      specs/features/recipes.yaml (RecipeDetailScreen: galeria)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 
+import '../../../../core/theme/app_icons.dart';
 import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
 
@@ -44,7 +45,7 @@ class RecipeGallery extends StatelessWidget {
           Positioned.fill(
             child: Center(
               child: Icon(
-                Icons.restaurant,
+                AppIcons.dish,
                 size: 72,
                 color: (pit.isDark ? pit.text : pit.border)
                     .withValues(alpha: 0.32),
@@ -59,14 +60,12 @@ class RecipeGallery extends StatelessWidget {
               bottom: false,
               child: Row(
                 children: [
-                  _RoundBtn(icon: Icons.arrow_back, onTap: onBack, pit: pit),
+                  _RoundBtn(icon: AppIcons.back, onTap: onBack, pit: pit),
                   const Spacer(),
-                  _RoundBtn(icon: Icons.edit_outlined, onTap: onEdit, pit: pit),
+                  _RoundBtn(icon: AppIcons.edit, onTap: onEdit, pit: pit),
                   const SizedBox(width: AppSpacing.sm),
                   _RoundBtn(
-                      icon: Icons.favorite_border,
-                      onTap: onFavorite,
-                      pit: pit),
+                      icon: AppIcons.favorite, onTap: onFavorite, pit: pit),
                 ],
               ),
             ),

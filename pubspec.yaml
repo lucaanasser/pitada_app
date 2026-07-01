@@ -21,6 +21,7 @@ dependencies:
   supabase_flutter: ^2.5.0 # backend (só quando há chaves; senão usa seed)
   flutter_svg: ^2.0.10 # renderiza a marca (pitada-mark.svg)
   intl: ^0.19.0 # formatação (datas)
+  phosphoricons_flutter: ^1.0.0 # ícones Phosphor (compat. Dart 3 / IconData final) — ver core/theme/app_icons.dart
 
 dev_dependencies:
   flutter_lints: ^4.0.0

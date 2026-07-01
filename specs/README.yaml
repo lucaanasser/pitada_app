@@ -16,6 +16,7 @@ design_system:
   - specs/design-system/colors.yaml        # tokens de cor  -> core/theme/colors.dart
   - specs/design-system/typography.yaml     # tipografia     -> core/theme/typography.dart
   - specs/design-system/spacing.yaml        # espaço/raio    -> core/theme/spacing.dart
+  - specs/design-system/icons.yaml          # ícones Phosphor -> core/theme/app_icons.dart
 
 components:                                 # -> lib/core/widgets/
   - specs/components/masthead.yaml

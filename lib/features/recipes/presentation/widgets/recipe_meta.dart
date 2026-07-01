@@ -1,12 +1,13 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/recipes/presentation/widgets/recipe_meta.dart
 // O QUÊ:     Fonte de origem + meta da receita como tags coloridas (porções/tempo/nível).
-// USA:       core/theme (PitadaColors), core/widgets/pitada_tag, utils/format, Recipe.
+// USA:       core/theme (AppIcons, PitadaColors), core/widgets/pitada_tag, format, Recipe.
 // USADO POR: recipe_detail_screen.
 // SPEC:      specs/features/recipes.yaml (RecipeDetailScreen: meta)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 
+import '../../../../core/theme/app_icons.dart';
 import '../../../../core/theme/colors.dart';
 import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
@@ -38,19 +39,19 @@ class RecipeMeta extends StatelessWidget {
             PitadaTag(
               label: '${recipe.servings} porções',
               color: pit.card('moss'),
-              icon: Icons.people_alt_outlined,
+              icon: AppIcons.servings,
             ),
             if (recipe.timeMinutes != null)
               PitadaTag(
                 label: formatMinutes(recipe.timeMinutes),
                 color: pit.card('teal'),
-                icon: Icons.schedule,
+                icon: AppIcons.time,
               ),
             if (recipe.difficulty != null)
               PitadaTag(
                 label: recipe.difficulty!,
                 color: pit.card('ochre'),
-                icon: Icons.equalizer,
+                icon: AppIcons.difficulty,
               ),
           ],
         ),
@@ -67,7 +68,7 @@ class RecipeMeta extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        const Icon(Icons.link, size: 14, color: AppColors.accent2),
+        const Icon(AppIcons.link, size: 14, color: AppColors.accent2),
         const SizedBox(width: 5),
         Flexible(
           child: Text(

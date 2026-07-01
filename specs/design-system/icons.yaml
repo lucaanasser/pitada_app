@@ -1,0 +1,42 @@
+# specs/design-system/icons.yaml -> lib/core/theme/app_icons.dart
+token_class: AppIcons
+pacote: "phosphoricons_flutter ^1.0.0"   # Phosphor, compat. Dart 3 (IconData é final)
+api_pacote: "PhosphorIconsRegular.<nome> (inativo) · PhosphorIconsFill.<nome> (ativo)"
+purpose: >
+  Tokens de ícone nomeados por significado. Fonte única — nenhum Icons.* ou ícone
+  solto fora daqui. Trocar de família = mexer só neste arquivo + pubspec.
+
+navegacao:      # regular (inativo) + *Fill (ativo)
+  recipes:  forkKnife
+  notebook: notebook
+  home:     house
+  plans:    calendarBlank
+  shopping: shoppingCart
+
+acoes:
+  back:      arrowLeft
+  edit:      pencilSimple
+  favorite:  heart          # + favoriteFill
+  cook:      fire
+  addToList: shoppingCartSimple
+  addToPlan: calendarPlus
+  add:       plus
+  profile:   user
+  search:    magnifyingGlass
+  chevron:   caretRight
+  link:      link
+  folder:    folderOpen
+
+dominio:
+  dish:       cookingPot
+  servings:   users
+  time:       clock
+  difficulty: chartBar
+  technique:  graduationCap
+
+regras:
+  - "Navbar: item ativo usa *Fill; inativo usa regular."
+  - "Nunca usar Icons.* (Material legado) numa tela — sempre AppIcons.*"
+used_by:
+  - pitada_tab_bar, recipe_gallery, recipe_detail_bar, recipe_meta
+  - recipe_detail_screen, recipe_row, recipe_thumb, recipes_screen

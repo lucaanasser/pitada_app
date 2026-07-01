@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/theme/app_icons.dart';
 import '../../../core/theme/colors.dart';
 import '../../../core/theme/pitada_colors.dart';
 import '../../../core/theme/spacing.dart';
@@ -123,7 +124,7 @@ class RecipeDetailScreen extends ConsumerWidget {
           children: [
             for (final t in recipe.techniques)
               PitadaTag(
-                  label: t, color: pit.card('plum'), icon: Icons.school_outlined),
+                  label: t, color: pit.card('plum'), icon: AppIcons.technique),
           ],
         ),
       ],

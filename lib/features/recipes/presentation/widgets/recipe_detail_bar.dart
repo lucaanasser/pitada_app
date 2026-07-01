@@ -1,12 +1,13 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/recipes/presentation/widgets/recipe_detail_bar.dart
 // O QUÊ:     Barra inferior fixa do detalhe (Cozinhar + adicionar à lista/plano).
-// USA:       core/theme (PitadaColors), core/widgets/pitada_button, theme/spacing.
+// USA:       core/theme (AppIcons, PitadaColors), core/widgets/pitada_button, spacing.
 // USADO POR: recipe_detail_screen.
 // SPEC:      specs/features/recipes.yaml (RecipeDetailScreen: barra inferior)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 
+import '../../../../core/theme/app_icons.dart';
 import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
 import '../../../../core/widgets/pitada_button.dart';
@@ -48,14 +49,12 @@ class RecipeDetailBar extends StatelessWidget {
           children: [
             Expanded(
               child: PitadaButton(
-                  label: 'Cozinhar',
-                  icon: Icons.local_fire_department_outlined,
-                  onPressed: onCook),
+                  label: 'Cozinhar', icon: AppIcons.cook, onPressed: onCook),
             ),
             const SizedBox(width: AppSpacing.md),
-            _iconBtn(pit, Icons.add_shopping_cart_outlined, onAddToList),
+            _iconBtn(pit, AppIcons.addToList, onAddToList),
             const SizedBox(width: AppSpacing.md),
-            _iconBtn(pit, Icons.event_note_outlined, onAddToPlan),
+            _iconBtn(pit, AppIcons.addToPlan, onAddToPlan),
           ],
         ),
       ),
