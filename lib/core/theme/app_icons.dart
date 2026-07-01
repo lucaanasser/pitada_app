@@ -43,6 +43,9 @@ class AppIcons {
   static const chevron = PhosphorIconsRegular.caretRight;
   static const link = PhosphorIconsRegular.link;
   static const folder = PhosphorIconsRegular.folderOpen;
+  static const viewSingle = PhosphorIconsRegular.square;
+  static const viewGrid = PhosphorIconsRegular.squaresFour;
+  static const viewList = PhosphorIconsRegular.list;
 
   // —— Domínio (receita) ——
   static const dish = PhosphorIconsRegular.cookingPot;

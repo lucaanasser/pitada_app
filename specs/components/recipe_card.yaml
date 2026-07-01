@@ -1,0 +1,28 @@
+# specs/components/recipe_card.yaml -> lib/features/recipes/presentation/widgets/recipe_card.dart
+component: RecipeCard
+prototype: "card de receita das referências (foto grande + título + tags coloridas)"
+purpose: >
+  Card de receita: bloco de foto (placeholder pastel do hero) + título + tags
+  coloridas. [compact] encolhe para caber em 2 colunas. Reage ao tema; sem sombra.
+uses:
+  - context.pit.surf / border / card(hero)
+  - core/widgets/pitada_tag (tags coloridas)
+  - AppIcons.dish, AppIcons.time
+  - AppType.title / titleSm
+  - AppSpacing.radiusCard / borderStrong
+api:
+  - recipe: Recipe
+  - onTap: VoidCallback?
+  - compact: bool          # true = versão 2 colunas (menor)
+layout:
+  - bloco de foto (altura 158; 108 em compact) com ícone de prato ao centro
+  - tag de dificuldade no canto superior direito (fundo pit.surf p/ contraste)
+  - título (máx. 2 linhas) + Wrap de tags: tempo · kcal (kcal só no não-compact)
+
+# Modos da lista (controlados por recipeViewProvider / RecipeView):
+modos_lista:
+  single: 1 RecipeCard grande por linha (padrão)
+  grid:   2 RecipeCard(compact) por linha
+  list:   RecipeRow (linha-filete)
+alternador: RecipeViewToggle (3 ícones: viewSingle/viewGrid/viewList)
+used_by: [recipes_screen]
