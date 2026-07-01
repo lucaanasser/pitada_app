@@ -1,0 +1,15 @@
+# specs/components/option_card.yaml -> lib/core/widgets/option_card.dart
+component: OptionCard
+prototype: ".opt / .ohead / .odish em pitada.html"
+purpose: Opção de refeição (Planos): cabeçalho clicável (radio + nome + total/selo) + pratos linkáveis.
+uses: [AppColors.line, AppColors.accentLine, AppColors.accentSoft, AppColors.accent, AppColors.sage, AppColors.accent2, AppType.numeralSm, AppType.bodySm, AppSpacing.radiusXl]
+api:
+  - name: String                # "Opção 1"
+  - chosen: bool                # borda/fundo accent quando escolhida
+  - fits: bool                  # selo "cabe" (sage) x "+NN" (accent2)
+  - fitLabel: String            # ex.: "cabe" ou "+30"
+  - dishes: List<OptionDish>    # {name, kcal, linked(bool)}
+  - onChoose: VoidCallback
+  - onTapDish: ValueChanged<int>?  # abre a receita quando linked
+detalhes: "Radio à esquerda; pratos com bolinha; prato linkado mostra seta e é clicável."
+used_by: [plans_screen]

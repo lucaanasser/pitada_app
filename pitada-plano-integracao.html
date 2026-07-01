@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pitada — Plano de integração &amp; Caderno</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#15130E; --surf:#1D1A13; --surf2:#242017; --line:#29251A; --line2:#383223;
+  --text:#F2EDE1; --text2:#C5BEAD; --muted:#8E8674; --faint:#7A7158;
+  --accent:#C2703F; --accent2:#D98C5A; --sage:#A9B26C;
+  --accent-s:rgba(194,112,63,.12); --accent-l:rgba(194,112,63,.4);
+  /* cores por domínio (só para sinalizar, sem virar fundo) */
+  --d-receitas:#C2703F; --d-caderno:#9A7B3C; --d-dieta:#A9B26C; --d-compras:#3F6157; --d-despensa:#A35C40;
+  --disp:'Cormorant Garamond',Georgia,serif; --ui:'Inter',system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--ui);font-size:16px;line-height:1.62;-webkit-font-smoothing:antialiased}
+.wrap{max-width:860px;margin:0 auto;padding:54px 26px 130px}
+a{color:var(--accent2)}
+
+/* type */
+h1{font-family:var(--disp);font-weight:600;font-size:clamp(40px,7vw,62px);line-height:1.02;letter-spacing:-1.2px;margin:0 0 12px}
+.lede{font-size:19px;color:var(--text2);max-width:64ch;margin:0 0 8px}
+h2{font-family:var(--disp);font-weight:600;font-size:34px;letter-spacing:-.5px;margin:0 0 6px}
+.sec{margin-top:78px;padding-top:34px;border-top:1px solid var(--line)}
+.eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:16px}
+.eyebrow.faint{color:var(--muted)}
+h3{font-size:18.5px;font-weight:600;margin:30px 0 4px}
+p{margin:11px 0}
+.muted{color:var(--muted)} .t2{color:var(--text2)}
+strong{color:var(--text);font-weight:600}
+em{color:var(--text2)}
+ul{margin:11px 0;padding-left:20px} li{margin:6px 0}
+.kick{font-family:var(--disp);font-style:italic;font-size:23px;color:var(--accent2);margin:6px 0 0}
+
+/* hero values */
+.values{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:30px 0 4px}
+.value{border:1px solid var(--line);background:var(--surf);border-radius:14px;padding:18px 18px 20px}
+.value .n{font-family:var(--disp);font-size:30px;color:var(--accent);line-height:1;margin-bottom:8px}
+.value h4{margin:0 0 5px;font-size:16px;font-weight:600}
+.value p{margin:0;font-size:14px;color:var(--text2);line-height:1.5}
+
+/* ring diagram */
+.ringwrap{display:flex;justify-content:center;margin:26px 0 6px}
+.ring{width:100%;max-width:560px;height:auto}
+.legend{display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;margin:6px 0 0;font-size:13px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:7px}
+.legend i{width:9px;height:9px;border-radius:50%;display:inline-block}
+
+/* connection cards */
+.conns{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin:22px 0 6px}
+.conn{border:1px solid var(--line);background:var(--surf);border-radius:13px;padding:15px 17px}
+.conn .pair{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:8px}
+.chip{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;color:var(--text);background:var(--surf2);border:1px solid var(--line2);border-radius:8px;padding:4px 10px}
+.chip i{width:8px;height:8px;border-radius:50%}
+.arrow{color:var(--accent);font-weight:700}
+.conn p{margin:0;font-size:14px;color:var(--text2);line-height:1.5}
+
+/* scenarios (timeline) */
+.scn{border:1px solid var(--line);background:var(--surf);border-radius:14px;padding:20px 22px 8px;margin:16px 0}
+.scn .st{font-family:var(--disp);font-size:23px;font-weight:600;margin:0 0 16px}
+.steps{border-left:2px solid var(--line2);margin-left:7px}
+.step{position:relative;padding:0 0 18px 24px}
+.step:last-child{padding-bottom:4px}
+.step::before{content:"";position:absolute;left:-8px;top:4px;width:13px;height:13px;border-radius:50%;background:var(--c,#C2703F);border:3px solid var(--bg)}
+.step .lab{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:1px}
+.step .tx{font-size:14.5px;color:var(--text2);line-height:1.5}
+.step .tx b{color:var(--text)}
+
+/* tool families */
+.fam{margin-top:30px}
+.fam-h{display:flex;align-items:baseline;gap:14px;margin:0 0 4px}
+.fam-h .num{font-family:var(--disp);font-size:26px;color:var(--accent2)}
+.fam-h h3{margin:0;font-size:21px;font-family:var(--disp);font-weight:600;letter-spacing:-.2px}
+.fam-sub{color:var(--muted);font-size:14px;margin:0 0 14px 40px}
+.tools{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.tool{border:1px solid var(--line);background:var(--surf);border-radius:13px;padding:16px 17px;display:flex;flex-direction:column}
+.tool .tname{font-weight:600;font-size:15.5px;margin-bottom:3px;display:flex;align-items:center;gap:8px}
+.tool .badge{font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;padding:2px 7px;border-radius:6px;border:1px solid var(--line2);color:var(--muted)}
+.tool .badge.adv{color:var(--accent2);border-color:var(--accent-l)}
+.tool .badge.exist{color:var(--sage);border-color:rgba(169,178,108,.4)}
+.tool .how{font-size:13.5px;color:var(--text2);margin:4px 0 12px;line-height:1.5}
+.tool .how b{color:var(--text)}
+.dual{display:flex;flex-direction:column;gap:7px;margin-top:auto;padding-top:11px;border-top:1px solid var(--line)}
+.dual div{font-size:12.5px;color:var(--text2);display:flex;gap:8px;line-height:1.4}
+.dual .k{flex:0 0 76px;font-size:10.5px;letter-spacing:.04em;text-transform:uppercase;font-weight:600;padding-top:1px}
+.dual .k.learn{color:var(--sage)} .dual .k.pro{color:var(--accent2)}
+.connect{margin-top:10px;font-size:12px;color:var(--muted)}
+.connect b{color:var(--text2);font-weight:500}
+
+/* scope */
+.scope{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:20px 0}
+.scope .col{border:1px solid var(--line);border-radius:13px;padding:16px 18px}
+.scope .col.yes{border-left:3px solid var(--sage)}
+.scope .col.no{border-left:3px solid var(--accent2)}
+.scope h4{margin:0 0 8px;font-size:13px;letter-spacing:.04em}
+.scope ul{margin:0;padding-left:18px;font-size:14px;color:var(--text2)}
+.scope li{margin:6px 0}
+
+/* phases */
+.phase{display:flex;gap:16px;padding:16px 0;border-bottom:1px solid var(--line)}
+.phase:last-child{border-bottom:0}
+.phase .pn{font-family:var(--disp);font-size:30px;color:var(--accent);flex:0 0 46px;line-height:1}
+.phase .pb h4{margin:0 0 4px;font-size:16px;font-weight:600}
+.phase .pb p{margin:0;font-size:14px;color:var(--text2)}
+
+.callout{border:1px solid var(--line2);border-left:3px solid var(--accent);background:var(--surf);border-radius:11px;padding:15px 17px;margin:18px 0}
+.callout.sage{border-left-color:var(--sage)}
+.callout .t{font-weight:600;font-size:13.5px;margin-bottom:3px}
+.callout p{margin:3px 0;font-size:14.5px;color:var(--text2)}
+.name-opts{display:grid;grid-template-columns:repeat(2,1fr);gap:11px;margin:16px 0}
+.nopt{border:1px solid var(--line);border-radius:11px;padding:13px 15px}
+.nopt b{font-family:var(--disp);font-size:21px;font-weight:600;color:var(--text)}
+.nopt.pick{border-color:var(--accent-l);background:var(--accent-s)}
+.nopt p{margin:3px 0 0;font-size:13px;color:var(--muted)}
+.foot{margin-top:80px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:13.5px}
+
+@media(max-width:720px){
+  .values,.conns,.tools,.scope,.name-opts{grid-template-columns:1fr}
+  .wrap{padding:38px 20px 90px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- HERO -->
+<header>
+  <div class="eyebrow">Pitada · plano de produto</div>
+  <h1>Cozinhar é mais que sabor</h1>
+  <p class="lede">É saber usar o que se tem, não desperdiçar, e nutrir você e quem você ama com qualidade. O Pitada conecta quatro coisas que hoje vivem em apps separados — suas <strong>receitas</strong>, seu <strong>aprendizado</strong>, sua <strong>dieta</strong> e sua <strong>despensa</strong> — num só fluxo.</p>
+  <p class="kick">Sabor · aproveitamento · nutrição.</p>
+
+  <div class="values">
+    <div class="value"><div class="n">1</div><h4>Sabor &amp; técnica</h4><p>Aprender a cozinhar de verdade — e guardar o que você aprende para usar de novo.</p></div>
+    <div class="value"><div class="n">2</div><h4>Aproveitamento</h4><p>Conhecer os ingredientes, guardar bem e usar antes de vencer. Menos desperdício.</p></div>
+    <div class="value"><div class="n">3</div><h4>Nutrição</h4><p>Ter noção do que você consome — calorias, macros, equilíbrio — sem virar planilha.</p></div>
+  </div>
+</header>
+
+<!-- IDEIA CENTRAL -->
+<section class="sec">
+  <div class="eyebrow">A ideia central</div>
+  <h2>Um só fluxo, não quatro apps</h2>
+  <p class="t2">A maioria dos apps faz uma coisa: ou guarda receita, ou conta caloria, ou lista de compras. O diferencial do Pitada é que as quatro partes <strong>conversam entre si</strong>, num ciclo que se repete toda semana — e o <strong>Caderno</strong> (o aprendizado) costura tudo por baixo.</p>
+
+  <div class="ringwrap">
+<svg viewBox="0 0 600 500" class="ring" role="img" aria-label="Ciclo do Pitada: Dieta, Compras, Despensa, Receitas, Caderno">
+<defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#C2703F"/></marker></defs>
+<path d="M359.4,116.6 A146,146 0 0,1 408.5,152.3" fill="none" stroke="#C2703F" stroke-width="2.4" opacity="0.5" marker-end="url(#ah)"/>
+<path d="M445.2,265.3 A146,146 0 0,1 426.4,323.0" fill="none" stroke="#C2703F" stroke-width="2.4" opacity="0.5" marker-end="url(#ah)"/>
+<path d="M330.4,392.8 A146,146 0 0,1 269.6,392.8" fill="none" stroke="#C2703F" stroke-width="2.4" opacity="0.5" marker-end="url(#ah)"/>
+<path d="M173.6,323.0 A146,146 0 0,1 154.8,265.3" fill="none" stroke="#C2703F" stroke-width="2.4" opacity="0.5" marker-end="url(#ah)"/>
+<path d="M191.5,152.3 A146,146 0 0,1 240.6,116.6" fill="none" stroke="#C2703F" stroke-width="2.4" opacity="0.5" marker-end="url(#ah)"/>
+<text x="300" y="245" text-anchor="middle" font-family="Cormorant Garamond,serif" font-style="italic" font-size="21" fill="#8E8674">um só fluxo</text>
+<text x="300" y="266" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" letter-spacing="0.16em" fill="#605948">CONTÍNUO</text>
+<g><rect x="230.0" y="55.0" width="140" height="54" rx="13" fill="#1D1A13" stroke="#383223"/><circle cx="248.0" cy="82.0" r="4.5" fill="#A9B26C"/><text x="262.0" y="79.0" font-family="Cormorant Garamond,serif" font-weight="600" font-size="20" fill="#F2EDE1">Dieta</text><text x="262.0" y="96.0" font-family="Inter,sans-serif" font-size="11" fill="#8E8674">planejo</text></g>
+<g><rect x="389.8" y="171.1" width="140" height="54" rx="13" fill="#1D1A13" stroke="#383223"/><circle cx="407.8" cy="198.1" r="4.5" fill="#3F6157"/><text x="421.8" y="195.1" font-family="Cormorant Garamond,serif" font-weight="600" font-size="20" fill="#F2EDE1">Compras</text><text x="421.8" y="212.1" font-family="Inter,sans-serif" font-size="11" fill="#8E8674">compro</text></g>
+<g><rect x="328.7" y="358.9" width="140" height="54" rx="13" fill="#1D1A13" stroke="#383223"/><circle cx="346.7" cy="385.9" r="4.5" fill="#A35C40"/><text x="360.7" y="382.9" font-family="Cormorant Garamond,serif" font-weight="600" font-size="20" fill="#F2EDE1">Despensa</text><text x="360.7" y="399.9" font-family="Inter,sans-serif" font-size="11" fill="#8E8674">guardo</text></g>
+<g><rect x="131.3" y="358.9" width="140" height="54" rx="13" fill="#1D1A13" stroke="#383223"/><circle cx="149.3" cy="385.9" r="4.5" fill="#C2703F"/><text x="163.3" y="382.9" font-family="Cormorant Garamond,serif" font-weight="600" font-size="20" fill="#F2EDE1">Receitas</text><text x="163.3" y="399.9" font-family="Inter,sans-serif" font-size="11" fill="#8E8674">cozinho</text></g>
+<g><rect x="70.2" y="171.1" width="140" height="54" rx="13" fill="#1D1A13" stroke="#383223"/><circle cx="88.2" cy="198.1" r="4.5" fill="#9A7B3C"/><text x="102.2" y="195.1" font-family="Cormorant Garamond,serif" font-weight="600" font-size="20" fill="#F2EDE1">Caderno</text><text x="102.2" y="212.1" font-family="Inter,sans-serif" font-size="11" fill="#8E8674">aprendo</text></g>
+</svg>
+  </div>
+  <p class="muted" style="text-align:center;max-width:62ch;margin-left:auto;margin-right:auto">Planejo o que vou comer → compro só o que falta → guardo sem desperdiçar → cozinho com o que tenho → registro o que aprendi → e o ciclo recomeça melhor.</p>
+</section>
+
+<!-- CONEXÕES -->
+<section class="sec">
+  <div class="eyebrow">As conexões</div>
+  <h2>O que passa de uma parte para a outra</h2>
+  <p class="t2">Cada seta do ciclo é uma integração concreta. São essas “sinapses” que fazem o app parecer um só, e não quatro telas soltas.</p>
+
+  <div class="conns">
+    <div class="conn">
+      <div class="pair"><span class="chip"><i style="background:var(--d-receitas)"></i>Receitas</span><span class="arrow">→</span><span class="chip"><i style="background:var(--d-compras)"></i>Compras</span></div>
+      <p>“Vou fazer” joga os ingredientes na lista — <strong>somados por unidade</strong> (4 ovos, não 160 g) e já <strong>descontando o que há na despensa</strong>.</p>
+    </div>
+    <div class="conn">
+      <div class="pair"><span class="chip"><i style="background:var(--d-compras)"></i>Compras</span><span class="arrow">→</span><span class="chip"><i style="background:var(--d-despensa)"></i>Despensa</span></div>
+      <p>“Comprei” guarda os itens na despensa com a <strong>validade estimada</strong> por categoria — começa o relógio do anti-desperdício.</p>
+    </div>
+    <div class="conn">
+      <div class="pair"><span class="chip"><i style="background:var(--d-despensa)"></i>Despensa</span><span class="arrow">→</span><span class="chip"><i style="background:var(--d-receitas)"></i>Receitas</span></div>
+      <p>“Vencendo em 2 dias” → o app <strong>sugere receitas</strong> que usam aquilo. Toda receita mostra ✓ o que você tem e o que falta.</p>
+    </div>
+    <div class="conn">
+      <div class="pair"><span class="chip"><i style="background:var(--d-receitas)"></i>Receitas</span><span class="arrow">→</span><span class="chip"><i style="background:var(--d-despensa)"></i>Despensa</span></div>
+      <p>“Cozinhei” <strong>desconta</strong> os ingredientes usados da despensa. O estoque fica sempre certo, sem digitar.</p>
+    </div>
+    <div class="conn">
+      <div class="pair"><span class="chip"><i style="background:var(--d-receitas)"></i>Receitas</span><span class="arrow">→</span><span class="chip"><i style="background:var(--d-dieta)"></i>Dieta</span></div>
+      <p>As <strong>calorias e macros</strong> da receita entram no plano. Cada opção de refeição linka de volta à receita salva.</p>
+    </div>
+    <div class="conn">
+      <div class="pair"><span class="chip"><i style="background:var(--d-dieta)"></i>Dieta</span><span class="arrow">→</span><span class="chip"><i style="background:var(--d-compras)"></i>Compras</span></div>
+      <p>O <strong>plano da semana vira a lista de compras</strong> de uma vez — tudo que as refeições pedem, menos o que já tem.</p>
+    </div>
+    <div class="conn">
+      <div class="pair"><span class="chip"><i style="background:var(--d-receitas)"></i>Receitas</span><span class="arrow">↔</span><span class="chip"><i style="background:var(--d-caderno)"></i>Caderno</span></div>
+      <p>A receita mostra as <strong>técnicas e ingredientes</strong> que usa (toca e aprende). Cozinhar abre o <strong>diário</strong>; ajustes viram <strong>versão</strong> da receita.</p>
+    </div>
+    <div class="conn">
+      <div class="pair"><span class="chip"><i style="background:var(--d-despensa)"></i>Despensa</span><span class="arrow">↔</span><span class="chip"><i style="background:var(--d-caderno)"></i>Caderno</span></div>
+      <p>Cada item da despensa linka à <strong>ficha do ingrediente</strong>: como guardar (menos desperdício) e com o que combina (como usar).</p>
+    </div>
+  </div>
+  <div class="callout sage">
+    <div class="t">O Caderno é o tecido conectivo</div>
+    <p>Ele não é “mais uma aba de conteúdo”. É onde o conhecimento que costura receitas, despensa e dieta fica guardado — e por isso aparece ligado a tudo, não isolado num canto.</p>
+  </div>
+</section>
+
+<!-- CENÁRIOS -->
+<section class="sec">
+  <div class="eyebrow">Como se sente na prática</div>
+  <h2>Três cenários reais</h2>
+  <p class="t2">A integração não é abstrata — ela aparece em momentos do dia a dia. (As bolinhas mostram qual parte do app entra em cada passo.)</p>
+
+  <div class="scn">
+    <div class="st">“Tenho tomates vencendo amanhã”</div>
+    <div class="steps">
+      <div class="step" style="--c:var(--d-despensa)"><div class="lab">Despensa</div><div class="tx">A despensa avisa: <b>tomate vence amanhã</b>.</div></div>
+      <div class="step" style="--c:var(--d-receitas)"><div class="lab">Receitas</div><div class="tx">O app sugere <b>3 receitas suas</b> que usam tomate; você escolhe o molho.</div></div>
+      <div class="step" style="--c:var(--d-caderno)"><div class="lab">Caderno</div><div class="tx">A receita lembra a técnica de <b>reduzir o molho</b> — você toca e revisa em 10 s.</div></div>
+      <div class="step" style="--c:var(--d-receitas)"><div class="lab">Receitas → Despensa</div><div class="tx">Cozinhou: o tomate <b>some da despensa</b> automaticamente.</div></div>
+      <div class="step" style="--c:var(--d-caderno)"><div class="lab">Caderno</div><div class="tx">Pós-preparo: “ficou ácido demais” → salva um ajuste. <b>Nada se perdeu, e você aprendeu algo.</b></div></div>
+    </div>
+  </div>
+
+  <div class="scn">
+    <div class="st">“Achei uma receita no YouTube”</div>
+    <div class="steps">
+      <div class="step" style="--c:var(--d-receitas)"><div class="lab">Receitas</div><div class="tx">Compartilha o vídeo pro Pitada; a IA <b>extrai os ingredientes em gramas</b> e os passos.</div></div>
+      <div class="step" style="--c:var(--d-caderno)"><div class="lab">Caderno</div><div class="tx">O app liga a receita às <b>técnicas que ela usa</b> (selar, deglacear) já na sua biblioteca.</div></div>
+      <div class="step" style="--c:var(--d-despensa)"><div class="lab">Despensa → Compras</div><div class="tx">Falta 1 ingrediente: vai pra <b>lista de compras</b>; o resto você já tem.</div></div>
+      <div class="step" style="--c:var(--d-receitas)"><div class="lab">Receitas</div><div class="tx">Cozinhou e mudou algo? Salva como <b>versão 2</b>, com o que mudou.</div></div>
+    </div>
+  </div>
+
+  <div class="scn">
+    <div class="st">“Quero comer melhor essa semana”</div>
+    <div class="steps">
+      <div class="step" style="--c:var(--d-dieta)"><div class="lab">Dieta</div><div class="tx">Monta a semana com <b>receitas salvas</b>; vê <b>calorias e macros</b> de cada dia e se cabe na meta.</div></div>
+      <div class="step" style="--c:var(--d-compras)"><div class="lab">Dieta → Compras</div><div class="tx">O plano <b>gera a lista de compras</b> inteira de uma vez.</div></div>
+      <div class="step" style="--c:var(--d-despensa)"><div class="lab">Despensa</div><div class="tx">Comprou e guardou — com validades, pra <b>não desperdiçar</b> o que planejou.</div></div>
+      <div class="step" style="--c:var(--d-caderno)"><div class="lab">Caderno</div><div class="tx">Com o tempo, o diário mostra <b>o que você de fato cozinha e como evolui</b>.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CADERNO -->
+<section class="sec">
+  <div class="eyebrow">O Caderno · ferramentas de aprendizado</div>
+  <h2>Você preenche, o app organiza</h2>
+  <p class="t2">O Pitada <strong>não cria conteúdo nem dá curso</strong>. Ele dá <strong>ferramentas que você alimenta</strong> com o que aprendeu em livros, vídeos, chefs e na própria prática — um “segundo cérebro” da sua cozinha. São poucas, em três famílias claras, para não virar um mar de opções que ninguém usa.</p>
+
+  <!-- Família 1 -->
+  <div class="fam">
+    <div class="fam-h"><span class="num">I.</span><h3>Conhecimento — centralizar o que você aprende fora</h3></div>
+    <p class="fam-sub">Sua enciclopédia pessoal de cozinha, sempre ligada às receitas e à despensa.</p>
+    <div class="tools">
+      <div class="tool">
+        <div class="tname">Fichas <span class="badge exist">já existe</span></div>
+        <div class="how">Ingredientes · Sabores · Técnicas · Ervas. Você escreve <b>perfil de sabor, como escolher, como guardar, combina com, dica</b> — do seu jeito.</div>
+        <div class="dual">
+          <div><span class="k learn">aprende</span>uma referência que é sua, não genérica da internet.</div>
+          <div><span class="k pro">leva a sério</span>vira biblioteca de variações próprias de cada técnica.</div>
+        </div>
+        <div class="connect"><b>↔</b> liga a cada receita e a cada item da despensa.</div>
+      </div>
+      <div class="tool">
+        <div class="tname">Notas de fonte</div>
+        <div class="how">Uma ficha por <b>livro, vídeo, curso ou chef</b>: link/timestamp, 1–3 conclusões e “onde isso se aplica”. Destila o que importa e descarta o resto.</div>
+        <div class="dual">
+          <div><span class="k learn">aprende</span>não esquece a boa dica que viu naquele vídeo.</div>
+          <div><span class="k pro">leva a sério</span>conecta o que lê às próprias receitas e técnicas.</div>
+        </div>
+        <div class="connect"><b>↔</b> anexa a receitas e a fichas de técnica.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Família 2 -->
+  <div class="fam">
+    <div class="fam-h"><span class="num">II.</span><h3>Prática — evoluir cozinhando</h3></div>
+    <p class="fam-sub">O caderno de chef, digital: registrar, ajustar e ver o progresso.</p>
+    <div class="tools">
+      <div class="tool">
+        <div class="tname">Diário de cozinha</div>
+        <div class="how">Pós-preparo, 3 perguntas rápidas: <b>o que mudei? o que aprendi? refazer assim?</b> + foto e uma nota.</div>
+        <div class="dual">
+          <div><span class="k learn">aprende</span>transforma cada erro em aprendizado registrado.</div>
+          <div><span class="k pro">leva a sério</span>histórico de iterações de cada prato.</div>
+        </div>
+        <div class="connect"><b>↔</b> abre ao concluir o modo cozinhar; ajustes salvam na receita.</div>
+      </div>
+      <div class="tool">
+        <div class="tname">Versões da receita</div>
+        <div class="how">Bifurca em <b>v1 → v2 → v3</b>, com “o que mudou e por quê”. Marca a versão definitiva.</div>
+        <div class="dual">
+          <div><span class="k learn">aprende</span>vê a própria evolução no tempo.</div>
+          <div><span class="k pro">leva a sério</span>desenvolve pratos como um profissional faz.</div>
+        </div>
+        <div class="connect"><b>↔</b> nasce de um ajuste do diário; vive dentro da receita.</div>
+      </div>
+      <div class="tool">
+        <div class="tname">Logs de processo <span class="badge adv">avançado</span></div>
+        <div class="how"><b>Fermentação, sous-vide, cura, defumação, pão.</b> Linha do tempo com parâmetros (temperatura, % de sal, hidratação, tempo) e fotos.</div>
+        <div class="dual">
+          <div><span class="k learn">aprende</span>aparece só quando você quer — não atrapalha o básico.</div>
+          <div><span class="k pro">leva a sério</span>onde mais falta ferramenta: processos longos e sensíveis.</div>
+        </div>
+        <div class="connect"><b>↔</b> vira uma receita registrável e repetível.</div>
+      </div>
+      <div class="tool" style="background:transparent;border-style:dashed">
+        <div class="tname" style="color:var(--muted)">Revisão (flashcards) <span class="badge">opcional</span></div>
+        <div class="how">Repetição espaçada para fixar <b>rácios, temperaturas e conversões</b> que você quer ter na ponta da língua.</div>
+        <div class="dual">
+          <div><span class="k learn">aprende</span>memoriza o que de fato usa.</div>
+          <div><span class="k pro">leva a sério</span>pontos de carne e proporções sem consultar.</div>
+        </div>
+        <div class="connect"><b>↔</b> gera cards a partir das próprias fichas e rácios.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Família 3 -->
+  <div class="fam">
+    <div class="fam-h"><span class="num">III.</span><h3>Repertório — cozinhar sem receita</h3></div>
+    <p class="fam-sub">As ferramentas do improviso. <em>Na prática são “vistas rápidas” das suas fichas</em> — não telas novas pra encher.</p>
+    <div class="tools">
+      <div class="tool">
+        <div class="tname">Rácios</div>
+        <div class="how">Suas proporções de confiança: <b>massa de pão, vinagrete, salmoura, panqueca…</b> O que produz e suas variações.</div>
+        <div class="dual">
+          <div><span class="k learn">aprende</span>entende a lógica por trás das receitas.</div>
+          <div><span class="k pro">leva a sério</span>cozinha de cabeça, sem medir tudo.</div>
+        </div>
+        <div class="connect"><b>↔</b> mora dentro das fichas de Técnica.</div>
+      </div>
+      <div class="tool">
+        <div class="tname">Substituições</div>
+        <div class="how">“Se faltar X, use Y” — na proporção e com a ressalva. Só as que <b>você testou e funcionaram</b>.</div>
+        <div class="dual">
+          <div><span class="k learn">aprende</span>resolve a falta sem desistir do prato.</div>
+          <div><span class="k pro">leva a sério</span>biblioteca de trocas criativas e dietéticas.</div>
+        </div>
+        <div class="connect"><b>↔</b> também é anti-desperdício: usa o que tem no lugar do que falta.</div>
+      </div>
+      <div class="tool">
+        <div class="tname">Harmonizações</div>
+        <div class="how">Seu “mapa de afinidades”: para cada ingrediente, com o que <b>você</b> sabe que combina (testei · adoro · clássico).</div>
+        <div class="dual">
+          <div><span class="k learn">aprende</span>começa a criar pratos, não só seguir.</div>
+          <div><span class="k pro">leva a sério</span>encadeia sabores com intenção.</div>
+        </div>
+        <div class="connect"><b>↔</b> mora dentro das fichas de Ingrediente e Sabor.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="t">Por que isso não vira “opções demais”</div>
+    <p>São <strong>3 famílias</strong>, e várias ferramentas são a mesma informação vista de ângulos diferentes (um rácio mora na ficha da técnica; uma substituição, na ficha do ingrediente). O avançado (logs, flashcards) fica <strong>oculto até você ativar</strong>. Quem só quer cozinhar usa Fichas + Diário; quem leva a sério destrava o resto.</p>
+  </div>
+</section>
+
+<!-- APROVEITAMENTO + NUTRIÇÃO -->
+<section class="sec">
+  <div class="eyebrow">Os dois lados além do sabor</div>
+  <h2>Aproveitar e nutrir</h2>
+  <div class="conns" style="margin-top:18px">
+    <div class="conn">
+      <div class="pair"><span class="chip"><i style="background:var(--d-despensa)"></i>Aproveitamento</span></div>
+      <p style="margin-bottom:8px"><strong>Cozinha é saber usar o que se tem.</strong> O app combate o desperdício em três pontos:</p>
+      <ul style="margin:0;color:var(--text2);font-size:14px">
+        <li>Despensa com <strong>validade</strong> e aviso de “vencendo”.</li>
+        <li>“<strong>Cozinhe com o que tem</strong>” e receitas que priorizam o que vai vencer.</li>
+        <li><strong>Substituições</strong> para usar o que está em casa no lugar do que falta.</li>
+      </ul>
+    </div>
+    <div class="conn">
+      <div class="pair"><span class="chip"><i style="background:var(--d-dieta)"></i>Nutrição</span></div>
+      <p style="margin-bottom:8px"><strong>Nutrir você e quem você ama.</strong> Sem virar contagem obsessiva:</p>
+      <ul style="margin:0;color:var(--text2);font-size:14px">
+        <li>Tudo em <strong>gramas</strong> por baixo → macros e calorias saem de graça.</li>
+        <li>Dieta mostra o dia: <strong>cabe na meta?</strong> equilíbrio de proteína/carbo/gordura.</li>
+        <li>Noção de <strong>o que você consome de verdade</strong>, vindo das receitas que cozinha.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ESCOPO -->
+<section class="sec">
+  <div class="eyebrow">Escopo</div>
+  <h2>Para quem leva a sério — em casa</h2>
+  <p class="t2">“Profissional” aqui é quem trata a cozinha com seriedade, não quem toca um restaurante. Então o app aprofunda no <strong>ofício</strong>, mas evita o que é de <strong>operação de restaurante</strong>.</p>
+  <div class="scope">
+    <div class="col yes">
+      <h4 style="color:var(--sage)">TEM — o ofício</h4>
+      <ul>
+        <li>Logs de fermentação, sous-vide, cura e defumação</li>
+        <li>Versões e diário de cada prato</li>
+        <li>Rácios, substituições e harmonizações próprias</li>
+        <li>Técnicas com variações e parâmetros (tempos, temperaturas)</li>
+        <li>Nutrição e anti-desperdício para o dia a dia da casa</li>
+      </ul>
+    </div>
+    <div class="col no">
+      <h4 style="color:var(--accent2)">NÃO TEM — operação de restaurante</h4>
+      <ul>
+        <li>Montagem de menus e cardápios para clientes</li>
+        <li>Custo de prato, margem e precificação para venda</li>
+        <li>Controle de estoque para lucro, fornecedores, pedidos</li>
+        <li>Escala de equipe, fichas para cozinha comercial</li>
+        <li>Qualquer coisa hiperespecífica de produção em larga escala</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- PLANO -->
+<section class="sec">
+  <div class="eyebrow">Plano</div>
+  <h2>Em que ordem construir</h2>
+  <p class="t2">Primeiro as conexões que já dão o “efeito mágico”, depois as ferramentas de aprendizado, por último o avançado.</p>
+  <div style="margin-top:14px">
+    <div class="phase"><div class="pn">1</div><div class="pb"><h4>As sinapses</h4><p>Receita→Compras (soma por unidade − despensa), Compras→Despensa (validade), Despensa→Receitas (vencendo/“cozinhe com o que tem”), Receita→Despensa (desconto ao cozinhar), Receita→Dieta (macros). É o que faz o app parecer um só.</p></div></div>
+    <div class="phase"><div class="pn">2</div><div class="pb"><h4>Caderno essencial</h4><p>Fichas (já existe) + Diário de cozinha + Notas de fonte + Versões da receita. O “segundo cérebro” que costura tudo.</p></div></div>
+    <div class="phase"><div class="pn">3</div><div class="pb"><h4>Repertório</h4><p>Rácios, Substituições e Harmonizações — como vistas das fichas. Ferramentas do improviso, baixo custo de implementação.</p></div></div>
+    <div class="phase"><div class="pn">4</div><div class="pb"><h4>Avançado (opt-in)</h4><p>Logs de processo (fermentação/sous-vide/cura/defumação) e Revisão (flashcards). Ocultos até o usuário ativar, para não pesar.</p></div></div>
+  </div>
+</section>
+
+<!-- NOME -->
+<section class="sec">
+  <div class="eyebrow">Detalhe</div>
+  <h2>O nome da aba</h2>
+  <p class="t2">“Aprendizado” soa a curso — e o app não dá curso, ele guarda o <em>seu</em> conhecimento. Sugestões que combinam mais com a ideia de caderno pessoal:</p>
+  <div class="name-opts">
+    <div class="nopt pick"><b>Caderno</b><p>O caderno de chef. Quente, editorial, e captura a ideia de “onde guardo o que aprendo”.</p></div>
+    <div class="nopt"><b>Repertório</b><p>Enfatiza o que você domina e pode cozinhar de cabeça.</p></div>
+    <div class="nopt"><b>Bancada</b><p>O lugar de trabalho — prático, sugere ferramentas em uso.</p></div>
+    <div class="nopt"><b>Cozinha</b><p>O ofício em si; simples, mas menos distintivo.</p></div>
+  </div>
+  <p class="muted">Recomendação: <strong>Caderno</strong>. Mas é só um rótulo — dá pra decidir depois sem mexer na estrutura.</p>
+</section>
+
+<div class="foot">
+  <p><strong>Pitada</strong> · plano de integração &amp; Caderno. Filosofia: cozinhar é sabor, aproveitamento e nutrição. As quatro partes do app são um só fluxo.</p>
+</div>
+
+</div>
+</body>
+</html>

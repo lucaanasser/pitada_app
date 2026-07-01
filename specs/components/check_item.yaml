@@ -1,0 +1,15 @@
+# specs/components/check_item.yaml -> lib/core/widgets/check_item.dart
+component: CheckItem (checkbox reutilizável)
+prototype: ".lbox (círculo, lista de compras) e .cbox (quadrado)"
+purpose: Caixa de seleção do app, com o 'check' desenhado no estilo do protótipo.
+uses: [AppColors.line2, AppColors.accent, AppColors.sage, AppColors.onAccent, AppSpacing]
+variants:
+  - circle: marcado = fundo accent (lista de compras .litem)
+  - square: marcado = fundo sage (checklist .citem)
+api:
+  - checked: bool
+  - onChanged: ValueChanged<bool>
+  - shape: CheckShape = circle
+  - color: Color? (default accent p/ circle, sage p/ square)
+detalhes: "22-23px; check em ✓ desenhado; transição suave. Só a caixa (o rótulo fica na HairlineRow)."
+used_by: [shopping (lista/despensa)]

@@ -1,0 +1,16 @@
+# specs/components/nutrition_card.yaml -> lib/core/widgets/nutrition_card.dart
+component: NutritionCard
+prototype: ".nutri (.kc kcal grande + .mr barras de macro)"
+purpose: Cartão de nutrição: kcal grande à esquerda + macros (proteína/carbo/gordura) à direita.
+uses: [AppColors.surf, AppColors.sage, AppColors.accent, AppColors.ochre, AppType.display, AppType.caption, AppSpacing.radiusXl]
+api:
+  - kcal: int
+  - protein: num
+  - carb: num
+  - fat: num
+cores_macro:
+  proteina: AppColors.sage
+  carbo: AppColors.accent
+  gordura: AppColors.ochre
+detalhes: "kcal em AppType.display (Cormorant 34); 'kcal por porção' em versalete; 3 linhas de macro com bolinha colorida + nome + valor."
+used_by: [recipe_detail]

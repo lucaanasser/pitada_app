@@ -1,0 +1,44 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# specs/design-system/typography.yaml
+# O QUÊ:  Escala tipográfica do Pitada. Duas famílias: Cormorant (display) + Inter (ui).
+# GERA:   lib/core/theme/typography.dart  (classe AppType, TextStyles nomeados)
+# USADO POR: todo texto do app. Nenhum TextStyle novo fora daqui.
+# ─────────────────────────────────────────────────────────────────────────────
+token_class: AppType
+prototype: "pitada.html — .disp/.thead/.rdtitle/.nutri/.step/.ftab/.label/.btn ..."
+
+familias:
+  display: "Cormorant Garamond"   # var(--disp) — títulos, números, citações
+  ui:      "Inter"                # var(--ui)  — corpo, botões, rótulos
+
+# Cada estilo: family, size(px), weight, letterSpacing(px), height(mult), italic?
+# A cor não entra aqui (vem de AppColors no ponto de uso); default = text.
+estilos_display:
+  displayXl:   { size: 40, weight: 600, ls: -0.5, height: 0.9,  uso: "total do dia (Planos)" }
+  screenTitle: { size: 36, weight: 600, ls: -0.2, height: 0.95, uso: "título de aba (.thead h1)" }
+  display:     { size: 34, weight: 600, ls: -0.3, height: 1.0,  uso: "título de receita / kcal grande" }
+  title:       { size: 22, weight: 600, ls: -0.1, height: 1.1,  uso: "título de lição (.lrow h3)" }
+  titleSm:     { size: 20, weight: 600, ls: -0.1, height: 1.1,  uso: "linha de receita/pasta, aba-capítulo" }
+  numeralLg:   { size: 27, weight: 600, ls: 0.0,  height: 0.9,  uso: "número do passo (.step .n)" }
+  numeral:     { size: 21, weight: 600, ls: 0.0,  height: 1.0,  uso: "gramas (.ing .qt .g)" }
+  numeralSm:   { size: 18, weight: 600, ls: 0.0,  height: 1.0,  uso: "estoque, total de refeição, nome de opção" }
+  quote:       { size: 23, weight: 500, ls: 0.0,  height: 1.35, uso: "citação de lição (.quote)" }
+  tip:         { size: 16, weight: 500, ls: 0.0,  height: 1.4, italic: true, uso: "callout Por quê (.tip p)" }
+
+estilos_ui:
+  bodyLg:  { size: 16,   weight: 400, ls: 0.0, height: 1.55, uso: "lead / intro" }
+  body:    { size: 15,   weight: 400, ls: 0.0, height: 1.55, uso: "corpo padrão" }
+  bodySm:  { size: 13.5, weight: 400, ls: 0.0, height: 1.45, uso: "texto secundário" }
+  label:   { size: 10.5, weight: 600, ls: 2.1, height: 1.0, upper: true, uso: "versalete (.label/.shead .l)" }
+  button:  { size: 15,   weight: 600, ls: 0.0, height: 1.0, uso: "texto de botão" }
+  caption: { size: 12,   weight: 500, ls: 0.0, height: 1.3, uso: "meta/muted" }
+  captionSm:{ size: 11,  weight: 500, ls: 0.0, height: 1.3, uso: "unidade minúscula" }
+
+pesos_disponiveis:
+  display: [500, 600, 700]        # + itálico 500/600
+  ui: [400, 500, 600]
+
+notas:
+  - "ls (letter-spacing) em px; no protótipo .label usa .2em ~ 2.1px em 10.5px."
+  - "AppType expõe métodos utilitários: .copyWith de cor no ponto de uso."
+  - "Números (kcal, gramas, Opção N) SEMPRE em Cormorant (família display)."

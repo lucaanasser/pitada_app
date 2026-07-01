@@ -1,0 +1,11 @@
+# specs/components/masthead.yaml -> lib/core/widgets/masthead.dart
+component: Masthead
+prototype: ".masthead + .pinch/.pn em pitada.html"
+purpose: Marca 'pitada' centralizada no topo das abas (três pontos + palavra em serifa).
+uses: [AppColors.accent, AppColors.text2, AppType.titleSm, AppSpacing]
+api:
+  - (sem parâmetros — visual fixo)
+detalhes:
+  - "três bolinhas (pinch) em terracota, tamanhos 4/5/6 px, alinhadas embaixo"
+  - "palavra 'pitada' em Cormorant 600, cor text2, letter-spacing .06em"
+used_by: [recipes_screen, learning_screen, plans_screen, shopping_screen, home_screen]

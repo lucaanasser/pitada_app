@@ -1,0 +1,101 @@
+# specs/features/plans.yaml -> lib/features/plans/
+feature: Planos
+prototype: "TAB-PLANOS + SHEET-MEAL + SHEET-ADDMEAL em pitada.html"
+purpose: >
+  Planejar o dia por refeições. Cada refeição tem uma meta de kcal e opções de
+  cardápio; escolher uma opção soma para o total do dia contra a meta diária.
+  Grama é a base; kcal e macros vêm das receitas.
+
+data:
+  models:
+    - Plan:            # o plano ativo (ex.: "Cutting")
+        campos:
+          - id: String
+          - name: String            # "Cutting"
+          - dailyGoalKcal: int      # 1900
+          - meals: List<Meal>
+    - Meal:            # uma refeição do dia (Café, Almoço, Jantar, Lanche)
+        campos:
+          - id: String
+          - name: String            # "Almoço"
+          - goalKcal: int           # meta da refeição (650)
+          - chosenIndex: int        # opção escolhida; -1 = nenhuma
+          - options: List<MealOption>
+    - MealOption:      # uma alternativa de cardápio p/ a refeição ("Opção N")
+        campos:
+          - items: List<MealOptionItem>
+        derivado: "totalKcal = soma dos items.kcal"
+    - MealOptionItem:  # um prato dentro da opção
+        campos:
+          - name: String
+          - kcal: int
+          - recipeId: String?       # preenchido => prato linkado (abrível)
+  repository: PlansRepository        # em memória (seed) hoje; Supabase depois
+  seed: plans_seed.dart              # Cutting 1900; Café/Almoço/Jantar/Lanche (ver PLAN no protótipo)
+  regras:
+    - "Modelos: classes puras imutáveis, const constructor (como Recipe). Sem freezed/json."
+    - "MealOptionItem.recipeId != null => item linkado (OptionDish.linked = true)."
+
+application:
+  providers:
+    - plansRepositoryProvider (Provider<PlansRepository>)
+    - planProvider (FutureProvider<Plan>)            # o plano ativo do usuário
+    - selectedDayProvider (StateProvider<int>)        # índice do dia (0=seg26 .. 2=qui28 ativo)
+    - dayTotalKcalProvider (Provider<int>)            # soma das opções escolhidas do dia
+    - dayMacrosProvider (Provider<DayMacros>)         # Prot/Carb/Gord agregados (record simples)
+  notas:
+    - "dayTotalKcal soma optionTotal(chosenIndex) de cada Meal com chosenIndex >= 0."
+    - "status do dia: 'Dentro da meta · sobram N kcal' se total<=meta; senão 'Acima da meta · N kcal a mais'."
+    - "Números formatados via core/utils/format (formatKcal) e locale pt-BR (1.718)."
+
+screens:
+  - PlansScreen:
+      file: lib/features/plans/presentation/plans_screen.dart
+      tipo: ConsumerWidget
+      prototype: ".tab#tab-planos (.today/.days/.meal/.addmeal)"
+      layout:   # de cima pra baixo
+        - Masthead
+        - "thead: título do plano 'Cutting' + subtítulo '1.900 kcal por dia' + PitadaIconButton(config)"
+        - "DaySummaryCard: total grande '1.718 / 1.900 kcal hoje', status 'Dentro da meta · sobram 182 kcal',
+           FuelBar(progress=total/meta, over=total>meta), macros Prot 128g / Carb 142g / Gord 47g"
+        - "ChapterTabs(dias): [seg 26, ter 27, qui 28, sex 29, sáb 30], selected=selectedDayProvider (qui 28 ativo)"
+        - "lista de MealCard (um por Meal): cabeçalho editável (nome + lápis + 'meta N kcal'),
+           OptionCard por MealOption, HairlineRow/botão 'Adicionar opção' (abre showAddOptionSheet)"
+        - "PitadaButton(outline) 'Adicionar refeição' -> showMealSheet(novo)"
+      widgets_da_feature:   # em presentation/widgets/ (tela > 200 linhas => quebrar)
+        - DaySummaryCard      # total + status + FuelBar + legenda de macros
+        - MealCard            # cabeçalho da refeição + OptionCards + 'Adicionar opção'
+        - MealHeaderRow       # nome editável (toca -> showMealSheet) + meta em kcal
+      navega: RecipeDetailScreen (/recipe/:id)  # ao tocar prato linkado numa OptionCard
+
+sheets:
+  - showMealSheet:
+      file: lib/features/plans/presentation/widgets/meal_sheet.dart
+      assinatura: "void showMealSheet(BuildContext context, {Meal? meal})"
+      prototype: ".sheet#sheet-meal"
+      proposito: "Nova refeição ou editar existente."
+      conteudo:
+        - grip
+        - "título: 'Nova refeição' (meal==null) ou 'Editar refeição'"
+        - "campo nome (hint 'Ex.: Pré-treino')"
+        - "campo meta kcal (numérico, hint 'kcal')"
+        - "PitadaButton(primary) 'Salvar'"
+        - "se editando: ação 'Remover refeição' (texto, cor accent2) -> exclui"
+  - showAddOptionSheet:
+      file: lib/features/plans/presentation/widgets/add_option_sheet.dart
+      assinatura: "void showAddOptionSheet(BuildContext context, {required Meal meal})"
+      prototype: ".sheet#sheet-addmeal (openAddOption/pickOption)"
+      proposito: "Escolher uma receita salva como nova opção da refeição."
+      conteudo:
+        - grip
+        - "título 'Nova opção · <nome da refeição>' + subtítulo 'Escolha uma receita salva para a opção'"
+        - "lista de receitas salvas (recipesProvider): RecipeThumb/HairlineRow com nome, kcal e
+           selo de encaixe: 'cabe' (sage) se recipe.kcal<=meta.goalKcal, senão '+N' (accent2)"
+        - "tocar => adiciona MealOption com o item da receita e fecha"
+
+components_reutilizados: [Masthead, ChapterTabs, SectionHeader, HairlineRow, OptionCard,
+  FuelBar, RecipeThumb, PitadaSearchField, PitadaButton, PitadaIconButton, EmptyState]
+
+usa_de_outras_features:
+  - recipes/application/recipes_providers.dart (recipesProvider)  # lista p/ showAddOptionSheet
+  - navegação a /recipe/:id (RecipeDetailScreen) em pratos linkados

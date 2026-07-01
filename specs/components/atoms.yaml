@@ -1,0 +1,50 @@
+# specs/components/atoms.yaml -> vários pequenos widgets em lib/core/widgets/
+# Átomos reutilizáveis menores, agrupados numa spec só (cada um vira 1 arquivo .dart).
+atoms:
+  - component: RecipeThumb
+    file: lib/core/widgets/recipe_thumb.dart
+    prototype: ".rrow .th (miniatura editorial colorida com ícone)"
+    purpose: Quadrado colorido (hero_color) com ícone de prato — placeholder de foto.
+    uses: [AppColors.hero, AppSpacing.radiusMd]
+    api: [color: Color, size: double = 54, icon: IconData?]
+    used_by: [recipes_screen, plans (add option), meal pickers]
+
+  - component: PitadaSearchField
+    file: lib/core/widgets/pitada_search_field.dart
+    prototype: ".search (campo de busca com lupa)"
+    purpose: Campo de busca padrão (visual .search). Estático por ora (frontend).
+    uses: [AppColors.surf, AppColors.muted, AppColors.faint, AppType.body, AppSpacing]
+    api: [hint: String, controller: TextEditingController?, onChanged: ValueChanged<String>?]
+    used_by: [recipes_screen]
+
+  - component: FuelBar
+    file: lib/core/widgets/fuel_bar.dart
+    prototype: ".fuel (barra de combustível do dia)"
+    purpose: Barra de progresso fina (verde sage) — quanto da meta foi atingido.
+    uses: [AppColors.surf2, AppColors.sage, AppColors.accent2, AppSpacing]
+    api: [progress: double 0..1, over: bool = false]  # over -> cor accent2
+    used_by: [plans_screen]
+
+  - component: StepProgress
+    file: lib/core/widgets/step_progress.dart
+    prototype: ".lsteps / .lstep (passos do carregamento de importação)"
+    purpose: Lista de passos com bolinha marcada — feedback de processamento da IA.
+    uses: [AppColors.line2, AppColors.sage, AppColors.faint, AppColors.text2, AppType.bodySm]
+    api: [steps: List<String>, activeIndex: int]
+    used_by: [import_sheet (receitas), add_pantry_sheet (compras)]
+
+  - component: EmptyState
+    file: lib/core/widgets/empty_state.dart
+    prototype: "estados vazios/carregando (regra de qualidade do guia)"
+    purpose: Estado vazio/carregando com texto que orienta a ação.
+    uses: [AppColors.muted, AppColors.faint, AppType.title, AppType.bodySm, AppSpacing]
+    api: [title: String, message: String?, icon: IconData?]
+    used_by: [todas as listas quando vazias]
+
+  - component: PitadaScaffold
+    file: lib/core/widgets/pitada_scaffold.dart
+    prototype: ".tab .scroll (estrutura de aba com masthead + conteúdo rolável)"
+    purpose: Casca padrão de uma aba — fundo bg + coluna com slivers/rolagem.
+    uses: [AppColors.bg, AppSpacing]
+    api: [child: Widget, top: Widget?] # top fixo (masthead/thead), child rolável
+    used_by: [todas as telas de aba]

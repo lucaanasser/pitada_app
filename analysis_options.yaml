@@ -1,0 +1,19 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# analysis_options.yaml
+# O QUÊ:  Regras de lint do projeto (flutter_lints) + alguns reforços do Pitada.
+# ─────────────────────────────────────────────────────────────────────────────
+include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  errors:
+    # Reforça a regra de reuso: cores/estilos devem vir dos tokens.
+    # (não impede build; ajuda a revisar)
+    prefer_const_constructors: warning
+
+linter:
+  rules:
+    - prefer_const_constructors
+    - prefer_const_declarations
+    - avoid_print # use AppLog (core/utils/app_log.dart)
+    - require_trailing_commas
+    - sort_child_properties_last

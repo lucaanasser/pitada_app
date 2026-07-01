@@ -1,0 +1,14 @@
+# specs/components/pitada_button.yaml -> lib/core/widgets/pitada_button.dart
+component: PitadaButton (+ PitadaIconButton)
+prototype: ".btn / .btn-pri / .btn-ic / .iconbtn"
+purpose: Botões padrão do app. Primário terracota e botão de ícone com contorno.
+uses: [AppColors.accent, AppColors.onAccent, AppColors.line2, AppColors.text, AppType.button, AppSpacing]
+variants:
+  - primary: fundo accent, texto onAccent, altura 52, raio 13 (.btn-pri)
+  - outline: contorno line2, texto text, altura 52, raio 13
+  - icon:    quadrado 52, contorno line2 (.btn-ic)
+api:
+  - PitadaButton: {label: String, icon: IconData?, onPressed: VoidCallback?, variant, expand: bool}
+  - PitadaIconButton: {icon: IconData, onPressed, size} # círculo .iconbtn (42) p/ header
+detalhes: "active: scale .98. Sem sombra. Texto sempre AppType.button."
+used_by: [recipe_detail (barra), import_sheet, shopping, sheets em geral]

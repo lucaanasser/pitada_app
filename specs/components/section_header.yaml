@@ -1,0 +1,11 @@
+# specs/components/section_header.yaml -> lib/core/widgets/section_header.dart
+component: SectionHeader
+prototype: ".shead (.l rótulo + .r filete + .x ação opcional)"
+purpose: Rótulo de seção em versalete + filete fino. Onipresente no app.
+uses: [AppColors.muted, AppColors.line, AppColors.accent, AppType.label, AppSpacing]
+api:
+  - label: String            # texto em versalete (ex.: "Ingredientes")
+  - action: String?          # texto de ação à direita (ex.: "Ver tudo"), cor accent
+  - onAction: VoidCallback?  # callback do action
+layout: "Row: [label em AppType.label] [Expanded filete 1px line] [action?]"
+used_by: [recipe_detail_screen, learning_screen, shopping_screen, plans_screen]

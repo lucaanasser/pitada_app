@@ -1,0 +1,147 @@
+# specs/features/recipes.yaml -> lib/features/recipes/
+feature: Receitas
+prototype: "TAB-RECEITAS, VIEW-RECIPE, VIEW-EDIT, VIEW-COOK, VIEW-FOLDER, SHEET-IMPORT, SHEET-COOKCHAT"
+purpose: Guardar, ver, editar, cozinhar e importar receitas. Grama é a base.
+
+data:
+  models: [Recipe, Ingredient, RecipeStep, Folder]
+  repository: RecipesRepository   # em memória (seed) hoje; Supabase depois
+  seed: recipes_seed.dart          # Frango xadrez, Bowl de quinoa, Strogonoff, Panqueca
+
+application:
+  providers:
+    - recipesProvider (FutureProvider<List<Recipe>>)
+    - foldersProvider
+    - selectedFolderProvider (StateProvider<int>)  # 0 = Todas
+    - filteredRecipesProvider
+    - recipeByIdProvider (family)
+    - folderByIdProvider (family)                   # pasta única, para FolderScreen
+    - recipesInFolderProvider (family)              # receitas de uma pasta (por folderId)
+
+routes:                             # eu ligo no router depois; garanta nome/assinatura
+  paths:
+    - {path: /recipe/:id,      screen: RecipeDetailScreen(recipeId)}   # ja existe
+    - {path: /recipe/:id/edit, screen: RecipeEditScreen(recipeId)}     # recipeId nulo = criar
+    - {path: /recipe/:id/cook, screen: CookModeScreen(recipeId)}
+    - {path: /folder/:id,      screen: FolderScreen(folderId)}
+  functions:                        # sheets expostas como showXxxSheet(BuildContext)
+    - showImportSheet(BuildContext)                 # import_sheet.dart
+    - showCookChatSheet(BuildContext, recipe)       # cook_chat_sheet.dart
+
+screens:
+  - RecipesScreen:
+      layout: [Masthead, thead("Receitas" + perfil + '+'), PitadaSearchField, ChapterTabs, lista de RecipeRow]
+      navega: RecipeDetailScreen (/recipe/:id), ProfileScreen (/profile), showImportSheet (via '+')
+
+  - RecipeDetailScreen:
+      layout: [galeria, título, fonte clicável, meta(porções/tempo/dificuldade),
+               NutritionCard, nota de conversão, SectionHeader Ingredientes -> IngredientRow,
+               SectionHeader "Modo de preparo" -> StepTile(+WhyCallout),
+               SectionHeader "Técnicas" -> PitadaChip, "Anotações" (texto),
+               barra inferior: Cozinhar + ícones]
+      navega: CookModeScreen (/recipe/:id/cook via "Cozinhar"), RecipeEditScreen (/recipe/:id/edit via ícone lápis)
+
+  - RecipeEditScreen:
+      classe: RecipeEditScreen extends ConsumerStatefulWidget  # controllers locais editáveis
+      arquivo: presentation/recipe_edit_screen.dart
+      widgets_proprios: presentation/widgets/edit_photo_strip.dart, edit_field_row.dart,
+                        edit_ingredient_editor.dart, edit_step_editor.dart
+      construtor: RecipeEditScreen({required String? recipeId})  # nulo = criar nova
+      estado: carrega Recipe de recipeByIdProvider (ou branco); mantém rascunho local em memória
+      layout:
+        top (PitadaScaffold.top): edhead = linha "Cancelar" (esq, PitadaChip/texto -> context.pop)
+              + "Editar receita"/"Nova receita" (centro) + "Salvar" (dir, accent -> salva e pop)
+        child (rolável):
+          - EditPhotoStrip: fotos horizontais (RecipeThumb por foto) + tile "＋ Adicionar foto"
+                            (mock: só adiciona placeholder; câmera/galeria atrás de service depois)
+          - EditFieldRow "Nome": PitadaSearchField/campo de texto (controller)
+          - EditFieldRow "Pasta": abre seletor de pasta (lista de foldersProvider, multiescolha) -> PitadaChip por pasta
+          - EditFieldRow "Porções": stepper − N + (usa PitadaIconButton, AppType.numeral)
+          - EditFieldRow "Tempo (min)": stepper − N + ou campo numérico
+          - SectionHeader "Ingredientes" -> EditIngredientEditor:
+              por linha: nome + gramas + humanQty + humanUnit (HairlineRow com campos) + remover (ícone)
+              rodapé: PitadaButton(outline) "＋ Ingrediente"
+          - SectionHeader "Modo de preparo" -> EditStepEditor:
+              por passo: número + texto (multiline) + tip opcional ("Por quê") + remover
+              rodapé: PitadaButton(outline) "＋ Passo"
+      salvar: monta Recipe imutável a partir do rascunho e chama repository (mock: log via AppLog + pop);
+              AppLog.i('recipes', 'receita salva: <id>')
+      navega: volta para RecipeDetailScreen ao salvar/cancelar (context.pop)
+
+  - CookModeScreen:
+      classe: CookModeScreen extends ConsumerStatefulWidget  # guarda índice do passo atual
+      arquivo: presentation/cook_mode_screen.dart
+      widgets_proprios: presentation/widgets/cook_step_view.dart, cook_nav_bar.dart
+      construtor: CookModeScreen({required String recipeId})
+      estado: currentIndex (0..steps.length-1); passos de recipeByIdProvider(recipeId)
+      layout:
+        chrome: tela cheia (Scaffold bg), sem tab bar
+        top: linha "Fechar"(X -> context.pop) + StepProgress(steps rótulos curtos, activeIndex currentIndex)
+        child: CookStepView do passo atual:
+          - "Passo N de M" (AppType.label, versalete)
+          - texto do passo grande e arejado (AppType.titleSm/body)
+          - WhyCallout quando o passo tem tip
+        bottom: CookNavBar:
+          - "Voltar" (PitadaButton outline; desabilitado no passo 0)
+          - "Próximo" (PitadaButton primary) que avança; no ÚLTIMO passo vira "Concluir"
+      ao_concluir: no último passo, "Concluir" chama showCookChatSheet(context, recipe: recipe)
+                   (feedback pós-cozimento); AppLog.i('recipes', 'cozimento concluído: <id>')
+
+  - FolderScreen:
+      classe: FolderScreen extends ConsumerWidget
+      arquivo: presentation/folder_screen.dart
+      construtor: FolderScreen({required String folderId})
+      estado: pasta de folderByIdProvider(folderId); receitas de recipesInFolderProvider(folderId)
+      layout:
+        top (PitadaScaffold.top): linha "Voltar"(seta -> context.pop) + nome da pasta (AppType.screenTitle)
+              + PitadaIconButton(add) "adicionar receita à pasta"
+        child (rolável):
+          - contagem "N receitas" (AppType.caption, muted)
+          - lista de RecipeRow (reutiliza a linha da lista principal) -> /recipe/:id
+          - EmptyState quando a pasta está vazia (title "Pasta vazia", icon folder_open,
+            message "Adicione receitas a esta pasta.")
+      adicionar: ícone '+' abre seletor (lista de recipesProvider fora da pasta, CheckItem por receita)
+                 -> ao confirmar, adiciona folderId às receitas (mock: repository + AppLog)
+      navega: RecipeDetailScreen (/recipe/:id)
+
+sheets:
+  - ImportSheet:
+      funcao: showImportSheet(BuildContext)   # showModalBottomSheet padrão (surf, radiusXxl, grip)
+      arquivo: presentation/import_sheet.dart
+      classe_interna: _ImportSheet extends StatefulWidget  # controla o estágio do fluxo
+      widgets_proprios: presentation/widgets/import_source_grid.dart, import_preview.dart
+      estagios (enum ImportStage: choose, loading, preview):
+        1. choose  -> "De onde vem a receita?" + ImportSourceGrid:
+              4 opções (HairlineRow ou cards): YouTube (Icons.smart_display),
+              Foto (Icons.photo_camera), PDF (Icons.picture_as_pdf), Escrever (Icons.edit_note)
+              cada opção define o RecipeSource (youtube/photo/pdf/manual) e avança para loading
+              ("Escrever" pode pular direto para preview em branco)
+        2. loading -> StepProgress(steps: ['Lendo', 'Extraindo', 'Estruturando'], activeIndex crescente)
+              simula extração por IA (mock com Future.delayed); AppLog.d('recipes', 'import iniciado: <origem>')
+        3. preview -> ImportPreview: rascunho editável do resultado
+              (nome, porções, ingredientes em gramas, passos) — reutiliza os editores do RecipeEditScreen
+              rodapé: PitadaButton "Salvar receita" -> salva (repository/mock) e fecha a sheet;
+              AppLog.i('recipes', 'receita importada salva: <id>')
+      nota: câmera/arquivo/rede atrás de service abstrato (real + mock) — hoje só mock
+
+  - CookChatSheet:
+      funcao: showCookChatSheet(BuildContext, {required Recipe recipe})   # sheet padrão (surf, grip)
+      arquivo: presentation/cook_chat_sheet.dart
+      classe_interna: _CookChatSheet extends StatefulWidget  # guarda feedback + sugestão gerada
+      widgets_proprios: presentation/widgets/cook_feedback_options.dart
+      abre: ao concluir o CookModeScreen (última etapa)
+      layout:
+        - grip + título "Como ficou?" (AppType.title) + subtítulo (AppType.body, muted)
+        - CookFeedbackOptions: 4 escolhas exclusivas (PitadaChip/HairlineRow com CheckItem):
+              "Ficou salgado", "Faltou cozimento", "Ficou seco", "Perfeito"
+        - ao escolher (≠ perfeito): mostra WhyCallout com a sugestão de ajuste
+              (label "Ajuste sugerido", ex.: salgado -> "Reduza o sal em ~20% na próxima")
+              mock: mapa fixo feedback -> sugestão; AppLog.i('recipes', 'feedback: <opção>')
+        - "Perfeito": mensagem curta de parabéns, sem sugestão
+        - rodapé: PitadaButton "Salvar ajuste na receita" (só quando há sugestão) ->
+              anexa a sugestão às Anotações da receita (repository/mock) e fecha;
+              PitadaButton(outline) "Fechar" quando não há ajuste a salvar
+
+components_reutilizados: [Masthead, PitadaScaffold, PitadaSearchField, ChapterTabs, SegTabs,
+  HairlineRow, RecipeThumb, RecipeRow, NutritionCard, SectionHeader, WhyCallout, PitadaChip,
+  PitadaButton, PitadaIconButton, CheckItem, StepProgress, EmptyState, ExpiryTag]

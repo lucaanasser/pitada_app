@@ -1,0 +1,10 @@
+# specs/components/why_callout.yaml -> lib/core/widgets/why_callout.dart
+component: WhyCallout
+prototype: ".tip (rótulo 'POR QUÊ' + texto em itálico serifa)"
+purpose: Callout de técnica dentro de um passo — explica o porquê.
+uses: [AppColors.accentSoft, AppColors.accentLine, AppColors.accent, AppType.tip, AppType.label, AppSpacing]
+api:
+  - text: String
+  - label: String = "Por quê"
+detalhes: "Borda-esquerda accent 2px, fundo accentSoft, raio 0 10 10 0; texto AppType.tip (itálico Cormorant)."
+used_by: [recipe_detail (passos), cook_mode]

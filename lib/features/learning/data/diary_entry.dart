@@ -1,0 +1,28 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// lib/features/learning/data/diary_entry.dart
+// O QUÊ:     Entrada do diário de cozinha — registro após cozinhar uma receita.
+// USA:       nada (modelo imutável puro).
+// USADO POR: learning_seed, learning_repository, DiaryScreen, DiaryEntryScreen.
+// SPEC:      specs/features/learning.yaml (data.models.DiaryEntry)
+// ─────────────────────────────────────────────────────────────────────────────
+
+/// Uma entrada de diário: o que você mudou/aprendeu ao cozinhar uma receita.
+/// `label` é o veredito curto (ex.: 'Refazer'/'Ajustar'); `body` é a reflexão.
+/// Usada por: lista do diário e a tela de detalhe da entrada.
+class DiaryEntry {
+  final String id;
+  final String recipeName;
+  final DateTime date;
+  final String label; // veredito curto (ex.: 'Refazer', 'Ajustar')
+  final String body; // reflexão (o que mudei / o que aprendi)
+  final List<String> recipeIds; // receitas ligadas à entrada
+
+  const DiaryEntry({
+    required this.id,
+    required this.recipeName,
+    required this.date,
+    this.label = '',
+    this.body = '',
+    this.recipeIds = const [],
+  });
+}

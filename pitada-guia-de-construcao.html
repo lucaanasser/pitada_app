@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pitada — Guia de construção</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#15130E; --surf:#1D1A13; --surf2:#242017; --line:#29251A; --line2:#383223;
+  --text:#F2EDE1; --text2:#C5BEAD; --muted:#8E8674; --faint:#7A7158;
+  --accent:#C2703F; --accent2:#D98C5A; --sage:#A9B26C;
+  --accent-s:rgba(194,112,63,.12); --accent-l:rgba(194,112,63,.4);
+  --disp:'Cormorant Garamond',Georgia,serif; --ui:'Inter',system-ui,sans-serif; --mono:'JetBrains Mono',monospace;
+  --maxw:920px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--ui);font-size:15.5px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--accent2);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* ---- layout ---- */
+.wrap{display:flex;max-width:1240px;margin:0 auto}
+.toc{position:sticky;top:0;align-self:flex-start;height:100vh;overflow-y:auto;width:268px;flex:0 0 268px;padding:30px 22px 60px;border-right:1px solid var(--line)}
+.toc::-webkit-scrollbar{width:6px}.toc::-webkit-scrollbar-thumb{background:var(--line2);border-radius:6px}
+.brand{display:flex;align-items:flex-end;gap:2px;margin-bottom:4px}
+.brand .pinch{display:flex;flex-direction:column;align-items:center;gap:3px;margin:0 6px 7px 2px}
+.brand .pinch i{width:5px;height:5px;border-radius:50%;background:var(--accent);display:block}
+.brand .pinch i:nth-child(1){width:4px;height:4px;opacity:.85;align-self:flex-start}
+.brand .pinch i:nth-child(3){width:6px;height:6px}
+.brand .wm{font-family:var(--disp);font-weight:600;font-size:34px;color:var(--accent);letter-spacing:-.5px;line-height:1}
+.brand-sub{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:0 0 26px 2px}
+.toc h4{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);margin:22px 0 8px;font-weight:600}
+.toc ol{list-style:none;margin:0;padding:0;counter-reset:s}
+.toc li{counter-increment:s;margin:1px 0}
+.toc li a{display:block;color:var(--text2);font-size:13.5px;padding:5px 8px;border-radius:7px;line-height:1.35}
+.toc li a::before{content:counter(s) "  ";color:var(--faint);font-variant-numeric:tabular-nums}
+.toc li a:hover{background:var(--surf);color:var(--text);text-decoration:none}
+
+main{flex:1;min-width:0;padding:46px 56px 120px;max-width:var(--maxw)}
+
+/* ---- typography ---- */
+h1{font-family:var(--disp);font-weight:600;font-size:52px;line-height:1.04;letter-spacing:-1px;margin:0 0 6px}
+.lede{font-size:18px;color:var(--text2);max-width:62ch;margin:0 0 14px}
+h2{font-family:var(--disp);font-weight:600;font-size:33px;letter-spacing:-.4px;margin:62px 0 4px;padding-top:26px;border-top:1px solid var(--line)}
+.eyebrow{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:14px}
+h3{font-family:var(--ui);font-weight:600;font-size:18px;margin:34px 0 6px;color:var(--text)}
+h4.sub{font-family:var(--ui);font-weight:600;font-size:14.5px;margin:22px 0 4px;color:var(--text2)}
+p{margin:10px 0}
+.muted{color:var(--muted)}
+strong{color:var(--text);font-weight:600}
+ul,ol.body{margin:10px 0;padding-left:22px}
+li{margin:5px 0}
+code{font-family:var(--mono);font-size:.85em;background:var(--surf2);border:1px solid var(--line2);border-radius:5px;padding:1px 6px;color:var(--accent2)}
+pre{background:#100E09;border:1px solid var(--line2);border-radius:12px;padding:16px 18px;overflow-x:auto;margin:14px 0;font-size:13px;line-height:1.55}
+pre code{background:none;border:0;padding:0;color:var(--text2);font-size:13px}
+pre .c{color:var(--faint)}        /* comentário */
+pre .k{color:var(--accent2)}      /* keyword/destaque */
+pre .s{color:var(--sage)}         /* string/ok */
+.path{font-family:var(--mono);color:var(--accent2);font-size:.92em}
+
+/* ---- components ---- */
+.callout{border:1px solid var(--line2);border-left:3px solid var(--accent);background:var(--surf);border-radius:10px;padding:14px 16px;margin:18px 0}
+.callout.warn{border-left-color:var(--accent2)}
+.callout.ok{border-left-color:var(--sage)}
+.callout .t{font-weight:600;font-size:13px;letter-spacing:.04em;margin-bottom:4px;color:var(--text)}
+.callout p{margin:4px 0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+.card{border:1px solid var(--line);background:var(--surf);border-radius:12px;padding:16px 18px}
+.card h4{margin:0 0 6px;font-size:15px;font-weight:600;font-family:var(--ui)}
+.card p{margin:4px 0;font-size:14px;color:var(--text2)}
+.shead{display:flex;align-items:center;gap:14px;margin:30px 0 6px}
+.shead .l{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:600;white-space:nowrap}
+.shead .r{flex:1;height:1px;background:var(--line2)}
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+td code{font-size:12.5px}
+.pill{display:inline-block;font-size:11px;font-weight:600;padding:3px 9px;border-radius:7px;border:1px solid var(--accent-l);color:var(--accent2);margin:0 4px 4px 0}
+.tree{font-family:var(--mono);font-size:12.5px;line-height:1.5;color:var(--text2);white-space:pre}
+.tree b{color:var(--accent2);font-weight:500}
+.tree .cm{color:var(--faint)}
+.foot{margin-top:80px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}
+hr.soft{border:0;border-top:1px solid var(--line);margin:30px 0}
+
+@media (max-width:880px){
+  .toc{display:none}
+  main{padding:32px 22px 90px}
+  h1{font-size:40px}
+  .grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ============ TOC ============ -->
+<nav class="toc">
+  <div class="brand"><span class="pinch"><i></i><i></i><i></i></span><span class="wm">pitada</span></div>
+  <div class="brand-sub">Guia de construção</div>
+  <h4>Índice</h4>
+  <ol>
+    <li><a href="#visao">Visão geral &amp; objetivo</a></li>
+    <li><a href="#stack">Stack &amp; decisões</a></li>
+    <li><a href="#features">O que o app tem</a></li>
+    <li><a href="#dados">Regras de dados</a></li>
+    <li><a href="#visual">Identidade visual</a></li>
+    <li><a href="#arquitetura">Arquitetura do código</a></li>
+    <li><a href="#deps">Dependências (pubspec)</a></li>
+    <li><a href="#supabase">Supabase: banco &amp; auth</a></li>
+    <li><a href="#functions">Edge Functions &amp; IA</a></li>
+    <li><a href="#integracoes">Integrações nativas</a></li>
+    <li><a href="#linux">Ambiente Linux &amp; preview</a></li>
+    <li><a href="#apk">Compilar o APK</a></li>
+    <li><a href="#roteiro">Roteiro de construção</a></li>
+    <li><a href="#checklist">Convenções &amp; checklist</a></li>
+  </ol>
+</nav>
+
+<!-- ============ MAIN ============ -->
+<main>
+
+<header>
+  <div class="eyebrow">Guia para o Claude Code</div>
+  <h1>Construindo o Pitada</h1>
+  <p class="lede">App pessoal de receitas, aprendizado de cozinha, planos alimentares e despensa — em Flutter, com Supabase e Gemini, compilado em <strong>.apk</strong> para um único celular Android. Este documento descreve o app inteiro, a arquitetura, a organização do Supabase e como rodar no PC (Linux) antes de compilar.</p>
+  <p class="muted">Fontes visuais de verdade que acompanham este guia: <code>pitada.html</code> (protótipo navegável — a aparência final deve bater com ele), <code>pitada-logo.svg</code> e <code>pitada-mark.svg</code> (a marca, para empacotar no app).</p>
+</header>
+
+<!-- 1 -->
+<h2 id="visao">1 · Visão geral &amp; objetivo</h2>
+<p>Pitada é um app de uso pessoal (um único usuário, o dono). Não há servidor pago: o backend é o <strong>plano grátis do Supabase</strong> e a IA roda via <strong>Edge Functions</strong> chamando o <strong>Gemini</strong>. O app é compilado localmente num <strong>APK</strong> e instalado no próprio celular.</p>
+<p>O que ele resolve, em uma frase: <em>guardar receitas de qualquer lugar (link, foto, PDF) com a IA lendo e organizando tudo em gramas, aprender a cozinhar melhor, planejar refeições com metas, e controlar compras e despensa.</em></p>
+<div class="grid">
+  <div class="card"><h4>Plataforma-alvo</h4><p>Android (APK). iOS fora de escopo. Deve <strong>pré-visualizar no PC Linux</strong> (Chrome/desktop) com hot reload antes de compilar.</p></div>
+  <div class="card"><h4>Usuário único</h4><p>Uma conta no Supabase Auth. RLS por <code>user_id</code> mesmo sendo pessoal (boa prática e simplifica o código).</p></div>
+  <div class="card"><h4>Sem custo recorrente</h4><p>Supabase free (sem cartão) + Google AI Studio (cota grátis do Gemini). Open Food Facts e SEFAZ são gratuitos.</p></div>
+  <div class="card"><h4>Idioma</h4><p>Interface e conteúdo em <strong>português do Brasil</strong>.</p></div>
+</div>
+
+<!-- 2 -->
+<h2 id="stack">2 · Stack &amp; decisões</h2>
+<table>
+  <tr><th>Camada</th><th>Escolha</th><th>Por quê</th></tr>
+  <tr><td>App</td><td><strong>Flutter</strong> (Dart)</td><td>Compila APK localmente; ótimo controle de layout para o visual editorial; roda no desktop/web para preview.</td></tr>
+  <tr><td>Estado</td><td><strong>Riverpod</strong> (<code>flutter_riverpod</code>)</td><td>Simples, testável, e permite <em>overrides</em> para injetar mocks no preview de PC.</td></tr>
+  <tr><td>Navegação</td><td><strong>go_router</strong></td><td>Shell com as 4 abas + rotas para detalhe/edição/cozinhar.</td></tr>
+  <tr><td>Backend</td><td><strong>Supabase</strong> (Postgres)</td><td>Modelo relacional encaixa bem (receitas, ingredientes, planos); free tier real sem cartão; Edge Functions.</td></tr>
+  <tr><td>IA</td><td><strong>Gemini</strong> via Edge Function</td><td>Multimodal (texto, imagem, PDF) na cota grátis; bom em JSON. A chave fica no servidor, nunca no app.</td></tr>
+  <tr><td>Código de barras</td><td><strong>Open Food Facts</strong></td><td>API pública (sem chave), boa cobertura BR. Chamada direto do app.</td></tr>
+  <tr><td>Cupom fiscal</td><td><strong>NFC-e / QR (SEFAZ)</strong></td><td>Lê a compra inteira já estruturada. O layout varia por UF — comece pela UF do usuário.</td></tr>
+  <tr><td>Tipografia</td><td><strong>Cormorant Garamond</strong> + <strong>Inter</strong></td><td>Serifa elegante de display + sans para UI. Empacotadas como assets (sem depender de rede).</td></tr>
+</table>
+<p><strong>Modelos do Gemini:</strong> use <code>gemini-2.0-flash-lite</code> para extração de texto (barato) e <code>gemini-2.0-flash</code> para visão (imagem/PDF). <span class="muted">Os nomes de modelo mudam — confirme o id atual no Google AI Studio e deixe-o como variável de ambiente da Edge Function.</span></p>
+<p><strong>Plugins nativos:</strong> <code>receive_sharing_intent</code> (compartilhar pro app), <code>mobile_scanner</code> (código de barras + QR), <code>image_picker</code> (foto), <code>file_picker</code> (PDF), <code>url_launcher</code> (abrir o link de origem), <code>flutter_svg</code> (renderizar a marca).</p>
+
+<!-- 3 -->
+<h2 id="features">3 · O que o app tem</h2>
+<p>Quatro abas: <strong>Receitas</strong>, <strong>Aprendizado</strong>, <strong>Planos</strong>, <strong>Compras</strong>. Cada tela do protótipo (<code>pitada.html</code>) é o alvo visual e funcional.</p>
+
+<div class="shead"><span class="l">Receitas</span><span class="r"></span></div>
+<ul>
+  <li><strong>Importar receita</strong> compartilhando do YouTube, Instagram, sites, ou por <strong>foto</strong> e <strong>PDF</strong>. A IA lê e extrai ingredientes + passos, converte tudo para <strong>gramas</strong> (mantendo a unidade humana) e estima kcal/macros. Mostra um <em>preview</em> editável antes de salvar.</li>
+  <li><strong>Pastas (capítulos)</strong>: abas em serifa que filtram a lista (Todas · Marinadas · Jantares rápidos · Fit · Doces). Uma receita pode estar em várias pastas.</li>
+  <li><strong>Detalhe da receita</strong>: galeria de fotos, fonte clicável (quando salva por link → abre o vídeo/site original), nutrição (kcal grande + macros), ingredientes com <strong>grama em destaque</strong> e unidade humana menor, passos numerados com <em>callouts “Por quê”</em> de técnica, “Técnicas desta receita” (linka ao Aprendizado), e “Anotações &amp; ajustes”.</li>
+  <li><strong>Modo cozinhar</strong>: passos em tela cheia; ao concluir abre um <strong>chat de resultado</strong> (“ficou salgado”, “faltou cozimento”…) e a IA sugere um ajuste que pode ser <strong>salvo na receita</strong>.</li>
+  <li><strong>Editar</strong> tudo (fotos, nome, pasta, porções/tempo, ingredientes, passos).</li>
+  <li><strong>Sub-receitas</strong>: prato composto (ex.: hambúrguer = pão + carne + molho) cujos macros somam. Distinto de <em>pastas</em> (alternativas independentes, ex.: 3 marinadas).</li>
+</ul>
+
+<div class="shead"><span class="l">Aprendizado</span><span class="r"></span></div>
+<ul>
+  <li>Hub com 5 trilhas em abas de capítulo: <strong>Ingredientes</strong>, <strong>Sabores</strong>, <strong>Técnicas</strong>, <strong>Frameworks</strong>, <strong>Ervas &amp; especiarias</strong>.</li>
+  <li>Cada item abre um guia diagramado com seções de tipos variados: <em>parágrafo</em>, <em>harmonizações</em> (“combina com”, em tags), <em>pontos-chave</em> (lista) e <em>dica</em> (destaque). Ex.: Ingredientes (alho, cebola, tomate, limão, ovo), Sabores (cinco gostos, equilibrar um prato, camadas, harmonizações), Ervas (manjericão, alecrim, cominho, páprica, pimenta).</li>
+  <li><strong>Criar e editar</strong> conteúdo, como nas receitas (botão “+” no topo; lápis em cada guia).</li>
+</ul>
+
+<div class="shead"><span class="l">Planos</span><span class="r"></span></div>
+<ul>
+  <li>Plano com meta diária (ex.: <em>Cutting · 1.900 kcal/dia</em>) e resumo do dia (total, “dentro/acima da meta”, barra de combustível, macros).</li>
+  <li><strong>Número de refeições variável</strong>: adicionar/editar/remover refeições (nome + meta de kcal).</li>
+  <li>Cada refeição tem <strong>várias opções/combos</strong> (Opção 1, Opção 2…), cada uma com total e selo <em>cabe/acima</em>. Toca para escolher a opção do dia — o total recalcula.</li>
+  <li>Itens de uma opção que são <strong>receitas salvas linkam à receita</strong> (toca e abre o detalhe).</li>
+</ul>
+
+<div class="shead"><span class="l">Compras</span><span class="r"></span></div>
+<ul>
+  <li><strong>Lista</strong>: agrupada por categoria (Hortifrúti, Açougue, Laticínios &amp; ovos, Mercearia…), <strong>somada por unidade humana</strong> (2 receitas com 2 ovos = “4 un”, não 160 g; gramas como referência), e <strong>descontando o que já há na despensa</strong>. Checkbox circular; “Comprei tudo” move pra despensa.</li>
+  <li><strong>Despensa</strong>: também agrupada por categoria; cada item com validade e <strong>tag de aviso</strong> quando perto de vencer (contorno discreto, sem ícone).</li>
+  <li><strong>Adicionar à despensa</strong>: código de barras (Open Food Facts), QR do cupom fiscal (NFC-e/SEFAZ — lê a compra inteira), foto do cupom (visão do Gemini) ou manual. <strong>A validade é estimada por categoria</strong> quando não vem na nota, e o app avisa antes de vencer.</li>
+</ul>
+
+<!-- 4 -->
+<h2 id="dados">4 · Regras de dados (não negociáveis)</h2>
+<div class="callout">
+  <div class="t">Grama é a base; unidade humana é referência</div>
+  <p>No <strong>detalhe da receita</strong>, a grama aparece em destaque e a unidade humana (“2 ovos”) menor. Toda <strong>nutrição/macro é calculada em gramas</strong>.</p>
+</div>
+<div class="callout">
+  <div class="t">A lista de compras soma por UNIDADE humana</div>
+  <p>Duas receitas com 2 ovos cada viram <strong>“4 ovos”</strong>, não 160 g. A agregação agrupa por <code>(nome, unidade)</code> e soma <code>human_qty</code>; a grama é só referência. Depois, subtrai o que já existe na despensa (pela unidade).</p>
+</div>
+<div class="callout">
+  <div class="t">Pastas × Sub-receitas</div>
+  <p><strong>Pasta</strong> = agrupador de receitas independentes (ex.: 3 marinadas, cada uma é uma receita). <strong>Sub-receita</strong> = componentes que viram um prato só (macros somam). O app suporta os dois.</p>
+</div>
+
+<!-- 5 -->
+<h2 id="visual">5 · Identidade visual</h2>
+<p>O visual é “livro de cozinha bem diagramado”: fundo quente quase preto, um único terracota de destaque, serifa Cormorant para títulos/números e Inter para UI. <strong>Proibido:</strong> degradês, brilhos/sombras coloridas, fontes cursivas. Filetes finos no lugar de cards pesados, rótulos em versalete com filete, bastante respiro.</p>
+
+<h3>Tokens de cor</h3>
+<pre><code><span class="c">// core/theme/colors.dart — espelha o protótipo</span>
+bg     #15130E   surf    #1D1A13   surf2  #242017
+line   #29251A   line2   #383223
+text   #F2EDE1   text2   #C5BEAD   muted  #8E8674   faint  #7A7158
+accent #C2703F   accent2 #D98C5A   sage   #A9B26C   <span class="c">// "dentro da meta" / sucesso</span>
+accentSoft  rgba(194,112,63,.12)   accentLine rgba(194,112,63,.40)
+<span class="c">// cores de miniatura (hero das receitas):</span>
+clay #8A5A43  moss #5E6B45  ochre #9A7B3C  plum #6E4A5A  rust #9E5236  teal #3F6157  terra #A35C40</code></pre>
+
+<h3>Tipografia</h3>
+<p><strong>Cormorant Garamond</strong> (500/600/700) para display, títulos, números (kcal, gramas, “Opção N”). <strong>Inter</strong> (400/500/600) para corpo, botões, rótulos. Empacote os <code>.ttf</code> em <span class="path">assets/fonts/</span> e declare no <code>pubspec.yaml</code> (não dependa de rede). A marca usa essas mesmas fontes.</p>
+
+<h3>Componentes compartilhados (mapeie do protótipo)</h3>
+<table>
+  <tr><th>Widget</th><th>Equivale no protótipo</th><th>O que é</th></tr>
+  <tr><td><code>Masthead</code></td><td><code>.masthead</code> + logo</td><td>Marca centralizada no topo das abas (use <code>pitada-mark.svg</code> via <code>flutter_svg</code>).</td></tr>
+  <tr><td><code>SectionHeader</code></td><td><code>.shead</code></td><td>Rótulo em versalete + filete fino. Onipresente.</td></tr>
+  <tr><td><code>ChapterTabs</code></td><td><code>.ftabs/.ftab</code></td><td>Abas em serifa (capítulos) com sublinhado terracota no ativo.</td></tr>
+  <tr><td><code>HairlineRow</code></td><td><code>.litem/.ditem/.lrow</code></td><td>Linha de lista separada por filete (sem card).</td></tr>
+  <tr><td><code>ExpiryTag</code></td><td><code>.tag.urgent/.soon</code></td><td>Tag de validade em contorno, sem ícone.</td></tr>
+  <tr><td><code>OptionCard</code></td><td><code>.opt/.ohead/.odish</code></td><td>Opção de refeição: cabeçalho clicável (escolher) + pratos (linkáveis).</td></tr>
+  <tr><td><code>WhyCallout</code></td><td><code>.tip</code></td><td>Callout “Por quê” de técnica dentro de um passo.</td></tr>
+</table>
+
+<!-- 6 -->
+<h2 id="arquitetura">6 · Arquitetura do código</h2>
+<p>Organização <strong>feature-first</strong> com 3 camadas por feature: <code>data</code> (modelos + repositório que fala com o Supabase), <code>application</code> (controllers/providers Riverpod) e <code>presentation</code> (telas + widgets). O <code>core</code> guarda tema, rotas, cliente Supabase e widgets compartilhados.</p>
+
+<pre class="tree">pitada/
+├── <b>android/</b>                  <span class="cm"># manifest (share intent) + signing do APK</span>
+├── <b>linux/</b>  <b>web/</b>             <span class="cm"># habilitam o preview no PC</span>
+├── <b>assets/</b>
+│   ├── fonts/                <span class="cm"># Cormorant Garamond + Inter (.ttf)</span>
+│   └── brand/               <span class="cm"># pitada-mark.svg, pitada-logo.svg</span>
+├── <b>lib/</b>
+│   ├── main.dart            <span class="cm"># Supabase.initialize + ProviderScope + runApp</span>
+│   ├── app.dart             <span class="cm"># MaterialApp.router, tema, go_router</span>
+│   ├── core/
+│   │   ├── config/env.dart          <span class="cm"># SUPABASE_URL / ANON_KEY (--dart-define)</span>
+│   │   ├── supabase/supabase.dart    <span class="cm"># cliente + helpers</span>
+│   │   ├── theme/  colors.dart  typography.dart  spacing.dart  app_theme.dart
+│   │   ├── router/router.dart        <span class="cm"># shell das 4 abas + rotas</span>
+│   │   ├── widgets/  masthead.dart  section_header.dart  chapter_tabs.dart
+│   │   │             hairline_row.dart  expiry_tag.dart  why_callout.dart
+│   │   └── utils/  units.dart  format.dart   <span class="cm"># grama↔unidade, soma</span>
+│   └── features/
+│       ├── recipes/
+│       │   ├── data/  recipe.dart  ingredient.dart  recipe_step.dart  recipes_repository.dart
+│       │   ├── application/  recipes_providers.dart  import_controller.dart
+│       │   └── presentation/  recipes_screen.dart  recipe_detail_screen.dart
+│       │                      recipe_edit_screen.dart  cook_mode_screen.dart
+│       │                      import_sheet.dart  widgets/
+│       ├── learning/        <span class="cm"># Aprendizado</span>
+│       │   ├── data/  lesson.dart  lesson_section.dart  lessons_repository.dart
+│       │   ├── application/  lessons_providers.dart
+│       │   └── presentation/  learning_screen.dart  lesson_detail_screen.dart  lesson_edit_screen.dart
+│       ├── plans/           <span class="cm"># Planos</span>
+│       │   ├── data/  plan.dart  meal.dart  meal_option.dart  plans_repository.dart
+│       │   ├── application/  plans_providers.dart
+│       │   └── presentation/  plans_screen.dart  meal_sheet.dart  add_option_sheet.dart
+│       └── shopping/        <span class="cm"># Compras: lista + despensa</span>
+│           ├── data/  shopping_item.dart  pantry_item.dart  shopping_repository.dart
+│           ├── application/  shopping_providers.dart  scanner_service.dart
+│           └── presentation/  shopping_screen.dart  pantry_view.dart  add_pantry_sheet.dart
+├── <b>supabase/</b>
+│   ├── config.toml
+│   ├── migrations/  20260101_init.sql
+│   ├── functions/  _shared/gemini.ts  import-recipe/  parse-receipt/  adjust-recipe/
+│   └── seed.sql             <span class="cm"># dados de exemplo (as receitas do protótipo)</span>
+├── pubspec.yaml
+└── README.md</pre>
+
+<h3>Fluxo das camadas</h3>
+<p><code>presentation</code> observa providers do <code>application</code>; os providers chamam <code>repository</code> (em <code>data</code>); o repositório fala com o Supabase (CRUD) ou com uma Edge Function. Os modelos usam <code>freezed</code> + <code>json_serializable</code>. Toda dependência de hardware (scanner, share, câmera) fica atrás de um <strong>service abstrato</strong> com implementação real (Android) e <strong>mock</strong> (desktop/web) — é isso que destrava o preview no PC (ver §11).</p>
+
+<!-- 7 -->
+<h2 id="deps">7 · Dependências (pubspec)</h2>
+<pre><code><span class="c"># pubspec.yaml — versões ilustrativas; rode `flutter pub upgrade` p/ as atuais</span>
+dependencies:
+  flutter_riverpod: ^2.5.0
+  go_router: ^14.2.0
+  supabase_flutter: ^2.5.0
+  receive_sharing_intent: ^1.8.0
+  mobile_scanner: ^5.1.0
+  image_picker: ^1.1.0
+  file_picker: ^8.0.0
+  url_launcher: ^6.3.0
+  flutter_svg: ^2.0.10
+  cached_network_image: ^3.3.1
+  freezed_annotation: ^2.4.1
+  json_annotation: ^4.9.0
+  intl: ^0.19.0
+
+dev_dependencies:
+  build_runner: ^2.4.0
+  freezed: ^2.5.0
+  json_serializable: ^6.8.0
+
+flutter:
+  assets:
+    - assets/brand/
+  fonts:
+    - family: Cormorant Garamond
+      fonts:
+        - asset: assets/fonts/CormorantGaramond-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/CormorantGaramond-SemiBold.ttf
+          weight: 600
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/Inter-Regular.ttf
+        - asset: assets/fonts/Inter-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Inter-SemiBold.ttf
+          weight: 600</code></pre>
+
+<!-- 8 -->
+<h2 id="supabase">8 · Supabase: banco &amp; auth</h2>
+<p>Crie um projeto grátis no Supabase. Use a <strong>Supabase CLI</strong> para versionar schema e funções (<code>supabase init</code>, <code>supabase link</code>, <code>supabase db push</code>, <code>supabase functions deploy</code>). O schema abaixo cobre todas as features.</p>
+
+<h3>Schema (migração inicial)</h3>
+<pre><code><span class="c">-- supabase/migrations/20260101_init.sql</span>
+create extension if not exists pgcrypto;
+
+<span class="c">-- ===== RECEITAS =====</span>
+create table recipes (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  title text not null,
+  source_type text not null default 'manual'
+    check (source_type in ('youtube','instagram','site','pdf','photo','manual')),
+  source_url text,                       <span class="c">-- preenchido quando salva por link</span>
+  servings int default 2,
+  time_minutes int,
+  kcal int,                              <span class="c">-- por porção</span>
+  protein_g numeric, carb_g numeric, fat_g numeric,
+  difficulty text,
+  hero_color text,                       <span class="c">-- cor da miniatura editorial</span>
+  notes text,                            <span class="c">-- "Anotações &amp; ajustes" (texto livre)</span>
+  created_at timestamptz default now(),
+  updated_at timestamptz default now()
+);
+create table recipe_photos (
+  id uuid primary key default gen_random_uuid(),
+  recipe_id uuid not null references recipes(id) on delete cascade,
+  storage_path text not null, position int default 0
+);
+<span class="c">-- GRAMA é a base; unidade humana é referência</span>
+create table recipe_ingredients (
+  id uuid primary key default gen_random_uuid(),
+  recipe_id uuid not null references recipes(id) on delete cascade,
+  name text not null,
+  grams numeric,                         <span class="c">-- principal</span>
+  human_qty numeric, human_unit text,    <span class="c">-- ex.: 2, 'unidade'</span>
+  position int default 0
+);
+create table recipe_steps (
+  id uuid primary key default gen_random_uuid(),
+  recipe_id uuid not null references recipes(id) on delete cascade,
+  position int not null, text text not null,
+  tip text                               <span class="c">-- callout "Por quê" (técnica)</span>
+);
+<span class="c">-- PASTAS (capítulos) — receita pode estar em várias</span>
+create table folders (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  name text not null, position int default 0
+);
+create table recipe_folders (
+  recipe_id uuid references recipes(id) on delete cascade,
+  folder_id uuid references folders(id) on delete cascade,
+  primary key (recipe_id, folder_id)
+);
+<span class="c">-- SUB-RECEITAS (prato composto) — macros somam</span>
+create table sub_recipes (
+  parent_id uuid references recipes(id) on delete cascade,
+  child_id  uuid references recipes(id) on delete cascade,
+  position int default 0, primary key (parent_id, child_id)
+);
+
+<span class="c">-- ===== APRENDIZADO =====</span>
+create table lessons (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  category text not null
+    check (category in ('technique','framework','ingredient','flavor','herb')),
+  title text not null, summary text, lead text,
+  created_at timestamptz default now(), updated_at timestamptz default now()
+);
+create table lesson_sections (
+  id uuid primary key default gen_random_uuid(),
+  lesson_id uuid not null references lessons(id) on delete cascade,
+  position int not null, label text,
+  kind text not null default 'text'
+    check (kind in ('text','pairs','keys','tip')),
+  body text                              <span class="c">-- em 'pairs', itens separados por ';'</span>
+);
+create table recipe_techniques (        <span class="c">-- "Técnicas desta receita"</span>
+  recipe_id uuid references recipes(id) on delete cascade,
+  lesson_id uuid references lessons(id) on delete cascade,
+  primary key (recipe_id, lesson_id)
+);
+create table recipe_adjustments (       <span class="c">-- salvos pelo chat pós-preparo</span>
+  id uuid primary key default gen_random_uuid(),
+  recipe_id uuid not null references recipes(id) on delete cascade,
+  text text not null, created_at timestamptz default now()
+);
+
+<span class="c">-- ===== DESPENSA =====</span>
+create table pantry_items (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  name text not null, category text,
+  quantity numeric, unit text, grams numeric,   <span class="c">-- estoque por unidade; grama = ref.</span>
+  expires_on date,                              <span class="c">-- estimada por categoria se ausente</span>
+  source text default 'manual'
+    check (source in ('barcode','nfce','photo','manual')),
+  barcode text, added_on date default current_date
+);
+
+<span class="c">-- ===== LISTA (somada por UNIDADE humana) =====</span>
+create table shopping_items (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  name text not null, category text,
+  human_qty numeric, human_unit text, grams numeric,
+  checked boolean default false
+);
+
+<span class="c">-- ===== PLANOS =====</span>
+create table plans (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  name text not null, daily_kcal_goal int, created_at timestamptz default now()
+);
+create table plan_meals (
+  id uuid primary key default gen_random_uuid(),
+  plan_id uuid not null references plans(id) on delete cascade,
+  name text not null, kcal_goal int, position int default 0
+);
+create table meal_options (
+  id uuid primary key default gen_random_uuid(),
+  meal_id uuid not null references plan_meals(id) on delete cascade,
+  position int default 0, chosen boolean default false
+);
+create table meal_option_items (
+  id uuid primary key default gen_random_uuid(),
+  option_id uuid not null references meal_options(id) on delete cascade,
+  name text not null, kcal int,
+  recipe_id uuid references recipes(id) on delete set null,  <span class="c">-- linka à receita</span>
+  position int default 0
+);</code></pre>
+
+<h3>RLS (Row Level Security)</h3>
+<p>Ative RLS em <strong>todas</strong> as tabelas. Nas tabelas-raiz (que têm <code>user_id</code>) use a política do dono. Nas tabelas-filhas, valide pela relação.</p>
+<pre><code><span class="c">-- raiz: recipes, folders, lessons, pantry_items, shopping_items, plans</span>
+alter table recipes enable row level security;
+create policy own_recipes on recipes for all
+  using (user_id = auth.uid()) with check (user_id = auth.uid());
+<span class="c">-- ...repita o bloco acima trocando o nome da tabela.</span>
+
+<span class="c">-- filhas: valide pelo pai. Ex. recipe_ingredients (e steps, photos, etc.):</span>
+alter table recipe_ingredients enable row level security;
+create policy own_recipe_ingredients on recipe_ingredients for all
+  using (exists (select 1 from recipes r where r.id = recipe_id and r.user_id = auth.uid()))
+  with check (exists (select 1 from recipes r where r.id = recipe_id and r.user_id = auth.uid()));
+<span class="c">-- aplique o mesmo padrão a: recipe_photos, recipe_steps, recipe_folders,</span>
+<span class="c">-- sub_recipes, lesson_sections, recipe_techniques, recipe_adjustments,</span>
+<span class="c">-- plan_meals→plans, meal_options→plan_meals→plans, meal_option_items→...</span></code></pre>
+
+<h3>Storage (fotos das receitas)</h3>
+<pre><code>insert into storage.buckets (id, name, public) values ('recipe-photos','recipe-photos', false);
+create policy own_photos_read  on storage.objects for select
+  using (bucket_id = 'recipe-photos' and owner = auth.uid());
+create policy own_photos_write on storage.objects for insert
+  with check (bucket_id = 'recipe-photos' and owner = auth.uid());</code></pre>
+
+<h3>Auth (usuário único)</h3>
+<p>Use <strong>e-mail/senha</strong> e crie uma única conta (a sua). O app faz <code>signInWithPassword</code> no início; todo dado é protegido por RLS via <code>user_id = auth.uid()</code>. <span class="muted">Alternativa: login anônimo (<code>signInAnonymously</code>) se preferir não digitar senha — mas e-mail/senha dá uma conta estável caso reinstale o app.</span></p>
+
+<!-- 9 -->
+<h2 id="functions">9 · Edge Functions &amp; IA (Gemini)</h2>
+<div class="callout warn">
+  <div class="t">A chave do Gemini nunca vai no app</div>
+  <p>Ela fica como <em>secret</em> do Supabase (<code>supabase secrets set GEMINI_API_KEY=...</code>) e só é lida dentro da Edge Function. O app chama a função autenticado com o JWT do usuário; a <code>anon key</code> (que vai no app) é segura porque o RLS protege os dados.</p>
+</div>
+
+<h3>Helper do Gemini</h3>
+<pre><code><span class="c">// supabase/functions/_shared/gemini.ts</span>
+const KEY = Deno.env.get("GEMINI_API_KEY")!;
+const BASE = "https://generativelanguage.googleapis.com/v1beta/models";
+
+export async function geminiJSON(o: {
+  model: string; prompt: string; parts?: unknown[]; schema?: unknown;
+}) {
+  const body = {
+    contents: [{ role: "user", parts: [{ text: o.prompt }, ...(o.parts ?? [])] }],
+    generationConfig: {
+      responseMimeType: "application/json",
+      temperature: 0.2,
+      ...(o.schema ? { responseSchema: o.schema } : {}),
+    },
+  };
+  const r = await fetch(`${BASE}/${o.model}:generateContent?key=${KEY}`, {
+    method: "POST", headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  if (!r.ok) throw new Error(`Gemini ${r.status}: ${await r.text()}`);
+  const data = await r.json();
+  return JSON.parse(data.candidates?.[0]?.content?.parts?.[0]?.text ?? "{}");
+}</code></pre>
+
+<h3>import-recipe — ler receita de link / foto / PDF</h3>
+<pre><code><span class="c">// supabase/functions/import-recipe/index.ts</span>
+import { serve } from "https://deno.land/std/http/server.ts";
+import { geminiJSON } from "../_shared/gemini.ts";
+
+const SCHEMA = { type:"object", required:["title","ingredients","steps"], properties:{
+  title:{type:"string"}, servings:{type:"integer"}, time_minutes:{type:"integer"},
+  kcal:{type:"integer"}, protein_g:{type:"number"}, carb_g:{type:"number"}, fat_g:{type:"number"},
+  ingredients:{type:"array", items:{type:"object", required:["name"], properties:{
+    name:{type:"string"}, grams:{type:"number"}, human_qty:{type:"number"}, human_unit:{type:"string"} }}},
+  steps:{type:"array", items:{type:"object", required:["text"], properties:{
+    text:{type:"string"}, tip:{type:"string"} }}},
+}};
+
+const PROMPT = `Você extrai receitas. A partir do conteúdo (texto da página, legenda, ou imagem/PDF),
+devolva a receita em JSON conforme o schema. Regras:
+- Converta TODA medida para gramas (grams) e mantenha quantidade/unidade humana (human_qty, human_unit).
+  Ex.: "2 ovos" -> grams ~100, human_qty 2, human_unit "unidade".
+- Estime kcal e macros por porção.
+- Em cada passo, se houver técnica importante, escreva um "tip" curto com o porquê.
+- Responda só com o JSON.`;
+
+serve(async (req) => {
+  try {
+    const { sourceType, url, fileBase64, mimeType, text } = await req.json();
+    const parts: unknown[] = [];
+    let ctx = text ?? "";
+
+    if (url) {
+      if (sourceType === "youtube") {
+        const o = await fetch(
+          `https://www.youtube.com/oembed?url=${encodeURIComponent(url)}&amp;format=json`
+        ).then(r =&gt; r.json()).catch(() =&gt; null);
+        ctx += `\nTítulo do vídeo: ${o?.title ?? ""}`;
+      }
+      <span class="c">// busca server-side (sem CORS). Sites de receita costumam ter JSON-LD</span>
+      <span class="c">// (schema.org/Recipe): extraia-o primeiro; senão, mande o texto limpo.</span>
+      const html = await fetch(url).then(r =&gt; r.text()).catch(() =&gt; "");
+      ctx += "\n" + html.replace(/&lt;[^&gt;]+&gt;/g, " ").slice(0, 20000);
+    }
+    if (fileBase64 &amp;&amp; mimeType) parts.push({ inlineData: { mimeType, data: fileBase64 } });
+
+    const model = fileBase64 ? "gemini-2.0-flash" : "gemini-2.0-flash-lite";
+    const recipe = await geminiJSON({ model, prompt: `${PROMPT}\n\nConteúdo:\n${ctx}`, parts, schema: SCHEMA });
+    return Response.json(recipe);
+  } catch (e) {
+    return Response.json({ error: String(e) }, { status: 400 });
+  }
+});</code></pre>
+<div class="callout">
+  <div class="t">Dica de entrada</div>
+  <p>O <strong>compartilhamento</strong> (share intent) já entrega o link e, no Instagram, costuma entregar a <em>legenda</em> — mande esse texto no campo <code>text</code>. É a melhor entrada (sites com login bloqueiam scraping). Para sites comuns, prefira o <strong>JSON-LD</strong> <code>schema.org/Recipe</code> antes do texto bruto.</p>
+</div>
+
+<h3>parse-receipt — cupom fiscal (NFC-e) / foto</h3>
+<pre><code><span class="c">// supabase/functions/parse-receipt/index.ts — esqueleto</span>
+serve(async (req) => {
+  const { qrUrl, fileBase64, mimeType, uf } = await req.json();
+  const parts: unknown[] = [];
+  let ctx = "";
+  if (qrUrl) {                          <span class="c">// app lê o QR (mobile_scanner) e manda a URL da SEFAZ</span>
+    const html = await fetch(qrUrl).then(r =&gt; r.text()).catch(() =&gt; "");
+    ctx = html.replace(/&lt;[^&gt;]+&gt;/g, " ").slice(0, 30000);
+  }
+  if (fileBase64) parts.push({ inlineData: { mimeType, data: fileBase64 } });
+
+  return Response.json(await geminiJSON({
+    model: fileBase64 ? "gemini-2.0-flash" : "gemini-2.0-flash-lite",
+    parts,
+    schema: { type:"object", required:["items"], properties:{ items:{ type:"array",
+      items:{ type:"object", required:["name"], properties:{
+        name:{type:"string"}, quantity:{type:"number"}, unit:{type:"string"},
+        category:{type:"string"}, grams:{type:"number"}, estimated_expires_on:{type:"string"} }}}}},
+    prompt: `Extraia os itens da compra do cupom fiscal (UF: ${uf ?? "?"}).
+Categorize em Hortifrúti, Açougue, Laticínios &amp; ovos, Mercearia, Congelados, Bebidas, Limpeza, Outros.
+Estime a validade por categoria a partir de hoje (hortifrúti ~5 dias, laticínios ~10, mercearia ~meses)
+no campo estimated_expires_on (YYYY-MM-DD). Responda só com JSON {items:[...]}.`,
+  }));
+});</code></pre>
+<p><strong>adjust-recipe</strong> segue o mesmo molde: recebe um resumo da receita + o feedback (“ficou salgado”) e devolve <code>{ suggestion }</code> com um ajuste curto, que o app salva em <code>recipe_adjustments</code>.</p>
+
+<h3>Chamando do Flutter</h3>
+<pre><code><span class="c">// recipes_repository.dart</span>
+final res = await supabase.functions.invoke('import-recipe', body: {
+  'sourceType': 'youtube', 'url': sharedUrl,   <span class="c">// ou fileBase64 + mimeType p/ foto/PDF</span>
+});
+final recipe = res.data as Map;                <span class="c">// vira o preview editável antes de salvar</span></code></pre>
+
+<!-- 10 -->
+<h2 id="integracoes">10 · Integrações nativas</h2>
+
+<h3>Compartilhar pro app (share intent)</h3>
+<p>Registre os filtros no manifesto para o Pitada aparecer no menu “Compartilhar” do YouTube/Instagram/galeria/arquivos.</p>
+<pre><code><span class="c">&lt;!-- android/app/src/main/AndroidManifest.xml — dentro da &lt;activity&gt; principal --&gt;</span>
+&lt;intent-filter&gt;
+  &lt;action android:name="android.intent.action.SEND" /&gt;
+  &lt;category android:name="android.intent.category.DEFAULT" /&gt;
+  &lt;data android:mimeType="text/*" /&gt;
+&lt;/intent-filter&gt;
+&lt;intent-filter&gt;
+  &lt;action android:name="android.intent.action.SEND" /&gt;
+  &lt;category android:name="android.intent.category.DEFAULT" /&gt;
+  &lt;data android:mimeType="image/*" /&gt;
+&lt;/intent-filter&gt;
+&lt;intent-filter&gt;
+  &lt;action android:name="android.intent.action.SEND" /&gt;
+  &lt;category android:name="android.intent.category.DEFAULT" /&gt;
+  &lt;data android:mimeType="application/pdf" /&gt;
+&lt;/intent-filter&gt;</code></pre>
+<pre><code><span class="c">// escuta os compartilhamentos (receive_sharing_intent)</span>
+ReceiveSharingIntent.instance.getMediaStream().listen(handleShared);   <span class="c">// app aberto</span>
+ReceiveSharingIntent.instance.getInitialMedia().then(handleShared);    <span class="c">// app fechado</span>
+<span class="c">// handleShared decide: é link? foto? PDF? -&gt; abre o import_sheet e chama import-recipe</span></code></pre>
+
+<h3>Código de barras (Open Food Facts) — direto do app</h3>
+<pre><code><span class="c">// shopping_repository.dart — sem chave, CORS ok</span>
+final r = await http.get(Uri.parse(
+  'https://world.openfoodfacts.org/api/v2/product/$barcode.json'));
+final p = jsonDecode(r.body)['product'];
+<span class="c">// p['product_name'], p['brands'], p['categories'] -&gt; vira item de despensa,</span>
+<span class="c">// com validade estimada pela categoria. mobile_scanner faz a leitura do código.</span></code></pre>
+<p><strong>NFC-e:</strong> o <code>mobile_scanner</code> também lê o <em>QR do cupom</em>; o app manda a URL pra <code>parse-receipt</code> (a função busca a página da SEFAZ server-side, evitando CORS, e normaliza os itens).</p>
+
+<!-- 11 -->
+<h2 id="linux">11 · Ambiente Linux &amp; preview no PC</h2>
+
+<h3>Instalação</h3>
+<pre><code><span class="c"># Flutter SDK</span>
+git clone https://github.com/flutter/flutter.git -b stable ~/flutter
+echo 'export PATH="$HOME/flutter/bin:$PATH"' &gt;&gt; ~/.bashrc &amp;&amp; source ~/.bashrc
+flutter doctor
+
+<span class="c"># habilita desktop + web (o preview no PC)</span>
+flutter config --enable-linux-desktop --enable-web
+
+<span class="c"># libs do Linux desktop (Ubuntu/Debian)</span>
+sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev
+
+<span class="c"># Android (p/ emulador + APK): instale Android Studio OU command-line tools + platform-tools,</span>
+<span class="c"># depois aceite as licenças:</span>
+flutter doctor --android-licenses</code></pre>
+
+<h3>Rodar e ver no PC (com hot reload)</h3>
+<pre><code><span class="c"># mais rápido: UI no navegador</span>
+flutter run -d chrome \
+  --dart-define=SUPABASE_URL=https://xxxx.supabase.co \
+  --dart-define=SUPABASE_ANON_KEY=eyJ...
+
+<span class="c"># janela nativa no Linux</span>
+flutter run -d linux --dart-define=...
+
+<span class="c"># mais fiel (plugins nativos funcionam): emulador Android</span>
+flutter emulators                 <span class="c"># lista</span>
+flutter emulators --launch &lt;id&gt;
+flutter run --dart-define=...</code></pre>
+
+<div class="callout ok">
+  <div class="t">Como o preview no PC funciona apesar dos plugins nativos</div>
+  <p><code>mobile_scanner</code>, <code>receive_sharing_intent</code> e câmera só existem no Android. Para a UI renderizar no Chrome/desktop, coloque cada um atrás de um <strong>service abstrato</strong> e injete um <strong>mock</strong> no PC via <em>override</em> do Riverpod. Assim você itera o visual com hot reload e só testa o hardware no emulador/celular.</p>
+</div>
+<pre><code><span class="c">// scanner_service.dart</span>
+abstract class ScannerService { Future&lt;String?&gt; scanBarcode(); }
+
+class RealScannerService implements ScannerService {        <span class="c">// usa mobile_scanner (Android)</span>
+  Future&lt;String?&gt; scanBarcode() { /* abre a câmera */ }
+}
+class MockScannerService implements ScannerService {        <span class="c">// PC: devolve um exemplo</span>
+  Future&lt;String?&gt; scanBarcode() async =&gt; '7891000100103';
+}
+
+final scannerProvider = Provider&lt;ScannerService&gt;((ref) =&gt; RealScannerService());
+
+<span class="c">// main.dart — no preview de PC, troque por mock e injete dados de exemplo</span>
+final isDesktopPreview = kIsWeb || !Platform.isAndroid;
+runApp(ProviderScope(
+  overrides: isDesktopPreview
+    ? [ scannerProvider.overrideWithValue(MockScannerService()) ]
+    : [],
+  child: const PitadaApp(),
+));</code></pre>
+<p>Guarde também a inicialização do share intent: <code>if (!kIsWeb &amp;&amp; Platform.isAndroid) { /* listeners */ }</code>. Com isso, todas as telas abrem no PC com dados do <code>seed.sql</code>, e o terracota/Cormorant aparecem exatamente como no protótipo.</p>
+
+<!-- 12 -->
+<h2 id="apk">12 · Compilar o APK &amp; instalar no celular</h2>
+<h3>Assinatura (uma vez)</h3>
+<pre><code>keytool -genkey -v -keystore ~/pitada-key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias pitada</code></pre>
+<pre><code><span class="c"># android/key.properties (não versione)</span>
+storePassword=SUA_SENHA
+keyPassword=SUA_SENHA
+keyAlias=pitada
+storeFile=/home/voce/pitada-key.jks</code></pre>
+<pre><code><span class="c">// android/app/build.gradle — leia o key.properties e use no release</span>
+def kp = new Properties()
+file("../key.properties").withInputStream { kp.load(it) }
+android {
+  signingConfigs { release {
+    keyAlias kp['keyAlias']; keyPassword kp['keyPassword']
+    storeFile file(kp['storeFile']); storePassword kp['storePassword']
+  }}
+  buildTypes { release { signingConfig signingConfigs.release } }
+}</code></pre>
+
+<h3>Build &amp; instalar</h3>
+<pre><code><span class="c"># APK assinado (com as chaves do Supabase embutidas via dart-define)</span>
+flutter build apk --release \
+  --dart-define=SUPABASE_URL=https://xxxx.supabase.co \
+  --dart-define=SUPABASE_ANON_KEY=eyJ...
+<span class="c"># menor (só arm64, que cobre celulares modernos):</span>
+flutter build apk --release --split-per-abi --target-platform android-arm64 --dart-define=...
+
+<span class="c"># saída:</span>
+<span class="s">build/app/outputs/flutter-apk/app-release.apk</span>
+
+<span class="c"># instalar via USB (depuração USB ligada):</span>
+adb install -r build/app/outputs/flutter-apk/app-release.apk
+<span class="c"># ou copie o .apk pro celular e instale (permitir "instalar apps desconhecidos")</span></code></pre>
+<div class="callout"><div class="t">Atualizar depois</div><p>Reassine sempre com a <strong>mesma</strong> keystore (<code>pitada-key.jks</code>) — assim o Android atualiza por cima em vez de pedir desinstalar. Guarde a keystore.</p></div>
+
+<!-- 13 -->
+<h2 id="roteiro">13 · Roteiro de construção</h2>
+<p>Ordem sugerida para o Claude Code. Cada fase termina rodando no Chrome com hot reload e dados do <code>seed.sql</code>.</p>
+<ol class="body">
+  <li><strong>Setup</strong> — <code>flutter create</code>, dependências, <code>env.dart</code>, projeto Supabase, migração inicial, conta de auth, <code>seed.sql</code> com as receitas/guias do protótipo.</li>
+  <li><strong>Design system</strong> — <code>colors/typography/app_theme</code>, fontes empacotadas, e os widgets compartilhados (Masthead, SectionHeader, ChapterTabs, HairlineRow, ExpiryTag, OptionCard, WhyCallout). Meta: telas vazias já com a “cara” do protótipo.</li>
+  <li><strong>Receitas</strong> — lista + pastas (capítulos), detalhe (com fonte clicável), edição, modo cozinhar. CRUD no Supabase.</li>
+  <li><strong>Importar</strong> — Edge Function <code>import-recipe</code> + share intent + preview editável. Inclui foto/PDF (visão do Gemini).</li>
+  <li><strong>Aprendizado</strong> — trilhas, guias diagramados, criar/editar.</li>
+  <li><strong>Planos</strong> — refeições variáveis, opções/combos, escolher opção, link pra receita, recálculo do dia.</li>
+  <li><strong>Compras</strong> — Lista (soma por unidade + desconto da despensa) e Despensa (categorias + tags de validade). Código de barras (Open Food Facts) e <code>parse-receipt</code> (NFC-e/foto).</li>
+  <li><strong>Chat pós-preparo</strong> — <code>adjust-recipe</code>; salvar ajustes na receita.</li>
+  <li><strong>Polir + APK</strong> — revisão visual contra o protótipo, assinatura, build, instalar no celular.</li>
+</ol>
+
+<!-- 14 -->
+<h2 id="checklist">14 · Convenções &amp; checklist de qualidade</h2>
+<ul>
+  <li><strong>Camadas:</strong> a UI nunca chama o Supabase direto — só via provider → repository.</li>
+  <li><strong>Modelos</strong> com <code>freezed</code> + <code>json_serializable</code>; nomes em inglês no código, textos de UI em pt-BR.</li>
+  <li><strong>Hardware</strong> sempre atrás de service abstrato (real + mock) para o preview de PC.</li>
+  <li><strong>Visual:</strong> zero degradê, zero brilho/sombra colorida, zero fonte cursiva. Filetes &gt; cards. Versalete + filete nos rótulos. Cormorant nos números.</li>
+  <li><strong>Regras de dados:</strong> grama é a base (macros em grama); lista soma por unidade; pastas ≠ sub-receitas.</li>
+  <li><strong>Segurança:</strong> chave do Gemini só na Edge Function; RLS por <code>user_id</code> em tudo.</li>
+  <li><strong>Qualidade base:</strong> responsivo, foco de teclado visível, <em>reduce motion</em> respeitado, estados de carregando/vazio com texto que orienta a ação.</li>
+</ul>
+
+<div class="foot">
+  <p><strong>Pitada</strong> · guia de construção para o Claude Code. Alvo visual: <code>pitada.html</code>. Marca: <code>pitada-mark.svg</code> / <code>pitada-logo.svg</code>. Sua culinária, organizada.</p>
+</div>
+
+</main>
+</div>
+</body>
+</html>

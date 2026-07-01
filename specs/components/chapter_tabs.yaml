@@ -1,0 +1,11 @@
+# specs/components/chapter_tabs.yaml -> lib/core/widgets/chapter_tabs.dart
+component: ChapterTabs
+prototype: ".ftabs / .ftab em pitada.html"
+purpose: Abas de capítulo em serifa (Cormorant), roláveis, com filete terracota no ativo.
+uses: [AppColors.muted, AppColors.text, AppColors.accent, AppType.titleSm, AppSpacing]
+api:
+  - tabs: List<String>
+  - selected: int
+  - onSelect: ValueChanged<int>
+detalhes: "Row horizontal rolável; ativo = cor text + filete accent 2px embaixo."
+used_by: [recipes_screen (pastas), plans_screen (dias, opcional)]

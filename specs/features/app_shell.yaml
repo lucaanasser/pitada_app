@@ -1,0 +1,33 @@
+# specs/features/app_shell.yaml -> lib/core/router/* + lib/core/widgets/pitada_tab_bar.dart
+feature: AppShell
+prototype: ".tabbar + troca de .tab em pitada.html"
+purpose: Casca de navegação com 5 abas persistentes + rotas full-screen.
+router:
+  package: go_router
+  type: StatefulShellRoute.indexedStack   # cada aba mantém sua pilha
+  branches:
+    - {path: /recipes,  screen: RecipesScreen}
+    - {path: /learning, screen: LearningScreen}   # aba 'Caderno'
+    - {path: /home,     screen: HomeScreen}        # comunidade (centro)
+    - {path: /plans,    screen: PlansScreen}
+    - {path: /shopping, screen: ShoppingScreen}
+  fullscreen:                                       # cobrem a barra (rootNavigator)
+    - {path: /recipe/:id, screen: RecipeDetailScreen}
+    - {path: /profile,    screen: ProfileScreen}
+tab_bar:
+  file: lib/core/widgets/pitada_tab_bar.dart
+  ordem: [Receitas, Caderno, Home, Planos, Compras]
+  icones: [menu_book, edit_note, groups, event_note, shopping_basket]
+  ativo: AppColors.accent  # inativo: AppColors.faint
+  destaque_central:                # .tb.home / .homebtn no protótipo
+    aba: Home                      # Comunidade — índice central (2 de 5)
+    forma: circulo elevado 54x54, sobe ~18px acima da barra, sem rótulo
+    fundo: AppColors.accent        # SÓLIDO — sem degradê (regra de design)
+    anel: AppColors.bg             # anel da cor do fundo p/ separar da barra
+    icone: onAccent, tamanho 26
+    ativo: anel fino AppColors.accentLine ao redor
+    nota: >
+      O protótipo usa degradê + glow terracota no .homebtn; aqui NÃO usamos
+      (proibições visuais de rules/design-system.md). Cor sólida + anel do bg
+      dão o destaque sem quebrar a regra.
+used_by: [app.dart]

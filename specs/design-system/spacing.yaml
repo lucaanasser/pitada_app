@@ -1,0 +1,48 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# specs/design-system/spacing.yaml
+# O QUÊ:  Escala de espaçamento, raios de borda e larguras de filete do Pitada.
+# GERA:   lib/core/theme/spacing.dart  (classe AppSpacing)
+# USADO POR: todo padding/margin/gap/radius. Nenhum número mágico fora daqui.
+# ─────────────────────────────────────────────────────────────────────────────
+token_class: AppSpacing
+prototype: "paddings/border-radius recorrentes em pitada.html"
+
+# Espaçamento base (padding, gap, margin)
+espaco:
+  xs:  4
+  sm:  8
+  md:  12
+  lg:  16
+  xl:  20
+  xxl: 24     # padding horizontal padrão das telas (.thead, .rlist, .cgrp ...)
+  xxxl: 30    # respiro entre seções (.shead margin-top)
+
+# Padding horizontal padrão do conteúdo das telas
+gutter: 24
+
+# Raios de borda
+raio:
+  sm:  7      # tag / label pill
+  md:  11     # input, thumb de receita
+  lg:  13     # botão, card de campo
+  xl:  14     # card (.meal, .nutri)
+  xxl: 24     # bottom sheet
+  pill: 999   # chip totalmente arredondado
+
+# Filetes (larguras de borda)
+filete:
+  hair: 1     # divisor padrão (.line)
+  thick: 1.5  # borda de checkbox / destaque
+  accent: 2   # sublinhado de aba ativa, borda-esquerda de callout
+
+# Alturas fixas de componentes
+altura:
+  button: 52       # .btn
+  iconButton: 42   # .iconbtn
+  searchBar: 46    # .search
+  tabBar: 76       # .tabbar
+  statusBar: 46    # .statusbar
+
+notas:
+  - "Gutter (24) é o padding horizontal de quase toda tela — use AppSpacing.gutter."
+  - "Seções verticais: título de seção com margin-top xxxl (30)."

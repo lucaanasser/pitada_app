@@ -1,0 +1,100 @@
+# specs/features/shopping.yaml -> lib/features/shopping/
+feature: Compras
+prototype: "TAB-COMPRAS (Lista / Despensa), SHEET-ADD-PANTRY"
+purpose: >
+  Lista de compras (somada por unidade humana, subtraindo a despensa) e a
+  despensa (o que já tenho, com validade). Adicionar à despensa por código de
+  barras, cupom QR, foto ou manual. Grama é a base; a lista SOMA por unidade.
+
+data:
+  models:
+    - ShoppingItem:            # um item da lista de compras
+        fields: "id, name, category, qty, unit, grams?, checked"
+        obs: >
+          category ∈ {Hortifrúti, Açougue, Laticínios & ovos, Mercearia}.
+          qty/unit na unidade humana (2 un, 500 g); grams só referência.
+          Classe pura imutável, const constructor (como Recipe); sem freezed/json.
+    - PantryItem:              # um item que já tenho na despensa
+        fields: "id, name, category, qty, unit, grams?, expires?"
+        obs: >
+          expires: DateTime? (validade). Sem checked — CheckItem não é usado na
+          Despensa. Classe pura imutável, const constructor; sem freezed/json.
+  repository: ShoppingRepository    # em memória (seed) hoje; Supabase depois
+  seed: shopping_seed.dart          # lista + despensa de exemplo por categoria
+
+  regra_de_soma:              # core/utils/units.dart — NÃO reimplementar
+    - "monta HumanQty de cada ingrediente das receitas do plano"
+    - "sumByHumanUnit(...)  -> agrega por (nome, unidade): 2x '2 ovos' = '4 un'"
+    - "subtractPantry(lista, despensa)  -> desconta o que já tenho; nunca negativa"
+    - "resultado vira List<ShoppingItem> agrupada por category"
+
+services:
+  - ScannerService:           # hardware atrás de service abstrato (real + mock)
+      file: lib/features/shopping/data/scanner_service.dart
+      abstract: >
+        scanBarcode() -> Future<PantryItem?> ; scanQrReceipt() ->
+        Future<List<PantryItem>> ; fromPhoto() -> Future<List<PantryItem>>.
+      mock: MockScannerService   # retorna itens de exemplo; injetado via override
+      obs: destrava rodar no desktop/Chrome sem câmera (regra de arquitetura).
+
+application:
+  providers:
+    - shoppingListProvider (FutureProvider<List<ShoppingItem>>)   # já somada/subtraída
+    - pantryProvider (FutureProvider<List<PantryItem>>)
+    - shoppingTabProvider (StateProvider<int>)   # 0 = Lista, 1 = Despensa
+    - listByCategoryProvider     # agrupa ShoppingItem por category
+    - pantryByCategoryProvider   # agrupa PantryItem por category
+    - scannerServiceProvider (Provider<ScannerService>)  # override -> mock no preview
+
+screens:
+  - ShoppingScreen:
+      file: lib/features/shopping/presentation/shopping_screen.dart
+      tipo: ConsumerWidget
+      layout: "Masthead, SegTabs([Lista, Despensa]), corpo conforme aba"
+      lista:                 # aba 0
+        - "SectionHeader por categoria (Hortifrúti, Açougue, Laticínios & ovos, Mercearia)"
+        - "ShoppingListRow (HairlineRow): leading CheckItem(shape circle) marca comprado; title nome; trailing quantidade somada (formatHuman qty+unit)"
+        - "EmptyState quando a lista está vazia"
+        - "barra: PitadaButton('Comprei tudo') marca todos / limpa a lista"
+      despensa:              # aba 1
+        - "SectionHeader por categoria"
+        - "PantryRow (HairlineRow): title nome; subtitle validade (formatDayMonth(expires)); trailing ExpiryTag.fromDate(expires) urgent/soon (some se sem data); SEM CheckItem"
+        - "EmptyState quando a despensa está vazia"
+        - "barra: PitadaButton('Adicionar à despensa') -> showAddPantrySheet"
+      navega: showAddPantrySheet(context)
+
+sheets:
+  - showAddPantrySheet:
+      file: lib/features/shopping/presentation/widgets/add_pantry_sheet.dart
+      api: showAddPantrySheet(BuildContext) -> showModalBottomSheet
+      estilo: >
+        backgroundColor AppColors.surf, isScrollControlled, radius topo
+        AppSpacing.radiusXxl, grip 36x5 (line2, radius 3) centralizado no topo.
+      passos:
+        - "escolher origem (PitadaChip/HairlineRow): Código de barras, Cupom QR, Foto, Manual"
+        - 'StepProgress(["Escanear", "Ler", "Conferir"], activeIndex) — loading do scan'
+        - "preview editável: PantryItem(s) reconhecidos (nome/categoria/qtd/validade)"
+        - "PitadaButton('Adicionar') -> grava na despensa e fecha"
+      manual: pula scan; vai direto ao preview com item em branco
+      usa_service: scannerServiceProvider (barcode / qr / foto)
+
+components_reutilizados: [Masthead, SegTabs, SectionHeader, HairlineRow, CheckItem,
+  ExpiryTag, PitadaButton, PitadaChip, PitadaIconButton, StepProgress, EmptyState]
+
+utils_reutilizados: [units.dart (sumByHumanUnit, subtractPantry, HumanQty),
+  format.dart (formatHuman, formatDayMonth), app_log.dart (AppLog tag 'shopping')]
+
+arquivos:                    # cada .dart < 200 linhas; quebre em widgets se passar
+  data:
+    - shopping_item.dart          # model ShoppingItem
+    - pantry_item.dart            # model PantryItem
+    - shopping_repository.dart    # lista somada/subtraída + despensa (seed)
+    - scanner_service.dart        # ScannerService abstrato + MockScannerService
+    - shopping_seed.dart
+  application:
+    - shopping_providers.dart
+  presentation:
+    - shopping_screen.dart
+    - widgets/shopping_list_row.dart
+    - widgets/pantry_row.dart
+    - widgets/add_pantry_sheet.dart

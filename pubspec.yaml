@@ -1,0 +1,57 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# pubspec.yaml
+# O QUÊ:  Manifesto do app Pitada — dependências, fontes e assets.
+# NOTA:   Fontes ficam comentadas até os .ttf serem adicionados (ver
+#         assets/fonts/README.md). Sem elas o app roda com fonte de sistema.
+# ─────────────────────────────────────────────────────────────────────────────
+name: pitada
+description: App pessoal de receitas, aprendizado, planos e compras.
+publish_to: "none"
+version: 0.1.0+1
+
+environment:
+  sdk: ">=3.6.0 <4.0.0"
+  flutter: ">=3.27.0" # usamos Color.withValues (API atual)
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_riverpod: ^2.5.1 # estado (providers, overrides p/ preview)
+  go_router: ^14.2.0 # navegação: shell das abas + rotas
+  supabase_flutter: ^2.5.0 # backend (só quando há chaves; senão usa seed)
+  flutter_svg: ^2.0.10 # renderiza a marca (pitada-mark.svg)
+  intl: ^0.19.0 # formatação (datas)
+
+dev_dependencies:
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/brand/
+  fonts:
+    - family: Cormorant Garamond
+      fonts:
+        - asset: assets/fonts/CormorantGaramond-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/CormorantGaramond-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/CormorantGaramond-Bold.ttf
+          weight: 700
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/Inter-Regular.ttf
+        - asset: assets/fonts/Inter-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Inter-SemiBold.ttf
+          weight: 600
+    # Space Grotesk: títulos e números (visual soft neo-brutalista). Ver
+    # specs/design-system/typography.yaml. Inter segue no corpo/rótulos.
+    - family: Space Grotesk
+      fonts:
+        - asset: assets/fonts/SpaceGrotesk-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/SpaceGrotesk-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/SpaceGrotesk-Bold.ttf
+          weight: 700

@@ -1,0 +1,46 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# specs/README.yaml
+# O QUÊ:  Índice de todas as specs do Pitada. Spec vem sempre antes do código.
+# USADO POR: qualquer pessoa/agente que vá implementar algo neste projeto.
+# ─────────────────────────────────────────────────────────────────────────────
+project: Pitada
+descricao: >
+  App pessoal de receitas, aprendizado, planos e compras. Flutter + Riverpod +
+  go_router. Alvo visual = pitada.html. Regras em .claude/rules/.
+
+convencao_de_nomes: >
+  O caminho da spec espelha o arquivo gerado.
+  Ex.: specs/components/pitada_button.yaml -> lib/core/widgets/pitada_button.dart
+
+design_system:
+  - specs/design-system/colors.yaml        # tokens de cor  -> core/theme/colors.dart
+  - specs/design-system/typography.yaml     # tipografia     -> core/theme/typography.dart
+  - specs/design-system/spacing.yaml        # espaço/raio    -> core/theme/spacing.dart
+
+components:                                 # -> lib/core/widgets/
+  - specs/components/masthead.yaml
+  - specs/components/section_header.yaml
+  - specs/components/chapter_tabs.yaml
+  - specs/components/seg_tabs.yaml
+  - specs/components/hairline_row.yaml
+  - specs/components/pitada_button.yaml
+  - specs/components/pitada_chip.yaml
+  - specs/components/expiry_tag.yaml
+  - specs/components/why_callout.yaml
+  - specs/components/nutrition_card.yaml
+  - specs/components/option_card.yaml
+  - specs/components/check_item.yaml
+  - specs/components/atoms.yaml   # RecipeThumb, PitadaSearchField, FuelBar, StepProgress, EmptyState, PitadaScaffold
+
+features:                                   # -> lib/features/<f>/presentation/
+  - specs/features/recipes.yaml
+  - specs/features/learning.yaml
+  - specs/features/plans.yaml
+  - specs/features/shopping.yaml
+  - specs/features/app_shell.yaml           # shell das 4 abas + navegação
+
+regras:
+  - .claude/rules/arquitetura.md
+  - .claude/rules/specs-primeiro.md
+  - .claude/rules/design-system.md
+  - .claude/rules/comentarios-e-logs.md

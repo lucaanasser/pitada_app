@@ -1,0 +1,130 @@
+# specs/features/home.yaml -> lib/features/home/
+feature: Home
+prototype: "TAB-HOME (comunidade · feed), VIEW-PERFIL (perfil + gráfico de atividade), SHEET-SHARE"
+purpose: >
+  Feed da comunidade (posts de amigos com receita/técnica/framework/log/nota) e página
+  de perfil pessoal com sequência, estatísticas, amigos e gráfico de atividade estilo
+  GitHub. Convite social para cozinhar; o perfil é o "boletim" do usuário na cozinha.
+
+data:
+  models:
+    - CommunityPost:          # um post do feed
+        campos:
+          - id: String
+          - authorName: String
+          - authorInitial: String      # inicial no avatar
+          - authorHero: String         # nome em AppColors.hero (cor do avatar)
+          - timeAgo: String            # "2 h", "ontem", "3 d"
+          - note: String?              # texto livre do autor
+          - kind: PostKind             # enum: recipe, technique, framework, log, note
+          - refTitle: String           # título do item compartilhado (ex.: "Frango xadrez")
+          - refMeta: String            # subtítulo (ex.: "25 min · 512 kcal · Intermediário")
+          - refHero: String            # nome em AppColors.hero (cor da miniatura)
+          - likes: int
+          - comments: int
+          - liked: bool = false
+          - saved: bool = false
+        enum PostKind: [recipe, technique, framework, log, note]  # rótulo pt-BR: Receita/Técnica/Framework/Log/Nota
+    - Profile:                # dados do perfil pessoal (single-user hoje)
+        campos:
+          - name: String                    # "Luca Naasser"
+          - initial: String                 # "L" (avatar)
+          - bio: String                     # "Perseguindo o frango xadrez definitivo."
+          - streak: int                     # sequência de dias (12)
+          - recipesCount: int               # 23 receitas
+          - notebookCount: int              # 41 no caderno
+          - cooksCount: int                 # 128 preparos
+          - friends: List<Friend>           # avatares de amigos
+          - activity: List<ActivityDay>     # 22 semanas x 7 dias
+          - summary: List<ProfileSummaryRow># resumo "Sua cozinha ultimamente"
+    - Friend:                 # amigo (avatar do perfil)
+        campos: [name: String, initial: String, hero: String]  # hero = AppColors.hero
+    - ActivityDay:            # uma célula do gráfico (um dia)
+        campos:
+          - date: DateTime
+          - category: ActivityCategory?  # dominante do dia; null = sem registro
+          - level: int                   # 0..4 intensidade (nº de registros, teto 4)
+          - future: bool = false         # célula futura (contorno vazio, sem toque)
+        enum ActivityCategory: [recipes, notebook, cooking]  # cor: accent2 / sage / teal
+    - ProfileSummaryRow:      # linha "chave: valor" do resumo
+        campos: [label: String, value: String, pill: bool = false]  # pill=true -> destaque accent
+  repository: HomeRepository   # em memória (seed) hoje; Supabase depois
+  seed: home_seed.dart          # feed (6 posts), perfil, amigos, 22 semanas de atividade
+  notas_de_cor: >
+    Categorias do gráfico mapeiam tokens existentes (o protótipo usa um azul de "cozinha"
+    que aqui vira AppColors.teal): receitas -> AppColors.accent2, caderno -> AppColors.sage,
+    cozinha -> AppColors.teal. Intensidade (level) via opacidade da cor da categoria.
+    Miniaturas/avatares usam AppColors.heroOf(hero).
+
+application:
+  file: home_providers.dart
+  providers:
+    - homeRepositoryProvider (Provider<HomeRepository>)
+    - communityFeedProvider (FutureProvider<List<CommunityPost>>)  # feed bruto
+    - feedFilterProvider (StateProvider<int>)   # 0=Seguindo 1=Em alta 2=Salvos
+    - filteredFeedProvider (Provider<List<CommunityPost>>)  # aplica o filtro (alta ordena por likes; salvos filtra saved)
+    - profileProvider (FutureProvider<Profile>)  # dados do perfil + atividade
+
+screens:
+  - HomeScreen:               # aba central (comunidade)
+      file: lib/features/home/presentation/home_screen.dart
+      tipo: ConsumerWidget
+      layout:
+        - Masthead                                   # marca centralizada
+        - thead("Comunidade" + sub "Receitas e ideias de quem você segue" + PitadaIconButton '+')
+        - SegTabs: [Seguindo, Em alta, Salvos]       # -> feedFilterProvider
+        - lista de FeedPostCard (a partir de filteredFeedProvider)
+        - EmptyState quando "Salvos" está vazio
+      top: [Masthead, thead, SegTabs]                # fixo no PitadaScaffold
+      child: lista rolável de FeedPostCard
+      abre_sheet: showShareSheet (botão '+')
+      navega: ProfileScreen (/profile) pelo avatar mini no Masthead
+
+  - ProfileScreen:            # full-screen /profile
+      file: lib/features/home/presentation/profile_screen.dart
+      tipo: ConsumerWidget
+      prototype: VIEW-PERFIL
+      layout:                 # de cima pra baixo
+        - barra: voltar (context.pop) + ícone de configurações
+        - ProfileHeader: avatar "L" + badge de sequência (12) + nome "Luca Naasser"
+                         + bio "Perseguindo o frango xadrez definitivo."
+                         + stats (23 receitas / 41 no caderno / 128 preparos, com ponto de cor)
+        - SectionHeader "Amigos" (action "ver todos") -> FriendAvatars (lista horizontal + "Adicionar")
+        - SectionHeader "Seu semestre na cozinha" (action "toque num dia")
+        - "ActivityGraph — 22 semanas x 7 dias, cor por categoria/intensidade, rótulos de mês"
+        - "legenda — Receitas (accent2) / Caderno (sage) / Cozinha (teal)"
+        - SectionHeader "Sua cozinha ultimamente"
+        - "ProfileSummary — HairlineRow por linha do resumo:"
+        - "  Cozinha -> Brasileira"
+        - "  Tipo de prato -> Prato principal"
+        - "  Técnica em alta -> selar (pill/accent)"
+        - "  Mais feita -> Frango xadrez · 4×"
+      navega: (nenhuma tela cheia; ações de amigo/config viram AppLog por ora)
+
+sheets:
+  - ShareSheet:
+      funcao: showShareSheet(BuildContext)         # showModalBottomSheet padrão + grip
+      prototype: SHEET-SHARE
+      titulo: "Compartilhar na comunidade"
+      subtitulo: "O que você quer publicar para seus amigos?"
+      opcoes:                                       # HairlineRow com leading (RecipeThumb/ícone) + chevron
+        - {label: "Uma receita", sub: "Das suas receitas salvas"}
+        - {label: "Uma técnica ou framework", sub: "Do seu Caderno"}
+        - {label: "Um log", sub: "Fermentação, cura, sous-vide…"}
+        - {label: "Uma nota", sub: "De um livro, vídeo ou chef"}
+      acao: "por ora AppLog.i('home', 'compartilhar <label>') e fecha o sheet"
+
+components_da_feature:      # em presentation/widgets/ (exclusivos, <200 linhas)
+  - FeedPostCard: card do post (cabeçalho autor + nota + item compartilhado + ações curtir/comentar/salvar)
+  - SharedItemTile: miniatura + título + rótulo do tipo (kind) + meta, clicável
+  - ProfileHeader: avatar + sequência + nome + bio + stats
+  - ActivityGraph: grade 22x7 estilo GitHub (célula = ActivityDay, cor por categoria/intensidade)
+  - FriendAvatars: fileira horizontal de avatares de amigos + botão "Adicionar"
+
+components_reutilizados: [Masthead, PitadaScaffold, SegTabs, SectionHeader, HairlineRow,
+  RecipeThumb, PitadaIconButton, PitadaChip, EmptyState]
+
+tokens_chave: [AppColors.accent, AppColors.accent2, AppColors.sage, AppColors.teal,
+  AppColors.heroOf, AppType.screenTitle, AppType.numeralLg, AppType.numeral, AppType.body,
+  AppType.bodySm, AppType.label, AppType.caption, AppSpacing.gutter, AppSpacing.md,
+  AppSpacing.radiusLg, AppSpacing.radiusSm, AppSpacing.br]

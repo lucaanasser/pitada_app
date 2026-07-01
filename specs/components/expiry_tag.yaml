@@ -1,0 +1,14 @@
+# specs/components/expiry_tag.yaml -> lib/core/widgets/expiry_tag.dart
+component: ExpiryTag
+prototype: ".tag / .tag.urgent / .tag.soon"
+purpose: Tag de validade em contorno, sem ícone (discreta). Avisa quando perto de vencer.
+uses: [AppColors.accent2, AppColors.muted, AppColors.accentLine, AppColors.line2, AppType.captionSm, AppSpacing.radiusSm]
+variants:
+  - urgent: texto accent2, borda accentLine (ex.: "vence amanhã")
+  - soon:   texto muted, borda line2 (ex.: "vence em 3 dias")
+api:
+  - label: String
+  - urgent: bool = false
+helper:
+  - "ExpiryTag.fromDate(DateTime expires): decide urgent (<=2 dias) x soon (<=5) x nada"
+used_by: [shopping (despensa / .ditem)]

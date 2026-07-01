@@ -1,0 +1,14 @@
+# specs/components/pitada_chip.yaml -> lib/core/widgets/pitada_chip.dart
+component: PitadaChip
+prototype: ".pair / .teclink em pitada.html"
+purpose: Chip arredondado para harmonizações ('combina com') e técnicas linkáveis.
+uses: [AppColors.text2, AppColors.accent2, AppColors.line2, AppColors.accentLine, AppType.bodySm, AppSpacing.radiusPill]
+variants:
+  - plain:  contorno line2, texto text2 (.pair)
+  - accent: contorno accentLine, texto accent2, ícone opcional (.teclink)
+api:
+  - label: String
+  - icon: IconData?
+  - variant: PitadaChipVariant = plain
+  - onTap: VoidCallback?
+used_by: [recipe_detail (técnicas), lesson_detail (harmonizações), perfil]

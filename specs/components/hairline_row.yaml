@@ -1,0 +1,15 @@
+# specs/components/hairline_row.yaml -> lib/core/widgets/hairline_row.dart
+component: HairlineRow
+prototype: ".rrow / .frow / .lrow / .srcrow (linha de lista separada por filete)"
+purpose: Linha de lista genérica separada por filete inferior (sem card). Reuso central.
+uses: [AppColors.line, AppColors.faint, AppSpacing]
+api:
+  - leading: Widget?        # thumb, ícone, checkbox
+  - title: Widget           # obrigatório
+  - subtitle: Widget?
+  - trailing: Widget?       # seta, quantidade, tag
+  - onTap: VoidCallback?
+  - showDivider: bool = true
+  - padding: EdgeInsets = vertical 15
+detalhes: "Row com gap; divisor 1px AppColors.line embaixo (some no último via showDivider)."
+used_by: [recipes, learning, shopping, plans, home — quase toda lista]

@@ -1,0 +1,47 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# specs/design-system/colors.yaml
+# O QUÊ:  Paleta única do Pitada. Copiada 1:1 do :root de pitada.html.
+# GERA:   lib/core/theme/colors.dart  (classe AppColors)
+# USADO POR: todo o app. Nenhuma cor pode existir fora daqui.
+# ─────────────────────────────────────────────────────────────────────────────
+token_class: AppColors
+prototype: ":root em pitada.html"
+
+superficie:            # fundos e filetes
+  bg:     "#15130E"    # fundo geral do app
+  surf:   "#1D1A13"    # superfície de card/campo
+  surf2:  "#242017"    # superfície mais clara (input)
+  line:   "#29251A"    # filete divisor
+  line2:  "#383223"    # filete mais forte / borda
+
+texto:
+  text:   "#F2EDE1"    # texto principal
+  text2:  "#C5BEAD"    # texto secundário
+  muted:  "#8E8674"    # rótulos/menos importante
+  faint:  "#605948"    # placeholder / desabilitado
+
+marca:
+  accent:      "#C2703F"                 # terracota (destaque, primário)
+  accent2:     "#D98C5A"                 # terracota claro (links, "acima")
+  sage:        "#A9B26C"                 # verde (sucesso, "dentro da meta")
+  accentSoft:  "rgba(194,112,63,0.12)"   # fundo suave terracota
+  accentLine:  "rgba(194,112,63,0.32)"   # borda suave terracota
+  sageSoft:    "rgba(169,178,108,0.13)"  # fundo suave verde
+
+# cores de miniatura editorial (hero das receitas / pontos de macro)
+hero:
+  clay:  "#8A5A43"
+  moss:  "#5E6B45"
+  ochre: "#9A7B3C"
+  terra: "#A35C40"
+  plum:  "#6E4A5A"
+  teal:  "#3F6157"
+  rust:  "#9E5236"
+
+# cor de "tinta" sobre o accent (texto de botão primário)
+sobre_accent: "#1F0D04"
+
+notas:
+  - Cores rgba viram Color com opacidade em colors.dart.
+  - A lista `hero` é indexável por nome; usada como fundo de miniatura de receita
+    e como bolinha de macro (proteína/carbo/gordura).

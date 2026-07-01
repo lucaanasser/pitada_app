@@ -1,0 +1,11 @@
+# specs/components/seg_tabs.yaml -> lib/core/widgets/seg_tabs.dart
+component: SegTabs
+prototype: ".seg em pitada.html"
+purpose: Abas simples em Inter, com sublinhado accent no ativo e filete de base.
+uses: [AppColors.muted, AppColors.text, AppColors.accent, AppColors.line, AppType.body, AppSpacing]
+api:
+  - tabs: List<String>
+  - selected: int
+  - onSelect: ValueChanged<int>
+detalhes: "Diferente de ChapterTabs: fonte UI (não serifa), filete de base cinza."
+used_by: [learning_screen (categorias de ficha), compras (Lista/Despensa)]
