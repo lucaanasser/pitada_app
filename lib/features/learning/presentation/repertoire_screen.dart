@@ -116,20 +116,21 @@ class RepertoireScreen extends ConsumerWidget {
   }
 
   /// Uma linha de harmonização. Usada por: [_pairings].
-  Widget _pairingRow(BuildContext context, Pairing p,
-      {required bool showDivider}) {
+  Widget _pairingRow(
+    BuildContext context,
+    Pairing p, {
+    required bool showDivider,
+  }) {
     return HairlineRow(
       showDivider: showDivider,
       onTap: () => context.push('/pairing/${p.id}'),
-      leading: RecipeThumb(
-          color: AppColors.heroOf('teal'), icon: AppIcons.hub),
+      leading: RecipeThumb(color: AppColors.heroOf('teal'), icon: AppIcons.hub),
       title: Text(p.ingredient, style: AppType.titleSm),
       subtitle: Text(
         '${p.items.length} combinações',
         style: AppType.on(AppType.caption, AppColors.muted),
       ),
-      trailing:
-          const Icon(AppIcons.chevron, size: 16, color: AppColors.faint),
+      trailing: const Icon(AppIcons.chevron, size: 16, color: AppColors.faint),
     );
   }
 

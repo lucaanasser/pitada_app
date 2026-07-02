@@ -32,10 +32,18 @@ class AppLog {
   }
 
   /// Erro — falha real, com objeto e stack opcionais. Usada por: try/catch.
-  static void e(String tag, String message,
-      [Object? error, StackTrace? stack]) {
-    dev.log(_fmt(tag, message),
-        name: '$_prefix.error', error: error, stackTrace: stack);
+  static void e(
+    String tag,
+    String message, [
+    Object? error,
+    StackTrace? stack,
+  ]) {
+    dev.log(
+      _fmt(tag, message),
+      name: '$_prefix.error',
+      error: error,
+      stackTrace: stack,
+    );
   }
 
   /// Monta a linha padrão `[Pitada][tag] mensagem`. Usada por: os métodos acima.

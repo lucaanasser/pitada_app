@@ -55,7 +55,10 @@ class _ImportPreviewState extends State<ImportPreview> {
       mainAxisSize: MainAxisSize.min,
       children: [
         EditTextField(
-            label: 'Nome', controller: _name, hint: 'Nome da receita'),
+          label: 'Nome',
+          controller: _name,
+          hint: 'Nome da receita',
+        ),
         EditStepperField(
           label: 'Porções',
           value: draft.servings,

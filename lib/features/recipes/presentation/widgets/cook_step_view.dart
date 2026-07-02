@@ -44,9 +44,11 @@ class CookStepView extends StatelessWidget {
           style: AppType.on(AppType.label, AppColors.accent),
         ),
         const SizedBox(height: AppSpacing.xl),
-        Text(step.text,
-            style: AppType.on(AppType.title, AppColors.text)
-                .copyWith(height: 1.4)),
+        Text(
+          step.text,
+          style:
+              AppType.on(AppType.title, AppColors.text).copyWith(height: 1.4),
+        ),
         if (step.tip != null) ...[
           const SizedBox(height: AppSpacing.xl),
           WhyCallout(text: step.tip!),

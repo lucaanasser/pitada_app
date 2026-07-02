@@ -41,9 +41,14 @@ class AppColors {
   static const mutedLight = Color(0xFF938A78);
   static const faintLight = Color(0xFFB4AB98);
 
-  // Tinta/borda "neo-brutalista": escura no claro, discreta no escuro.
+  // Tinta/borda "neo-brutalista": quase-preta nos dois temas — o marrom médio
+  // antigo (#3A3324) lia como "borda cinza" no escuro.
   static const inkLight = Color(0xFF221E17);
-  static const inkDark = Color(0xFF3A3324);
+  static const inkDark = Color(0xFF0E0C08);
+
+  // Sombra funcional (exceção pontual à regra "flat": profundidade de bolso/
+  // papéis da pasta). Uso parcimonioso e sempre via este token.
+  static const shadow = Color(0x59000000);
 
   // —— Marca (iguais nos dois temas) ——
   static const accent = Color(0xFFC2703F); // terracota (primário/destaque)
@@ -78,20 +83,21 @@ class AppColors {
   /// Usada por: qualquer widget que receba `hero_color` como String do banco.
   static Color heroOf(String? name) => hero[name] ?? clay;
 
-  // —— Fundos tingidos por aba (índice 0..4) — dão identidade sem sobrecarregar ——
+  // —— Fundos tingidos por aba (índice 0..4, ordem da navbar) ——
+  // Pastéis quentes de mesma luminosidade — dão identidade sem sobrecarregar.
   static const List<Color> tabBgLight = [
     Color(0xFFF1E3D4), // Receitas
-    Color(0xFFE7EAD3), // Aprendizado
+    Color(0xFFE7EAD3), // Caderno
+    Color(0xFFEEDFE0), // Home (comunidade)
     Color(0xFFF3E9CF), // Planos
     Color(0xFFDCE7DF), // Compras
-    Color(0xFFEEDFE0), // Perfil
   ];
   static const List<Color> tabBgDark = [
-    Color(0xFF1C1611),
-    Color(0xFF171A10),
-    Color(0xFF1D1810),
-    Color(0xFF121A16),
-    Color(0xFF1B1319),
+    Color(0xFF1C1611), // Receitas
+    Color(0xFF171A10), // Caderno
+    Color(0xFF1B1319), // Home (comunidade)
+    Color(0xFF1D1810), // Planos
+    Color(0xFF121A16), // Compras
   ];
 
   // —— Cor do bloco de foto (card) por hero, em cada tema (pastéis / escuros) ——

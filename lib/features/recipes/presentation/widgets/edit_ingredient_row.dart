@@ -79,8 +79,12 @@ class _EditIngredientRowState extends State<EditIngredientRow> {
           const SizedBox(width: AppSpacing.sm),
           Expanded(
             flex: 2,
-            child: _box(_grams, 'g',
-                keyboard: TextInputType.number, alignEnd: true),
+            child: _box(
+              _grams,
+              'g',
+              keyboard: TextInputType.number,
+              alignEnd: true,
+            ),
           ),
           const SizedBox(width: AppSpacing.sm),
           Expanded(flex: 2, child: _box(_unit, 'un')),

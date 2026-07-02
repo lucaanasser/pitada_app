@@ -25,11 +25,13 @@ class RecipeVersion {
   final String recipeName;
   final String recipeId; // liga à receita original
   final List<VersionStep> timeline;
+  final DateTime? date; // última mudança (entra no fio do Caderno)
 
   const RecipeVersion({
     required this.id,
     required this.recipeName,
     required this.recipeId,
     this.timeline = const [],
+    this.date,
   });
 }

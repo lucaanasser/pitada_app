@@ -65,7 +65,10 @@ class RecipeGallery extends StatelessWidget {
                   _RoundBtn(icon: AppIcons.edit, onTap: onEdit, pit: pit),
                   const SizedBox(width: AppSpacing.sm),
                   _RoundBtn(
-                      icon: AppIcons.favorite, onTap: onFavorite, pit: pit),
+                    icon: AppIcons.favorite,
+                    onTap: onFavorite,
+                    pit: pit,
+                  ),
                 ],
               ),
             ),

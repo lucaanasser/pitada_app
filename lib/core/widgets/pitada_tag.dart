@@ -30,7 +30,9 @@ class PitadaTag extends StatelessWidget {
     final pit = context.pit;
     return Container(
       padding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.md, vertical: AppSpacing.xs + 2),
+        horizontal: AppSpacing.md,
+        vertical: AppSpacing.xs + 2,
+      ),
       decoration: BoxDecoration(
         color: color,
         borderRadius: AppSpacing.br(AppSpacing.radiusPill),

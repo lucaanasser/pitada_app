@@ -57,7 +57,8 @@ class ProcessLogsScreen extends ConsumerWidget {
             loading: () => const Padding(
               padding: EdgeInsets.only(top: AppSpacing.xxxl),
               child: Center(
-                  child: CircularProgressIndicator(color: AppColors.accent)),
+                child: CircularProgressIndicator(color: AppColors.accent),
+              ),
             ),
             error: (e, _) => Padding(
               padding: const EdgeInsets.all(AppSpacing.gutter),
@@ -94,8 +95,11 @@ class ProcessLogsScreen extends ConsumerWidget {
   }
 
   /// Uma linha de log: miniatura de processo + título + "tipo · data". Usada por: [_list].
-  Widget _row(BuildContext context, ProcessLog log,
-      {required bool showDivider}) {
+  Widget _row(
+    BuildContext context,
+    ProcessLog log, {
+    required bool showDivider,
+  }) {
     return Padding(
       padding: AppSpacing.screenH,
       child: HairlineRow(

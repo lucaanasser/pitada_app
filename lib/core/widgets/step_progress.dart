@@ -14,8 +14,11 @@ import '../theme/typography.dart';
 /// Passos de carregamento; os índices <= [activeIndex] aparecem concluídos.
 /// Usada por: fluxos de importação (receita e nota fiscal).
 class StepProgress extends StatelessWidget {
-  const StepProgress(
-      {super.key, required this.steps, required this.activeIndex});
+  const StepProgress({
+    super.key,
+    required this.steps,
+    required this.activeIndex,
+  });
 
   final List<String> steps;
   final int activeIndex;
@@ -48,7 +51,11 @@ class StepProgress extends StatelessWidget {
               ),
             ),
             child: done
-                ? const Icon(AppIcons.check, size: 10, color: AppColors.onAccent)
+                ? const Icon(
+                    AppIcons.check,
+                    size: 10,
+                    color: AppColors.onAccent,
+                  )
                 : null,
           ),
           const SizedBox(width: AppSpacing.md),

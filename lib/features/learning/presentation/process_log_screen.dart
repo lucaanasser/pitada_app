@@ -36,11 +36,13 @@ class ProcessLogScreen extends ConsumerWidget {
         bottom: false,
         child: async.when(
           loading: () => const Center(
-              child: CircularProgressIndicator(color: AppColors.accent)),
+            child: CircularProgressIndicator(color: AppColors.accent),
+          ),
           error: (e, _) => Center(child: Text('Erro: $e', style: AppType.body)),
           data: (log) => log == null
               ? const Center(
-                  child: Text('Log não encontrado', style: AppType.body))
+                  child: Text('Log não encontrado', style: AppType.body),
+                )
               : _content(log),
         ),
       ),

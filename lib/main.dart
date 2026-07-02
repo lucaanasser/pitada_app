@@ -1,9 +1,13 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/main.dart
 // O QUÊ:     Ponto de entrada. Inicializa Supabase (se houver chaves) e sobe o app.
-// USA:       core/supabase (init), core/utils/app_log, app.dart (PitadaApp), riverpod.
+//            Em debug + web, embrulha com DevicePreview (moldura de celular).
+// USA:       core/supabase (init), core/utils/app_log, app.dart (PitadaApp), riverpod,
+//            device_preview (só debug/web — ver specs/dev/device_preview.yaml).
 // USADO POR: o runtime do Flutter (função main).
 // ─────────────────────────────────────────────────────────────────────────────
+import 'package:device_preview/device_preview.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -20,5 +24,10 @@ Future<void> main() async {
 
   // Sem overrides por enquanto: os repositórios usam dados de exemplo em memória.
   // No futuro, aqui entram os overrides de services de hardware (mock no PC).
-  runApp(const ProviderScope(child: PitadaApp()));
+  runApp(
+    DevicePreview(
+      enabled: kDebugMode && kIsWeb,
+      builder: (_) => const ProviderScope(child: PitadaApp()),
+    ),
+  );
 }

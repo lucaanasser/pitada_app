@@ -25,18 +25,26 @@ final foldersProvider = FutureProvider<List<Folder>>((ref) {
   return ref.watch(recipesRepositoryProvider).fetchFolders();
 });
 
-/// Índice da pasta selecionada (0 = 'Todas'). Usada por: recipes_screen.
-final selectedFolderProvider = StateProvider<int>((ref) => 0);
+/// As 4 abas fixas da tela de Receitas. Usada por: recipes_screen (ChapterTabs).
+enum RecipesTab { mine, saved, folders, favorites }
 
-/// Receitas já filtradas pela pasta atual. Usada por: recipes_screen.
-/// Índice 0 mostra tudo; os demais casam com foldersProvider (deslocado de 1).
-final filteredRecipesProvider = Provider<List<Recipe>>((ref) {
+/// Aba selecionada em Receitas (0 = Minhas Receitas). Usada por: recipes_screen.
+final selectedRecipesTabProvider = StateProvider<int>((ref) => 0);
+
+/// Receitas da aba atual. Pastas (aba 2) não filtra receitas — mostra FolderCards.
+/// "Minhas" = criadas à mão; "Salvas" = importadas de fora (fonte != manual);
+/// persistir essa distinção no banco vem com o backend. Usada por: recipes_screen.
+final recipesForTabProvider = Provider<List<Recipe>>((ref) {
   final recipes = ref.watch(recipesProvider).valueOrNull ?? const [];
-  final folders = ref.watch(foldersProvider).valueOrNull ?? const [];
-  final index = ref.watch(selectedFolderProvider);
-  if (index <= 0 || index > folders.length) return recipes;
-  final folderId = folders[index - 1].id;
-  return recipes.where((r) => r.folderIds.contains(folderId)).toList();
+  final tab = RecipesTab.values[ref.watch(selectedRecipesTabProvider)];
+  return switch (tab) {
+    RecipesTab.mine =>
+      recipes.where((r) => r.source == RecipeSource.manual).toList(),
+    RecipesTab.saved =>
+      recipes.where((r) => r.source != RecipeSource.manual).toList(),
+    RecipesTab.folders => recipes,
+    RecipesTab.favorites => recipes.where((r) => r.favorite).toList(),
+  };
 });
 
 /// Uma receita por id, para a tela de detalhe. Usada por: recipe_detail_screen.

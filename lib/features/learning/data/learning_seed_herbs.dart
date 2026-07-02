@@ -46,7 +46,7 @@ const kSeedGuideHerbs = <Lesson>[
         label: 'Quando usar',
         kind: SectionKind.text,
         body: [
-          'Cozinhas longas e assados; um ramo inteiro basta para o prato todo.'
+          'Cozinhas longas e assados; um ramo inteiro basta para o prato todo.',
         ],
       ),
       LessonSection(
@@ -96,7 +96,7 @@ const kSeedGuideHerbs = <Lesson>[
         label: 'Quando usar',
         kind: SectionKind.text,
         body: [
-          'Dissolva em gordura quente para liberar cor e aroma; nunca deixe queimar.'
+          'Dissolva em gordura quente para liberar cor e aroma; nunca deixe queimar.',
         ],
       ),
       LessonSection(
@@ -108,7 +108,7 @@ const kSeedGuideHerbs = <Lesson>[
         label: 'Dica',
         kind: SectionKind.tip,
         body: [
-          'Uma pitada engana o paladar: parece grelhado sem ter ido à brasa.'
+          'Uma pitada engana o paladar: parece grelhado sem ter ido à brasa.',
         ],
       ),
     ],

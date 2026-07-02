@@ -39,7 +39,8 @@ class ChapterTabs extends StatelessWidget {
           for (var i = 0; i < tabs.length; i++)
             Padding(
               padding: EdgeInsets.only(
-                  right: i == tabs.length - 1 ? 0 : AppSpacing.xxl),
+                right: i == tabs.length - 1 ? 0 : AppSpacing.xxl,
+              ),
               child: _Tab(
                 label: tabs[i],
                 active: i == selected,

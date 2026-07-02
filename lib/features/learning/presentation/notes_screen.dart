@@ -42,7 +42,8 @@ class NotesScreen extends ConsumerWidget {
             loading: () => const Padding(
               padding: EdgeInsets.only(top: AppSpacing.xxxl),
               child: Center(
-                  child: CircularProgressIndicator(color: AppColors.accent)),
+                child: CircularProgressIndicator(color: AppColors.accent),
+              ),
             ),
             error: (e, _) => Padding(
               padding: const EdgeInsets.all(AppSpacing.gutter),

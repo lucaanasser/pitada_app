@@ -16,8 +16,11 @@ import '../../data/ingredient.dart';
 /// Ingrediente como linha: grama grande (base) + unidade humana pequena (ref.).
 /// Usada por: recipe_detail_screen.
 class IngredientRow extends StatelessWidget {
-  const IngredientRow(
-      {super.key, required this.ingredient, this.showDivider = true});
+  const IngredientRow({
+    super.key,
+    required this.ingredient,
+    this.showDivider = true,
+  });
 
   final Ingredient ingredient;
   final bool showDivider;
@@ -34,8 +37,10 @@ class IngredientRow extends StatelessWidget {
       trailing: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          Text(formatGrams(ingredient.grams),
-              style: AppType.on(AppType.numeral, pit.text)),
+          Text(
+            formatGrams(ingredient.grams),
+            style: AppType.on(AppType.numeral, pit.text),
+          ),
           if (ingredient.humanQty != null)
             Padding(
               padding: const EdgeInsets.only(top: 3),

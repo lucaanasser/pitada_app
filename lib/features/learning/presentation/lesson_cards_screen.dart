@@ -37,7 +37,7 @@ const _tabLabels = <String>[
   'Frameworks',
   'Ingredientes',
   'Sabores',
-  'Ervas'
+  'Ervas',
 ];
 
 /// Tela de Fichas: abas de categoria + lista de fichas. Usada por: router (/learning/cards).

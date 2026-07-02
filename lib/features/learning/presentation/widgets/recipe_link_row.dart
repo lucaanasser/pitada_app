@@ -43,8 +43,7 @@ class RecipeLinkRow extends ConsumerWidget {
         'Abrir receita',
         style: AppType.on(AppType.caption, AppColors.accent),
       ),
-      trailing:
-          const Icon(AppIcons.chevron, size: 16, color: AppColors.faint),
+      trailing: const Icon(AppIcons.chevron, size: 16, color: AppColors.faint),
     );
   }
 }

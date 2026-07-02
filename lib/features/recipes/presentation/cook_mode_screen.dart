@@ -58,7 +58,8 @@ class _CookModeScreenState extends ConsumerState<CookModeScreen> {
       body: SafeArea(
         child: recipe == null || recipe.steps.isEmpty
             ? const Center(
-                child: CircularProgressIndicator(color: AppColors.accent))
+                child: CircularProgressIndicator(color: AppColors.accent),
+              )
             : _content(recipe),
       ),
     );
@@ -89,7 +90,7 @@ class _CookModeScreenState extends ConsumerState<CookModeScreen> {
   /// Linha "Fechar" (X) + StepProgress com rótulos curtos. Usada por: [_content].
   Widget _top(Recipe recipe) {
     final labels = [
-      for (var i = 0; i < recipe.steps.length; i++) 'Passo ${i + 1}'
+      for (var i = 0; i < recipe.steps.length; i++) 'Passo ${i + 1}',
     ];
     return Padding(
       padding: const EdgeInsets.fromLTRB(
@@ -106,7 +107,8 @@ class _CookModeScreenState extends ConsumerState<CookModeScreen> {
             child: GestureDetector(
               onTap: () => context.pop(),
               behavior: HitTestBehavior.opaque,
-              child: const Icon(AppIcons.close, size: 22, color: AppColors.muted),
+              child:
+                  const Icon(AppIcons.close, size: 22, color: AppColors.muted),
             ),
           ),
           const SizedBox(height: AppSpacing.sm),

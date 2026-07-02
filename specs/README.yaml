@@ -41,6 +41,9 @@ features:                                   # -> lib/features/<f>/presentation/
   - specs/features/shopping.yaml
   - specs/features/app_shell.yaml           # shell das 4 abas + navegação
 
+dev:                                        # ferramentas de desenvolvimento (não são features)
+  - specs/dev/device_preview.yaml
+
 regras:
   - .claude/rules/arquitetura.md
   - .claude/rules/specs-primeiro.md

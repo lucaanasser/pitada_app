@@ -53,8 +53,10 @@ List<RouteBase> buildFullscreenRoutes(GlobalKey<NavigatorState> rootKey) {
     fs('/learning/diary', (c, s) => const DiaryScreen()),
     fs('/learning/versions', (c, s) => const VersionsScreen()),
     fs('/learning/logs', (c, s) => const ProcessLogsScreen()),
-    fs('/learning/repertoire/:kind',
-        (c, s) => RepertoireScreen(kind: p(s, 'kind'))),
+    fs(
+      '/learning/repertoire/:kind',
+      (c, s) => RepertoireScreen(kind: p(s, 'kind')),
+    ),
     fs('/lesson-edit', (c, s) => const LessonEditScreen()),
 
     // —— Caderno: detalhes ——

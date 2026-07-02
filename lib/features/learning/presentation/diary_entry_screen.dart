@@ -43,7 +43,8 @@ class DiaryEntryScreen extends ConsumerWidget {
           error: (e, _) => Center(child: Text('Erro: $e', style: AppType.body)),
           data: (entry) => entry == null
               ? const Center(
-                  child: Text('Entrada não encontrada', style: AppType.body))
+                  child: Text('Entrada não encontrada', style: AppType.body),
+                )
               : _content(entry),
         ),
       ),

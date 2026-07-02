@@ -1,19 +1,22 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/core/widgets/pitada_button.dart
-// O QUÊ:     Botões padrão: PitadaButton (primário/contorno) e PitadaIconButton (círculo).
-// USA:       theme/colors, theme/spacing, theme/typography.
+// O QUÊ:     Botões padrão: PitadaButton (primário/contorno) e PitadaIconButton
+//            (círculo). Contorno de TINTA (pit.border), não cinza; sem sombra.
+// USA:       theme/colors, theme/pitada_colors, theme/spacing, theme/typography.
 // USADO POR: recipe_detail (barra), sheets, shopping, headers — ações do app inteiro.
 // SPEC:      specs/components/pitada_button.yaml
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import '../theme/colors.dart';
+import '../theme/pitada_colors.dart';
 import '../theme/spacing.dart';
 import '../theme/typography.dart';
 
 /// Variações visuais do botão. primary = terracota cheio; outline = só contorno.
 enum PitadaButtonVariant { primary, outline }
 
-/// Botão padrão do app, com micro-animação de toque (scale .98). Sem sombra.
+/// Botão padrão do app, com micro-animação de toque (scale .98). Sem sombra;
+/// os dois têm borda de tinta (soft neo-brutalismo).
 /// Usada por: barras de ação, sheets e formulários.
 class PitadaButton extends StatefulWidget {
   const PitadaButton({
@@ -40,8 +43,9 @@ class _PitadaButtonState extends State<PitadaButton> {
 
   @override
   Widget build(BuildContext context) {
+    final pit = context.pit;
     final primary = widget.variant == PitadaButtonVariant.primary;
-    final fg = primary ? AppColors.onAccent : AppColors.text;
+    final fg = primary ? AppColors.onAccent : pit.text;
     return GestureDetector(
       onTapDown: (_) => setState(() => _down = true),
       onTapUp: (_) => setState(() => _down = false),
@@ -54,11 +58,18 @@ class _PitadaButtonState extends State<PitadaButton> {
           height: AppSpacing.button,
           width: widget.expand ? double.infinity : null,
           padding: EdgeInsets.symmetric(
-              horizontal: widget.expand ? 0 : AppSpacing.xl),
+            horizontal: widget.expand ? 0 : AppSpacing.xl,
+          ),
           decoration: BoxDecoration(
             color: primary ? AppColors.accent : Colors.transparent,
             borderRadius: AppSpacing.br(AppSpacing.radiusLg),
-            border: primary ? null : Border.all(color: AppColors.line2),
+            // Parcimônia: primário é só cor chapada; contorno fica no outline.
+            border: primary
+                ? null
+                : Border.all(
+                    color: pit.border,
+                    width: AppSpacing.borderStrong,
+                  ),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -76,7 +87,7 @@ class _PitadaButtonState extends State<PitadaButton> {
   }
 }
 
-/// Botão de ícone circular com contorno (.iconbtn / .btn-ic).
+/// Botão de ícone circular com contorno de tinta (.iconbtn / .btn-ic).
 /// Usada por: headers de aba e barra do detalhe de receita.
 class PitadaIconButton extends StatelessWidget {
   const PitadaIconButton({
@@ -92,6 +103,7 @@ class PitadaIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pit = context.pit;
     return GestureDetector(
       onTap: onPressed,
       child: Container(
@@ -99,9 +111,9 @@ class PitadaIconButton extends StatelessWidget {
         height: size,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          border: Border.all(color: AppColors.line2),
+          border: Border.all(color: pit.border, width: AppSpacing.hair),
         ),
-        child: Icon(icon, size: 19, color: AppColors.text),
+        child: Icon(icon, size: 19, color: pit.text),
       ),
     );
   }

@@ -71,8 +71,10 @@ class _LessonEditScreenState extends State<LessonEditScreen> {
   /// Registra a intenção de salvar e volta (persistência é do próximo passo).
   /// Usada por: cabeçalho "Salvar".
   void _save() {
-    AppLog.i('learning',
-        'salvar ficha: ${_name.text} (cat ${_kCategories[_category]})');
+    AppLog.i(
+      'learning',
+      'salvar ficha: ${_name.text} (cat ${_kCategories[_category]})',
+    );
     context.pop();
   }
 
@@ -97,7 +99,10 @@ class _LessonEditScreenState extends State<LessonEditScreen> {
                   _categoryPicker(),
                   const SizedBox(height: AppSpacing.xl),
                   EditField(
-                      label: 'Nome', controller: _name, hint: 'Nome da ficha'),
+                    label: 'Nome',
+                    controller: _name,
+                    hint: 'Nome da ficha',
+                  ),
                   const SizedBox(height: AppSpacing.lg),
                   EditField(
                     label: 'Resumo',
@@ -145,8 +150,10 @@ class _LessonEditScreenState extends State<LessonEditScreen> {
         children: [
           GestureDetector(
             onTap: () => context.pop(),
-            child: Text('Cancelar',
-                style: AppType.on(AppType.button, AppColors.muted)),
+            child: Text(
+              'Cancelar',
+              style: AppType.on(AppType.button, AppColors.muted),
+            ),
           ),
           const Expanded(
             child: Text(
@@ -157,8 +164,10 @@ class _LessonEditScreenState extends State<LessonEditScreen> {
           ),
           GestureDetector(
             onTap: _save,
-            child: Text('Salvar',
-                style: AppType.on(AppType.button, AppColors.accent)),
+            child: Text(
+              'Salvar',
+              style: AppType.on(AppType.button, AppColors.accent),
+            ),
           ),
         ],
       ),

@@ -32,7 +32,10 @@ class Masthead extends StatelessWidget {
           Text(
             'pitada',
             style: AppType.titleSm.copyWith(
-                fontSize: 18, letterSpacing: 1.1, color: AppColors.text2),
+              fontSize: 18,
+              letterSpacing: 1.1,
+              color: AppColors.text2,
+            ),
           ),
         ],
       ),

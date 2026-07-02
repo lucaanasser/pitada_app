@@ -22,7 +22,7 @@ const kSeedGuideFlavors = <Lesson>[
         label: 'O mapa',
         kind: SectionKind.text,
         body: [
-          'Cada gosto puxa o prato para um lado; o segredo é a tensão entre eles.'
+          'Cada gosto puxa o prato para um lado; o segredo é a tensão entre eles.',
         ],
       ),
       LessonSection(
@@ -33,7 +33,7 @@ const kSeedGuideFlavors = <Lesson>[
           'Salgado: sal',
           'Ácido: limão',
           'Amargo: café',
-          'Umami: shoyu'
+          'Umami: shoyu',
         ],
       ),
       LessonSection(
@@ -62,7 +62,7 @@ const kSeedGuideFlavors = <Lesson>[
         label: 'O método',
         kind: SectionKind.text,
         body: [
-          'Prove, identifique o que falta e adicione o oposto em pequenas doses.'
+          'Prove, identifique o que falta e adicione o oposto em pequenas doses.',
         ],
       ),
       LessonSection(
@@ -78,7 +78,7 @@ const kSeedGuideFlavors = <Lesson>[
         label: 'Dica',
         kind: SectionKind.tip,
         body: [
-          'Ajuste sempre em pequenas doses — dá para adicionar, não para tirar.'
+          'Ajuste sempre em pequenas doses — dá para adicionar, não para tirar.',
         ],
       ),
     ],
@@ -94,7 +94,7 @@ const kSeedGuideFlavors = <Lesson>[
         label: 'A ideia',
         kind: SectionKind.text,
         body: [
-          'Cada etapa da cocção deixa uma camada; empilhadas, criam profundidade.'
+          'Cada etapa da cocção deixa uma camada; empilhadas, criam profundidade.',
         ],
       ),
       LessonSection(
@@ -110,7 +110,7 @@ const kSeedGuideFlavors = <Lesson>[
         label: 'Dica',
         kind: SectionKind.tip,
         body: [
-          'Sal em cada etapa tempera por dentro; sal só no fim tempera por cima.'
+          'Sal em cada etapa tempera por dentro; sal só no fim tempera por cima.',
         ],
       ),
     ],
@@ -126,7 +126,7 @@ const kSeedGuideFlavors = <Lesson>[
         label: 'Por que funcionam',
         kind: SectionKind.text,
         body: [
-          'Costumam compartilhar compostos aromáticos ou equilibrar gosto e gordura.'
+          'Costumam compartilhar compostos aromáticos ou equilibrar gosto e gordura.',
         ],
       ),
       LessonSection(
@@ -136,14 +136,14 @@ const kSeedGuideFlavors = <Lesson>[
           'Tomate + manjericão',
           'Limão + peixe',
           'Alho + azeite',
-          'Chocolate + café'
+          'Chocolate + café',
         ],
       ),
       LessonSection(
         label: 'Dica',
         kind: SectionKind.tip,
         body: [
-          'Na dúvida, copie a natureza: o que cresce junto combina no prato.'
+          'Na dúvida, copie a natureza: o que cresce junto combina no prato.',
         ],
       ),
     ],

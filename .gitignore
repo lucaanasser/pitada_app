@@ -2,3 +2,4 @@
 /.dart_tool/
 *.iml
 .flutter-plugins-dependencies
+.idea/

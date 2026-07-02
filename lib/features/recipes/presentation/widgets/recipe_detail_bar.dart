@@ -49,7 +49,10 @@ class RecipeDetailBar extends StatelessWidget {
           children: [
             Expanded(
               child: PitadaButton(
-                  label: 'Cozinhar', icon: AppIcons.cook, onPressed: onCook),
+                label: 'Cozinhar',
+                icon: AppIcons.cook,
+                onPressed: onCook,
+              ),
             ),
             const SizedBox(width: AppSpacing.md),
             _iconBtn(pit, AppIcons.addToList, onAddToList),

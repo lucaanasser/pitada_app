@@ -16,6 +16,7 @@ class SourceNote {
   final String meta; // linha de contexto (ex.: autor, canal)
   final List<String> takeaways; // "O que fica" — pontos numerados
   final List<String> recipeIds; // receitas onde a nota se aplica
+  final DateTime? date; // quando foi capturada (entra no fio do Caderno)
 
   const SourceNote({
     required this.id,
@@ -24,5 +25,6 @@ class SourceNote {
     this.meta = '',
     this.takeaways = const [],
     this.recipeIds = const [],
+    this.date,
   });
 }

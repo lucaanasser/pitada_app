@@ -9,6 +9,7 @@ import '../../../core/utils/app_log.dart';
 import 'diary_entry.dart';
 import 'learning_seed.dart';
 import 'lesson.dart';
+import 'pending_cook.dart';
 import 'process_log.dart';
 import 'recipe_version.dart';
 import 'repertoire.dart';
@@ -72,6 +73,9 @@ class LearningRepository {
   /// Busca uma harmonização por id (ou null). Usada por: pairingByIdProvider.
   Future<Pairing?> pairingById(String id) async =>
       _firstOrNull(kSeedPairings, (p) => p.id == id);
+
+  /// Cozinha ainda sem registro no diário (ou null). Usada por: pendingCookProvider.
+  Future<PendingCook?> fetchPendingCook() async => kSeedPendingCook;
 
   /// Retorna o primeiro item que casa com `test`, ou null. Usada internamente.
   T? _firstOrNull<T>(List<T> items, bool Function(T) test) {

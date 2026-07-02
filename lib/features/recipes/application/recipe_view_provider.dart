@@ -13,4 +13,5 @@ enum RecipeView { single, grid, list }
 
 /// Modo atual de exibição. Padrão: card grande (single).
 /// Usada por: recipes_screen. Trocar via `ref.read(recipeViewProvider.notifier).state`.
-final recipeViewProvider = StateProvider<RecipeView>((ref) => RecipeView.single);
+final recipeViewProvider =
+    StateProvider<RecipeView>((ref) => RecipeView.single);

@@ -25,6 +25,7 @@ class Recipe {
   final num carb;
   final num fat;
   final String? difficulty;
+  final bool favorite; // marcada como favorita (aba Favoritas)
   final String heroColor; // nome em AppColors.hero
   final int photoCount; // fotos na galeria (0 = placeholder)
   final String? notes; // "Anotações & ajustes"
@@ -45,6 +46,7 @@ class Recipe {
     this.carb = 0,
     this.fat = 0,
     this.difficulty,
+    this.favorite = false,
     this.heroColor = 'clay',
     this.photoCount = 0,
     this.notes,

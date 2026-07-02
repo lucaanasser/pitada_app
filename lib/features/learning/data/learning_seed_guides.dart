@@ -22,7 +22,7 @@ const kSeedGuideIngredients = <Lesson>[
         label: 'Como muda o sabor',
         kind: SectionKind.text,
         body: [
-          'Fatiado é suave; amassado é intenso; assado inteiro fica doce e cremoso.'
+          'Fatiado é suave; amassado é intenso; assado inteiro fica doce e cremoso.',
         ],
       ),
       LessonSection(
@@ -56,7 +56,7 @@ const kSeedGuideIngredients = <Lesson>[
         label: 'Como muda o sabor',
         kind: SectionKind.text,
         body: [
-          'Refogada rápido fica adocicada; caramelizada devagar fica profunda e doce.'
+          'Refogada rápido fica adocicada; caramelizada devagar fica profunda e doce.',
         ],
       ),
       LessonSection(
@@ -90,7 +90,7 @@ const kSeedGuideIngredients = <Lesson>[
         label: 'Como muda o sabor',
         kind: SectionKind.text,
         body: [
-          'Fresco é ácido e leve; reduzido no fogo fica doce, denso e cheio de umami.'
+          'Fresco é ácido e leve; reduzido no fogo fica doce, denso e cheio de umami.',
         ],
       ),
       LessonSection(
@@ -124,7 +124,7 @@ const kSeedGuideIngredients = <Lesson>[
         label: 'Como muda o sabor',
         kind: SectionKind.text,
         body: [
-          'O ácido equilibra gordura e sal; a raspa traz aroma sem acrescentar acidez.'
+          'O ácido equilibra gordura e sal; a raspa traz aroma sem acrescentar acidez.',
         ],
       ),
       LessonSection(
@@ -158,7 +158,7 @@ const kSeedGuideIngredients = <Lesson>[
         label: 'Como muda o sabor',
         kind: SectionKind.text,
         body: [
-          'Mexido cremoso pede fogo baixo; frito crocante pede fogo alto e gordura quente.'
+          'Mexido cremoso pede fogo baixo; frito crocante pede fogo alto e gordura quente.',
         ],
       ),
       LessonSection(

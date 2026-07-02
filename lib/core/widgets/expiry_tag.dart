@@ -38,7 +38,9 @@ class ExpiryTag extends StatelessWidget {
     final border = urgent ? AppColors.accentLine : AppColors.line2;
     return Container(
       padding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.sm + 1, vertical: 3),
+        horizontal: AppSpacing.sm + 1,
+        vertical: 3,
+      ),
       decoration: BoxDecoration(
         borderRadius: AppSpacing.br(AppSpacing.radiusSm),
         border: Border.all(color: border),

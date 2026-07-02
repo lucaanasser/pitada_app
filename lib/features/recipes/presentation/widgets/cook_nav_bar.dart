@@ -36,7 +36,8 @@ class CookNavBar extends StatelessWidget {
       decoration: const BoxDecoration(
         color: AppColors.bg,
         border: Border(
-            top: BorderSide(color: AppColors.line, width: AppSpacing.hair)),
+          top: BorderSide(color: AppColors.line, width: AppSpacing.hair),
+        ),
       ),
       padding: const EdgeInsets.fromLTRB(
         AppSpacing.gutter,

@@ -10,12 +10,12 @@ import 'ingredient.dart';
 import 'recipe.dart';
 import 'recipe_step.dart';
 
-/// Pastas de exemplo (capítulos). Usada por: recipes_repository.
+/// Pastas de exemplo (capítulos), cada uma com seu pastel. Usada por: recipes_repository.
 const kSeedFolders = <Folder>[
-  Folder(id: 'marinadas', name: 'Marinadas de frango'),
-  Folder(id: 'rapidos', name: 'Jantares rápidos'),
-  Folder(id: 'fit', name: 'Fit'),
-  Folder(id: 'doces', name: 'Doces'),
+  Folder(id: 'marinadas', name: 'Marinadas de frango', heroColor: 'terra'),
+  Folder(id: 'rapidos', name: 'Jantares rápidos', heroColor: 'teal'),
+  Folder(id: 'fit', name: 'Fit', heroColor: 'moss'),
+  Folder(id: 'doces', name: 'Doces', heroColor: 'plum'),
 ];
 
 /// Receitas de exemplo. Usada por: recipes_repository (preview sem backend).
@@ -32,18 +32,31 @@ const kSeedRecipes = <Recipe>[
     carb: 38,
     fat: 18,
     difficulty: 'Intermediário',
+    favorite: true,
     heroColor: 'terra',
     folderIds: ['rapidos'],
     techniques: ['Selar a carne', 'Emulsionar um molho'],
     ingredients: [
       Ingredient(
-          name: 'Peito de frango', grams: 500, humanQty: 500, humanUnit: 'g'),
+        name: 'Peito de frango',
+        grams: 500,
+        humanQty: 500,
+        humanUnit: 'g',
+      ),
       Ingredient(name: 'Ovo', grams: 80, humanQty: 2, humanUnit: 'unidade'),
       Ingredient(
-          name: 'Pimentão', grams: 120, humanQty: 1, humanUnit: 'unidade'),
+        name: 'Pimentão',
+        grams: 120,
+        humanQty: 1,
+        humanUnit: 'unidade',
+      ),
       Ingredient(name: 'Shoyu', grams: 45, humanQty: 3, humanUnit: 'c. sopa'),
       Ingredient(
-          name: 'Amendoim', grams: 70, humanQty: 0.5, humanUnit: 'xícara'),
+        name: 'Amendoim',
+        grams: 70,
+        humanQty: 0.5,
+        humanUnit: 'xícara',
+      ),
       Ingredient(name: 'Alho', grams: 15, humanQty: 3, humanUnit: 'dentes'),
     ],
     steps: [
@@ -57,8 +70,8 @@ const kSeedRecipes = <Recipe>[
         tip: 'Panela cheia demais esfria e cozinha; sele em levas.',
       ),
       RecipeStep(
-          text:
-              'Refogue alho e pimentão rapidamente para manterem a crocância.'),
+        text: 'Refogue alho e pimentão rapidamente para manterem a crocância.',
+      ),
       RecipeStep(
         text: 'Volte o frango, junte o shoyu e o amendoim e finalize.',
         tip: 'O shoyu reduz e vira molho — desligue quando encorpar.',
@@ -81,12 +94,20 @@ const kSeedRecipes = <Recipe>[
     ingredients: [
       Ingredient(name: 'Quinoa', grams: 90, humanQty: 0.5, humanUnit: 'xícara'),
       Ingredient(
-          name: 'Grão-de-bico', grams: 120, humanQty: 120, humanUnit: 'g'),
+        name: 'Grão-de-bico',
+        grams: 120,
+        humanQty: 120,
+        humanUnit: 'g',
+      ),
       Ingredient(
-          name: 'Abacate', grams: 80, humanQty: 0.5, humanUnit: 'unidade'),
+        name: 'Abacate',
+        grams: 80,
+        humanQty: 0.5,
+        humanUnit: 'unidade',
+      ),
     ],
     steps: [
-      RecipeStep(text: 'Cozinhe a quinoa e monte o bowl com os demais itens.')
+      RecipeStep(text: 'Cozinhe a quinoa e monte o bowl com os demais itens.'),
     ],
   ),
   Recipe(
@@ -105,12 +126,17 @@ const kSeedRecipes = <Recipe>[
     ingredients: [
       Ingredient(name: 'Alcatra', grams: 500, humanQty: 500, humanUnit: 'g'),
       Ingredient(
-          name: 'Creme de leite', grams: 200, humanQty: 1, humanUnit: 'lata'),
+        name: 'Creme de leite',
+        grams: 200,
+        humanQty: 1,
+        humanUnit: 'lata',
+      ),
       Ingredient(name: 'Champignon', grams: 100, humanQty: 100, humanUnit: 'g'),
     ],
     steps: [
       RecipeStep(
-          text: 'Sele a carne, faça o molho e incorpore o creme de leite.')
+        text: 'Sele a carne, faça o molho e incorpore o creme de leite.',
+      ),
     ],
   ),
   Recipe(
@@ -124,6 +150,7 @@ const kSeedRecipes = <Recipe>[
     carb: 44,
     fat: 7,
     difficulty: 'Fácil',
+    favorite: true,
     heroColor: 'ochre',
     folderIds: ['doces', 'fit'],
     ingredients: [
@@ -132,7 +159,7 @@ const kSeedRecipes = <Recipe>[
       Ingredient(name: 'Aveia', grams: 30, humanQty: 3, humanUnit: 'c. sopa'),
     ],
     steps: [
-      RecipeStep(text: 'Amasse a banana, misture tudo e doure dos dois lados.')
+      RecipeStep(text: 'Amasse a banana, misture tudo e doure dos dois lados.'),
     ],
   ),
 ];

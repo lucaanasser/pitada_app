@@ -87,7 +87,9 @@ class AppTheme {
         fillColor: inputFill,
         hintStyle: TextStyle(color: ext.faint),
         contentPadding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.lg, vertical: AppSpacing.md),
+          horizontal: AppSpacing.lg,
+          vertical: AppSpacing.md,
+        ),
         border: OutlineInputBorder(
           borderRadius: AppSpacing.br(AppSpacing.radiusMd),
           borderSide: BorderSide(color: inputBorder),

@@ -39,8 +39,10 @@ class SectionHeader extends StatelessWidget {
             const SizedBox(width: AppSpacing.md),
             GestureDetector(
               onTap: onAction,
-              child: Text(action!,
-                  style: AppType.on(AppType.caption, AppColors.accent)),
+              child: Text(
+                action!,
+                style: AppType.on(AppType.caption, AppColors.accent),
+              ),
             ),
           ],
         ],

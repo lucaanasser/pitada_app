@@ -36,8 +36,11 @@ class ImportState {
   });
 
   /// Copia o estado trocando só os campos informados. Usada por: o controller.
-  ImportState copyWith(
-      {ImportPhase? phase, int? stepIndex, RecipeDraft? preview}) {
+  ImportState copyWith({
+    ImportPhase? phase,
+    int? stepIndex,
+    RecipeDraft? preview,
+  }) {
     return ImportState(
       phase: phase ?? this.phase,
       stepIndex: stepIndex ?? this.stepIndex,
@@ -66,9 +69,10 @@ class ImportController extends StateNotifier<ImportState> {
       final isLast = i == kImportSteps.length - 1;
       if (isLast) {
         state = ImportState(
-            phase: ImportPhase.ready,
-            stepIndex: i,
-            preview: _mockDraft(origem));
+          phase: ImportPhase.ready,
+          stepIndex: i,
+          preview: _mockDraft(origem),
+        );
         AppLog.i('recipes', 'import pronto para preview: $origem');
       } else {
         state = state.copyWith(stepIndex: i + 1);
@@ -100,17 +104,30 @@ class ImportController extends StateNotifier<ImportState> {
         techniques: <String>['Selar a carne', 'Emulsionar um molho'],
         ingredients: const <Ingredient>[
           Ingredient(
-              name: 'Peito de frango',
-              grams: 500,
-              humanQty: 500,
-              humanUnit: 'g'),
+            name: 'Peito de frango',
+            grams: 500,
+            humanQty: 500,
+            humanUnit: 'g',
+          ),
           Ingredient(name: 'Ovo', grams: 80, humanQty: 2, humanUnit: 'unidade'),
           Ingredient(
-              name: 'Pimentão', grams: 120, humanQty: 1, humanUnit: 'unidade'),
+            name: 'Pimentão',
+            grams: 120,
+            humanQty: 1,
+            humanUnit: 'unidade',
+          ),
           Ingredient(
-              name: 'Shoyu', grams: 45, humanQty: 3, humanUnit: 'c. sopa'),
+            name: 'Shoyu',
+            grams: 45,
+            humanQty: 3,
+            humanUnit: 'c. sopa',
+          ),
           Ingredient(
-              name: 'Amendoim', grams: 70, humanQty: 0.5, humanUnit: 'xícara'),
+            name: 'Amendoim',
+            grams: 70,
+            humanQty: 0.5,
+            humanUnit: 'xícara',
+          ),
           Ingredient(name: 'Alho', grams: 15, humanQty: 3, humanUnit: 'dentes'),
         ],
         steps: const <RecipeStep>[
@@ -124,8 +141,9 @@ class ImportController extends StateNotifier<ImportState> {
             tip: 'Panela cheia demais esfria e cozinha; sele em levas.',
           ),
           RecipeStep(
-              text:
-                  'Refogue alho e pimentão rapidamente para manterem a crocância.'),
+            text:
+                'Refogue alho e pimentão rapidamente para manterem a crocância.',
+          ),
           RecipeStep(
             text: 'Volte o frango, junte o shoyu e o amendoim e finalize.',
             tip: 'O shoyu reduz e vira molho — desligue quando encorpar.',
@@ -137,4 +155,5 @@ class ImportController extends StateNotifier<ImportState> {
 /// Estado do fluxo de importação de receita. Usada por: import_sheet.
 final importControllerProvider =
     StateNotifierProvider<ImportController, ImportState>(
-        (ref) => ImportController());
+  (ref) => ImportController(),
+);

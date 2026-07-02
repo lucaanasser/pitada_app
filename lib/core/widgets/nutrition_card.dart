@@ -57,17 +57,24 @@ class NutritionCard extends StatelessWidget {
             : BoxDecoration(
                 border: Border(
                   left: BorderSide(
-                      color: pit.border, width: AppSpacing.borderStrong),
+                    color: pit.border,
+                    width: AppSpacing.borderStrong,
+                  ),
                 ),
               ),
         padding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.lg, vertical: AppSpacing.md + 2),
+          horizontal: AppSpacing.lg,
+          vertical: AppSpacing.md + 2,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(k.toUpperCase(), style: AppType.on(AppType.label, pit.muted)),
             const SizedBox(height: AppSpacing.xs + 1),
-            Text(formatMacro(grams), style: AppType.on(AppType.numeral, pit.text)),
+            Text(
+              formatMacro(grams),
+              style: AppType.on(AppType.numeral, pit.text),
+            ),
           ],
         ),
       ),

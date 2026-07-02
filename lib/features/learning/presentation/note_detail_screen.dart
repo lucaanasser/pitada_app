@@ -42,7 +42,8 @@ class NoteDetailScreen extends ConsumerWidget {
           error: (e, _) => Center(child: Text('Erro: $e', style: AppType.body)),
           data: (note) => note == null
               ? const Center(
-                  child: Text('Nota não encontrada', style: AppType.body))
+                  child: Text('Nota não encontrada', style: AppType.body),
+                )
               : _content(note),
         ),
       ),

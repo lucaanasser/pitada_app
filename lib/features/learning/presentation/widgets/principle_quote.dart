@@ -25,7 +25,9 @@ class PrincipleQuote extends StatelessWidget {
       decoration: const BoxDecoration(
         border: Border(
           left: BorderSide(
-              color: AppColors.accent, width: AppSpacing.borderAccent),
+            color: AppColors.accent,
+            width: AppSpacing.borderAccent,
+          ),
         ),
       ),
       child: Text(text, style: AppType.quote),

@@ -54,7 +54,9 @@ class VersionStepTile extends StatelessWidget {
             shape: BoxShape.circle,
             color: definitive ? AppColors.accent : AppColors.surf,
             border: Border.all(
-                color: AppColors.accent, width: AppSpacing.borderThick),
+              color: AppColors.accent,
+              width: AppSpacing.borderThick,
+            ),
           ),
         ),
         if (!isLast)

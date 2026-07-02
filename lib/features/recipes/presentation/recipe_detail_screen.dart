@@ -41,13 +41,17 @@ class RecipeDetailScreen extends ConsumerWidget {
       backgroundColor: pit.bg,
       body: async.when(
         loading: () => const Center(
-            child: CircularProgressIndicator(color: AppColors.accent)),
-        error: (e, _) =>
-            Center(child: Text('Erro: $e', style: AppType.on(AppType.body, pit.text))),
+          child: CircularProgressIndicator(color: AppColors.accent),
+        ),
+        error: (e, _) => Center(
+            child: Text('Erro: $e', style: AppType.on(AppType.body, pit.text))),
         data: (recipe) => recipe == null
             ? Center(
-                child: Text('Receita não encontrada',
-                    style: AppType.on(AppType.body, pit.text)))
+                child: Text(
+                  'Receita não encontrada',
+                  style: AppType.on(AppType.body, pit.text),
+                ),
+              )
             : _content(context, recipe),
       ),
     );
@@ -93,8 +97,10 @@ class RecipeDetailScreen extends ConsumerWidget {
     return [
       Text(recipe.title, style: AppType.on(AppType.display, pit.text)),
       const SizedBox(height: AppSpacing.sm),
-      Text('${formatKcal(recipe.kcal)} kcal',
-          style: AppType.on(AppType.numeralLg, AppColors.accent)),
+      Text(
+        '${formatKcal(recipe.kcal)} kcal',
+        style: AppType.on(AppType.numeralLg, AppColors.accent),
+      ),
       const SizedBox(height: AppSpacing.lg),
       RecipeMeta(recipe: recipe),
       const SizedBox(height: AppSpacing.xl),
@@ -124,7 +130,10 @@ class RecipeDetailScreen extends ConsumerWidget {
           children: [
             for (final t in recipe.techniques)
               PitadaTag(
-                  label: t, color: pit.card('plum'), icon: AppIcons.technique),
+                label: t,
+                color: pit.card('plum'),
+                icon: AppIcons.technique,
+              ),
           ],
         ),
       ],
@@ -132,7 +141,9 @@ class RecipeDetailScreen extends ConsumerWidget {
       Text(
         recipe.notes ?? 'Sem anotações ainda.',
         style: AppType.on(
-            AppType.tip, recipe.notes == null ? pit.faint : pit.text2),
+          AppType.tip,
+          recipe.notes == null ? pit.faint : pit.text2,
+        ),
       ),
     ];
   }

@@ -54,7 +54,9 @@ class RecipeCard extends StatelessWidget {
                   Text(
                     recipe.title,
                     style: AppType.on(
-                        compact ? AppType.titleSm : AppType.title, pit.text),
+                      compact ? AppType.titleSm : AppType.title,
+                      pit.text,
+                    ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -99,15 +101,17 @@ class RecipeCard extends StatelessWidget {
                 color: pit.card(recipe.heroColor),
                 border: Border(
                   bottom: BorderSide(
-                      color: pit.border, width: AppSpacing.borderStrong),
+                    color: pit.border,
+                    width: AppSpacing.borderStrong,
+                  ),
                 ),
               ),
               child: Center(
                 child: Icon(
                   AppIcons.dish,
                   size: compact ? 40 : 56,
-                  color:
-                      (pit.isDark ? pit.text : pit.border).withValues(alpha: 0.3),
+                  color: (pit.isDark ? pit.text : pit.border)
+                      .withValues(alpha: 0.3),
                 ),
               ),
             ),

@@ -59,7 +59,9 @@ class _RecipeEditScreenState extends ConsumerState<RecipeEditScreen> {
     if (draft == null) return;
     draft.title = _name.text;
     AppLog.i(
-        'recipes', 'receita salva: ${draft.id.isEmpty ? "(nova)" : draft.id}');
+      'recipes',
+      'receita salva: ${draft.id.isEmpty ? "(nova)" : draft.id}',
+    );
     context.pop();
   }
 
@@ -95,7 +97,10 @@ class _RecipeEditScreenState extends ConsumerState<RecipeEditScreen> {
           ),
           const SizedBox(height: AppSpacing.xl),
           EditTextField(
-              label: 'Nome', controller: _name, hint: 'Nome da receita'),
+            label: 'Nome',
+            controller: _name,
+            hint: 'Nome da receita',
+          ),
           EditStepperField(
             label: 'Porções',
             value: draft.servings,
@@ -142,8 +147,10 @@ class _RecipeEditScreenState extends ConsumerState<RecipeEditScreen> {
             GestureDetector(
               onTap: () => context.pop(),
               behavior: HitTestBehavior.opaque,
-              child: Text('Cancelar',
-                  style: AppType.on(AppType.button, AppColors.muted)),
+              child: Text(
+                'Cancelar',
+                style: AppType.on(AppType.button, AppColors.muted),
+              ),
             ),
             Expanded(
               child: Text(
@@ -155,8 +162,10 @@ class _RecipeEditScreenState extends ConsumerState<RecipeEditScreen> {
             GestureDetector(
               onTap: _save,
               behavior: HitTestBehavior.opaque,
-              child: Text('Salvar',
-                  style: AppType.on(AppType.button, AppColors.accent)),
+              child: Text(
+                'Salvar',
+                style: AppType.on(AppType.button, AppColors.accent),
+              ),
             ),
           ],
         ),

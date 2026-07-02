@@ -53,8 +53,10 @@ class LessonCardRow extends StatelessWidget {
           // Frameworks trazem a fórmula (lead) como assinatura da ficha.
           if (isFramework && lesson.lead != null) ...[
             const SizedBox(height: AppSpacing.xs + 2),
-            Text(lesson.lead!,
-                style: AppType.on(AppType.tip, AppColors.accent2)),
+            Text(
+              lesson.lead!,
+              style: AppType.on(AppType.tip, AppColors.accent2),
+            ),
           ],
         ],
       ),

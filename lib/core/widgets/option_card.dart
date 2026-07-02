@@ -17,8 +17,11 @@ class OptionDish {
   final String name;
   final int kcal;
   final bool linked;
-  const OptionDish(
-      {required this.name, required this.kcal, this.linked = false});
+  const OptionDish({
+    required this.name,
+    required this.kcal,
+    this.linked = false,
+  });
 }
 
 /// Cartão de uma opção de refeição. [chosen] realça; [fits] escolhe o selo.
@@ -105,8 +108,10 @@ class OptionCard extends StatelessWidget {
                 ),
               ),
             ),
-            Text(formatKcal(d.kcal),
-                style: AppType.on(AppType.caption, AppColors.muted)),
+            Text(
+              formatKcal(d.kcal),
+              style: AppType.on(AppType.caption, AppColors.muted),
+            ),
             if (d.linked) ...[
               const SizedBox(width: AppSpacing.sm),
               const Icon(AppIcons.chevron, size: 15, color: AppColors.faint),

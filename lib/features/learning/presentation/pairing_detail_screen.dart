@@ -36,12 +36,14 @@ class PairingDetailScreen extends ConsumerWidget {
         bottom: false,
         child: async.when(
           loading: () => const Center(
-              child: CircularProgressIndicator(color: AppColors.accent)),
+            child: CircularProgressIndicator(color: AppColors.accent),
+          ),
           error: (e, _) => Center(child: Text('Erro: $e', style: AppType.body)),
           data: (pairing) => pairing == null
               ? const Center(
                   child:
-                      Text('Harmonização não encontrada', style: AppType.body))
+                      Text('Harmonização não encontrada', style: AppType.body),
+                )
               : _content(context, pairing),
         ),
       ),

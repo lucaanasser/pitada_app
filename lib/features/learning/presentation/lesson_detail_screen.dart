@@ -40,7 +40,8 @@ class LessonDetailScreen extends ConsumerWidget {
           error: (e, _) => Center(child: Text('Erro: $e', style: AppType.body)),
           data: (lesson) => lesson == null
               ? const Center(
-                  child: Text('Ficha não encontrada', style: AppType.body))
+                  child: Text('Ficha não encontrada', style: AppType.body),
+                )
               : _content(context, lesson),
         ),
       ),
@@ -79,8 +80,7 @@ class LessonDetailScreen extends ConsumerWidget {
       ),
       child: Row(
         children: [
-          PitadaIconButton(
-              icon: AppIcons.back, onPressed: () => context.pop()),
+          PitadaIconButton(icon: AppIcons.back, onPressed: () => context.pop()),
           const Spacer(),
           PitadaIconButton(
             icon: AppIcons.edit,

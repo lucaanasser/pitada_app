@@ -10,7 +10,6 @@
 // SPEC:      specs/design-system/icons.yaml
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
-import 'package:flutter/widgets.dart' show IconData;
 
 /// Ícones nomeados por significado. `*Fill` = variante preenchida (estado ativo).
 /// Usada por: qualquer widget que mostre um ícone.

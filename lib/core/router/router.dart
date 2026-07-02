@@ -23,7 +23,8 @@ final _rootKey = GlobalKey<NavigatorState>();
 /// Cria um branch de aba com uma única rota-raiz. Usada por: [routerProvider].
 StatefulShellBranch _branch(String path, Widget screen) {
   return StatefulShellBranch(
-      routes: [GoRoute(path: path, builder: (_, __) => screen)]);
+    routes: [GoRoute(path: path, builder: (_, __) => screen)],
+  );
 }
 
 /// Fornece o GoRouter do app. Provider para permitir redirect por auth no futuro.

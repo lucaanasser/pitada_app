@@ -32,7 +32,9 @@ class WhyCallout extends StatelessWidget {
         color: AppColors.accentSoft,
         border: Border(
           left: BorderSide(
-              color: AppColors.accentLine, width: AppSpacing.borderAccent),
+            color: AppColors.accentLine,
+            width: AppSpacing.borderAccent,
+          ),
         ),
         borderRadius: BorderRadius.only(
           topRight: Radius.circular(AppSpacing.radiusMd),

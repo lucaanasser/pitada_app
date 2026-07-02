@@ -14,8 +14,12 @@ class HumanQty {
   final num qty; // na unidade humana
   final num? grams; // referência (não some por aqui)
 
-  const HumanQty(
-      {required this.name, required this.unit, required this.qty, this.grams});
+  const HumanQty({
+    required this.name,
+    required this.unit,
+    required this.qty,
+    this.grams,
+  });
 }
 
 /// Soma itens agrupando por (nome, unidade humana): 2 receitas com 2 ovos = "4 un".
@@ -52,8 +56,14 @@ List<HumanQty> subtractPantry(List<HumanQty> list, List<HumanQty> pantry) {
     final key = '${it.name.toLowerCase()}|${it.unit.toLowerCase()}';
     final remaining = it.qty - (have[key] ?? 0);
     if (remaining > 0) {
-      result.add(HumanQty(
-          name: it.name, unit: it.unit, qty: remaining, grams: it.grams));
+      result.add(
+        HumanQty(
+          name: it.name,
+          unit: it.unit,
+          qty: remaining,
+          grams: it.grams,
+        ),
+      );
     }
   }
   return result;

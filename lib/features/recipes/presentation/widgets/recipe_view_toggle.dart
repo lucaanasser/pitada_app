@@ -51,15 +51,16 @@ class RecipeViewToggle extends StatelessWidget {
       onTap: () => onSelect(v),
       behavior: HitTestBehavior.opaque,
       child: Container(
-        padding:
-            const EdgeInsets.symmetric(horizontal: AppSpacing.sm + 2, vertical: 5),
+        padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.sm + 2, vertical: 5),
         decoration: active
             ? BoxDecoration(
                 color: AppColors.accentSoft,
                 borderRadius: AppSpacing.br(AppSpacing.radiusPill),
               )
             : null,
-        child: Icon(icon, size: 17, color: active ? AppColors.accent : pit.muted),
+        child:
+            Icon(icon, size: 17, color: active ? AppColors.accent : pit.muted),
       ),
     );
   }

@@ -1,0 +1,27 @@
+# specs/dev/device_preview.yaml -> lib/main.dart + lib/app.dart
+tool: DevicePreview
+package: device_preview ^1.3.1
+purpose: >
+  Moldura de celular (device frame) ao redor do app quando rodando no Chrome
+  em modo debug, para conferir proporção/safe-area/densidade sem redimensionar
+  a janela manualmente. Não é feature do app — é ferramenta de desenvolvimento.
+gating:
+  enabled: "kDebugMode && kIsWeb"   # nunca entra em build de release nem em mobile debug
+  motivo: >
+    Em release não deve existir de jeito nenhum (ferramenta de dev). Em mobile
+    debug (emulador/aparelho) o app já roda na proporção real do device, e
+    embrulhar com a moldura só atrapalha teste de gesto/performance/animação.
+integration:
+  - file: lib/main.dart
+    o_que: "runApp(DevicePreview(enabled: ..., builder: (ctx) => ProviderScope(child: PitadaApp())))"
+  - file: lib/app.dart
+    o_que: >
+      MaterialApp.router ganha useInheritedMediaQuery: true, locale:
+      DevicePreview.locale(context), builder: DevicePreview.appBuilder.
+      Chamadas são no-op seguro quando não há DevicePreview ancestral
+      (release / mobile) — confirmado no source do pacote.
+uso:
+  - "flutter run -d chrome"
+  - "painel lateral: trocar aparelho, girar, ligar/desligar moldura"
+  - "seletor de tema do device_preview: ignorar — o app já tem seu próprio toggle (context.pit)"
+used_by: [main.dart, app.dart]

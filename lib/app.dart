@@ -2,9 +2,11 @@
 // lib/app.dart
 // O QUÊ:     Widget raiz (MaterialApp.router) com os temas claro/escuro e as rotas.
 // USA:       core/theme/app_theme (temas), core/theme/theme_providers (modo),
-//            core/router/router (rotas), riverpod.
+//            core/router/router (rotas), riverpod, device_preview (hooks — no-op
+//            sem DevicePreview ancestral; ver specs/dev/device_preview.yaml).
 // USADO POR: main.dart.
 // ─────────────────────────────────────────────────────────────────────────────
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -28,6 +30,9 @@ class PitadaApp extends ConsumerWidget {
       darkTheme: AppTheme.dark,
       themeMode: mode,
       routerConfig: router,
+      // No-op quando não há DevicePreview ancestral (release / mobile debug).
+      locale: DevicePreview.locale(context),
+      builder: DevicePreview.appBuilder,
     );
   }
 }

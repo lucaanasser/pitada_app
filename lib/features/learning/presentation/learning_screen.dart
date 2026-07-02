@@ -1,61 +1,125 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/learning/presentation/learning_screen.dart
-// O QUÊ:     Aba Caderno — o hub. Marca, título, intro, botão '+' e 3 seções
-//            (Conhecimento/Prática/Repertório) com destinos navegáveis.
-// USA:       core/widgets (Masthead, PitadaScaffold, PitadaIconButton), theme/*,
-//            HubSection (seções) e caderno_add_sheet (ação '+').
+// O QUÊ:     Aba Caderno — o caderno aberto: captura rápida (CaptureBar),
+//            reativação do dia ("Para hoje"), fio cronológico e ferramentas.
+// USA:       core/widgets (Masthead, PitadaScaffold, SectionHeader, botões),
+//            caderno_providers (fio/reativação) e os widgets do hub.
 // USADO POR: core/router/router.dart (branch /learning).
 // SPEC:      specs/features/learning.yaml (screens.LearningScreen)
 // ─────────────────────────────────────────────────────────────────────────────
-import '../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/theme/colors.dart';
+import '../../../core/theme/app_icons.dart';
+import '../../../core/theme/pitada_colors.dart';
 import '../../../core/theme/spacing.dart';
 import '../../../core/theme/typography.dart';
+import '../../../core/widgets/empty_state.dart';
 import '../../../core/widgets/masthead.dart';
 import '../../../core/widgets/pitada_button.dart';
 import '../../../core/widgets/pitada_scaffold.dart';
+import '../../../core/widgets/section_header.dart';
+import '../application/caderno_providers.dart';
 import 'caderno_add_sheet.dart';
-import 'widgets/hub_section.dart';
+import 'widgets/capture_bar.dart';
+import 'widgets/fio_tile.dart';
+import 'widgets/reactivation_card.dart';
+import 'widgets/tools_panel.dart';
 
-/// Tela principal do Caderno (hub). Reúne todos os destinos do aprendizado.
+/// Quantos itens o fio mostra resumido (anti-densidade). Usada por: [LearningScreen].
+const _kFioPreview = 5;
+
+/// Tela principal do Caderno: o próprio caderno aberto, não um menu.
 /// Usada por: router (/learning).
-class LearningScreen extends StatelessWidget {
+class LearningScreen extends ConsumerWidget {
   const LearningScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final pit = context.pit;
+    final reactivation = ref.watch(reactivationItemsProvider);
+    final fio = ref.watch(fioProvider);
+    final expanded = ref.watch(fioExpandedProvider);
+    final visible = expanded ? fio : fio.take(_kFioPreview).toList();
+
     return PitadaScaffold(
+      background: pit.tabBg(1),
       top: const Masthead(),
       child: ListView(
         padding: const EdgeInsets.only(bottom: AppSpacing.xxxl),
         children: [
-          _header(context),
-          const Padding(
-            padding: AppSpacing.screenH,
-            child: HubSection(
-              label: 'Conhecimento',
-              topGap: AppSpacing.xxxl,
-              destinations: _knowledge,
+          _header(context, pit),
+          const SizedBox(height: AppSpacing.lg),
+          const Padding(padding: AppSpacing.screenH, child: CaptureBar()),
+
+          // —— Para hoje: reativação (máx. 2 cards, disciplina anti-ruído) ——
+          if (reactivation.isNotEmpty) ...[
+            const Padding(
+              padding: AppSpacing.screenH,
+              child: SectionHeader(label: 'Para hoje'),
             ),
-          ),
+            for (final item in reactivation)
+              Padding(
+                padding: const EdgeInsets.fromLTRB(
+                  AppSpacing.gutter,
+                  0,
+                  AppSpacing.gutter,
+                  AppSpacing.md,
+                ),
+                child: ReactivationCard(item: item),
+              ),
+          ],
+
+          // —— O fio: tudo que foi capturado, em ordem cronológica ——
           const Padding(
             padding: AppSpacing.screenH,
-            child: HubSection(label: 'Prática', destinations: _practice),
+            child: SectionHeader(label: 'O fio'),
           ),
+          if (fio.isEmpty)
+            const EmptyState(
+              title: 'O caderno começa vazio',
+              message: 'Capture a primeira ideia na barra acima.',
+              icon: AppIcons.editNote,
+            )
+          else ...[
+            Padding(
+              padding: AppSpacing.screenH,
+              child: Column(
+                children: [
+                  for (var i = 0; i < visible.length; i++)
+                    FioTile(
+                      entry: visible[i],
+                      isLast: i == visible.length - 1,
+                    ),
+                ],
+              ),
+            ),
+            if (fio.length > _kFioPreview)
+              Padding(
+                padding: AppSpacing.screenH,
+                child: PitadaButton(
+                  label: expanded ? 'Mostrar menos' : 'Ver o fio completo',
+                  variant: PitadaButtonVariant.outline,
+                  onPressed: () =>
+                      ref.read(fioExpandedProvider.notifier).state = !expanded,
+                ),
+              ),
+          ],
+
+          // —— Ferramentas: os 3 pilares, sempre a 2 toques ——
           const Padding(
             padding: AppSpacing.screenH,
-            child: HubSection(label: 'Repertório', destinations: _repertoire),
+            child: SectionHeader(label: 'Ferramentas'),
           ),
+          const Padding(padding: AppSpacing.screenH, child: ToolsPanel()),
         ],
       ),
     );
   }
 
-  /// Cabeçalho do hub: título "Caderno", botão '+' e a citação de intro.
+  /// Cabeçalho do hub: título "Caderno" + botão '+' (sheet de adição).
   /// Usada por: [build].
-  Widget _header(BuildContext context) {
+  Widget _header(BuildContext context, PitadaColors pit) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(
         AppSpacing.gutter,
@@ -63,95 +127,21 @@ class LearningScreen extends StatelessWidget {
         AppSpacing.gutter,
         0,
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              const Expanded(
-                  child: Text('Caderno', style: AppType.screenTitle)),
-              PitadaIconButton(
-                icon: AppIcons.add,
-                onPressed: () => showCadernoAddSheet(context),
-              ),
-            ],
+          Expanded(
+            child: Text(
+              'Caderno',
+              style: AppType.on(AppType.screenTitle, pit.text),
+            ),
           ),
-          const SizedBox(height: AppSpacing.lg),
-          Text(
-            'Seu segundo cérebro na cozinha — o que você aprende, tudo ligado às receitas.',
-            style: AppType.on(AppType.quote, AppColors.text2),
+          PitadaIconButton(
+            icon: AppIcons.add,
+            onPressed: () => showCadernoAddSheet(context),
           ),
         ],
       ),
     );
   }
 }
-
-/// Seção Conhecimento: o que você aprende fora. Usada por: [LearningScreen].
-const _knowledge = <HubDestination>[
-  HubDestination(
-    title: 'Fichas',
-    subtitle: 'Técnicas, frameworks e guias de ingredientes',
-    heroColor: 'clay',
-    icon: AppIcons.book,
-    route: '/learning/cards',
-  ),
-  HubDestination(
-    title: 'Notas de fonte',
-    subtitle: 'O que fica de livros, vídeos e chefs',
-    heroColor: 'ochre',
-    icon: AppIcons.bookmark,
-    route: '/learning/notes',
-  ),
-];
-
-/// Seção Prática: evoluir cozinhando. Usada por: [LearningScreen].
-const _practice = <HubDestination>[
-  HubDestination(
-    title: 'Diário de cozinha',
-    subtitle: 'Três perguntas depois de cozinhar',
-    heroColor: 'moss',
-    icon: AppIcons.editNote,
-    route: '/learning/diary',
-  ),
-  HubDestination(
-    title: 'Versões de receita',
-    subtitle: 'A linha do tempo de cada ajuste',
-    heroColor: 'teal',
-    icon: AppIcons.timeline,
-    route: '/learning/versions',
-  ),
-  HubDestination(
-    title: 'Logs de processo',
-    subtitle: 'Fermentação, sous-vide, cura — avançado',
-    heroColor: 'plum',
-    icon: AppIcons.science,
-    route: '/learning/logs',
-  ),
-];
-
-/// Seção Repertório: cozinhar sem receita. Usada por: [LearningScreen].
-const _repertoire = <HubDestination>[
-  HubDestination(
-    title: 'Rácios',
-    subtitle: 'Proporções de confiança',
-    heroColor: 'terra',
-    icon: AppIcons.balance,
-    route: '/learning/repertoire/ratios',
-  ),
-  HubDestination(
-    title: 'Substituições',
-    subtitle: 'Trocas testadas na prática',
-    heroColor: 'rust',
-    icon: AppIcons.swap,
-    route: '/learning/repertoire/subs',
-  ),
-  HubDestination(
-    title: 'Harmonizações',
-    subtitle: 'O que combina com o quê',
-    heroColor: 'moss',
-    icon: AppIcons.hub,
-    route: '/learning/repertoire/pairings',
-  ),
-];

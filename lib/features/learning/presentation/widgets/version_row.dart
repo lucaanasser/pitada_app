@@ -39,8 +39,7 @@ class VersionRow extends StatelessWidget {
       title: Text(version.recipeName, style: AppType.titleSm),
       subtitle:
           Text(_meta(), style: AppType.on(AppType.caption, AppColors.muted)),
-      trailing:
-          const Icon(AppIcons.chevron, size: 16, color: AppColors.faint),
+      trailing: const Icon(AppIcons.chevron, size: 16, color: AppColors.faint),
     );
   }
 

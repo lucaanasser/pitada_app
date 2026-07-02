@@ -40,7 +40,8 @@ class VersionHistoryScreen extends ConsumerWidget {
           error: (e, _) => Center(child: Text('Erro: $e', style: AppType.body)),
           data: (version) => version == null
               ? const Center(
-                  child: Text('Histórico não encontrado', style: AppType.body))
+                  child: Text('Histórico não encontrado', style: AppType.body),
+                )
               : _content(version),
         ),
       ),

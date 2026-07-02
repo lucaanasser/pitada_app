@@ -8,10 +8,11 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 /// Uma pasta/capítulo de receitas (ex.: 'Marinadas de frango'). Uma receita pode
-/// estar em várias. Usada por: filtros da aba Receitas.
+/// estar em várias. Usada por: aba Pastas (FolderCard) e FolderScreen.
 class Folder {
   final String id;
   final String name;
+  final String heroColor; // nome em AppColors.hero (pastel do card da pasta)
 
-  const Folder({required this.id, required this.name});
+  const Folder({required this.id, required this.name, this.heroColor = 'clay'});
 }

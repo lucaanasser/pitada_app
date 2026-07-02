@@ -62,8 +62,10 @@ class RecipeMeta extends StatelessWidget {
   /// Link de origem clicável, ou rótulo 'Receita manual'. Usada por: [build].
   Widget _source(PitadaColors pit) {
     if (recipe.sourceUrl == null) {
-      return Text('Receita manual',
-          style: AppType.on(AppType.caption, pit.faint));
+      return Text(
+        'Receita manual',
+        style: AppType.on(AppType.caption, pit.faint),
+      );
     }
     return Row(
       mainAxisSize: MainAxisSize.min,
