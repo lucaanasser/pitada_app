@@ -1,15 +1,20 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/core/widgets/recipe_thumb.dart
-// O QUÊ:     Miniatura editorial de receita — quadrado colorido com ícone de prato.
-// USA:       core/theme/app_icons (ícone padrão), theme/spacing (raio).
-// USADO POR: recipes_screen, meal pickers (Planos), qualquer lista de receitas.
+// O QUÊ:     Miniatura de receita — quadrado colorido com ícone. [outlined] é o
+//            modo pastel neo-brutalista (borda tinta + ícone na tinta do tema).
+// USA:       core/theme/app_icons (ícone padrão), theme/pitada_colors (tinta),
+//            theme/spacing (raio/borda).
+// USADO POR: recipes_screen (RecipeRow), plans (add_option_sheet), meal pickers,
+//            listas do Caderno (modo legado, cor cheia).
 // SPEC:      specs/components/atoms.yaml (RecipeThumb)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import '../theme/app_icons.dart';
+import '../theme/pitada_colors.dart';
 import '../theme/spacing.dart';
 
-/// Quadrado colorido (hero_color) com um ícone claro no centro — placeholder de foto.
+/// Quadrado colorido (hero_color) com ícone no centro — placeholder de foto.
+/// [outlined] = pastel + borda tinta (soft neo-brutalismo); false = cor cheia legada.
 /// Usada por: RecipeRow e seletores de receita.
 class RecipeThumb extends StatelessWidget {
   const RecipeThumb({
@@ -18,26 +23,36 @@ class RecipeThumb extends StatelessWidget {
     this.size = 54,
     this.icon = AppIcons.dish,
     this.radius = AppSpacing.radiusMd,
+    this.outlined = false,
   });
 
   final Color color;
   final double size;
   final IconData icon;
   final double radius;
+  final bool outlined;
 
+  /// Monta o quadrado; em [outlined] o ícone usa a tinta do tema (o branco fixo
+  /// sumiria sobre pastel no tema claro). Usada por: framework.
   @override
   Widget build(BuildContext context) {
+    final pit = context.pit;
     return Container(
       width: size,
       height: size,
       decoration: BoxDecoration(
         color: color,
         borderRadius: AppSpacing.br(radius),
+        border: outlined
+            ? Border.all(color: pit.border, width: AppSpacing.borderStrong)
+            : null,
       ),
       child: Icon(
         icon,
         size: size * 0.4,
-        color: Colors.white.withValues(alpha: 0.42),
+        color: outlined
+            ? (pit.isDark ? pit.text : pit.border).withValues(alpha: 0.35)
+            : Colors.white.withValues(alpha: 0.42),
       ),
     );
   }

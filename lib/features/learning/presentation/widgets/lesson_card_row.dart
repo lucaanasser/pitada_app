@@ -10,6 +10,7 @@ import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/colors.dart';
+import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
 import '../../../../core/theme/typography.dart';
 import '../../../../core/widgets/hairline_row.dart';
@@ -31,6 +32,7 @@ class LessonCardRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pit = context.pit;
     final isFramework = lesson.category == LessonKind.framework;
     return HairlineRow(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -39,17 +41,25 @@ class LessonCardRow extends StatelessWidget {
       title: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(child: Text(lesson.title, style: AppType.title)),
-          const Padding(
-            padding: EdgeInsets.only(top: 2),
-            child: Icon(AppIcons.chevron, size: 20, color: AppColors.faint),
+          Expanded(
+            child: Text(
+              lesson.title,
+              style: AppType.on(AppType.title, pit.text),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 2),
+            child: Icon(AppIcons.chevron, size: 20, color: pit.faint),
           ),
         ],
       ),
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(lesson.summary, style: AppType.bodySm),
+          Text(
+            lesson.summary,
+            style: AppType.on(AppType.bodySm, pit.text2),
+          ),
           // Frameworks trazem a fórmula (lead) como assinatura da ficha.
           if (isFramework && lesson.lead != null) ...[
             const SizedBox(height: AppSpacing.xs + 2),

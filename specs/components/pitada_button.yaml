@@ -9,6 +9,12 @@ variants:
   - icon:    quadrado 52, contorno line2 (.btn-ic)
 api:
   - PitadaButton: {label: String, icon: IconData?, onPressed: VoidCallback?, variant, expand: bool}
-  - PitadaIconButton: {icon: IconData, onPressed, size} # círculo .iconbtn (42) p/ header
+  - PitadaIconButton: {icon: IconData, onPressed, size, filled: bool} # círculo .iconbtn (42) p/ header
+detalhes_icon_button: >
+  filled=false (padrão): só contorno pit.border, ícone pit.text — voltar, edição, ações neutras.
+  filled=true: círculo cheio AppColors.accent (mesmo laranja da navbar), ícone onAccent, sem
+  borda (flat) — ação principal do header de aba ('+' em Receitas/Caderno/Plano/Ingredientes,
+  engrenagem no Perfil). No header usa size AppSpacing.iconButtonSm (34) — menor e mais
+  delicado que o iconButton padrão. O ícone escala com o círculo (size * 0.45).
 detalhes: "active: scale .98. Sem sombra. Texto sempre AppType.button."
 used_by: [recipe_detail (barra), import_sheet, shopping, sheets em geral]

@@ -8,6 +8,7 @@
 // USADO POR: hub do Caderno (chamada de reativação) e fim do modo cozinhar.
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
+import '../../../core/widgets/pitada_sheet.dart';
 
 import '../../../core/theme/colors.dart';
 import '../../../core/theme/pitada_colors.dart';
@@ -23,14 +24,8 @@ import 'widgets/section_editor.dart';
 /// (ex.: veio do modo cozinhar), a receita já aparece fixa no título.
 /// Usada por: LearningScreen (reativação "Você cozinhou X") e cook mode.
 void showDiaryQuickSheet(BuildContext context, {String? recipeName}) {
-  showModalBottomSheet<void>(
-    context: context,
-    backgroundColor: context.pit.surf,
-    isScrollControlled: true,
-    shape: const RoundedRectangleBorder(
-      borderRadius:
-          BorderRadius.vertical(top: Radius.circular(AppSpacing.radiusXxl)),
-    ),
+  showPitadaSheet<void>(
+    context,
     builder: (ctx) => _DiaryQuickSheet(recipeName: recipeName),
   );
 }
@@ -147,7 +142,8 @@ class _DiaryQuickSheetState extends State<_DiaryQuickSheet> {
               ),
               const SizedBox(height: AppSpacing.xl),
               // —— veredito ——
-              const Text('REFAZER ASSIM?', style: AppType.label),
+              Text('REFAZER ASSIM?',
+                  style: AppType.on(AppType.label, pit.muted)),
               const SizedBox(height: AppSpacing.sm),
               Row(
                 children: [

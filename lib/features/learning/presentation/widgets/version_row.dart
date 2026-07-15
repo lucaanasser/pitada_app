@@ -9,6 +9,7 @@ import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/colors.dart';
+import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/typography.dart';
 import '../../../../core/widgets/hairline_row.dart';
 import '../../../../core/widgets/recipe_thumb.dart';
@@ -31,15 +32,18 @@ class VersionRow extends StatelessWidget {
   /// Usada por: VersionsScreen.
   @override
   Widget build(BuildContext context) {
+    final pit = context.pit;
     return HairlineRow(
       onTap: onTap,
       showDivider: showDivider,
       leading:
           RecipeThumb(color: AppColors.heroOf('ochre'), icon: AppIcons.history),
-      title: Text(version.recipeName, style: AppType.titleSm),
-      subtitle:
-          Text(_meta(), style: AppType.on(AppType.caption, AppColors.muted)),
-      trailing: const Icon(AppIcons.chevron, size: 16, color: AppColors.faint),
+      title: Text(
+        version.recipeName,
+        style: AppType.on(AppType.titleSm, pit.text),
+      ),
+      subtitle: Text(_meta(), style: AppType.on(AppType.caption, pit.muted)),
+      trailing: Icon(AppIcons.chevron, size: 16, color: pit.faint),
     );
   }
 

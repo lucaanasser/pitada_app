@@ -1,17 +1,17 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/core/widgets/pitada_tab_bar.dart
-// O QUÊ:     Barra inferior ancorada "pílula de tinta": item ativo ganha cápsula
-//            pastel da própria aba (pit.tabBg) com borda tinta — legenda cromática.
-//            Todos os itens mantêm ícone + rótulo. Flat, sem sombra.
-// USA:       core/theme (PitadaColors via context.pit), spacing, typography.
+// O QUÊ:     "Pílula fantasma": dock flutuante minimalista, compacto e
+//            centralizado, só ícones. Fundo surf + filete fino; o único ponto
+//            de cor é o ícone ativo em accent — a barra não compete com o
+//            conteúdo. Flat: sem sombra, sem degradê.
+// USA:       core/theme (AppColors, PitadaColors via context.pit, spacing).
 // USADO POR: core/router/app_shell.dart.
-// SPEC:      specs/features/app_shell.yaml
+// SPEC:      specs/features/app_shell.yaml (tab_bar)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import '../theme/colors.dart';
 import '../theme/pitada_colors.dart';
 import '../theme/spacing.dart';
-import '../theme/typography.dart';
 
 /// Descreve uma aba: [icon] (inativo) + [activeIcon] (preenchido, ativo) + rótulo.
 /// Usada por: app_shell.dart (lista das 5 abas).
@@ -22,8 +22,9 @@ class PitadaTab {
   const PitadaTab(this.icon, this.activeIcon, this.label);
 }
 
-/// Barra inferior ancorada: destaca [currentIndex] com cápsula pastel da aba
-/// (pit.tabBg) e chama [onSelect]. Usada por: app_shell.dart (shell das 5 abas).
+/// Pílula flutuante minimalista: destaca [currentIndex] só pela cor accent do
+/// ícone preenchido e chama [onSelect]. Sem rótulos visíveis — Semantics
+/// preserva a acessibilidade. Usada por: app_shell.dart.
 class PitadaTabBar extends StatelessWidget {
   const PitadaTabBar({
     super.key,
@@ -39,90 +40,68 @@ class PitadaTabBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final pit = context.pit;
-    return Container(
-      decoration: BoxDecoration(
-        color: pit.surf,
-        border: Border(
-          top: BorderSide(color: pit.border, width: AppSpacing.borderStrong),
-        ),
-      ),
-      child: SafeArea(
-        top: false,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.sm,
-            vertical: AppSpacing.sm,
+    return SafeArea(
+      top: false,
+      // Respiro da pílula; embaixo, o inset de gesto vale quando for maior.
+      minimum: const EdgeInsets.only(bottom: AppSpacing.md),
+      // Row centralizador: tem altura intrínseca — nunca Center/alignment
+      // direto no bottomNavigationBar, que recebem altura livre e esticariam
+      // a barra pela tela inteira.
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xs),
+            decoration: BoxDecoration(
+              color: pit.surf,
+              borderRadius: AppSpacing.br(AppSpacing.radiusPill),
+              // Filete fino de propósito (pedido do dono): a pílula precisa
+              // ser leve e não competir com o conteúdo da tela.
+              border: Border.all(color: pit.line2, width: AppSpacing.hair),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                for (var i = 0; i < tabs.length; i++)
+                  _item(pit, tabs[i], i, i == currentIndex),
+              ],
+            ),
           ),
-          child: Row(
-            children: [
-              for (var i = 0; i < tabs.length; i++)
-                Expanded(
-                  child: _item(
-                    pit,
-                    tabs[i],
-                    i,
-                    i == currentIndex,
-                    () => onSelect(i),
-                  ),
-                ),
-            ],
-          ),
-        ),
+        ],
       ),
     );
   }
 
-  /// Um item: cápsula pastel animada em volta do ícone (ativa) + rótulo sempre
-  /// visível. Usada por: [build].
-  Widget _item(
-    PitadaColors pit,
-    PitadaTab tab,
-    int index,
-    bool active,
-    VoidCallback onTap,
-  ) {
+  /// Um item: só o ícone, com padding generoso como área de toque. Ativo =
+  /// ícone preenchido em accent; inativo = regular em muted. A troca faz
+  /// crossfade (cor "acende" suave em vez de pular). Usada por: [build].
+  Widget _item(PitadaColors pit, PitadaTab tab, int index, bool active) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: () => onSelect(index),
       behavior: HitTestBehavior.opaque,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          // Cápsula do ícone: pastel da própria aba quando ativa. A borda existe
-          // sempre (transparente inativa) para o layout não pular.
-          AnimatedContainer(
-            duration: const Duration(milliseconds: 140),
-            curve: Curves.easeOut,
-            padding: const EdgeInsets.symmetric(
-              horizontal: AppSpacing.lg,
-              vertical: AppSpacing.xs + 1,
-            ),
-            decoration: BoxDecoration(
-              borderRadius: AppSpacing.br(AppSpacing.radiusPill),
-              color: active ? pit.tabBg(index) : Colors.transparent,
-              // Anel de tinta no claro; no escuro a tinta some no fundo,
-              // então o anel vira accent (regra dos elementos de tinta).
-              border: Border.all(
-                width: AppSpacing.borderStrong,
-                color: !active
-                    ? Colors.transparent
-                    : (pit.isDark ? AppColors.accent : pit.border),
-              ),
-            ),
+      child: Semantics(
+        button: true,
+        selected: active,
+        label: tab.label,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.md,
+            vertical: AppSpacing.md,
+          ),
+          child: AnimatedSwitcher(
+            duration: const Duration(milliseconds: 160),
+            switchInCurve: Curves.easeOut,
+            switchOutCurve: Curves.easeOut,
             child: Icon(
               active ? tab.activeIcon : tab.icon,
+              // A key faz o Switcher tratar ativo/inativo como widgets
+              // distintos e animar o fade entre eles.
+              key: ValueKey(active),
               size: 22,
-              color: active ? pit.text : pit.muted,
+              color: active ? AppColors.accent : pit.muted,
             ),
           ),
-          const SizedBox(height: 4),
-          Text(
-            tab.label,
-            style: active
-                ? AppType.on(AppType.captionSm, pit.text)
-                    .copyWith(fontWeight: FontWeight.w600)
-                : AppType.on(AppType.captionSm, pit.faint),
-          ),
-        ],
+        ),
       ),
     );
   }

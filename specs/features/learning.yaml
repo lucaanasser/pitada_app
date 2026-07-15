@@ -69,8 +69,11 @@ application:
     - lessonByIdProvider (family<Lesson?, String>)
     - sourceNotesProvider / noteByIdProvider (family)
     - diaryEntriesProvider / diaryEntryByIdProvider (family)
-    - recipeVersionsProvider (family<List<RecipeVersion>, String recipeId>)  # histórico
-    - versionedRecipesProvider (FutureProvider<List<...>>)   # lista de receitas com versões
+    - versionsProvider (FutureProvider<List<RecipeVersion>>)   # todos os históricos
+    - versionByIdProvider (family<RecipeVersion?, String>)     # um histórico por id
+    - versionForRecipeProvider (family<RecipeVersion?, String recipeId>)  # histórico de UMA receita
+      # ^ consumido pela RecipeDetailScreen (recipes): o seletor de versão mostra a nota
+      #   "o que mudou" de cada versão — a MESMA do Caderno (fonte única das notas).
     - processLogsProvider / processLogByIdProvider (family)
     - ratiosProvider / substitutionsProvider (FutureProvider)
     - pairingsProvider / pairingByIdProvider (family)
@@ -101,7 +104,7 @@ screens:
   - LessonCardsScreen:   # view-fichas — enciclopédia pessoal
       layout: >
         voltar/'+', kicker "Conhecimento" + título "Fichas" + lead,
-        ChapterTabs [Técnicas, Frameworks, Ingredientes, Sabores, Ervas & especiarias],
+        PitadaTabs [Técnicas, Frameworks, Ingredientes, Sabores, Ervas & especiarias],
         lista de LessonCard (título + chevron + resumo; framework mostra a fórmula)
       navega: LessonDetailScreen (/lesson/:id), LessonEditScreen ('+')
   - LessonDetailScreen:  # view-tec / view-fwk / view-guide — renderiza por kind
@@ -199,16 +202,17 @@ screens:
 
 sheets:
   - showCadernoAddSheet(BuildContext):   # sheet-cad-add
+      # Delega ao AddOptionsSheet compartilhado (specs/components/add_options_sheet.yaml);
+      # este arquivo só define as 4 opções.
       grip + título "Adicionar ao Caderno" + lista de SourceRow (HairlineRow):
         - Ficha            -> LessonEditScreen (novo)
         - Nota de fonte    -> NoteDetailScreen/editor de nota (próximo passo)
         - Entrada de diário-> editor de diário (próximo passo)
         - Log de processo  -> editor de log (próximo passo)
 
-components_reutilizados: [Masthead, SectionHeader, ChapterTabs, SegTabs, HairlineRow,
+components_reutilizados: [Masthead, SectionHeader, PitadaTabs, HairlineRow,
   RecipeThumb, PitadaChip, WhyCallout, PitadaButton, PitadaIconButton, EmptyState]
-  # ChapterTabs (serifa) nas abas das Fichas = .ftabs do protótipo; SegTabs disponível
-  # como alternativa simples (design-system: "Abas simples (Aprendizado)").
+  # PitadaTabs nas abas das Fichas = .ftabs do protótipo (widget único, com slide).
 usa_estilo: [AppType.quote (princípio de técnica / lead), AppType.numeralSm (keys/takes),
   AppType.label (versalete nos kickers com .toUpperCase()), AppColors.heroOf (miniaturas)]
 

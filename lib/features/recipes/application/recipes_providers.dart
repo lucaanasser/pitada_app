@@ -1,7 +1,8 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/recipes/application/recipes_providers.dart
 // O QUÊ:     Providers Riverpod da feature Receitas (lista, pastas, filtro, detalhe).
-// USA:       recipes_repository, recipe.dart, folder.dart, riverpod.
+// USA:       recipes_repository (contrato), seed_recipes_repository (default
+//            offline), recipe.dart, folder.dart, riverpod.
 // USADO POR: recipes_screen, recipe_detail_screen (camada de apresentação).
 // SPEC:      specs/features/recipes.yaml (application.providers)
 // ─────────────────────────────────────────────────────────────────────────────
@@ -10,38 +11,38 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../data/folder.dart';
 import '../data/recipe.dart';
 import '../data/recipes_repository.dart';
+import '../data/seed_recipes_repository.dart';
 
-/// Instância do repositório. Usada por: os providers abaixo.
+/// Instância do repositório. Default = seed em memória (preview no PC);
+/// main.dart sobrescreve com SupabaseRecipesRepository quando há chaves.
+/// Usada por: os providers abaixo.
 final recipesRepositoryProvider =
-    Provider<RecipesRepository>((ref) => const RecipesRepository());
+    Provider<RecipesRepository>((ref) => const SeedRecipesRepository());
 
 /// Todas as receitas do usuário. Usada por: recipes_screen (via filtro) e Planos.
 final recipesProvider = FutureProvider<List<Recipe>>((ref) {
   return ref.watch(recipesRepositoryProvider).fetchRecipes();
 });
 
-/// Pastas (capítulos). Usada por: ChapterTabs em recipes_screen.
+/// Pastas (capítulos). Usada por: PitadaTabs (aba Pastas) em recipes_screen.
 final foldersProvider = FutureProvider<List<Folder>>((ref) {
   return ref.watch(recipesRepositoryProvider).fetchFolders();
 });
 
-/// As 4 abas fixas da tela de Receitas. Usada por: recipes_screen (ChapterTabs).
-enum RecipesTab { mine, saved, folders, favorites }
+/// As 3 abas fixas da tela de Receitas. Usada por: recipes_screen (PitadaTabs).
+/// "Salvas" foi removida: manuais e importadas convivem em "Minhas Receitas".
+enum RecipesTab { mine, folders, favorites }
 
 /// Aba selecionada em Receitas (0 = Minhas Receitas). Usada por: recipes_screen.
 final selectedRecipesTabProvider = StateProvider<int>((ref) => 0);
 
-/// Receitas da aba atual. Pastas (aba 2) não filtra receitas — mostra FolderCards.
-/// "Minhas" = criadas à mão; "Salvas" = importadas de fora (fonte != manual);
-/// persistir essa distinção no banco vem com o backend. Usada por: recipes_screen.
+/// Receitas da aba atual. Pastas (aba 1) não filtra receitas — mostra FolderCards.
+/// "Minhas Receitas" reúne todas (manuais + importadas). Usada por: recipes_screen.
 final recipesForTabProvider = Provider<List<Recipe>>((ref) {
   final recipes = ref.watch(recipesProvider).valueOrNull ?? const [];
   final tab = RecipesTab.values[ref.watch(selectedRecipesTabProvider)];
   return switch (tab) {
-    RecipesTab.mine =>
-      recipes.where((r) => r.source == RecipeSource.manual).toList(),
-    RecipesTab.saved =>
-      recipes.where((r) => r.source != RecipeSource.manual).toList(),
+    RecipesTab.mine => recipes,
     RecipesTab.folders => recipes,
     RecipesTab.favorites => recipes.where((r) => r.favorite).toList(),
   };
@@ -51,3 +52,52 @@ final recipesForTabProvider = Provider<List<Recipe>>((ref) {
 final recipeByIdProvider = FutureProvider.family<Recipe?, String>((ref, id) {
   return ref.watch(recipesRepositoryProvider).fetchById(id);
 });
+
+/// Todas as versões de um grupo (v1..vN, asc). Usada por: RecipeDetailScreen (seletor).
+final recipeVersionGroupProvider =
+    FutureProvider.family<List<Recipe>, String>((ref, groupId) {
+  return ref.watch(recipesRepositoryProvider).fetchVersionGroup(groupId);
+});
+
+/// Versão atualmente vista no detalhe (número), por grupo. null = definitiva.
+/// Estado de UI puro (não persiste): trocar aqui troca a tela inteira da receita.
+/// Usada por: RecipeDetailScreen, RecipeVersionSheet.
+final selectedRecipeVersionProvider =
+    StateProvider.family<int?, String>((ref, groupId) => null);
+
+/// Controller de edição inline: salva uma receita alterada e refaz as telas.
+/// Presentation nunca fala com o repositório direto — passa por aqui.
+/// Usada por: recipeEditControllerProvider.
+class RecipeEditController {
+  const RecipeEditController(this._ref);
+
+  final Ref _ref;
+
+  /// Persiste [recipe] e invalida os providers dependentes, para a edição aparecer na
+  /// hora. [asNewVersion]=false sobrescreve no lugar; true cria uma nova versão (a tela
+  /// passa a mostrar o seletor). Usada por: sheets de edição inline (RecipeQuickEdit).
+  Future<void> save(Recipe recipe, {bool asNewVersion = false}) async {
+    final repo = _ref.read(recipesRepositoryProvider);
+    if (asNewVersion) {
+      await repo.saveAsNewVersion(recipe);
+      // A definitiva vive no id do grupo (id canônico); sem grupo, o próprio id o inicia.
+      final canonicalId = recipe.versionGroupId ?? recipe.id;
+      _ref.invalidate(recipeByIdProvider(canonicalId));
+      _ref.invalidate(recipeVersionGroupProvider(canonicalId));
+      _ref.invalidate(
+        selectedRecipeVersionProvider(canonicalId),
+      ); // volta p/ definitiva
+      _ref.invalidate(recipesProvider);
+      return;
+    }
+    await repo.updateRecipe(recipe);
+    _ref.invalidate(recipeByIdProvider(recipe.id));
+    _ref.invalidate(recipesProvider);
+    final groupId = recipe.versionGroupId;
+    if (groupId != null) _ref.invalidate(recipeVersionGroupProvider(groupId));
+  }
+}
+
+/// Instância do controller de edição inline. Usada por: RecipeQuickEdit (detalhe).
+final recipeEditControllerProvider =
+    Provider<RecipeEditController>(RecipeEditController.new);

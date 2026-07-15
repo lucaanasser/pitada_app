@@ -9,6 +9,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/colors.dart';
+import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
 import '../../../../core/theme/typography.dart';
 import '../../../../core/widgets/hairline_row.dart';
@@ -31,7 +32,10 @@ class LogParamCell extends StatelessWidget {
       children: [
         Text(value, style: AppType.on(AppType.numeral, AppColors.accent)),
         const SizedBox(height: AppSpacing.xs),
-        Text(label.toUpperCase(), style: AppType.label),
+        Text(
+          label.toUpperCase(),
+          style: AppType.on(AppType.label, context.pit.muted),
+        ),
       ],
     );
   }
@@ -48,12 +52,15 @@ class LogStepRow extends StatelessWidget {
   /// Renderiza um evento como linha de lista com filete. Usada por: ProcessLogScreen.
   @override
   Widget build(BuildContext context) {
+    final pit = context.pit;
     return HairlineRow(
       showDivider: showDivider,
       crossAxisAlignment: CrossAxisAlignment.start,
-      title: Text(event.date.toUpperCase(), style: AppType.label),
-      subtitle:
-          Text(event.text, style: AppType.on(AppType.body, AppColors.text2)),
+      title: Text(
+        event.date.toUpperCase(),
+        style: AppType.on(AppType.label, pit.muted),
+      ),
+      subtitle: Text(event.text, style: AppType.on(AppType.body, pit.text2)),
     );
   }
 }

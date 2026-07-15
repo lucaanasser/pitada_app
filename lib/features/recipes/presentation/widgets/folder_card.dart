@@ -74,7 +74,7 @@ class _FolderCardState extends State<FolderCard> {
                 AppSpacing.lg,
                 0,
                 AppSpacing.lg,
-                AppSpacing.md,
+                AppSpacing.sm,
               ),
               child: Align(
                 alignment: Alignment.bottomLeft,
@@ -84,8 +84,10 @@ class _FolderCardState extends State<FolderCard> {
                   children: [
                     Text(
                       widget.folder.name,
-                      style: AppType.on(AppType.button, pit.text),
-                      maxLines: 1,
+                      // fonte compacta + até 2 linhas: nome longo quebra antes
+                      // de cair no "..." (ver typography titleXs).
+                      style: AppType.on(AppType.titleXs, pit.text),
+                      maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: AppSpacing.xs),

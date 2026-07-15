@@ -11,10 +11,12 @@ import '../../../../core/theme/colors.dart';
 import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
 import '../../../../core/theme/typography.dart';
+import '../../../../core/widgets/editable.dart';
 import '../../../../core/widgets/why_callout.dart';
 import '../../data/recipe_step.dart';
 
 /// Um passo: bolinha numerada terracota + texto + dica de técnica (se houver).
+/// Editável por gesto ([onEdit]): segurar/duplo-clique abre a edição do passo.
 /// Usada por: recipe_detail_screen.
 class StepTile extends StatelessWidget {
   const StepTile({
@@ -22,44 +24,49 @@ class StepTile extends StatelessWidget {
     required this.number,
     required this.step,
     this.showDivider = true,
+    this.onEdit,
   });
 
   final int number;
   final RecipeStep step;
   final bool showDivider;
+  final VoidCallback? onEdit;
 
   /// Monta a bolinha + texto + WhyCallout opcional, com filete. Usada por: framework.
   @override
   Widget build(BuildContext context) {
     final pit = context.pit;
-    return Container(
-      decoration: showDivider
-          ? BoxDecoration(
-              border: Border(
-                bottom: BorderSide(color: pit.line, width: AppSpacing.hair),
-              ),
-            )
-          : null,
-      padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _circle(pit),
-          const SizedBox(width: AppSpacing.md + 2),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  step.text,
-                  style: AppType.on(AppType.body, pit.text2)
-                      .copyWith(height: 1.55),
+    return Editable(
+      onEdit: onEdit,
+      child: Container(
+        decoration: showDivider
+            ? BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(color: pit.line, width: AppSpacing.hair),
                 ),
-                if (step.tip != null) WhyCallout(text: step.tip!),
-              ],
+              )
+            : null,
+        padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _circle(pit),
+            const SizedBox(width: AppSpacing.md + 2),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    step.text,
+                    style: AppType.on(AppType.body, pit.text2)
+                        .copyWith(height: 1.55),
+                  ),
+                  if (step.tip != null) WhyCallout(text: step.tip!),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -1,8 +1,10 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/shopping/presentation/widgets/shopping_list_view.dart
-// O QUÊ:     Aba Lista: legenda, grupos por categoria (CheckItem + qtd) e "Comprei tudo".
-// USA:       shopping_providers, category_group, core/widgets (HairlineRow, CheckItem,
-//            PitadaButton, EmptyState), utils/format, theme/*.
+// O QUÊ:     Aba Lista: cabeçalho da lista ativa (nome + caret), toggle
+//            "descontar a despensa" em HairlineRow (o caso praia = desligado),
+//            grupos por categoria e "Comprei tudo". Quantidades já derivadas.
+// USA:       shopping_providers, list_header, category_group, core/widgets
+//            (HairlineRow, CheckItem, PitadaButton, EmptyState), utils/format, theme/*.
 // USADO POR: shopping_screen (corpo da aba Lista).
 // SPEC:      specs/features/shopping.yaml (screens.ShoppingScreen.lista)
 // ─────────────────────────────────────────────────────────────────────────────
@@ -10,7 +12,7 @@ import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../core/theme/colors.dart';
+import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
 import '../../../../core/theme/typography.dart';
 import '../../../../core/utils/format.dart';
@@ -18,88 +20,123 @@ import '../../../../core/widgets/check_item.dart';
 import '../../../../core/widgets/empty_state.dart';
 import '../../../../core/widgets/hairline_row.dart';
 import '../../../../core/widgets/pitada_button.dart';
+import '../../../../core/widgets/pitada_scaffold.dart';
 import '../../application/shopping_providers.dart';
 import '../../data/shopping_item.dart';
+import '../../data/shopping_list.dart';
 import 'category_group.dart';
+import 'list_header.dart';
 
-/// Corpo da aba Lista: legenda de contexto, grupos por categoria e botão final.
-/// A quantidade já vem somada por unidade e subtraída da despensa (ver providers).
+/// Corpo da aba Lista: seletor de listas, toggle da despensa e itens agrupados.
 /// Usada por: shopping_screen.
 class ShoppingListView extends ConsumerWidget {
   const ShoppingListView({super.key});
 
-  /// Renderiza a lista agrupada ou um EmptyState quando não há nada a comprar.
+  /// Renderiza o cabeçalho da lista, o toggle e a lista agrupada (ou EmptyState).
   /// Usada por: shopping_screen (aba 0).
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final pit = context.pit;
+    final list = ref.watch(activeListProvider);
     final grouped = ref.watch(listByCategoryProvider);
-
-    if (grouped.isEmpty) {
-      return const Padding(
-        padding: EdgeInsets.only(top: AppSpacing.xxxl),
-        child: EmptyState(
-          title: 'Lista vazia',
-          message: 'Adicione receitas ao plano para gerar a lista de compras.',
-          icon: AppIcons.basket,
-        ),
-      );
-    }
-
     final categories = grouped.keys.toList();
+
     return ListView(
-      padding: const EdgeInsets.only(bottom: AppSpacing.xxl),
+      padding: tabListPadding(context),
       children: [
-        _legend(),
-        for (var c = 0; c < categories.length; c++)
-          CategoryGroup(
-            label: categories[c],
-            topGap: c == 0 ? AppSpacing.xl : AppSpacing.xxxl,
-            children: [
-              for (var i = 0; i < grouped[categories[c]]!.length; i++)
-                _ShoppingRow(
-                  item: grouped[categories[c]]![i],
-                  showDivider: i != grouped[categories[c]]!.length - 1,
-                  onToggle: () => ref
-                      .read(shoppingListProvider.notifier)
-                      .toggle(grouped[categories[c]]![i].id),
-                ),
-            ],
-          ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(
-            AppSpacing.gutter,
-            AppSpacing.xxxl,
-            AppSpacing.gutter,
-            0,
-          ),
-          child: PitadaButton(
-            label: 'Comprei tudo',
-            icon: AppIcons.check,
-            onPressed: () {
-              ref.read(shoppingListProvider.notifier).checkAll();
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Guardado na despensa')),
-              );
-            },
-          ),
+        const Padding(
+          padding: EdgeInsets.only(top: AppSpacing.md),
+          child: ListHeaderRow(),
         ),
+        _pantryToggle(pit, ref, list),
+        if (grouped.isEmpty)
+          Padding(
+            padding: const EdgeInsets.only(top: AppSpacing.xxxl),
+            child: _empty(list),
+          )
+        else ...[
+          for (var c = 0; c < categories.length; c++)
+            CategoryGroup(
+              label: categories[c],
+              topGap: c == 0 ? AppSpacing.xl : AppSpacing.xxxl,
+              children: [
+                for (var i = 0; i < grouped[categories[c]]!.length; i++)
+                  _ShoppingRow(
+                    item: grouped[categories[c]]![i],
+                    showDivider: i != grouped[categories[c]]!.length - 1,
+                    onToggle: () => ref
+                        .read(shoppingListsProvider.notifier)
+                        .toggleItem(list.id, grouped[categories[c]]![i].id),
+                  ),
+              ],
+            ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(
+              AppSpacing.gutter,
+              AppSpacing.xxxl,
+              AppSpacing.gutter,
+              0,
+            ),
+            child: PitadaButton(
+              label: 'Comprei tudo',
+              icon: AppIcons.check,
+              onPressed: () {
+                ref.read(shoppingListsProvider.notifier).checkAll(list.id);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Guardado na despensa')),
+                );
+              },
+            ),
+          ),
+        ],
       ],
     );
   }
 
-  /// Legenda que explica como a quantidade foi calculada. Usada por: [build].
-  Widget _legend() {
+  /// Toggle "descontar a despensa" da lista ativa como HairlineRow (o subtítulo
+  /// explica o estado; desligado = caso praia). Usada por: [build].
+  Widget _pantryToggle(PitadaColors pit, WidgetRef ref, ShoppingList list) {
+    void flip() =>
+        ref.read(shoppingListsProvider.notifier).togglePantry(list.id);
     return Padding(
       padding: const EdgeInsets.fromLTRB(
         AppSpacing.gutter,
-        AppSpacing.md,
+        AppSpacing.sm,
         AppSpacing.gutter,
         0,
       ),
-      child: Text(
-        'Somado por unidade · já descontamos o que há na despensa',
-        style: AppType.on(AppType.caption, AppColors.muted),
+      child: HairlineRow(
+        showDivider: false,
+        onTap: flip,
+        title: Text(
+          'Descontar a despensa',
+          style: AppType.on(AppType.body, pit.text),
+        ),
+        subtitle: Text(
+          list.usePantry
+              ? 'O que já está na despensa sai da conta'
+              : 'Mostrando tudo, sem descontar',
+          style: AppType.on(AppType.captionSm, pit.muted),
+        ),
+        trailing: CheckItem(
+          checked: list.usePantry,
+          shape: CheckShape.square,
+          onChanged: (_) => flip(),
+        ),
       ),
+    );
+  }
+
+  /// EmptyState da lista ativa: distingue lista sem itens de lista toda coberta
+  /// pela despensa. Usada por: [build].
+  Widget _empty(ShoppingList list) {
+    final covered = list.items.isNotEmpty;
+    return EmptyState(
+      title: covered ? 'Nada a comprar' : 'Lista vazia',
+      message: covered
+          ? 'Tudo o que esta lista pede já está na despensa.'
+          : 'Adicione receitas ao plano para gerar a lista de compras.',
+      icon: AppIcons.basket,
     );
   }
 }
@@ -119,11 +156,12 @@ class _ShoppingRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pit = context.pit;
     final done = item.checked;
     final nameStyle = done
-        ? AppType.on(AppType.body, AppColors.muted)
+        ? AppType.on(AppType.body, pit.muted)
             .copyWith(decoration: TextDecoration.lineThrough)
-        : AppType.body;
+        : AppType.on(AppType.body, pit.text);
     return HairlineRow(
       showDivider: showDivider,
       onTap: onToggle,
@@ -138,14 +176,14 @@ class _ShoppingRow extends StatelessWidget {
         children: [
           Text(
             formatHuman(item.humanQty, item.humanUnit),
-            style: AppType.numeral,
+            style: AppType.on(AppType.numeral, pit.text),
           ),
           if (item.grams != null && item.humanUnit != 'g')
             Padding(
               padding: const EdgeInsets.only(top: 3),
               child: Text(
                 formatGrams(item.grams),
-                style: AppType.on(AppType.captionSm, AppColors.muted),
+                style: AppType.on(AppType.captionSm, pit.muted),
               ),
             ),
         ],

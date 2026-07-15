@@ -4,6 +4,12 @@ prototype: "tags coloridas das referências (pills sólidas com borda)"
 purpose: >
   Pílula colorida (fundo pastel + borda tinta + texto), opcional ícone. É a
   "tag coloridinha". Reage ao tema (claro/escuro) via context.pit.
+regra_de_uso: >
+  REGRA DO DONO (06/jul/2026): cápsula é SÓ para TAG de verdade — uma
+  CLASSIFICAÇÃO/rótulo categórico (técnica, tipo de fonte, veredito, categoria).
+  MÉTRICA NUNCA vira cápsula: kcal, tempo, porções, gramas, contagens vão em
+  texto sóbrio (AppType.bodySm/caption em pit.text2/muted). Vale para o app
+  inteiro; se uma métrica aparecer em pílula, é bug de estética.
 uses:
   - context.pit.border   # borda
   - context.pit.text     # texto/ícone
@@ -18,6 +24,6 @@ detalhes: >
   A cor de fundo vem de fora (um pastel do tema, geralmente context.pit.card(hero));
   borda e texto vêm do tema. Sem sombra. Cantos totalmente arredondados (pill).
 used_by:
-  - recipe_meta (porções/tempo/nível)
-  - recipe_detail (técnicas)
-  - card de receita (próximo incremento)
+  - recipe_detail (técnicas — tag legítima)
+  - learning: note_quick_sheet / diary_quick_sheet (tipo/veredito selecionado),
+    capture_bar, fio_tile (rótulo do estilo do registro)

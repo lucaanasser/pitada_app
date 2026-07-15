@@ -1,0 +1,29 @@
+component: showPitadaSheet
+file: lib/core/widgets/pitada_sheet.dart
+prototype: "todos os bottom sheets do app (meal/add_option/import/log_day/…)"
+purpose: >
+  Helper único para abrir bottom sheets no padrão do app. Centraliza a config
+  antes duplicada em ~13 telas (fundo surf, topo arredondado radiusXxl,
+  isScrollControlled) e — o ponto-chave — abre SEMPRE no root navigator.
+motivo_root_navigator: >
+  A navbar é o bottomNavigationBar (pílula flutuante) do Scaffold do shell, pintado
+  ACIMA do body. Um sheet aberto no navigator do branch (default useRootNavigator:
+  false) fica DENTRO do body, então a navbar aparece na frente dele. Abrindo no root
+  navigator, o sheet e seu scrim cobrem o shell inteiro — a navbar some sob o scrim
+  sempre que um sheet aparece.
+uses:
+  - context.pit.surf            # fundo padrão (theme-aware, 2 temas)
+  - AppSpacing.radiusXxl        # raio do topo do sheet
+api:
+  - context: BuildContext
+  - builder: WidgetBuilder       # monta o conteúdo do sheet
+  - background: Color?           # sobrescreve o fundo (default context.pit.surf)
+  - "retorna Future<T?> (valor do Navigator.pop, ou null se dispensado)"
+regras:
+  - "useRootNavigator: true sempre — é a razão de existir do helper."
+  - "Nenhuma tela deve chamar showModalBottomSheet direto; usa este helper."
+used_by:
+  - "plans: add_option/meal/log_day/log_weight/food_search/estimate_food/free_item"
+  - "learning: caderno_add/note_quick/diary_quick"
+  - "recipes: import/cook_chat"
+  - "shopping: add_pantry"

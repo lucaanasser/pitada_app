@@ -9,6 +9,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/colors.dart';
+import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
 import '../../../../core/theme/typography.dart';
 
@@ -30,7 +31,7 @@ class PrincipleQuote extends StatelessWidget {
           ),
         ),
       ),
-      child: Text(text, style: AppType.quote),
+      child: Text(text, style: AppType.on(AppType.quote, context.pit.text)),
     );
   }
 }

@@ -1,6 +1,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/recipes/data/recipes_seed.dart
-// O QUÊ:     Dados de exemplo (as receitas/pastas do protótipo) para preview no PC.
+// O QUÊ:     Dados de exemplo (pastas + receitas DEFINITIVAS do protótipo) p/ preview.
+//            Snapshots de versões antigas ficam em recipes_seed_versions.dart.
 // USA:       recipe.dart, ingredient.dart, recipe_step.dart, folder.dart.
 // USADO POR: recipes_repository (fonte em memória enquanto não há Supabase).
 // SPEC:      specs/features/recipes.yaml (data.seed)
@@ -35,6 +36,8 @@ const kSeedRecipes = <Recipe>[
     favorite: true,
     heroColor: 'terra',
     folderIds: ['rapidos'],
+    version: 3, // definitiva; snapshots antigos em recipes_seed_versions.dart
+    versionGroupId: 'frango-xadrez',
     techniques: ['Selar a carne', 'Emulsionar um molho'],
     ingredients: [
       Ingredient(
@@ -123,6 +126,8 @@ const kSeedRecipes = <Recipe>[
     difficulty: 'Intermediário',
     heroColor: 'rust',
     folderIds: ['rapidos'],
+    version: 2, // definitiva; a v1 fica em recipes_seed_versions.dart
+    versionGroupId: 'strogonoff',
     ingredients: [
       Ingredient(name: 'Alcatra', grams: 500, humanQty: 500, humanUnit: 'g'),
       Ingredient(

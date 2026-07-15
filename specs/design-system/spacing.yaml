@@ -20,6 +20,11 @@ espaco:
 # Padding horizontal padrão do conteúdo das telas
 gutter: 24
 
+# Respiro vertical padrão entre o título de uma aba e o início do seu conteúdo
+# (ex.: 'Receitas' -> barra de busca, 'Caderno' -> 1º bloco). Igual em TODAS as abas.
+# Generoso de propósito: o título é grande, então o respiro precisa ser nítido.
+titleGap: 30
+
 # Raios de borda
 raio:
   sm:  7      # tag / label pill
@@ -39,6 +44,7 @@ filete:
 altura:
   button: 52       # .btn
   iconButton: 42   # .iconbtn
+  iconButtonSm: 34 # .iconbtn menor/delicado — ação '+' / engrenagem do header de aba
   searchBar: 46    # .search
   tabBar: 76       # .tabbar
   statusBar: 46    # .statusbar
@@ -46,3 +52,5 @@ altura:
 notas:
   - "Gutter (24) é o padding horizontal de quase toda tela — use AppSpacing.gutter."
   - "Seções verticais: título de seção com margin-top xxxl (30)."
+  - "titleGap (30) é o respiro entre o título da aba e o 1º conteúdo — padrão em
+     todas as abas. Use AppSpacing.titleGap, nunca um número solto por tela."

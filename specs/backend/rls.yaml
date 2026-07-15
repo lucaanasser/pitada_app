@@ -1,0 +1,40 @@
+# specs/backend/rls.yaml -> políticas RLS dentro das migrations SQL
+# O QUÊ:  Row Level Security de todas as tabelas — quem pode ler/escrever o quê.
+# USADO POR: migrations 0001–0003. Regra: RLS LIGADO em toda tabela, sem exceção.
+area: Backend / Segurança
+purpose: >
+  Cada usuário só enxerga e altera as PRÓPRIAS linhas. Mesmo sendo app de uma
+  pessoa hoje, RLS desde o dia 1 é o que torna o backend à prova de futuro
+  (multiusuário) e seguro com a anon key embarcada no app.
+
+principio:
+  - alter table <t> enable row level security;   # em TODAS as tabelas
+  - Sem política = sem acesso. Anônimo não lê nada.
+  - >
+    GRANTS EXPLÍCITOS: o CLI atual não concede DML por padrão. Cada migration
+    concede select/insert/update/delete APENAS ao role authenticated (anon fica
+    com zero acesso — este app não tem leitura pública). O GRANT abre a porta da
+    tabela; a RLS filtra as linhas.
+
+politicas:
+  profiles:
+    select/update: auth.uid() = id          # dono lê e edita o próprio perfil
+    insert: via trigger handle_new_user (security definer) — app não insere direto
+  folders:
+    all (select/insert/update/delete): auth.uid() = user_id
+  recipes:
+    all: auth.uid() = user_id
+    nota_insert: with check (auth.uid() = user_id) — user_id tem default auth.uid()
+  recipe_ingredients / recipe_steps:        # filhas: dono é o dono da receita-mãe
+    all: exists(select 1 from recipes r where r.id = recipe_id and r.user_id = auth.uid())
+  recipe_folders:                           # N:N: exige ser dono da receita E da pasta
+    all: >
+      exists(... recipes r where r.id = recipe_id and r.user_id = auth.uid())
+      and exists(... folders f where f.id = folder_id and f.user_id = auth.uid())
+  storage.objects (bucket recipe-photos):   # ver storage.yaml
+    all: bucket_id = 'recipe-photos' and (storage.foldername(name))[1] = auth.uid()::text
+
+verificacao:
+  - anonimo: select em recipes sem sessão -> 0 linhas (não erro, lista vazia)
+  - dono: com sessão, select -> só as linhas do próprio user_id
+  - cruzado: usuário A nunca lê/edita linhas do usuário B (testar com 2 contas locais)

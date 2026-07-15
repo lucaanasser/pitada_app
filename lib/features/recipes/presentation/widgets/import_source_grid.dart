@@ -10,6 +10,7 @@ import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/colors.dart';
+import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
 import '../../../../core/theme/typography.dart';
 import '../../../../core/widgets/pitada_search_field.dart';
@@ -25,6 +26,7 @@ class ImportSourceGrid extends StatelessWidget {
   /// Monta o campo de link + a grade 2x2 de origens. Usada por: framework.
   @override
   Widget build(BuildContext context) {
+    final pit = context.pit;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -32,22 +34,24 @@ class ImportSourceGrid extends StatelessWidget {
         const SizedBox(height: AppSpacing.md),
         Text(
           'Ex.: instagram.com/reel/frango-xadrez',
-          style: AppType.on(AppType.captionSm, AppColors.faint),
+          style: AppType.on(AppType.captionSm, pit.faint),
         ),
         const SizedBox(height: AppSpacing.xl),
         Row(
           children: [
-            Expanded(child: _card(AppIcons.play, 'YouTube', 'youtube')),
+            Expanded(child: _card(pit, AppIcons.play, 'YouTube', 'youtube')),
             const SizedBox(width: AppSpacing.md),
-            Expanded(child: _card(AppIcons.camera, 'Foto', 'foto')),
+            Expanded(child: _card(pit, AppIcons.camera, 'Foto', 'foto')),
           ],
         ),
         const SizedBox(height: AppSpacing.md),
         Row(
           children: [
-            Expanded(child: _card(AppIcons.pdf, 'PDF', 'pdf')),
+            Expanded(child: _card(pit, AppIcons.pdf, 'PDF', 'pdf')),
             const SizedBox(width: AppSpacing.md),
-            Expanded(child: _card(AppIcons.editNote, 'Escrever', 'manual')),
+            Expanded(
+              child: _card(pit, AppIcons.editNote, 'Escrever', 'manual'),
+            ),
           ],
         ),
       ],
@@ -55,22 +59,22 @@ class ImportSourceGrid extends StatelessWidget {
   }
 
   /// Card de origem (ícone + rótulo) sobre surf. Usada por: [build].
-  Widget _card(IconData icon, String label, String origem) {
+  Widget _card(PitadaColors pit, IconData icon, String label, String origem) {
     return GestureDetector(
       onTap: () => onPick(origem),
       behavior: HitTestBehavior.opaque,
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: AppSpacing.xl),
         decoration: BoxDecoration(
-          color: AppColors.surf,
+          color: pit.surf,
           borderRadius: AppSpacing.br(AppSpacing.radiusLg),
-          border: Border.all(color: AppColors.line2),
+          border: Border.all(color: pit.line2),
         ),
         child: Column(
           children: [
             Icon(icon, size: 24, color: AppColors.accent2),
             const SizedBox(height: AppSpacing.sm),
-            Text(label, style: AppType.on(AppType.button, AppColors.text)),
+            Text(label, style: AppType.on(AppType.button, pit.text)),
           ],
         ),
       ),

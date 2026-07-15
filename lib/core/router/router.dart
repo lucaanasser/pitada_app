@@ -1,19 +1,24 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/core/router/router.dart
-// O QUÊ:     Configuração do go_router: shell das 5 abas + rotas full-screen.
-// USA:       go_router, app_shell, routes.dart (rotas full-screen), as telas de aba.
+// O QUÊ:     Configuração do go_router: shell das 5 abas + rotas full-screen +
+//            gate de auth (online sem sessão -> /entrar; offline nunca barra).
+// USA:       go_router, app_shell, routes.dart, features/auth (gate), config/env.
 // USADO POR: app.dart (routerProvider -> MaterialApp.router).
-// SPEC:      specs/features/app_shell.yaml
+// SPEC:      specs/features/app_shell.yaml + specs/features/auth.yaml (router_gate)
 // ─────────────────────────────────────────────────────────────────────────────
+import 'dart:async';
+
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../features/home/presentation/home_screen.dart';
+import '../../features/auth/application/auth_providers.dart';
 import '../../features/learning/presentation/learning_screen.dart';
 import '../../features/plans/presentation/plans_screen.dart';
+import '../../features/profile/presentation/profile_screen.dart';
 import '../../features/recipes/presentation/recipes_screen.dart';
 import '../../features/shopping/presentation/shopping_screen.dart';
+import '../config/env.dart';
 import 'app_shell.dart';
 import 'routes.dart';
 
@@ -27,22 +32,52 @@ StatefulShellBranch _branch(String path, Widget screen) {
   );
 }
 
-/// Fornece o GoRouter do app. Provider para permitir redirect por auth no futuro.
+/// Faz o router reavaliar o redirect quando a sessão muda (login/logout).
+/// Usada por: routerProvider (refreshListenable).
+class _AuthRefresh extends ChangeNotifier {
+  _AuthRefresh(Stream<bool> stream) {
+    _sub = stream.listen((_) => notifyListeners());
+  }
+
+  late final StreamSubscription<bool> _sub;
+
+  /// Cancela a escuta do stream junto com o provider. Usada por: ref.onDispose.
+  @override
+  void dispose() {
+    _sub.cancel();
+    super.dispose();
+  }
+}
+
+/// Fornece o GoRouter do app, com o gate de auth (specs/features/auth.yaml).
 /// Usada por: app.dart.
 final routerProvider = Provider<GoRouter>((ref) {
+  final auth = ref.watch(authRepositoryProvider);
+  final refresh = _AuthRefresh(auth.authStateChanges);
+  ref.onDispose(refresh.dispose);
   return GoRouter(
     navigatorKey: _rootKey,
     initialLocation: '/recipes',
+    refreshListenable: refresh,
+    // Gate: online sem sessão -> /entrar; logado em /entrar -> abas.
+    // Offline (preview no PC, sem chaves) nunca redireciona.
+    redirect: (context, state) {
+      if (!Env.hasSupabase) return null;
+      final atSignIn = state.matchedLocation == '/entrar';
+      if (!auth.isSignedIn) return atSignIn ? null : '/entrar';
+      return atSignIn ? '/recipes' : null;
+    },
     routes: [
       // —— Shell das 5 abas (cada aba mantém sua própria pilha) ——
+      // Ordem = índice da barra = índice de pit.tabBg. Perfil fecha a fila.
       StatefulShellRoute.indexedStack(
         builder: (context, state, shell) => AppShell(shell: shell),
         branches: [
           _branch('/recipes', const RecipesScreen()),
           _branch('/learning', const LearningScreen()),
-          _branch('/home', const HomeScreen()),
           _branch('/plans', const PlansScreen()),
           _branch('/shopping', const ShoppingScreen()),
+          _branch('/profile', const ProfileScreen()),
         ],
       ),
 

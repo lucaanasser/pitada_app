@@ -10,7 +10,7 @@ import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../core/theme/colors.dart';
+import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
 import '../../../../core/theme/typography.dart';
 import '../../../../core/utils/format.dart';
@@ -18,6 +18,7 @@ import '../../../../core/widgets/empty_state.dart';
 import '../../../../core/widgets/expiry_tag.dart';
 import '../../../../core/widgets/hairline_row.dart';
 import '../../../../core/widgets/pitada_button.dart';
+import '../../../../core/widgets/pitada_scaffold.dart';
 import '../../application/shopping_providers.dart';
 import '../../data/pantry_item.dart';
 import '../add_pantry_sheet.dart';
@@ -32,6 +33,7 @@ class PantryView extends ConsumerWidget {
   /// Usada por: shopping_screen.
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final pit = context.pit;
     final grouped = ref.watch(pantryByCategoryProvider);
 
     if (grouped.isEmpty) {
@@ -60,9 +62,9 @@ class PantryView extends ConsumerWidget {
 
     final categories = grouped.keys.toList();
     return ListView(
-      padding: const EdgeInsets.only(bottom: AppSpacing.xxl),
+      padding: tabListPadding(context),
       children: [
-        _legend(),
+        _legend(pit),
         for (var c = 0; c < categories.length; c++)
           CategoryGroup(
             label: categories[c],
@@ -93,7 +95,7 @@ class PantryView extends ConsumerWidget {
   }
 
   /// Legenda que explica como a despensa é abastecida. Usada por: [build].
-  Widget _legend() {
+  Widget _legend(PitadaColors pit) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(
         AppSpacing.gutter,
@@ -103,7 +105,7 @@ class PantryView extends ConsumerWidget {
       ),
       child: Text(
         'Adicione por código de barras ou foto da nota — a validade entra junto',
-        style: AppType.on(AppType.caption, AppColors.muted),
+        style: AppType.on(AppType.caption, pit.muted),
       ),
     );
   }
@@ -119,6 +121,7 @@ class _PantryRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pit = context.pit;
     // Prefere a tag de validade calculada; se sem data mas acabando, mostra 'acabando'.
     final expiryTag = ExpiryTag.fromDate(item.expiresOn);
     final tag =
@@ -126,17 +129,21 @@ class _PantryRow extends StatelessWidget {
 
     return HairlineRow(
       showDivider: showDivider,
-      title: Text(item.name, style: AppType.body),
+      title: Text(item.name, style: AppType.on(AppType.body, pit.text)),
       subtitle: item.expiresOn != null
           ? Text(
               'Validade ${formatDayMonth(item.expiresOn)}',
-              style: AppType.on(AppType.captionSm, AppColors.muted),
+              style: AppType.on(AppType.captionSm, pit.muted),
             )
           : null,
       trailing: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          Text(_stock(item), style: AppType.numeralSm),
+          Text(
+            _stock(item),
+            // Mesmo corpo (numeral) da quantidade na Lista — pedido do dono.
+            style: AppType.on(AppType.numeral, pit.text),
+          ),
           if (tag != null)
             Padding(padding: const EdgeInsets.only(top: 6), child: tag),
         ],

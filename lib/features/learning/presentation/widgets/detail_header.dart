@@ -10,7 +10,7 @@ import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../core/theme/colors.dart';
+import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
 import '../../../../core/theme/typography.dart';
 import '../../../../core/widgets/pitada_button.dart';
@@ -37,6 +37,7 @@ class DetailHeader extends StatelessWidget {
   /// Monta a linha de navegação e o bloco de título. Usada por: as telas do Caderno.
   @override
   Widget build(BuildContext context) {
+    final pit = context.pit;
     return Padding(
       padding: const EdgeInsets.fromLTRB(
         AppSpacing.gutter,
@@ -59,12 +60,15 @@ class DetailHeader extends StatelessWidget {
             ],
           ),
           const SizedBox(height: AppSpacing.lg),
-          Text(kicker.toUpperCase(), style: AppType.label),
+          Text(
+            kicker.toUpperCase(),
+            style: AppType.on(AppType.label, pit.muted),
+          ),
           const SizedBox(height: AppSpacing.sm),
-          Text(title, style: AppType.display),
+          Text(title, style: AppType.on(AppType.display, pit.text)),
           if (lead != null) ...[
             const SizedBox(height: AppSpacing.sm),
-            Text(lead!, style: AppType.on(AppType.body, AppColors.text2)),
+            Text(lead!, style: AppType.on(AppType.body, pit.text2)),
           ],
         ],
       ),

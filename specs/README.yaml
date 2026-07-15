@@ -21,8 +21,7 @@ design_system:
 components:                                 # -> lib/core/widgets/
   - specs/components/masthead.yaml
   - specs/components/section_header.yaml
-  - specs/components/chapter_tabs.yaml
-  - specs/components/seg_tabs.yaml
+  - specs/components/pitada_tabs.yaml   # abas de texto unificadas (ex-ChapterTabs/SegTabs)
   - specs/components/hairline_row.yaml
   - specs/components/pitada_button.yaml
   - specs/components/pitada_chip.yaml
@@ -32,14 +31,29 @@ components:                                 # -> lib/core/widgets/
   - specs/components/nutrition_card.yaml
   - specs/components/option_card.yaml
   - specs/components/check_item.yaml
+  - specs/components/pitada_toggle.yaml   # toggle flat liga/desliga (átomo reusado)
+  - specs/components/editable.yaml   # wrapper de gesto: segurar/duplo-clique -> edita 1 campo
+  - specs/components/quick_edit_sheet.yaml   # sheet genérica de edição rápida (edição inline)
+  - specs/components/edit_field.yaml   # campos de formulário (texto/stepper/casca) — promovidos p/ core
   - specs/components/atoms.yaml   # RecipeThumb, PitadaSearchField, FuelBar, StepProgress, EmptyState, PitadaScaffold
 
 features:                                   # -> lib/features/<f>/presentation/
   - specs/features/recipes.yaml
   - specs/features/learning.yaml
   - specs/features/plans.yaml
+  - specs/features/plans_progress.yaml    # sub-aba "Progresso": peso + aderência (log rápido do dia)
   - specs/features/shopping.yaml
-  - specs/features/app_shell.yaml           # shell das 4 abas + navegação
+  - specs/features/profile.yaml             # aba Perfil (ex-feature Home, feed abandonado)
+  - specs/features/app_shell.yaml           # shell das 5 abas + dock flutuante
+  - specs/features/auth.yaml                # entrar por e-mail + código (OTP) + gate no router
+
+backend:                                    # -> supabase/ (migrations, config) — spec antes do SQL
+  - specs/backend/supabase_setup.yaml       # CLI local, migrations, comandos, chaves via --dart-define
+  - specs/backend/database.yaml             # schema Postgres (fatia Receitas) -> supabase/migrations/
+  - specs/backend/rls.yaml                  # Row Level Security de TODAS as tabelas
+  - specs/backend/auth.yaml                 # estratégia OTP por e-mail (passwordless, iOS-friendly)
+  - specs/backend/storage.yaml              # bucket recipe-photos (privado) + paths + políticas
+  - specs/backend/edge_functions.yaml       # contrato das functions de IA (Gemini no servidor) — TODO
 
 dev:                                        # ferramentas de desenvolvimento (não são features)
   - specs/dev/device_preview.yaml

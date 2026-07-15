@@ -11,6 +11,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/theme/colors.dart';
+import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
 import '../../../../core/theme/typography.dart';
 import '../../../../core/utils/format.dart';
@@ -23,25 +24,31 @@ import '../meal_sheet.dart';
 /// Cartão de uma refeição: cabeçalho (nome + meta), opções e "Adicionar opção".
 /// Tocar numa opção a escolhe; prato linkado abre a receita. Usada por: plans_screen.
 class MealCard extends ConsumerWidget {
-  const MealCard({super.key, required this.meal});
+  const MealCard({super.key, required this.meal, required this.index});
 
   final Meal meal;
+
+  /// Posição da refeição na lista — usada pela pega de arrastar (reordenar).
+  final int index;
 
   /// Monta o cabeçalho + a lista de OptionCards + a ação de adicionar opção.
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final pit = context.pit;
     return Container(
       margin: const EdgeInsets.only(bottom: AppSpacing.lg),
       padding: const EdgeInsets.all(AppSpacing.lg),
+      // Caixa neo-brutalista, igual ao RecipeCard/NutritionCard: borda tinta
+      // forte + raio chunky (o filete fino era resquício do visual antigo).
       decoration: BoxDecoration(
-        color: AppColors.surf,
-        borderRadius: AppSpacing.br(AppSpacing.radiusXl),
-        border: Border.all(color: AppColors.line),
+        color: pit.surf,
+        borderRadius: AppSpacing.br(AppSpacing.radiusCard),
+        border: Border.all(color: pit.border, width: AppSpacing.borderStrong),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          MealHeaderRow(meal: meal),
+          MealHeaderRow(meal: meal, index: index),
           const SizedBox(height: AppSpacing.md),
           for (var i = 0; i < meal.options.length; i++)
             _option(context, ref, i),
@@ -85,8 +92,10 @@ class MealCard extends ConsumerWidget {
           children: [
             const Icon(AppIcons.add, size: 17, color: AppColors.accent),
             const SizedBox(width: AppSpacing.sm),
-            Text('Adicionar opção',
-                style: AppType.on(AppType.caption, AppColors.accent)),
+            Text(
+              'Adicionar opção',
+              style: AppType.on(AppType.caption, AppColors.accent),
+            ),
           ],
         ),
       ),
@@ -94,31 +103,56 @@ class MealCard extends ConsumerWidget {
   }
 }
 
-/// Cabeçalho da refeição: nome (toca → editar) + lápis + meta em kcal.
-/// Usada por: MealCard. Tocar abre showMealSheet no modo edição.
+/// Cabeçalho da refeição: nome (toca → editar) + lápis + meta em kcal + pega de arrastar.
+/// Usada por: MealCard. Tocar no nome abre showMealSheet; a pega reordena a refeição.
 class MealHeaderRow extends StatelessWidget {
-  const MealHeaderRow({super.key, required this.meal});
+  const MealHeaderRow({super.key, required this.meal, required this.index});
 
   final Meal meal;
 
-  /// Monta a linha do cabeçalho editável. Usada por: MealCard.
+  /// Posição da refeição na lista — a pega de arrastar a informa ao ReorderableListView.
+  final int index;
+
+  /// Monta a linha do cabeçalho editável + meta + pega de arrastar. Usada por: MealCard.
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => showMealSheet(context, meal: meal),
-      behavior: HitTestBehavior.opaque,
-      child: Row(
-        children: [
-          Text(meal.name, style: AppType.title),
-          const SizedBox(width: AppSpacing.sm),
-          const Icon(AppIcons.edit, size: 15, color: AppColors.faint),
-          const Spacer(),
-          Text(
-            'meta ${formatKcal(meal.kcalGoal)} kcal',
-            style: AppType.on(AppType.caption, AppColors.muted),
+    final pit = context.pit;
+    return Row(
+      children: [
+        // Só o nome+lápis abre a edição; assim a pega e o resto não disparam o sheet.
+        Expanded(
+          child: GestureDetector(
+            onTap: () => showMealSheet(context, meal: meal),
+            behavior: HitTestBehavior.opaque,
+            child: Row(
+              children: [
+                Flexible(
+                  child: Text(
+                    meal.name,
+                    style: AppType.on(AppType.title, pit.text),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                const SizedBox(width: AppSpacing.sm),
+                Icon(AppIcons.edit, size: 15, color: pit.faint),
+              ],
+            ),
           ),
-        ],
-      ),
+        ),
+        Text(
+          'meta ${formatKcal(meal.kcalGoal)} kcal',
+          style: AppType.on(AppType.caption, pit.muted),
+        ),
+        const SizedBox(width: AppSpacing.sm),
+        // Pega de arrastar: segurar e mover reordena a refeição no dia.
+        ReorderableDragStartListener(
+          index: index,
+          child: Padding(
+            padding: const EdgeInsets.all(AppSpacing.xs),
+            child: Icon(AppIcons.dragHandle, size: 18, color: pit.faint),
+          ),
+        ),
+      ],
     );
   }
 }

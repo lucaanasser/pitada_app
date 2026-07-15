@@ -8,6 +8,7 @@
 import '../theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import '../theme/colors.dart';
+import '../theme/pitada_colors.dart';
 import '../theme/spacing.dart';
 import '../theme/typography.dart';
 
@@ -27,28 +28,35 @@ class PitadaSearchField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pit = context.pit;
     return Container(
       height: AppSpacing.searchBar,
       decoration: BoxDecoration(
-        color: AppColors.surf,
+        color: pit.surf,
         borderRadius: AppSpacing.br(AppSpacing.radiusMd),
+        border: Border.all(color: pit.border, width: AppSpacing.borderStrong),
       ),
       padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
       child: Row(
         children: [
-          const Icon(AppIcons.search, size: 18, color: AppColors.muted),
+          Icon(AppIcons.search, size: 18, color: pit.muted),
           const SizedBox(width: AppSpacing.md),
           Expanded(
             child: TextField(
               controller: controller,
               onChanged: onChanged,
-              style: AppType.body,
+              style: AppType.on(AppType.body, pit.text),
               cursorColor: AppColors.accent,
+              // filled:false anula o fillColor herdado do tema global — sem ele o
+              // TextField pintaria um 2º retângulo (surf2) dentro desta cápsula.
               decoration: InputDecoration(
                 isCollapsed: true,
+                filled: false,
                 border: InputBorder.none,
+                enabledBorder: InputBorder.none,
+                focusedBorder: InputBorder.none,
                 hintText: hint,
-                hintStyle: AppType.on(AppType.body, AppColors.faint),
+                hintStyle: AppType.on(AppType.body, pit.faint),
               ),
             ),
           ),

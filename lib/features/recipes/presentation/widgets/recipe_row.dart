@@ -1,20 +1,20 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/recipes/presentation/widgets/recipe_row.dart
-// O QUÊ:     Linha de receita na lista (miniatura + título + meta + seta).
-// USA:       core/theme (AppIcons, AppColors), core/widgets (HairlineRow, RecipeThumb),
-//            utils/format, Recipe.
+// O QUÊ:     Linha de receita na lista (miniatura pastel + título + meta + seta).
+// USA:       core/theme (AppIcons, PitadaColors), core/widgets (HairlineRow,
+//            RecipeThumb outlined), recipe_meta_text (linha de meta), Recipe.
 // USADO POR: recipes_screen, folder_screen.
-// SPEC:      specs/features/recipes.yaml (RecipesScreen: RecipeRow)
+// SPEC:      specs/features/recipes.yaml (RecipesScreen: recipe_row)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_icons.dart';
-import '../../../../core/theme/colors.dart';
+import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/typography.dart';
 import '../../../../core/widgets/hairline_row.dart';
 import '../../../../core/widgets/recipe_thumb.dart';
-import '../../../../core/utils/format.dart';
 import '../../data/recipe.dart';
+import 'recipe_meta_text.dart';
 
 /// Uma receita como linha de lista. Usada por: recipes_screen.
 class RecipeRow extends StatelessWidget {
@@ -32,24 +32,17 @@ class RecipeRow extends StatelessWidget {
   /// Monta a linha (miniatura + título + meta + seta). Usada por: framework.
   @override
   Widget build(BuildContext context) {
+    final pit = context.pit;
     return HairlineRow(
       onTap: onTap,
       showDivider: showDivider,
-      leading: RecipeThumb(color: AppColors.heroOf(recipe.heroColor)),
-      title: Text(recipe.title, style: AppType.titleSm),
-      subtitle:
-          Text(_meta(), style: AppType.on(AppType.caption, AppColors.muted)),
-      trailing: const Icon(AppIcons.chevron, size: 16, color: AppColors.faint),
+      leading: RecipeThumb(color: pit.card(recipe.heroColor), outlined: true),
+      title: Text(recipe.title, style: AppType.on(AppType.titleSm, pit.text)),
+      subtitle: Text(
+        recipeMetaText(recipe),
+        style: AppType.on(AppType.caption, pit.muted),
+      ),
+      trailing: Icon(AppIcons.chevron, size: 16, color: pit.faint),
     );
-  }
-
-  /// Monta a linha de meta 'tempo · kcal · dificuldade'. Usada por: [build].
-  String _meta() {
-    final parts = <String>[
-      if (recipe.timeMinutes != null) formatMinutes(recipe.timeMinutes),
-      '${formatKcal(recipe.kcal)} kcal',
-      if (recipe.difficulty != null) recipe.difficulty!,
-    ];
-    return parts.join('  ·  ');
   }
 }

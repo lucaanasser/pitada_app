@@ -6,12 +6,15 @@ purpose: >
   Tokens de ícone nomeados por significado. Fonte única — nenhum Icons.* ou ícone
   solto fora daqui. Trocar de família = mexer só neste arquivo + pubspec.
 
-navegacao:      # regular (inativo) + *Fill (ativo)
+navegacao:      # regular (inativo) + *Fill (ativo) — ordem da barra
   recipes:  forkKnife
-  notebook: notebook
-  home:     house
-  plans:    calendarBlank
-  shopping: shoppingCart
+  learning: chefHat           # aba Caderno (antes notebook); notebook segue p/ EmptyState
+  plans:    clipboardText     # aba Plano — "o plano escrito" (prancheta). Antes
+                              # bowlSteam, que era o 4º ícone de comida da barra e
+                              # lia como "receitas de novo"; antes disso, calendarBlank.
+  ingredients: carrot         # aba Ingredientes (antes "Compras"/shoppingCart)
+  profile:  user            # aba Perfil (home/house saiu com a aba de comunidade);
+                            # o regular também serve de chip de pessoa (note_row)
 
 acoes:
   back:      arrowLeft
@@ -21,11 +24,12 @@ acoes:
   addToList: shoppingCartSimple
   addToPlan: calendarPlus
   add:       plus
-  profile:   user
   search:    magnifyingGlass
   chevron:   caretRight
+  expand:    caretDown      # título-seletor que abre sheet (ex.: lista ativa)
   link:      link
   folder:    folderOpen
+  dragHandle: dotsSixVertical   # pega de arrastar (reordenar refeições no Plano)
 
 dominio:
   dish:       cookingPot
@@ -33,6 +37,13 @@ dominio:
   time:       clock
   difficulty: chartBar
   technique:  graduationCap
+
+progresso:    # aba Plano · sub-aba Progresso
+  weight:  gauge          # peso corporal — mostrador de balança de banheiro
+                          # (era balance/scales, que lia como "justiça"; removido)
+  logDay:  calendarCheck  # registrar o dia (CTA da TodaySection)
+  calendarPattern: calendarDots  # padrão por dia da semana (insight weekdayOver)
+  timeline: chartLineUp   # progresso/gráfico
 
 regras:
   - "Navbar: item ativo usa *Fill; inativo usa regular."

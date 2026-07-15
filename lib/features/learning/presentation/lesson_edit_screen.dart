@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/colors.dart';
+import '../../../core/theme/pitada_colors.dart';
 import '../../../core/theme/spacing.dart';
 import '../../../core/theme/typography.dart';
 import '../../../core/widgets/pitada_button.dart';
@@ -81,12 +82,13 @@ class _LessonEditScreenState extends State<LessonEditScreen> {
   /// Monta o cabeçalho fixo e o formulário rolável. Usada por: router.
   @override
   Widget build(BuildContext context) {
+    final pit = context.pit;
     return Scaffold(
-      backgroundColor: AppColors.bg,
+      backgroundColor: pit.bg,
       body: SafeArea(
         child: Column(
           children: [
-            _head(context),
+            _head(context, pit),
             Expanded(
               child: ListView(
                 padding: const EdgeInsets.fromLTRB(
@@ -96,7 +98,7 @@ class _LessonEditScreenState extends State<LessonEditScreen> {
                   AppSpacing.xxl,
                 ),
                 children: [
-                  _categoryPicker(),
+                  _categoryPicker(pit),
                   const SizedBox(height: AppSpacing.xl),
                   EditField(
                     label: 'Nome',
@@ -111,7 +113,7 @@ class _LessonEditScreenState extends State<LessonEditScreen> {
                     maxLines: 3,
                   ),
                   const SizedBox(height: AppSpacing.xl),
-                  const Text('SEÇÕES', style: AppType.label),
+                  Text('SEÇÕES', style: AppType.on(AppType.label, pit.muted)),
                   const SizedBox(height: AppSpacing.md),
                   for (var i = 0; i < _sections.length; i++)
                     SectionEditor(
@@ -135,15 +137,15 @@ class _LessonEditScreenState extends State<LessonEditScreen> {
   }
 
   /// Cabeçalho do editor: Cancelar / título / Salvar. Usada por: [build].
-  Widget _head(BuildContext context) {
+  Widget _head(BuildContext context, PitadaColors pit) {
     return Container(
       padding: const EdgeInsets.symmetric(
         horizontal: AppSpacing.gutter,
         vertical: AppSpacing.md,
       ),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         border: Border(
-          bottom: BorderSide(color: AppColors.line, width: AppSpacing.hair),
+          bottom: BorderSide(color: pit.line, width: AppSpacing.hair),
         ),
       ),
       child: Row(
@@ -152,14 +154,14 @@ class _LessonEditScreenState extends State<LessonEditScreen> {
             onTap: () => context.pop(),
             child: Text(
               'Cancelar',
-              style: AppType.on(AppType.button, AppColors.muted),
+              style: AppType.on(AppType.button, pit.muted),
             ),
           ),
-          const Expanded(
+          Expanded(
             child: Text(
               'Nova ficha',
               textAlign: TextAlign.center,
-              style: AppType.title,
+              style: AppType.on(AppType.title, pit.text),
             ),
           ),
           GestureDetector(
@@ -175,11 +177,11 @@ class _LessonEditScreenState extends State<LessonEditScreen> {
   }
 
   /// Chips de seleção de categoria (seleção única). Usada por: [build].
-  Widget _categoryPicker() {
+  Widget _categoryPicker(PitadaColors pit) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('CATEGORIA', style: AppType.label),
+        Text('CATEGORIA', style: AppType.on(AppType.label, pit.muted)),
         const SizedBox(height: AppSpacing.md),
         Wrap(
           spacing: AppSpacing.sm + 1,

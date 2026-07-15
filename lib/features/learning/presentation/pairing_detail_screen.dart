@@ -12,6 +12,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/colors.dart';
+import '../../../core/theme/pitada_colors.dart';
 import '../../../core/theme/spacing.dart';
 import '../../../core/theme/typography.dart';
 import '../../../core/widgets/section_header.dart';
@@ -29,29 +30,34 @@ class PairingDetailScreen extends ConsumerWidget {
   /// Carrega a harmonização por id e delega a montagem do corpo. Usada por: router.
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final pit = context.pit;
     final async = ref.watch(pairingByIdProvider(pairingId));
     return Scaffold(
-      backgroundColor: AppColors.bg,
+      backgroundColor: pit.bg,
       body: SafeArea(
         bottom: false,
         child: async.when(
           loading: () => const Center(
             child: CircularProgressIndicator(color: AppColors.accent),
           ),
-          error: (e, _) => Center(child: Text('Erro: $e', style: AppType.body)),
+          error: (e, _) => Center(
+            child: Text('Erro: $e', style: AppType.on(AppType.body, pit.text)),
+          ),
           data: (pairing) => pairing == null
-              ? const Center(
-                  child:
-                      Text('Harmonização não encontrada', style: AppType.body),
+              ? Center(
+                  child: Text(
+                    'Harmonização não encontrada',
+                    style: AppType.on(AppType.body, pit.text),
+                  ),
                 )
-              : _content(context, pairing),
+              : _content(context, pit, pairing),
         ),
       ),
     );
   }
 
   /// Monta cabeçalho, legenda, nuvem de combinações e "Aplica em". Usada por: [build].
-  Widget _content(BuildContext context, Pairing pairing) {
+  Widget _content(BuildContext context, PitadaColors pit, Pairing pairing) {
     return ListView(
       padding: const EdgeInsets.only(bottom: AppSpacing.xxl),
       children: [
@@ -73,7 +79,7 @@ class PairingDetailScreen extends ConsumerWidget {
               ),
               if (pairing.recipeIds.isNotEmpty) ...[
                 const SectionHeader(label: 'Aplica em'),
-                _applies(context, pairing),
+                _applies(context, pit, pairing),
               ],
             ],
           ),
@@ -83,7 +89,7 @@ class PairingDetailScreen extends ConsumerWidget {
   }
 
   /// Link para uma receita que usa a harmonização. Usada por: [_content].
-  Widget _applies(BuildContext context, Pairing pairing) {
+  Widget _applies(BuildContext context, PitadaColors pit, Pairing pairing) {
     return GestureDetector(
       onTap: () => context.push('/recipe/${pairing.recipeIds.first}'),
       behavior: HitTestBehavior.opaque,
@@ -97,7 +103,7 @@ class PairingDetailScreen extends ConsumerWidget {
               style: AppType.on(AppType.body, AppColors.accent),
             ),
           ),
-          const Icon(AppIcons.chevron, size: 16, color: AppColors.faint),
+          Icon(AppIcons.chevron, size: 16, color: pit.faint),
         ],
       ),
     );
@@ -112,7 +118,7 @@ class _PairChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = pairingColor(item.rating);
+    final color = pairingColor(context.pit, item.rating);
     return Container(
       padding: const EdgeInsets.symmetric(
         horizontal: AppSpacing.md,
@@ -134,7 +140,10 @@ class _PairChip extends StatelessWidget {
             ),
           ),
           const SizedBox(width: AppSpacing.sm - 2),
-          Text(item.name, style: AppType.on(AppType.bodySm, AppColors.text2)),
+          Text(
+            item.name,
+            style: AppType.on(AppType.bodySm, context.pit.text2),
+          ),
         ],
       ),
     );

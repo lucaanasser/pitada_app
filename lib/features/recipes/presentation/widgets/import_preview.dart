@@ -14,7 +14,7 @@ import '../../../../core/theme/spacing.dart';
 import '../../../../core/widgets/pitada_button.dart';
 import '../../../../core/widgets/section_header.dart';
 import '../../data/recipe_draft.dart';
-import 'edit_field.dart';
+import '../../../../core/widgets/edit_field.dart';
 import 'recipe_editors.dart';
 
 /// Rascunho editável da importação. Muta [draft] em memória e chama [onSave]

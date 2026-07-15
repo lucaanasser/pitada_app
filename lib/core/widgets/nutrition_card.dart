@@ -11,19 +11,28 @@ import '../theme/pitada_colors.dart';
 import '../theme/spacing.dart';
 import '../theme/typography.dart';
 import '../utils/format.dart';
+import 'editable.dart';
 
-/// Caixa com borda dividida em três células de macro. Usada por: recipe_detail_screen.
+/// Caixa com borda dividida em três células de macro. Cada célula pode ser
+/// editável por gesto (onEdit*): segurar/duplo-clique abre a edição do macro.
+/// Usada por: recipe_detail_screen.
 class NutritionCard extends StatelessWidget {
   const NutritionCard({
     super.key,
     required this.protein,
     required this.carb,
     required this.fat,
+    this.onEditProtein,
+    this.onEditCarb,
+    this.onEditFat,
   });
 
   final num protein;
   final num carb;
   final num fat;
+  final VoidCallback? onEditProtein;
+  final VoidCallback? onEditCarb;
+  final VoidCallback? onEditFat;
 
   @override
   Widget build(BuildContext context) {
@@ -39,43 +48,56 @@ class NutritionCard extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            _cell(pit, 'Proteína', protein, first: true),
-            _cell(pit, 'Gordura', fat),
-            _cell(pit, 'Carbo', carb),
+            _cell(pit, 'Proteína', protein, onEditProtein, first: true),
+            _cell(pit, 'Gordura', fat, onEditFat),
+            _cell(pit, 'Carbo', carb, onEditCarb),
           ],
         ),
       ),
     );
   }
 
-  /// Uma célula: rótulo em versalete + gramas em Space Grotesk. Usada por: [build].
-  Widget _cell(PitadaColors pit, String k, num grams, {bool first = false}) {
+  /// Uma célula: rótulo em versalete + gramas em Space Grotesk, editável por gesto.
+  /// Usada por: [build].
+  Widget _cell(
+    PitadaColors pit,
+    String k,
+    num grams,
+    VoidCallback? onEdit, {
+    bool first = false,
+  }) {
     return Expanded(
-      child: Container(
-        decoration: first
-            ? null
-            : BoxDecoration(
-                border: Border(
-                  left: BorderSide(
-                    color: pit.border,
-                    width: AppSpacing.borderStrong,
+      child: Editable(
+        onEdit: onEdit,
+        child: Container(
+          decoration: first
+              ? null
+              : BoxDecoration(
+                  border: Border(
+                    left: BorderSide(
+                      color: pit.border,
+                      width: AppSpacing.borderStrong,
+                    ),
                   ),
                 ),
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.lg,
+            vertical: AppSpacing.md + 2,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                k.toUpperCase(),
+                style: AppType.on(AppType.label, pit.muted),
               ),
-        padding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.lg,
-          vertical: AppSpacing.md + 2,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(k.toUpperCase(), style: AppType.on(AppType.label, pit.muted)),
-            const SizedBox(height: AppSpacing.xs + 1),
-            Text(
-              formatMacro(grams),
-              style: AppType.on(AppType.numeral, pit.text),
-            ),
-          ],
+              const SizedBox(height: AppSpacing.xs + 1),
+              Text(
+                formatMacro(grams),
+                style: AppType.on(AppType.numeral, pit.text),
+              ),
+            ],
+          ),
         ),
       ),
     );

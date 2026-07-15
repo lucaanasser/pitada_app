@@ -1,0 +1,64 @@
+# specs/backend/database.yaml -> supabase/migrations/*.sql
+# O QUÊ:  Schema do Postgres (tabelas, enums, índices, triggers) — fatia Receitas.
+# USADO POR: migrations SQL e SupabaseRecipesRepository (nomes de tabela/coluna).
+area: Backend / Banco
+purpose: >
+  Schema da fundação + feature Receitas. Convenção: snake_case no banco,
+  camelCase no Dart (json_serializable com field_rename: snake). Toda tabela
+  de usuário carrega user_id (dono) — RLS em specs/backend/rls.yaml.
+
+convencoes:
+  ids: uuid default gen_random_uuid() (extensão pgcrypto)
+  datas: timestamptz default now(); updated_at via trigger set_updated_at()
+  dono: user_id uuid not null default auth.uid() references auth.users(id) on delete cascade
+  ordem_de_listas: coluna position int (ingredientes/passos mantêm a ordem da receita)
+
+migrations:
+  - 0001_profiles.sql:
+      profiles:                      # 1 linha por usuário do Auth
+        id: uuid pk references auth.users(id) on delete cascade
+        display_name: text
+        created_at: timestamptz default now()
+      trigger: >
+        handle_new_user() AFTER INSERT em auth.users cria o profile
+        automaticamente (security definer).
+
+  - 0002_recipes.sql:
+      enum recipe_source: [youtube, instagram, site, pdf, photo, manual]
+      folders:                       # pasta = agrupador (≠ sub-receita)
+        colunas: [id, user_id, name text not null, hero_color text default 'clay',
+                  position int default 0, created_at]
+      recipes:                       # espelho 1:1 do model Recipe (Dart)
+        colunas: [id, user_id, title text not null, source recipe_source default 'manual',
+                  source_url text, servings int default 2, time_minutes int,
+                  kcal int not null default 0, protein numeric default 0,
+                  carb numeric default 0, fat numeric default 0, difficulty text,
+                  favorite boolean default false, hero_color text default 'clay',
+                  photo_count int default 0, notes text, techniques text[] default '{}',
+                  version int default 1, version_group_id uuid,
+                  created_at, updated_at]
+        indices: [user_id, version_group_id]
+        nota_versoes: >
+          Cada versão é uma LINHA completa (mesmo modelo "trocar tudo" do app).
+          A definitiva mantém o id canônico; antigas são linhas próprias no mesmo
+          version_group_id. Só a definitiva carrega favorite/pastas.
+      recipe_ingredients:            # grama é a base; unidade humana é referência
+        colunas: [id, recipe_id fk->recipes on delete cascade, position int,
+                  name text not null, grams numeric, human_qty numeric, human_unit text]
+        indice: recipe_id
+      recipe_steps:
+        colunas: [id, recipe_id fk->recipes on delete cascade, position int,
+                  text text not null, tip text]
+        indice: recipe_id
+      recipe_folders:                # N:N — uma receita pode estar em várias pastas
+        colunas: [recipe_id fk->recipes cascade, folder_id fk->folders cascade]
+        pk: (recipe_id, folder_id)
+      trigger: set_updated_at() BEFORE UPDATE em recipes
+
+  - 0003_storage.sql: ver specs/backend/storage.yaml
+
+leitura_pelo_app:                    # PostgREST embedding — 1 query traz tudo
+  exemplo: >
+    from('recipes').select('*, recipe_ingredients(*), recipe_steps(*),
+    recipe_folders(folder_id)') — Recipe.fromJson monta o aninhado
+    (ingredientes/passos ordenados por position).

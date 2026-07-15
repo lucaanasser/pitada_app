@@ -2,7 +2,7 @@
 // lib/features/learning/presentation/lesson_cards_screen.dart
 // O QUÊ:     Fichas — enciclopédia pessoal. Abas por categoria (Técnicas…Ervas)
 //            e lista de fichas que abre o detalhe.
-// USA:       core/widgets (SegTabs), theme/*, learning_providers, LessonCardRow,
+// USA:       core/widgets (PitadaTabs), theme/*, learning_providers, LessonCardRow,
 //            DetailHeader, go_router (navegação).
 // USADO POR: core/router/router.dart (/learning/cards).
 // SPEC:      specs/features/learning.yaml (screens.LessonCardsScreen)
@@ -13,10 +13,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/colors.dart';
+import '../../../core/theme/pitada_colors.dart';
 import '../../../core/theme/spacing.dart';
 import '../../../core/theme/typography.dart';
 import '../../../core/widgets/empty_state.dart';
-import '../../../core/widgets/seg_tabs.dart';
+import '../../../core/widgets/pitada_tabs.dart';
 import '../application/learning_providers.dart';
 import '../data/lesson.dart';
 import 'widgets/detail_header.dart';
@@ -48,9 +49,10 @@ class LessonCardsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final selected = ref.watch(selectedLessonCategoryProvider);
     final async = ref.watch(lessonsProvider);
+    final pit = context.pit;
 
     return Scaffold(
-      backgroundColor: AppColors.bg,
+      backgroundColor: pit.bg,
       body: SafeArea(
         bottom: false,
         child: Column(
@@ -64,10 +66,9 @@ class LessonCardsScreen extends ConsumerWidget {
               onAction: () => context.push('/lesson-edit'),
             ),
             const SizedBox(height: AppSpacing.sm),
-            SegTabs(
+            PitadaTabs(
               tabs: _tabLabels,
               selected: selected,
-              scrollable: true,
               onSelect: (i) =>
                   ref.read(selectedLessonCategoryProvider.notifier).state = i,
             ),
@@ -76,8 +77,10 @@ class LessonCardsScreen extends ConsumerWidget {
                 loading: () => const Center(
                   child: CircularProgressIndicator(color: AppColors.accent),
                 ),
-                error: (e, _) =>
-                    Center(child: Text('Erro: $e', style: AppType.body)),
+                error: (e, _) => Center(
+                  child: Text('Erro: $e',
+                      style: AppType.on(AppType.body, pit.text)),
+                ),
                 data: (lessons) => _list(context, lessons, selected),
               ),
             ),

@@ -8,15 +8,17 @@
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
+import '../../../core/widgets/pitada_sheet.dart';
 
 import '../../../core/theme/colors.dart';
+import '../../../core/theme/pitada_colors.dart';
 import '../../../core/theme/spacing.dart';
 import '../../../core/theme/typography.dart';
 import '../../../core/utils/app_log.dart';
 import '../../../core/widgets/pitada_button.dart';
 import '../data/recipe.dart';
 import 'widgets/cook_feedback_options.dart';
-import 'widgets/sheet_grip.dart';
+import '../../../core/widgets/sheet_grip.dart';
 
 /// Opções de feedback e o ajuste sugerido para cada uma (mock fixo).
 /// 'Ficou perfeito' não tem ajuste (valor vazio). Usada por: _CookChatSheet.
@@ -30,14 +32,8 @@ const _kFeedback = <String, String>{
 /// Abre a sheet de feedback pós-preparo (surf, cantos arredondados, grip).
 /// Usada por: cook_mode_screen ao concluir o preparo.
 void showCookChatSheet(BuildContext context, {required Recipe recipe}) {
-  showModalBottomSheet<void>(
-    context: context,
-    backgroundColor: AppColors.surf,
-    isScrollControlled: true,
-    shape: const RoundedRectangleBorder(
-      borderRadius:
-          BorderRadius.vertical(top: Radius.circular(AppSpacing.radiusXxl)),
-    ),
+  showPitadaSheet<void>(
+    context,
     builder: (ctx) => _CookChatSheet(recipe: recipe),
   );
 }
@@ -72,6 +68,7 @@ class _CookChatSheetState extends State<_CookChatSheet> {
   /// Monta título + opções + card de ajuste + rodapé. Usada por: framework.
   @override
   Widget build(BuildContext context) {
+    final pit = context.pit;
     final hasSuggestion = _suggestion.isNotEmpty;
     final title = widget.recipe.title;
     return SingleChildScrollView(
@@ -87,11 +84,11 @@ class _CookChatSheetState extends State<_CookChatSheet> {
           mainAxisSize: MainAxisSize.min,
           children: [
             const SheetGrip(),
-            const Text('Como ficou?', style: AppType.title),
+            Text('Como ficou?', style: AppType.on(AppType.title, pit.text)),
             const SizedBox(height: AppSpacing.sm),
             Text(
               'Seu retorno afina "$title".',
-              style: AppType.on(AppType.body, AppColors.muted),
+              style: AppType.on(AppType.body, pit.muted),
             ),
             const SizedBox(height: AppSpacing.xl),
             CookFeedbackOptions(
@@ -101,7 +98,7 @@ class _CookChatSheetState extends State<_CookChatSheet> {
             ),
             if (_selected >= 0) ...[
               const SizedBox(height: AppSpacing.xl),
-              hasSuggestion ? _adjustCard() : _congrats(),
+              hasSuggestion ? _adjustCard(pit) : _congrats(),
             ],
             const SizedBox(height: AppSpacing.xl),
             if (hasSuggestion)
@@ -123,7 +120,7 @@ class _CookChatSheetState extends State<_CookChatSheet> {
   }
 
   /// Card de ajuste sugerido (accentSoft/accentLine). Usada por: [build].
-  Widget _adjustCard() {
+  Widget _adjustCard(PitadaColors pit) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(AppSpacing.lg),
@@ -140,7 +137,7 @@ class _CookChatSheetState extends State<_CookChatSheet> {
             style: AppType.on(AppType.label, AppColors.accent),
           ),
           const SizedBox(height: AppSpacing.sm),
-          Text(_suggestion, style: AppType.tip),
+          Text(_suggestion, style: AppType.on(AppType.tip, pit.text2)),
         ],
       ),
     );

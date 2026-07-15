@@ -6,27 +6,23 @@
 // SPEC:      specs/features/plans.yaml (showMealSheet)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
+import '../../../core/widgets/pitada_sheet.dart';
 import 'package:flutter/services.dart';
 
 import '../../../core/theme/colors.dart';
+import '../../../core/theme/pitada_colors.dart';
 import '../../../core/theme/spacing.dart';
 import '../../../core/theme/typography.dart';
 import '../../../core/utils/app_log.dart';
 import '../../../core/widgets/pitada_button.dart';
 import '../data/meal.dart';
-import 'widgets/sheet_grip.dart';
+import '../../../core/widgets/sheet_grip.dart';
 
 /// Abre o sheet de refeição: novo (meal==null) ou editar (meal preenchido).
 /// Usada por: plans_screen (botão "Adicionar refeição") e MealHeaderRow (editar).
 void showMealSheet(BuildContext context, {Meal? meal}) {
-  showModalBottomSheet<void>(
-    context: context,
-    backgroundColor: AppColors.surf,
-    isScrollControlled: true,
-    shape: const RoundedRectangleBorder(
-      borderRadius:
-          BorderRadius.vertical(top: Radius.circular(AppSpacing.radiusXxl)),
-    ),
+  showPitadaSheet<void>(
+    context,
     builder: (ctx) => _MealSheet(meal: meal),
   );
 }
@@ -79,6 +75,7 @@ class _MealSheetState extends State<_MealSheet> {
   /// Monta o formulário (grip + título + campos + salvar/remover). Usada por: framework.
   @override
   Widget build(BuildContext context) {
+    final pit = context.pit;
     final editing = widget.meal != null;
     return Padding(
       padding: EdgeInsets.only(
@@ -91,12 +88,14 @@ class _MealSheetState extends State<_MealSheet> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SheetGrip(),
-          Text(editing ? 'Editar refeição' : 'Nova refeição',
-              style: AppType.title),
+          Text(
+            editing ? 'Editar refeição' : 'Nova refeição',
+            style: AppType.on(AppType.title, pit.text),
+          ),
           const SizedBox(height: AppSpacing.lg),
-          _field(_name, 'Ex.: Pré-treino'),
+          _field(pit, _name, 'Ex.: Pré-treino'),
           const SizedBox(height: AppSpacing.md),
-          _field(_goal, 'kcal', numeric: true),
+          _field(pit, _goal, 'kcal', numeric: true),
           const SizedBox(height: AppSpacing.xl),
           PitadaButton(label: 'Salvar', onPressed: _save),
           if (editing) ...[
@@ -122,31 +121,35 @@ class _MealSheetState extends State<_MealSheet> {
 
   /// Campo de texto padrão do sheet; [numeric] mostra teclado numérico.
   /// Usada por: [build] (nome e meta de kcal).
-  Widget _field(TextEditingController controller, String hint,
-      {bool numeric = false}) {
+  Widget _field(
+    PitadaColors pit,
+    TextEditingController controller,
+    String hint, {
+    bool numeric = false,
+  }) {
     return TextField(
       controller: controller,
       keyboardType: numeric ? TextInputType.number : TextInputType.text,
       inputFormatters:
           numeric ? [FilteringTextInputFormatter.digitsOnly] : null,
-      style: AppType.body,
+      style: AppType.on(AppType.body, pit.text),
       cursorColor: AppColors.accent,
       decoration: InputDecoration(
         hintText: hint,
-        hintStyle: AppType.on(AppType.body, AppColors.faint),
+        hintStyle: AppType.on(AppType.body, pit.faint),
         filled: true,
-        fillColor: AppColors.surf2,
+        fillColor: pit.surf2,
         contentPadding: const EdgeInsets.symmetric(
           horizontal: AppSpacing.lg,
           vertical: AppSpacing.md,
         ),
         border: OutlineInputBorder(
           borderRadius: AppSpacing.br(AppSpacing.radiusMd),
-          borderSide: const BorderSide(color: AppColors.line2),
+          borderSide: BorderSide(color: pit.line2),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: AppSpacing.br(AppSpacing.radiusMd),
-          borderSide: const BorderSide(color: AppColors.line2),
+          borderSide: BorderSide(color: pit.line2),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: AppSpacing.br(AppSpacing.radiusMd),

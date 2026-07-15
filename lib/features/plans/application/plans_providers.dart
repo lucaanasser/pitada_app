@@ -2,7 +2,7 @@
 // lib/features/plans/application/plans_providers.dart
 // O QUÊ:     Providers Riverpod de Planos (plano ativo, escolha de opção, totais do dia).
 // USA:       plans_repository, plan.dart, meal.dart, meal_option.dart, riverpod, app_log.
-// USADO POR: plans_screen, DaySummaryCard, MealCard (camada de apresentação).
+// USADO POR: plans_screen, DaySummary, MealCard (camada de apresentação).
 // SPEC:      specs/features/plans.yaml (application.providers)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,7 +14,7 @@ import '../data/plan.dart';
 import '../data/plans_repository.dart';
 
 /// Totais nutricionais agregados de um dia (opções escolhidas). Imutável.
-/// Usada por: dayTotalsProvider, DaySummaryCard (legenda de macros).
+/// Usada por: dayTotalsProvider, DaySummary (legenda de macros).
 class DayTotals {
   final int kcal;
   final num protein;
@@ -50,6 +50,28 @@ class PlanController extends StateNotifier<Plan> {
     AppLog.i('plans', 'opção escolhida: $mealId #$optionIndex');
   }
 
+  /// Move a refeição de `oldIndex` para a posição final `newIndex` na lista do dia.
+  /// `newIndex` já é o alvo final (o ReorderableListView.onReorderItem ajusta o
+  /// deslocamento por remoção). Índices inválidos => ignora (aviso no log).
+  /// Usada por: PlansScreen (ReorderableListView.onReorderItem).
+  void reorderMeals(int oldIndex, int newIndex) {
+    final meals = [...state.meals];
+    if (oldIndex < 0 || oldIndex >= meals.length) {
+      AppLog.w(
+        'plans',
+        'reorder com índice inválido: $oldIndex/${meals.length}',
+      );
+      return;
+    }
+    final moved = meals.removeAt(oldIndex);
+    meals.insert(newIndex.clamp(0, meals.length), moved);
+    state = state.copyWith(meals: meals);
+    AppLog.i(
+      'plans',
+      'refeição reordenada: ${moved.id} $oldIndex -> $newIndex',
+    );
+  }
+
   /// Retorna a refeição com apenas a opção `optionIndex` marcada como escolhida.
   /// Fora do intervalo => devolve a refeição intacta. Usada por: chooseOption.
   Meal _applyChoice(Meal meal, int optionIndex) {
@@ -74,12 +96,8 @@ final planControllerProvider =
   return PlanController(ref.watch(plansRepositoryProvider));
 });
 
-/// Índice do dia selecionado (0 = primeiro dia; 2 = dia ativo no protótipo).
-/// Usada por: ChapterTabs de dias em plans_screen.
-final selectedDayProvider = StateProvider<int>((ref) => 2);
-
 /// Totais nutricionais do dia (kcal + macros das opções escolhidas).
-/// Usada por: DaySummaryCard (total grande, FuelBar, legenda de macros).
+/// Usada por: DaySummary (total grande, FuelBar, legenda de macros).
 final dayTotalsProvider = Provider<DayTotals>((ref) {
   final plan = ref.watch(planControllerProvider);
   var kcal = 0;

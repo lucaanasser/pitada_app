@@ -9,6 +9,7 @@ import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/colors.dart';
+import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
 import '../../../../core/theme/typography.dart';
 import '../../../../core/widgets/recipe_thumb.dart';
@@ -48,14 +49,14 @@ class PhotoGrid extends StatelessWidget {
                 icon: AppIcons.photo,
               ),
             ),
-          _addTile(),
+          _addTile(context.pit),
         ],
       ),
     );
   }
 
   /// Tile tracejado "adicionar foto" (mock: só incrementa). Usada por: [build].
-  Widget _addTile() {
+  Widget _addTile(PitadaColors pit) {
     return GestureDetector(
       onTap: onAdd,
       behavior: HitTestBehavior.opaque,
@@ -63,16 +64,16 @@ class PhotoGrid extends StatelessWidget {
         width: _tile,
         height: _tile,
         decoration: BoxDecoration(
-          color: AppColors.surf,
+          color: pit.surf,
           borderRadius: AppSpacing.br(AppSpacing.radiusLg),
-          border: Border.all(color: AppColors.line2),
+          border: Border.all(color: pit.line2),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(AppIcons.add, size: 22, color: AppColors.muted),
+            Icon(AppIcons.add, size: 22, color: pit.muted),
             const SizedBox(height: AppSpacing.xs),
-            Text('Foto', style: AppType.on(AppType.captionSm, AppColors.muted)),
+            Text('Foto', style: AppType.on(AppType.captionSm, pit.muted)),
           ],
         ),
       ),

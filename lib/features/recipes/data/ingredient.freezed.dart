@@ -1,0 +1,374 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
+// ignore_for_file: type=lint
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
+
+part of 'ingredient.dart';
+
+// **************************************************************************
+// FreezedGenerator
+// **************************************************************************
+
+// dart format off
+T _$identity<T>(T value) => value;
+
+/// @nodoc
+mixin _$Ingredient {
+  String get name;
+  num? get grams; // base para cálculo de macros
+  num? get humanQty; // ex.: 2
+  String? get humanUnit;
+
+  /// Create a copy of Ingredient
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $IngredientCopyWith<Ingredient> get copyWith =>
+      _$IngredientCopyWithImpl<Ingredient>(this as Ingredient, _$identity);
+
+  /// Serializes this Ingredient to a JSON map.
+  Map<String, dynamic> toJson();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is Ingredient &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.grams, grams) || other.grams == grams) &&
+            (identical(other.humanQty, humanQty) ||
+                other.humanQty == humanQty) &&
+            (identical(other.humanUnit, humanUnit) ||
+                other.humanUnit == humanUnit));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, name, grams, humanQty, humanUnit);
+
+  @override
+  String toString() {
+    return 'Ingredient(name: $name, grams: $grams, humanQty: $humanQty, humanUnit: $humanUnit)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $IngredientCopyWith<$Res> {
+  factory $IngredientCopyWith(
+          Ingredient value, $Res Function(Ingredient) _then) =
+      _$IngredientCopyWithImpl;
+  @useResult
+  $Res call({String name, num? grams, num? humanQty, String? humanUnit});
+}
+
+/// @nodoc
+class _$IngredientCopyWithImpl<$Res> implements $IngredientCopyWith<$Res> {
+  _$IngredientCopyWithImpl(this._self, this._then);
+
+  final Ingredient _self;
+  final $Res Function(Ingredient) _then;
+
+  /// Create a copy of Ingredient
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? name = null,
+    Object? grams = freezed,
+    Object? humanQty = freezed,
+    Object? humanUnit = freezed,
+  }) {
+    return _then(_self.copyWith(
+      name: null == name
+          ? _self.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      grams: freezed == grams
+          ? _self.grams
+          : grams // ignore: cast_nullable_to_non_nullable
+              as num?,
+      humanQty: freezed == humanQty
+          ? _self.humanQty
+          : humanQty // ignore: cast_nullable_to_non_nullable
+              as num?,
+      humanUnit: freezed == humanUnit
+          ? _self.humanUnit
+          : humanUnit // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// Adds pattern-matching-related methods to [Ingredient].
+extension IngredientPatterns on Ingredient {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_Ingredient value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _Ingredient() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_Ingredient value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _Ingredient():
+        return $default(_that);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_Ingredient value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _Ingredient() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(String name, num? grams, num? humanQty, String? humanUnit)?
+        $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _Ingredient() when $default != null:
+        return $default(
+            _that.name, _that.grams, _that.humanQty, _that.humanUnit);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(String name, num? grams, num? humanQty, String? humanUnit)
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _Ingredient():
+        return $default(
+            _that.name, _that.grams, _that.humanQty, _that.humanUnit);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(
+            String name, num? grams, num? humanQty, String? humanUnit)?
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _Ingredient() when $default != null:
+        return $default(
+            _that.name, _that.grams, _that.humanQty, _that.humanUnit);
+      case _:
+        return null;
+    }
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _Ingredient implements Ingredient {
+  const _Ingredient(
+      {required this.name, this.grams, this.humanQty, this.humanUnit});
+  factory _Ingredient.fromJson(Map<String, dynamic> json) =>
+      _$IngredientFromJson(json);
+
+  @override
+  final String name;
+  @override
+  final num? grams;
+// base para cálculo de macros
+  @override
+  final num? humanQty;
+// ex.: 2
+  @override
+  final String? humanUnit;
+
+  /// Create a copy of Ingredient
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$IngredientCopyWith<_Ingredient> get copyWith =>
+      __$IngredientCopyWithImpl<_Ingredient>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$IngredientToJson(
+      this,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _Ingredient &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.grams, grams) || other.grams == grams) &&
+            (identical(other.humanQty, humanQty) ||
+                other.humanQty == humanQty) &&
+            (identical(other.humanUnit, humanUnit) ||
+                other.humanUnit == humanUnit));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, name, grams, humanQty, humanUnit);
+
+  @override
+  String toString() {
+    return 'Ingredient(name: $name, grams: $grams, humanQty: $humanQty, humanUnit: $humanUnit)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$IngredientCopyWith<$Res>
+    implements $IngredientCopyWith<$Res> {
+  factory _$IngredientCopyWith(
+          _Ingredient value, $Res Function(_Ingredient) _then) =
+      __$IngredientCopyWithImpl;
+  @override
+  @useResult
+  $Res call({String name, num? grams, num? humanQty, String? humanUnit});
+}
+
+/// @nodoc
+class __$IngredientCopyWithImpl<$Res> implements _$IngredientCopyWith<$Res> {
+  __$IngredientCopyWithImpl(this._self, this._then);
+
+  final _Ingredient _self;
+  final $Res Function(_Ingredient) _then;
+
+  /// Create a copy of Ingredient
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? name = null,
+    Object? grams = freezed,
+    Object? humanQty = freezed,
+    Object? humanUnit = freezed,
+  }) {
+    return _then(_Ingredient(
+      name: null == name
+          ? _self.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      grams: freezed == grams
+          ? _self.grams
+          : grams // ignore: cast_nullable_to_non_nullable
+              as num?,
+      humanQty: freezed == humanQty
+          ? _self.humanQty
+          : humanQty // ignore: cast_nullable_to_non_nullable
+              as num?,
+      humanUnit: freezed == humanUnit
+          ? _self.humanUnit
+          : humanUnit // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+// dart format on

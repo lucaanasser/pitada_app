@@ -7,6 +7,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import '../theme/colors.dart';
+import '../theme/pitada_colors.dart';
 import '../theme/spacing.dart';
 import '../theme/typography.dart';
 
@@ -31,9 +32,10 @@ class PitadaChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pit = context.pit;
     final isAccent = variant == PitadaChipVariant.accent;
-    final fg = isAccent ? AppColors.accent2 : AppColors.text2;
-    final border = isAccent ? AppColors.accentLine : AppColors.line2;
+    final fg = isAccent ? AppColors.accent2 : pit.text2;
+    final border = isAccent ? AppColors.accentLine : pit.line2;
     return GestureDetector(
       onTap: onTap,
       child: Container(

@@ -6,7 +6,7 @@
 // SPEC:      specs/components/atoms.yaml (EmptyState)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
-import '../theme/colors.dart';
+import '../theme/pitada_colors.dart';
 import '../theme/spacing.dart';
 import '../theme/typography.dart';
 
@@ -21,6 +21,7 @@ class EmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pit = context.pit;
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.xxxl),
@@ -28,15 +29,19 @@ class EmptyState extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             if (icon != null) ...[
-              Icon(icon, size: 34, color: AppColors.faint),
+              Icon(icon, size: 34, color: pit.faint),
               const SizedBox(height: AppSpacing.lg),
             ],
-            Text(title, style: AppType.title, textAlign: TextAlign.center),
+            Text(
+              title,
+              style: AppType.on(AppType.title, pit.text),
+              textAlign: TextAlign.center,
+            ),
             if (message != null) ...[
               const SizedBox(height: AppSpacing.sm),
               Text(
                 message!,
-                style: AppType.on(AppType.bodySm, AppColors.muted),
+                style: AppType.on(AppType.bodySm, pit.muted),
                 textAlign: TextAlign.center,
               ),
             ],

@@ -8,6 +8,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/colors.dart';
+import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
 import '../../../../core/theme/typography.dart';
 
@@ -33,7 +34,9 @@ class KeyPoint extends StatelessWidget {
               style: AppType.on(AppType.numeralSm, AppColors.accent),
             ),
           ),
-          Expanded(child: Text(text, style: AppType.body)),
+          Expanded(
+              child: Text(text,
+                  style: AppType.on(AppType.body, context.pit.text))),
         ],
       ),
     );

@@ -7,7 +7,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 
-import '../../../../core/theme/colors.dart';
+import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
 import '../../../../core/theme/typography.dart';
 
@@ -21,14 +21,15 @@ class HintCard extends StatelessWidget {
   /// Renderiza a dica em uma caixa arredondada. Usada por: ProcessLogsScreen.
   @override
   Widget build(BuildContext context) {
+    final pit = context.pit;
     return Container(
       padding: const EdgeInsets.all(AppSpacing.md + 2),
       decoration: BoxDecoration(
-        color: AppColors.surf2,
+        color: pit.surf2,
         borderRadius: AppSpacing.br(AppSpacing.radiusMd),
-        border: Border.all(color: AppColors.line, width: AppSpacing.hair),
+        border: Border.all(color: pit.line, width: AppSpacing.hair),
       ),
-      child: Text(text, style: AppType.on(AppType.tip, AppColors.text2)),
+      child: Text(text, style: AppType.on(AppType.tip, pit.text2)),
     );
   }
 }

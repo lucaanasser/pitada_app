@@ -9,6 +9,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 
+import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
 import '../../../../core/theme/typography.dart';
 import '../../../../core/widgets/pitada_chip.dart';
@@ -49,14 +50,14 @@ class LessonSectionView extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SectionHeader(label: section.label, topGap: topGap),
-        _body(),
+        _body(context.pit),
       ],
     );
   }
 
   /// Corpo da seção segundo o kind: parágrafo, chips ou lista numerada.
   /// Usada por: [build].
-  Widget _body() {
+  Widget _body(PitadaColors pit) {
     switch (section.kind) {
       case SectionKind.pairs:
         return Wrap(
@@ -78,7 +79,7 @@ class LessonSectionView extends StatelessWidget {
       case SectionKind.tip:
         return Text(
           section.body.isEmpty ? '' : section.body.first,
-          style: AppType.body,
+          style: AppType.on(AppType.body, pit.text),
         );
     }
   }

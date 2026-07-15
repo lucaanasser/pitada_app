@@ -1,0 +1,23 @@
+# specs/components/edit_field.yaml -> lib/core/widgets/edit_field.dart
+component: EditTextField / EditStepperField / EditFieldShell
+file: lib/core/widgets/edit_field.dart
+prototype: "campos do VIEW-EDIT em pitada.html"
+purpose: >
+  Família de campos de formulário do app (rótulo em versalete + conteúdo sobre
+  surf2). PROMOVIDA de features/recipes/presentation/widgets para core/widgets
+  quando a feature auth passou a reusar (regra: peça visual repetida vira
+  widget compartilhado).
+uses:
+  - context.pit.* (surf2, text, muted, faint)
+  - AppType.label / AppType.body / AppType.numeral
+  - AppSpacing (md, lg, radiusMd) + PitadaIconButton (stepper)
+variants:
+  - EditTextField: >
+      rótulo + TextField (hint, keyboardType, multiline, autofocus). Param
+      opcional style troca o AppType do texto digitado (ex.: AppType.numeral
+      no código OTP); a COR segue de pit.text (token, nunca chumbada).
+  - EditStepperField: rótulo + stepper − N + (AppType.numeral)
+  - EditFieldShell: casca (rótulo + container surf2) p/ trailing livre
+used_by:
+  - recipe_edit_screen / import_preview / quick_edit_sheet (Receitas)
+  - sign_in_screen (Auth: e-mail + código)

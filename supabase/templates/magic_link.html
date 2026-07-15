@@ -1,0 +1,12 @@
+<!-- ──────────────────────────────────────────────────────────────────────────
+  supabase/templates/magic_link.html
+  O QUÊ:  Template do e-mail de login por CÓDIGO (OTP). O default do Supabase
+          manda um LINK; o app usa verifyOTP com código de 6 dígitos, então o
+          e-mail precisa exibir {{ .Token }}. Referenciado em config.toml
+          ([auth.email.template.magic_link]). Em produção: mesmo template no
+          dashboard (Auth > Email Templates > Magic Link).
+─────────────────────────────────────────────────────────────────────────── -->
+<h2>Seu código de entrada no Pitada</h2>
+<p>Digite este código no app para entrar:</p>
+<p style="font-size: 32px; font-weight: 700; letter-spacing: 6px;">{{ .Token }}</p>
+<p>Ele vale por 1 hora. Se você não pediu este código, ignore este e-mail.</p>

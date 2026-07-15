@@ -12,6 +12,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/colors.dart';
+import '../../../core/theme/pitada_colors.dart';
 import '../../../core/theme/spacing.dart';
 import '../../../core/theme/typography.dart';
 import '../../../core/widgets/hairline_row.dart';
@@ -121,16 +122,17 @@ class RepertoireScreen extends ConsumerWidget {
     Pairing p, {
     required bool showDivider,
   }) {
+    final pit = context.pit;
     return HairlineRow(
       showDivider: showDivider,
       onTap: () => context.push('/pairing/${p.id}'),
       leading: RecipeThumb(color: AppColors.heroOf('teal'), icon: AppIcons.hub),
-      title: Text(p.ingredient, style: AppType.titleSm),
+      title: Text(p.ingredient, style: AppType.on(AppType.titleSm, pit.text)),
       subtitle: Text(
         '${p.items.length} combinações',
-        style: AppType.on(AppType.caption, AppColors.muted),
+        style: AppType.on(AppType.caption, pit.muted),
       ),
-      trailing: const Icon(AppIcons.chevron, size: 16, color: AppColors.faint),
+      trailing: Icon(AppIcons.chevron, size: 16, color: pit.faint),
     );
   }
 
@@ -150,9 +152,14 @@ class RepertoireScreen extends ConsumerWidget {
         child:
             Center(child: CircularProgressIndicator(color: AppColors.accent)),
       ),
-      error: (e, _) => Padding(
-        padding: const EdgeInsets.all(AppSpacing.gutter),
-        child: Text('Erro: $e', style: AppType.body),
+      error: (e, _) => Builder(
+        builder: (context) => Padding(
+          padding: const EdgeInsets.all(AppSpacing.gutter),
+          child: Text(
+            'Erro: $e',
+            style: AppType.on(AppType.body, context.pit.text),
+          ),
+        ),
       ),
       data: data,
     );

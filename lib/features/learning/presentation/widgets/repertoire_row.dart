@@ -8,6 +8,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/colors.dart';
+import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/typography.dart';
 import '../../../../core/widgets/hairline_row.dart';
 
@@ -32,12 +33,13 @@ class RepertoireRow extends StatelessWidget {
   /// Usada por: RepertoireScreen.
   @override
   Widget build(BuildContext context) {
+    final pit = context.pit;
     return HairlineRow(
       showDivider: showDivider,
-      title: Text(name, style: AppType.titleSm),
+      title: Text(name, style: AppType.on(AppType.titleSm, pit.text)),
       subtitle: detail.isEmpty
           ? null
-          : Text(detail, style: AppType.on(AppType.caption, AppColors.muted)),
+          : Text(detail, style: AppType.on(AppType.caption, pit.muted)),
       trailing:
           Text(value, style: AppType.on(AppType.numeralSm, AppColors.accent2)),
     );

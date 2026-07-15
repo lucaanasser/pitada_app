@@ -8,6 +8,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/colors.dart';
+import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
 import '../../../../core/theme/typography.dart';
 import '../../../../core/utils/format.dart';
@@ -32,14 +33,18 @@ class DiaryRow extends StatelessWidget {
   /// Monta a linha: miniatura, receita, data e tag do veredito. Usada por: DiaryScreen.
   @override
   Widget build(BuildContext context) {
+    final pit = context.pit;
     return HairlineRow(
       onTap: onTap,
       showDivider: showDivider,
       leading: RecipeThumb(color: AppColors.heroOf('moss')),
-      title: Text(entry.recipeName, style: AppType.titleSm),
+      title: Text(
+        entry.recipeName,
+        style: AppType.on(AppType.titleSm, pit.text),
+      ),
       subtitle: Text(
         formatDayMonth(entry.date),
-        style: AppType.on(AppType.caption, AppColors.muted),
+        style: AppType.on(AppType.caption, pit.muted),
       ),
       trailing: _VerdictTag(label: entry.label),
     );

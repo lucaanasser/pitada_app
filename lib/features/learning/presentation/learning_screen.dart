@@ -46,10 +46,11 @@ class LearningScreen extends ConsumerWidget {
       background: pit.tabBg(1),
       top: const Masthead(),
       child: ListView(
-        padding: const EdgeInsets.only(bottom: AppSpacing.xxxl),
+        padding: tabListPadding(context, respiro: AppSpacing.xxxl),
         children: [
           _header(context, pit),
-          const SizedBox(height: AppSpacing.lg),
+          // titleGap: respiro padrão entre o título da aba e o 1º conteúdo.
+          const SizedBox(height: AppSpacing.titleGap),
           const Padding(padding: AppSpacing.screenH, child: CaptureBar()),
 
           // —— Para hoje: reativação (máx. 2 cards, disciplina anti-ruído) ——
@@ -138,6 +139,8 @@ class LearningScreen extends ConsumerWidget {
           ),
           PitadaIconButton(
             icon: AppIcons.add,
+            filled: true,
+            size: AppSpacing.iconButtonSm,
             onPressed: () => showCadernoAddSheet(context),
           ),
         ],

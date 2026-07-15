@@ -8,6 +8,7 @@
 // USADO POR: hub do Caderno (atalhos de captura) e sheet "Adicionar ao Caderno".
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
+import '../../../core/widgets/pitada_sheet.dart';
 
 import '../../../core/theme/colors.dart';
 import '../../../core/theme/pitada_colors.dart';
@@ -22,14 +23,8 @@ import 'widgets/section_editor.dart';
 /// Abre o bottom sheet de nota de fonte rápida (tipo + título + o que fica).
 /// Usada por: LearningScreen (captura rápida) e caderno_add_sheet.
 void showNoteQuickSheet(BuildContext context) {
-  showModalBottomSheet<void>(
-    context: context,
-    backgroundColor: context.pit.surf,
-    isScrollControlled: true,
-    shape: const RoundedRectangleBorder(
-      borderRadius:
-          BorderRadius.vertical(top: Radius.circular(AppSpacing.radiusXxl)),
-    ),
+  showPitadaSheet<void>(
+    context,
     builder: (ctx) => const _NoteQuickSheet(),
   );
 }

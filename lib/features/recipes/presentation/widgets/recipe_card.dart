@@ -1,9 +1,10 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/recipes/presentation/widgets/recipe_card.dart
-// O QUÊ:     Card de receita: bloco de foto (pastel) + título + tags coloridas.
-//            [compact] encolhe para caber em 2 colunas. Reage ao tema; sem sombra.
-// USA:       core/theme (AppIcons, PitadaColors), core/widgets/pitada_tag, format, Recipe.
-// USADO POR: recipes_screen (modos single e grid).
+// O QUÊ:     Card de receita sóbrio: bloco de foto (pastel) + título + uma linha
+//            de meta em texto (tempo · kcal · dificuldade). [compact] encolhe
+//            p/ 2 colunas. Reage ao tema; sem sombra, sem pílulas.
+// USA:       core/theme (AppIcons, PitadaColors), recipe_meta_text, Recipe.
+// USADO POR: recipes_screen (modos single e grid), folder_screen (grade da pasta).
 // SPEC:      specs/components/recipe_card.yaml
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
@@ -12,11 +13,11 @@ import '../../../../core/theme/app_icons.dart';
 import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
 import '../../../../core/theme/typography.dart';
-import '../../../../core/utils/format.dart';
-import '../../../../core/widgets/pitada_tag.dart';
 import '../../data/recipe.dart';
+import 'recipe_meta_text.dart';
 
-/// Card de receita com foto (placeholder colorido) e meta em tags. Usada por: recipes_screen.
+/// Card de receita com foto (placeholder colorido) e meta em texto sóbrio.
+/// Usada por: recipes_screen, folder_screen.
 class RecipeCard extends StatelessWidget {
   const RecipeCard({
     super.key,
@@ -29,6 +30,7 @@ class RecipeCard extends StatelessWidget {
   final VoidCallback? onTap;
   final bool compact;
 
+  /// Monta a caixa (borda tinta) com foto, título e meta. Usada por: framework.
   @override
   Widget build(BuildContext context) {
     final pit = context.pit;
@@ -60,23 +62,14 @@ class RecipeCard extends StatelessWidget {
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  const SizedBox(height: AppSpacing.sm),
-                  Wrap(
-                    spacing: AppSpacing.xs + 2,
-                    runSpacing: AppSpacing.xs + 2,
-                    children: [
-                      if (recipe.timeMinutes != null)
-                        PitadaTag(
-                          label: formatMinutes(recipe.timeMinutes),
-                          color: pit.card('teal'),
-                          icon: AppIcons.time,
-                        ),
-                      if (!compact)
-                        PitadaTag(
-                          label: '${formatKcal(recipe.kcal)} kcal',
-                          color: pit.card('ochre'),
-                        ),
-                    ],
+                  const SizedBox(height: AppSpacing.xs + 2),
+                  // Meta sóbria em texto, como o subtítulo do estudo de estilo
+                  // (.rsub): pit.text2 — presente sem virar pílula/enfeite.
+                  Text(
+                    recipeMetaText(recipe),
+                    style: AppType.on(AppType.bodySm, pit.text2),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ],
               ),
@@ -87,42 +80,24 @@ class RecipeCard extends StatelessWidget {
     );
   }
 
-  /// Bloco de "foto" (cor pastel do hero) com ícone e tag de dificuldade no canto.
+  /// Bloco de "foto" (cor pastel do hero) com ícone de prato ao centro.
   /// Usada por: [build].
   Widget _image(PitadaColors pit) {
-    return SizedBox(
+    return Container(
       height: compact ? 108 : 158,
       width: double.infinity,
-      child: Stack(
-        children: [
-          Positioned.fill(
-            child: Container(
-              decoration: BoxDecoration(
-                color: pit.card(recipe.heroColor),
-                border: Border(
-                  bottom: BorderSide(
-                    color: pit.border,
-                    width: AppSpacing.borderStrong,
-                  ),
-                ),
-              ),
-              child: Center(
-                child: Icon(
-                  AppIcons.dish,
-                  size: compact ? 40 : 56,
-                  color: (pit.isDark ? pit.text : pit.border)
-                      .withValues(alpha: 0.3),
-                ),
-              ),
-            ),
-          ),
-          if (recipe.difficulty != null)
-            Positioned(
-              top: AppSpacing.sm,
-              right: AppSpacing.sm,
-              child: PitadaTag(label: recipe.difficulty!, color: pit.surf),
-            ),
-        ],
+      decoration: BoxDecoration(
+        color: pit.card(recipe.heroColor),
+        border: Border(
+          bottom: BorderSide(color: pit.border, width: AppSpacing.borderStrong),
+        ),
+      ),
+      child: Center(
+        child: Icon(
+          AppIcons.dish,
+          size: compact ? 40 : 56,
+          color: (pit.isDark ? pit.text : pit.border).withValues(alpha: 0.3),
+        ),
       ),
     );
   }

@@ -8,6 +8,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/colors.dart';
+import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
 import '../../../../core/theme/typography.dart';
 
@@ -28,13 +29,14 @@ class NoteTake extends StatelessWidget {
   /// Monta a linha "N + texto" com filete inferior. Usada por: NoteDetailScreen.
   @override
   Widget build(BuildContext context) {
+    final pit = context.pit;
     return Container(
       padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
       decoration: showDivider
-          ? const BoxDecoration(
+          ? BoxDecoration(
               border: Border(
                 bottom: BorderSide(
-                  color: AppColors.line,
+                  color: pit.line,
                   width: AppSpacing.hair,
                 ),
               ),
@@ -51,7 +53,8 @@ class NoteTake extends StatelessWidget {
             ),
           ),
           const SizedBox(width: AppSpacing.md),
-          Expanded(child: Text(text, style: AppType.body)),
+          Expanded(
+              child: Text(text, style: AppType.on(AppType.body, pit.text))),
         ],
       ),
     );

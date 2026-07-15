@@ -1,0 +1,32 @@
+# specs/backend/auth.yaml -> config.toml (auth) + specs/features/auth.yaml (lado app)
+# O QUÊ:  Estratégia de autenticação: OTP de 6 dígitos por e-mail (passwordless).
+# USADO POR: config.toml, lib/features/auth/ (ver specs/features/auth.yaml).
+area: Backend / Auth
+purpose: >
+  Login sem senha: usuário digita o e-mail, recebe um código de 6 dígitos e o
+  digita no app. Escolhido por ser o mais simples E o mais portável para iOS:
+  não exige deep-link/Associated Domains (o link clicável exigiria), funciona
+  idêntico em iOS/Android/web/desktop.
+
+fluxo:
+  1: app chama auth.signInWithOtp(email)            # Supabase envia o e-mail
+  2: usuário digita o código de 6 dígitos no app
+  3: app chama auth.verifyOTP(email, token, type: email) -> sessão criada
+  4: trigger handle_new_user cria o profile no 1º login (ver database.yaml)
+  sessao: supabase_flutter persiste e renova o token sozinho (auto refresh)
+
+config_toml:
+  auth.email.enable_signup: true         # 1º login já cria a conta (sem tela de cadastro)
+  auth.email.enable_confirmations: false # OTP já prova a posse do e-mail
+  template_otp: e-mail traz {{ .Token }} (código), não link  # padrão do Supabase p/ OTP
+
+dev_local:
+  inbucket: e-mails de OTP aparecem em http://127.0.0.1:54324 (sem SMTP real)
+
+producao:
+  smtp: começa com o e-mail embutido do Supabase (limite baixo, ok p/ uso pessoal);
+        SMTP próprio (Resend etc.) só se/quando precisar de volume.
+
+futuro:                                   # fora de escopo agora
+  - Apple/Google Sign-In podem ser SOMADOS depois (mesma conta por e-mail).
+    Lembrete iOS: oferecer Google na App Store obriga a oferecer Apple também.

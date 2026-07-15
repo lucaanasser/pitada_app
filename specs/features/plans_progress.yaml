@@ -1,0 +1,251 @@
+# specs/features/plans_progress.yaml -> lib/features/plans/ (sub-aba "Progresso")
+feature: Planos · Progresso
+prototype: "nova sub-aba de Planos (sem HTML ainda) — evolução do TAB-PLANOS"
+purpose: >
+  Acompanhar o progresso de quem segue o plano. O DESTAQUE é o registro do dia
+  (o hábito diário); o peso é coadjuvante (muda 1x/semana) e mora no fim.
+  Hierarquia de cima p/ baixo: 1) Hoje (registrou? + sequência), 2) Aderência
+  (últimas 2 semanas), 3) Padrões (insights derivados dos logs), 4) Peso
+  (compacto). Filosofia: aproximação boa e rápida, não precisão. No fim do dia,
+  em poucos toques, a pessoa registra o que comeu escolhendo as opções do plano,
+  marca as refeições puladas e adiciona (rápido) o que comeu fora do plano.
+  O app devolve o favor lendo padrões nos registros — o log deixa de ser só
+  dever e vira informação.
+
+navegacao:
+  onde: "Sub-aba dentro da aba Plano (PitadaTabs ['Cardápio', 'Progresso'])."
+  motivo: "Progresso é sobre o plano que está sendo seguido — mora junto dele."
+  nomes: >
+    Aba da navbar = 'Plano' (singular; há um plano ativo por vez). Sub-abas =
+    'Cardápio' (as refeições com opções) e 'Progresso' (registro + padrões +
+    peso). Título fixo da tela = 'Plano' (AppType.screenTitle). O plano NÃO
+    exibe seu nome interno (nada de 'Cutting').
+  plans_screen_vira: >
+    Casca com CABEÇALHO COMPARTILHADO fixo (aparece nas duas sub-abas): Masthead +
+    título 'Plano' (screenTitle) + DaySummary (kcal grande + status + FuelBar +
+    macros) + PitadaTabs. O switcher fica abaixo dos macros (respiro xl),
+    alinhado à ESQUERDA como nas outras telas. selected=0 ->
+    CardapioView (só a lista de refeições + 'Adicionar refeição', sem título nem
+    DaySummary), selected=1 -> ProgressView. Estado da aba em setState local
+    (StatefulWidget), como recipes.
+
+data:
+  models:
+    - WeightEntry:                    # lib/features/plans/data/weight_entry.dart
+        campos:
+          - date: DateTime            # dia da pesagem (manhã, ~mesmo horário)
+          - kg: double                # peso em kg (ex.: 78.4)
+    - FoodItem:                       # lib/features/plans/data/food_item.dart
+        proposito: "Item do dataset curado de comidas comuns (aproximação por porção)."
+        campos:
+          - id: String
+          - name: String              # "Pizza"
+          - portion: String           # "1 fatia", "1 lata", "1 prato"
+          - kcal: int
+          - protein: num
+          - carb: num
+          - fat: num
+          - category: String          # doce|salgado|bebida|alcool|fastfood|fruta|lanche|prato
+    - DayLog:                         # lib/features/plans/data/day_log.dart
+        proposito: "O registro aproximado de um dia (feito no fim do dia)."
+        campos:
+          - date: DateTime
+          - meals: List<MealLogEntry>
+          - extras: List<ExtraEntry>
+        derivado:
+          - "kcal = soma das refeições feitas + extras"
+          - "protein/carb/fat idem"
+    - MealLogEntry:                   # em day_log.dart (modelos pequenos juntos, como meal_option)
+        campos:
+          - mealId: String
+          - mealName: String
+          - optionId: String?         # opção comida; null se pulada/sem escolha
+          - kcal/protein/carb/fat: num
+          - skipped: bool             # marcada como "pulei"
+    - ExtraEntry:                     # em day_log.dart
+        proposito: "Algo comido fora do plano, logado rápido."
+        campos:
+          - foodId: String?           # do dataset, se veio de lá
+          - name: String
+          - portion: String
+          - kcal/protein/carb/fat: num
+  seeds:
+    - foods_seed.dart: >
+        kSeedFoods: ~90 comidas brasileiras comuns, curadas (parcialmente
+        genéricas): doces, salgados, bebidas, álcool, fast food, frutas, lanches,
+        pratos. Cada uma com porção humana + kcal/macros aproximados. Hoje local
+        (mock); depois vira tabela Supabase mantendo a mesma API do repositório.
+    - progress_seed.dart: >
+        Datas RELATIVAS a hoje (demo viva, não apodrece): kSeedWeights ~10
+        pesagens semanais com leve queda; kSeedDayLogs ~11 dias logados nos
+        últimos 14, com HOJE sem registro (para a TodaySection mostrar o CTA),
+        sequência de 5 dias terminando ontem, 'Lanche da tarde' pulado 4x e
+        extras repetidos (chocolate) — dados que exercitam streak e insights.
+  repository: ProgressRepository      # em memória (seed) hoje; Supabase depois
+  regras:
+    - "Modelos: classes puras imutáveis, const constructor. Sem freezed/json (como o resto)."
+    - "UI nunca chama o repositório direto — só via provider."
+    - "Grama/macros aproximados; kcal é a base do encaixe (mesma regra de Planos)."
+
+application:
+  providers:                          # lib/features/plans/application/
+    - progressRepositoryProvider (Provider<ProgressRepository>)
+    - weightControllerProvider (StateNotifier<List<WeightEntry>>)
+        acoes: ["addWeight(kg, {date}): insere ordenado por data e loga."]
+    - weightStatsProvider (Provider<WeightStats?>)   # current, start, delta (null se vazio)
+    - foodsProvider (Provider<List<FoodItem>>)        # dataset curado p/ busca
+    - dayLogControllerProvider (StateNotifier<List<DayLog>>)
+        acoes: ["saveDay(DayLog): substitui o log do mesmo dia (upsert) e loga."]
+    - adherenceProvider (Provider<List<DayAdherence>>) # últimos ~14 dias: kcal do log vs meta
+    - todayLogProvider (Provider<DayLog?>)             # log de HOJE (null se não registrou)
+    - logStreakProvider (Provider<int>)                # dias consecutivos registrando
+    - progressInsightsProvider (Provider<List<ProgressInsight>>)  # padrões (máx 3)
+  arquivos:
+    - progress_providers.dart   # repo + peso (controller, stats) + foods
+    - day_log_providers.dart    # log do dia (controller) + adherence + hoje + streak
+    - progress_insights.dart    # ProgressInsight/InsightKind + motor de padrões
+  streak:
+    regra: >
+      Dias consecutivos logados contando p/ trás a partir de HOJE (se hoje já
+      foi registrado) ou de ONTEM (se ainda não foi — não punir antes do fim do
+      dia). Exibido só quando >= 2.
+  insights:                     # o motor de "Padrões" — precisa ser bem feito
+    janela: "últimos 14 dias"
+    quando_roda: ">= 5 dias logados na janela; senão a seção INTEIRA some (respiro > placeholder)."
+    maximo: "3 insights por vez, na ordem de prioridade abaixo."
+    modelo: "ProgressInsight { kind: InsightKind, title, detail } — SEM IconData (application não conhece ícone; a UI mapeia kind -> AppIcons)."
+    tom: >
+      Título = o fato, com número (a pessoa se reconhece). Detail = leitura
+      acionável, sem julgamento ('talvez o plano fique melhor sem...', 'vale
+      dar um lugar a ele no cardápio'). Nunca culpa, nunca 'você falhou'.
+    regras_em_ordem:
+      - skippedMeal: >
+          Refeição pulada >= 3x na janela (a mais pulada). Título: 'Você pulou
+          <refeição> Nx em 2 semanas'. Detail: sugerir ajustar/remover a
+          refeição do plano — pular sempre = plano desonesto.
+      - frequentExtra: >
+          Mesmo extra (por nome) >= 3x. Título: '<Nome> entrou Nx fora do
+          plano'. Detail: kcal média por vez + sugerir dar lugar a ele no
+          cardápio (se é hábito, melhor dentro do plano do que 'escondido').
+      - extrasSource: >
+          kcal total de extras >= 600 na janela E uma categoria concentra
+          >= 50%. Título: '<Categoria> são P% das kcal fora do plano'.
+          Detail: total aproximado de kcal em 2 semanas. Categoria via lookup
+          foodId -> FoodItem.category (extras livres = 'outros').
+      - weekdayOver: >
+          Um dia da semana estourou a meta >= 2x E na maioria das vezes em que
+          foi logado. Título: '<Sextas> costumam passar da meta'. Detail:
+          'N de M registradas ficaram acima' + sugestão de planejar o dia.
+
+screens_e_widgets:
+  - ProgressView:                     # presentation/widgets/progress_view.dart
+      tipo: ConsumerWidget
+      layout:   # de cima pra baixo, MUITO respiro. O registro do dia é o destaque.
+        - "SectionHeader 'Hoje' + TodaySection (CTA ou resumo do dia + sequência)"
+        - "SectionHeader 'Últimas 2 semanas' + AdherenceSection"
+        - "SectionHeader 'Padrões' + InsightsSection — a seção some sem insights"
+        - "SectionHeader 'Peso' + WeightSection (compacta) + PitadaButton(outline) 'Registrar peso'"
+      hierarquia: >
+        O peso NÃO é mais o destaque: número em AppType.display (não displayXl),
+        seção por último. O topo pertence ao registro do dia.
+  - TodaySection:                     # presentation/widgets/today_section.dart
+      proposito: "O destaque da aba: hoje foi registrado? Um card com borda tinta, dois estados."
+      estados:
+        sem_registro:
+          - "card (borda pit.border/borderStrong, radiusCard, padding xl):"
+          - "título 'Hoje ainda não tem registro' (titleSm)"
+          - "linha de apoio (bodySm, muted): 'Leva menos de um minuto...'"
+          - "PitadaButton(primary) 'Registrar dia' (icon logDay) -> showLogDaySheet"
+        registrado:
+          - "card igual; topo: Row[ '<kcal> kcal' (numeralLg, pit.text) + '/ meta' (numeralSm, muted) ... PitadaIconButton(edit) -> showLogDaySheet ]"
+          - "status colorido (caption): dentro (sage) / acima (accent2), como o DaySummary"
+          - "linha de contagem (caption, muted): 'N refeições · N pulada(s) · N extra(s)'"
+      sequencia: >
+        Abaixo do card, quando logStreak >= 2: número em Space Grotesk
+        (numeralSm, sage) + ' dias seguidos registrando' (bodySm, text2).
+        Métrica em texto sóbrio — NUNCA pílula (regra do dono).
+  - AdherenceSection:                 # presentation/widgets/adherence_section.dart
+      layout:
+        - "resumo: 'N de M dias dentro da meta' + '· média de X kcal' (linha única, body)"
+        - "faixa de barras verticais (uma por dia): altura = kcalLog/meta; cor sage=dentro,
+           accent2=acima, surf2=sem log. Estilo chapado (como ActivityGraph, sem sombra)."
+        - "legenda (Dentro / Acima / Sem registro)"
+  - InsightsSection:                  # presentation/widgets/insights_section.dart
+      proposito: "1 card com borda por insight. Widget burro: recebe List<ProgressInsight>;
+        a ProgressView (que observa progressInsightsProvider) decide exibir a seção."
+      layout:
+        - "para cada insight: card (borda pit.border/borderStrong, radiusXl, padding lg):"
+        - "Row[ ícone 18 (accent) | Column[ title (body, pit.text) + detail (bodySm, muted) ] ]"
+      icones_por_kind: { skippedMeal: removeCircle, frequentExtra: add,
+        extrasSource: basket, weekdayOver: calendarPattern }
+      regra: "Sem insights -> a ProgressView omite header + seção (respiro > placeholder)."
+  - WeightSection:                    # presentation/widgets/weight_section.dart
+      proposito: "Versão COMPACTA (o peso deixou de ser o destaque da aba)."
+      layout:
+        - "linha única: peso atual (AppType.display) + variação (caption, text2) na base"
+        - "WeightChart (linha)"
+        - "callout de recomendação ('pese-se 1x/semana, em jejum...') SÓ enquanto
+           houver < 3 pesagens — depois que o hábito existe, vira ruído."
+  - WeightChart:                      # presentation/widgets/weight_chart.dart
+      tipo: "CustomPaint (sem lib externa; flat — linha accent + pontos, sem gradiente/sombra)"
+      entrada: "List<WeightEntry> (>=2 p/ desenhar linha; <2 mostra dica)"
+      eixos: "y auto-escala (min/max com folga); x pela ordem/tempo. Rótulos min/max discretos."
+  - CardapioView:                     # presentation/widgets/cardapio_view.dart
+      proposito: "Sub-aba 'Cardápio': só a lista reordenável de MealCards + botão
+        'Adicionar refeição'. Sem título de plano e sem DaySummary — ambos vivem no
+        cabeçalho compartilhado da PlansScreen, acima das abas."
+
+sheets:
+  - showLogDaySheet:                  # presentation/log_day_sheet.dart
+      assinatura: "void showLogDaySheet(BuildContext context)"
+      proposito: "Registrar o dia em poucos segundos."
+      fluxo:
+        - grip + "título 'Registrar dia · <hoje dd/MM>'"
+        - "PRÉ-PREENCHIMENTO: se HOJE já tem log (todayLogProvider), restaura as
+           escolhas/puladas/extras desse log (editar não pode zerar o registro);
+           senão, pré-seleciona a opção já escolhida no plano (1 toque confirma)."
+        - "para CADA refeição do plano: nome + chips das opções. Link 'Pulei'
+           marca skipped (esvazia a opção)."
+        - "seção 'Comeu algo fora do plano?': lista de extras + botão '+ Adicionar extra'
+           (abre showFoodSearchSheet). Cada extra mostra nome/porção/kcal e um X p/ remover."
+        - "rodapé fixo: total do dia (kcal) + PitadaButton 'Salvar dia' -> dayLogController.saveDay"
+      widgets_extraidos:   # p/ manter o sheet < 200 linhas
+        - "DayLogExtrasSection (widgets/day_log_extras.dart): título 'Comeu algo
+           fora do plano?' + linhas de extras (nome/porção/kcal + X) + '+ Adicionar'."
+        - "DayLogFooter (widgets/day_log_footer.dart): total vs meta + 'Salvar dia'."
+      nota: "É a materialização do 'fez todas as refeições?' (pulei) + 'comeu fora?' (extras), inline e rápido."
+  - showLogWeightSheet:               # presentation/log_weight_sheet.dart
+      assinatura: "void showLogWeightSheet(BuildContext context)"
+      conteudo:
+        - grip + "título 'Registrar peso'"
+        - "campo numérico (kg, aceita vírgula/ponto), hint com o último peso"
+        - "linha de dica curta: 'de manhã, em jejum, mesmo horário'"
+        - "PitadaButton 'Salvar' -> weightController.addWeight"
+  - showFoodSearchSheet:              # presentation/food_search_sheet.dart
+      assinatura: "Future<ExtraEntry?> showFoodSearchSheet(BuildContext context)"
+      proposito: "Escolher rápido o que comeu fora do plano (dataset curado)."
+      conteudo:
+        - grip + "título 'O que você comeu?'"
+        - "chips de atalho por categoria (Doce/Salgado/Bebida/Álcool/Fast food/Fruta) filtram a lista"
+        - "PitadaSearchField (busca por nome)"
+        - "lista (HairlineRow): nome + porção + kcal; tocar retorna o ExtraEntry e fecha"
+        - "rodapé: '+ Outro' -> item livre (nome + kcal aprox) p/ o que não está no dataset"
+
+components_reutilizados: [Masthead, PitadaTabs, SectionHeader, PitadaButton,
+  PitadaIconButton, FuelBar, HairlineRow, PitadaChip, PitadaTag, PitadaSearchField,
+  SheetGrip, EmptyState, PitadaScaffold]
+
+icones:
+  - "weight (gauge — mostrador de balança de banheiro; substitui balance/scales,
+     que lia como 'justiça') p/ registrar peso"
+  - "logDay (calendarCheck) p/ registrar o dia"
+  - "edit (lápis) p/ editar o dia já registrado"
+  - "insights por kind: removeCircle, add, basket, calendarPattern (calendarDots)"
+  - "timeline (progresso/gráfico), close"
+
+usa_de_outras_features: []
+notas_gerais:
+  - "Tudo mock/in-memory como o resto do app; specs prontas p/ Supabase depois."
+  - "Cores: sage=dentro da meta, accent2=acima, accent=linha do gráfico/primário."
+  - "Nenhum número/hex/fonte fora dos tokens. Nenhuma sombra/gradiente."
+  - "O heatmap de atividade mora no Perfil — o Progresso NÃO repete heatmap."

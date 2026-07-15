@@ -1,0 +1,20 @@
+# specs/components/pitada_toggle.yaml -> lib/core/widgets/pitada_toggle.dart
+component: PitadaToggle
+file: lib/core/widgets/pitada_toggle.dart
+prototype: "toggle flat das configurações (SettingsSwitchRow) — promovido a átomo"
+purpose: >
+  Toggle liga/desliga flat do app: pílula com borda de tinta, botão que desliza,
+  accent quando ligado. Átomo visual único — antes vivia privado no profile
+  (_Toggle) e agora é reusado por SettingsSwitchRow e pela QuickEditSheet.
+uses:
+  - AppColors.accent (ligado), context.pit (surf2/border/faint), AppSpacing (radiusPill, borderStrong)
+api:
+  - value: bool
+  - onChanged: ValueChanged<bool>?   # null = só-visual (o pai trata o toque)
+variants:
+  - interativo:  onChanged != null -> GestureDetector próprio (usável sozinho, ex.: na sheet)
+  - so_visual:   onChanged == null -> só a pílula (o HairlineRow em volta trata o toque)
+proibicoes: [sombra, degradê]   # segue a estética flat
+used_by:
+  - SettingsSwitchRow (profile) — trailing só-visual
+  - QuickEditSheet (recipes) — switch "Salvar como nova versão"

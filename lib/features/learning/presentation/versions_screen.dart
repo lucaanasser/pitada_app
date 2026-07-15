@@ -11,6 +11,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/colors.dart';
+import '../../../core/theme/pitada_colors.dart';
 import '../../../core/theme/spacing.dart';
 import '../../../core/theme/typography.dart';
 import '../../../core/widgets/empty_state.dart';
@@ -27,6 +28,7 @@ class VersionsScreen extends ConsumerWidget {
   /// Monta cabeçalho + lista de históricos de versão. Usada por: router.
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final pit = context.pit;
     final async = ref.watch(versionsProvider);
     return PitadaScaffold(
       child: ListView(
@@ -46,7 +48,8 @@ class VersionsScreen extends ConsumerWidget {
             ),
             error: (e, _) => Padding(
               padding: const EdgeInsets.all(AppSpacing.gutter),
-              child: Text('Erro: $e', style: AppType.body),
+              child:
+                  Text('Erro: $e', style: AppType.on(AppType.body, pit.text)),
             ),
             data: (versions) => _list(context, versions),
           ),

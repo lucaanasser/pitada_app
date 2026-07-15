@@ -8,6 +8,7 @@
 import '../theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import '../theme/colors.dart';
+import '../theme/pitada_colors.dart';
 import '../theme/spacing.dart';
 
 /// Formato da caixa: círculo (lista de compras) ou quadrado (checklist).
@@ -46,7 +47,7 @@ class CheckItem extends StatelessWidget {
           shape: isCircle ? BoxShape.circle : BoxShape.rectangle,
           borderRadius: isCircle ? null : AppSpacing.br(AppSpacing.radiusSm),
           border: Border.all(
-            color: checked ? fill : AppColors.line2,
+            color: checked ? fill : context.pit.line2,
             width: AppSpacing.borderThick,
           ),
         ),

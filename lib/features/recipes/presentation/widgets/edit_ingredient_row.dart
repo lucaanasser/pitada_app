@@ -9,6 +9,7 @@ import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/colors.dart';
+import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
 import '../../../../core/theme/typography.dart';
 import '../../data/ingredient.dart';
@@ -70,16 +71,18 @@ class _EditIngredientRowState extends State<EditIngredientRow> {
   /// Monta os três campos + botão remover numa linha. Usada por: framework.
   @override
   Widget build(BuildContext context) {
+    final pit = context.pit;
     return Padding(
       padding: const EdgeInsets.only(bottom: AppSpacing.sm),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Expanded(flex: 5, child: _box(_name, 'Ingrediente')),
+          Expanded(flex: 5, child: _box(pit, _name, 'Ingrediente')),
           const SizedBox(width: AppSpacing.sm),
           Expanded(
             flex: 2,
             child: _box(
+              pit,
               _grams,
               'g',
               keyboard: TextInputType.number,
@@ -87,10 +90,10 @@ class _EditIngredientRowState extends State<EditIngredientRow> {
             ),
           ),
           const SizedBox(width: AppSpacing.sm),
-          Expanded(flex: 2, child: _box(_unit, 'un')),
+          Expanded(flex: 2, child: _box(pit, _unit, 'un')),
           IconButton(
             onPressed: widget.onRemove,
-            icon: const Icon(AppIcons.close, size: 18, color: AppColors.faint),
+            icon: Icon(AppIcons.close, size: 18, color: pit.faint),
             splashRadius: 18,
           ),
         ],
@@ -100,6 +103,7 @@ class _EditIngredientRowState extends State<EditIngredientRow> {
 
   /// Caixa de texto padrão do editor (surf2, sem borda). Usada por: [build].
   Widget _box(
+    PitadaColors pit,
     TextEditingController c,
     String hint, {
     TextInputType? keyboard,
@@ -107,7 +111,7 @@ class _EditIngredientRowState extends State<EditIngredientRow> {
   }) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.surf2,
+        color: pit.surf2,
         borderRadius: AppSpacing.br(AppSpacing.radiusSm),
       ),
       padding: const EdgeInsets.symmetric(
@@ -119,13 +123,13 @@ class _EditIngredientRowState extends State<EditIngredientRow> {
         onChanged: (_) => _emit(),
         keyboardType: keyboard,
         textAlign: alignEnd ? TextAlign.end : TextAlign.start,
-        style: AppType.bodySm,
+        style: AppType.on(AppType.bodySm, pit.text),
         cursorColor: AppColors.accent,
         decoration: InputDecoration(
           isCollapsed: true,
           border: InputBorder.none,
           hintText: hint,
-          hintStyle: AppType.on(AppType.bodySm, AppColors.faint),
+          hintStyle: AppType.on(AppType.bodySm, pit.faint),
         ),
       ),
     );

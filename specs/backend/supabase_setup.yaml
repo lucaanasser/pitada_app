@@ -1,0 +1,50 @@
+# specs/backend/supabase_setup.yaml -> supabase/ (tooling, não gera .dart)
+# O QUÊ:  Como o backend Supabase é criado, versionado e rodado (local e nuvem).
+# USADO POR: quem for mexer em schema/auth/storage/functions. Spec vem antes do SQL.
+area: Backend / Setup
+purpose: >
+  Backend profissional e reproduzível: TODO o schema vive em migrations SQL
+  versionadas em git (supabase/migrations). Nada de clicar no dashboard para
+  criar tabela. Dev local roda via Supabase CLI + Docker; produção aplica as
+  MESMAS migrations com `supabase db push`.
+
+ferramentas:
+  cli: Supabase CLI (binário em ~/.local/bin/supabase; instalado da release GitHub)
+  docker: necessário para `supabase start` (stack local completo)
+
+estrutura:
+  supabase/config.toml: config do projeto (auth OTP, portas locais)
+  supabase/migrations/: "*.sql numeradas — fonte única de verdade do schema"
+  supabase/seed.sql: dados de exemplo aplicados no `db reset` local (dev apenas)
+
+comandos:
+  - supabase start          # sobe Postgres+Auth+Storage+Studio locais (Docker)
+  - supabase stop           # derruba o stack local
+  - supabase db reset       # recria o banco local aplicando migrations + seed.sql
+  - supabase migration new <nome>   # cria nova migration vazia
+  - supabase db push        # aplica migrations no projeto remoto (produção)
+  - supabase status         # mostra urls/chaves locais (API url + anon key)
+
+portas_locais:                # defaults do CLI
+  api: 54321                  # SUPABASE_URL local = http://127.0.0.1:54321
+  db: 54322
+  studio: 54323               # dashboard local
+  inbucket: 54324             # captura e-mails de OTP no dev (sem SMTP real)
+
+app_flutter:
+  chaves: via --dart-define (core/config/env.dart, já existe; nunca hardcode)
+  rodar_online_local: >
+    flutter run --dart-define=SUPABASE_URL=http://127.0.0.1:54321
+    --dart-define=SUPABASE_ANON_KEY=<anon do `supabase status`>
+  rodar_offline: sem defines -> Env.hasSupabase=false -> repositórios seed (preview PC)
+
+producao:
+  projeto: criado no dashboard Supabase (grátis); `supabase link --project-ref <ref>`
+  aplicar_schema: supabase db push
+  segredos: GEMINI_API_KEY só como secret de Edge Function (nunca no app)
+
+ios:
+  nota: >
+    Backend é agnóstico de plataforma; supabase_flutter roda nativo no iOS.
+    Auth por OTP de 6 dígitos NÃO exige deep-link/Associated Domains — nenhuma
+    config extra de iOS para o backend. Build iOS = Mac/CI (fora do backend).

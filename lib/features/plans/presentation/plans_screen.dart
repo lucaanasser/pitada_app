@@ -1,98 +1,112 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/plans/presentation/plans_screen.dart
-// O QUÊ:     Aba Planos: plano ativo, resumo do dia, seletor de dias e refeições.
-// USA:       core/widgets, plans_providers, os widgets/sheets da feature, theme/*.
+// O QUÊ:     Aba Plano: cabeçalho compartilhado (marca + título 'Plano' + resumo do
+//            dia em kcal + macros) e, logo abaixo, sub-abas "Cardápio" (refeições) e
+//            "Progresso" (peso + aderência). Título e DaySummary são fixos nas duas
+//            sub-abas; o switcher fica logo abaixo dos macros. Alterna por setState.
+// USA:       core/widgets (Masthead, PitadaTabs, PitadaScaffold), theme/*,
+//            plans_providers (DaySummary), CardapioView e ProgressView.
 // USADO POR: core/router/router.dart (branch /plans).
-// SPEC:      specs/features/plans.yaml (PlansScreen)
+// SPEC:      specs/features/plans_progress.yaml (navegacao) e plans.yaml (PlansScreen)
 // ─────────────────────────────────────────────────────────────────────────────
-import '../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/theme/colors.dart';
+import '../../../core/theme/app_icons.dart';
+import '../../../core/theme/pitada_colors.dart';
 import '../../../core/theme/spacing.dart';
 import '../../../core/theme/typography.dart';
-import '../../../core/utils/format.dart';
 import '../../../core/widgets/masthead.dart';
 import '../../../core/widgets/pitada_button.dart';
 import '../../../core/widgets/pitada_scaffold.dart';
+import '../../../core/widgets/pitada_tabs.dart';
 import '../application/plans_providers.dart';
-import '../data/plan.dart';
-import 'meal_sheet.dart';
-import 'widgets/day_selector.dart';
+import 'plan_add_sheet.dart';
+import 'widgets/cardapio_view.dart';
 import 'widgets/day_summary.dart';
-import 'widgets/meal_card.dart';
+import 'widgets/progress_view.dart';
 
-/// Tela principal de Planos. Usada por: router (/plans).
-class PlansScreen extends ConsumerWidget {
+/// Tela principal de Plano com cabeçalho compartilhado + sub-abas. Usada por: router (/plans).
+class PlansScreen extends ConsumerStatefulWidget {
   const PlansScreen({super.key});
 
-  /// Monta a aba inteira (plano, resumo, dias, refeições). Usada por: router.
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final plan = ref.watch(planControllerProvider);
-    final totals = ref.watch(dayTotalsProvider);
+  ConsumerState<PlansScreen> createState() => _PlansScreenState();
+}
+
+class _PlansScreenState extends ConsumerState<PlansScreen> {
+  /// Sub-aba ativa: 0 = Cardápio (refeições), 1 = Progresso (peso + aderência).
+  int _tab = 0;
+
+  /// Monta o topo fixo (marca + resumo do dia + sub-abas) e o corpo da sub-aba
+  /// ativa. O resumo (kcal + macros) é o mesmo nas duas abas. Usada por: router.
+  @override
+  Widget build(BuildContext context) {
+    final pit = context.pit;
     return PitadaScaffold(
-      top: const Masthead(),
-      child: ListView(
-        padding: const EdgeInsets.only(bottom: AppSpacing.xxl),
+      background: pit.tabBg(2),
+      top: Column(
         children: [
+          const Masthead(),
           Padding(
+            // bottom titleGap: respiro padrão entre o título da aba e o 1º conteúdo.
             padding: const EdgeInsets.fromLTRB(
               AppSpacing.gutter,
               AppSpacing.md,
               AppSpacing.gutter,
-              AppSpacing.lg,
+              AppSpacing.titleGap,
             ),
-            child: _planHeader(plan),
-          ),
-          Padding(
-            padding: AppSpacing.screenH,
-            child: DaySummaryCard(goalKcal: plan.dailyKcalGoal, totals: totals),
-          ),
-          const SizedBox(height: AppSpacing.xl),
-          const DaySelector(),
-          const SizedBox(height: AppSpacing.md),
-          Padding(
-            padding: AppSpacing.screenH,
-            child: Column(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                for (final meal in plan.meals) MealCard(meal: meal),
-                const SizedBox(height: AppSpacing.xs),
-                PitadaButton(
-                  label: 'Adicionar refeição',
+                Expanded(
+                  child: Text(
+                    'Plano',
+                    style: AppType.on(AppType.screenTitle, pit.text),
+                  ),
+                ),
+                // Atalho: mesmos fluxos dos botões das sub-abas (não os substitui).
+                PitadaIconButton(
                   icon: AppIcons.add,
-                  variant: PitadaButtonVariant.outline,
-                  onPressed: () => showMealSheet(context),
+                  filled: true,
+                  size: AppSpacing.iconButtonSm,
+                  onPressed: () => showPlanAddSheet(context),
                 ),
               ],
             ),
           ),
+          _daySummary(),
+          // Align: a Column centraliza filhos que encolhem (as abas); aqui elas
+          // ficam à esquerda, como nas outras telas.
+          Align(
+            alignment: Alignment.centerLeft,
+            child: PitadaTabs(
+              tabs: const ['Cardápio', 'Progresso'],
+              selected: _tab,
+              onSelect: (i) => setState(() => _tab = i),
+            ),
+          ),
         ],
       ),
+      child: _tab == 0 ? const CardapioView() : const ProgressView(),
     );
   }
 
-  /// Cabeçalho do plano: nome + meta/dia + ícone de configuração. Usada por: [build].
-  Widget _planHeader(Plan plan) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(plan.name, style: AppType.screenTitle),
-              const SizedBox(height: AppSpacing.xs),
-              Text(
-                '${formatKcal(plan.dailyKcalGoal)} kcal por dia',
-                style: AppType.on(AppType.caption, AppColors.muted),
-              ),
-            ],
-          ),
-        ),
-        const PitadaIconButton(icon: AppIcons.tune),
-      ],
+  /// Resumo do dia (kcal grande + status + FuelBar + macros), fixo entre o título
+  /// e as sub-abas (é o 1º conteúdo abaixo do título). Usada por: [build].
+  Widget _daySummary() {
+    final plan = ref.watch(planControllerProvider);
+    final totals = ref.watch(dayTotalsProvider);
+    return Padding(
+      // top 0: o titleGap do título já dá o respiro; bottom xl = respiro
+      // pedido pelo dono entre os macros e as abas.
+      padding: const EdgeInsets.fromLTRB(
+        AppSpacing.gutter,
+        0,
+        AppSpacing.gutter,
+        AppSpacing.xl,
+      ),
+      child: DaySummary(goalKcal: plan.dailyKcalGoal, totals: totals),
     );
   }
 }

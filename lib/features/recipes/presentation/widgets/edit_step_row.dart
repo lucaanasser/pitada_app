@@ -9,6 +9,7 @@ import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/colors.dart';
+import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
 import '../../../../core/theme/typography.dart';
 import '../../data/recipe_step.dart';
@@ -53,6 +54,7 @@ class _EditStepRowState extends State<EditStepRow> {
   /// Monta número + textarea + botão remover. Usada por: framework.
   @override
   Widget build(BuildContext context) {
+    final pit = context.pit;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
       child: Row(
@@ -69,7 +71,7 @@ class _EditStepRowState extends State<EditStepRow> {
           Expanded(
             child: Container(
               decoration: BoxDecoration(
-                color: AppColors.surf2,
+                color: pit.surf2,
                 borderRadius: AppSpacing.br(AppSpacing.radiusMd),
               ),
               padding: const EdgeInsets.symmetric(
@@ -82,20 +84,20 @@ class _EditStepRowState extends State<EditStepRow> {
                     widget.onChanged(RecipeStep(text: v, tip: widget.step.tip)),
                 maxLines: null,
                 minLines: 2,
-                style: AppType.on(AppType.body, AppColors.text2),
+                style: AppType.on(AppType.body, pit.text2),
                 cursorColor: AppColors.accent,
                 decoration: InputDecoration(
                   isCollapsed: true,
                   border: InputBorder.none,
                   hintText: 'Descreva o passo',
-                  hintStyle: AppType.on(AppType.body, AppColors.faint),
+                  hintStyle: AppType.on(AppType.body, pit.faint),
                 ),
               ),
             ),
           ),
           IconButton(
             onPressed: widget.onRemove,
-            icon: const Icon(AppIcons.close, size: 18, color: AppColors.faint),
+            icon: Icon(AppIcons.close, size: 18, color: pit.faint),
             splashRadius: 18,
           ),
         ],

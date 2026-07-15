@@ -7,6 +7,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import '../theme/colors.dart';
+import '../theme/pitada_colors.dart';
 import '../theme/spacing.dart';
 import '../theme/typography.dart';
 
@@ -34,8 +35,9 @@ class ExpiryTag extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fg = urgent ? AppColors.accent2 : AppColors.muted;
-    final border = urgent ? AppColors.accentLine : AppColors.line2;
+    final pit = context.pit;
+    final fg = urgent ? AppColors.accent2 : pit.muted;
+    final border = urgent ? AppColors.accentLine : pit.line2;
     return Container(
       padding: const EdgeInsets.symmetric(
         horizontal: AppSpacing.sm + 1,

@@ -1,14 +1,17 @@
 # specs/components/recipe_card.yaml -> lib/features/recipes/presentation/widgets/recipe_card.dart
 component: RecipeCard
-prototype: "card de receita das referências (foto grande + título + tags coloridas)"
+prototype: "card do estudo pitada-estilo.html: foto + título + subtítulo sóbrio (.rsub)"
 purpose: >
-  Card de receita: bloco de foto (placeholder pastel do hero) + título + tags
-  coloridas. [compact] encolhe para caber em 2 colunas. Reage ao tema; sem sombra.
+  Card de receita sóbrio: bloco de foto (placeholder pastel do hero) + título em
+  Space Grotesk + UMA linha de meta em texto (tempo · kcal · dificuldade).
+  A identidade forte vem da caixa (borda tinta) + bloco de foto pastel — sem
+  cápsulas/pílulas no card (decisão do dono, 06/jul/2026: "mais sóbrio").
+  [compact] encolhe para caber em 2 colunas. Reage ao tema; sem sombra.
 uses:
-  - context.pit.surf / border / card(hero)
-  - core/widgets/pitada_tag (tags coloridas)
-  - AppIcons.dish, AppIcons.time
-  - AppType.title / titleSm
+  - context.pit.surf / border / card(hero) / text / text2
+  - recipe_meta_text (linha "tempo · kcal · dificuldade", reusada pela RecipeRow)
+  - AppIcons.dish
+  - AppType.title / titleSm / bodySm
   - AppSpacing.radiusCard / borderStrong
 api:
   - recipe: Recipe
@@ -16,13 +19,19 @@ api:
   - compact: bool          # true = versão 2 colunas (menor)
 layout:
   - bloco de foto (altura 158; 108 em compact) com ícone de prato ao centro
-  - tag de dificuldade no canto superior direito (fundo pit.surf p/ contraste)
-  - título (máx. 2 linhas) + Wrap de tags: tempo · kcal (kcal só no não-compact)
+  - título (máx. 2 linhas, Space Grotesk)
+  - linha de meta em texto: "tempo · kcal · dificuldade" (partes ausentes omitidas)
+nota_visual: >
+  Histórico (decidido em iterações com o dono): meta em pit.muted ficou APAGADA
+  demais ("fora da estética"); PitadaTags coloridas ficaram CARREGADAS demais
+  ("não gosto das pílulas, quero mais sóbrio"). O ponto final é o subtítulo do
+  estudo de estilo (.rsub): AppType.bodySm em pit.text2 — presente sem virar
+  enfeite. Tags coloridas continuam no DETALHE da receita (RecipeMeta), não no card.
 
 # Modos da lista (controlados por recipeViewProvider / RecipeView):
 modos_lista:
   single: 1 RecipeCard grande por linha (padrão)
   grid:   2 RecipeCard(compact) por linha
-  list:   RecipeRow (linha-filete)
+  list:   RecipeRow (linha-filete, miniatura pastel outlined)
 alternador: RecipeViewToggle (3 ícones: viewSingle/viewGrid/viewList)
 used_by: [recipes_screen]

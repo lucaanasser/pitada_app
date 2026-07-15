@@ -6,7 +6,7 @@
 // SPEC:      specs/components/hairline_row.yaml
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
-import '../theme/colors.dart';
+import '../theme/pitada_colors.dart';
 import '../theme/spacing.dart';
 
 /// Linha de lista com [leading]/[title]/[subtitle]/[trailing] e filete embaixo.
@@ -37,15 +37,15 @@ class HairlineRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pit = context.pit;
     return GestureDetector(
       onTap: onTap,
       behavior: HitTestBehavior.opaque,
       child: Container(
         decoration: showDivider
-            ? const BoxDecoration(
+            ? BoxDecoration(
                 border: Border(
-                  bottom:
-                      BorderSide(color: AppColors.line, width: AppSpacing.hair),
+                  bottom: BorderSide(color: pit.line, width: AppSpacing.hair),
                 ),
               )
             : null,

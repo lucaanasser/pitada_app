@@ -1,0 +1,21 @@
+# specs/components/editable.yaml -> lib/core/widgets/editable.dart
+component: Editable
+file: lib/core/widgets/editable.dart
+prototype: "gesto de edição inline no detalhe da receita (VIEW-RECIPE)"
+purpose: >
+  Envolve qualquer conteúdo tornando-o editável por GESTO: segurar (long-press)
+  OU clique duplo dispara onEdit — abre a edição só daquele campo. É o oposto do
+  lápis (que abre o editor inteiro). Feedback háptico leve no toque longo.
+uses:
+  - flutter/services (HapticFeedback.selectionClick)
+api:
+  - child: Widget            # o conteúdo original (texto, linha, card...)
+  - onEdit: VoidCallback     # abre a sheet de edição do campo específico
+comportamento:
+  - onLongPress e onDoubleTap -> onEdit (mesma ação; dois caminhos de descoberta)
+  - behavior: HitTestBehavior.opaque (toque pega a área toda, inclusive vãos)
+  - háptico: HapticFeedback.selectionClick() no início do long-press
+  - SEM moldura/afeto visual permanente (não vira botão) — segue o mandato "muito respiro"
+used_by:
+  - recipe_detail_screen (título, kcal), recipe_meta (porções/tempo/dificuldade),
+    nutrition_card (macros), ingredient_row, step_tile, técnicas e anotações

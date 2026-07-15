@@ -1,33 +1,72 @@
 # specs/features/app_shell.yaml -> lib/core/router/* + lib/core/widgets/pitada_tab_bar.dart
 feature: AppShell
-prototype: ".tabbar + troca de .tab em pitada.html"
-purpose: Casca de navegação com 5 abas persistentes + rotas full-screen.
+purpose: >
+  Casca de navegação com 5 abas persistentes + rotas full-screen. A aba Home
+  (comunidade/posts) foi abandonada; Perfil entrou na barra no lugar dela
+  (última posição, convenção de apps atuais) e deixou de ser rota full-screen.
+
 router:
   package: go_router
   type: StatefulShellRoute.indexedStack   # cada aba mantém sua pilha
-  branches:
+  branches:                               # ordem = índice da barra = índice de pit.tabBg
     - {path: /recipes,  screen: RecipesScreen}
     - {path: /learning, screen: LearningScreen}   # aba 'Caderno'
-    - {path: /home,     screen: HomeScreen}        # comunidade (centro)
     - {path: /plans,    screen: PlansScreen}
     - {path: /shopping, screen: ShoppingScreen}
-  fullscreen:                                       # cobrem a barra (rootNavigator)
+    - {path: /profile,  screen: ProfileScreen}    # aba 'Perfil' (ex-full-screen)
+  fullscreen:                              # cobrem a barra (rootNavigator)
     - {path: /recipe/:id, screen: RecipeDetailScreen}
-    - {path: /profile,    screen: ProfileScreen}
-tab_bar:
+    # ...demais rotas de detalhe/edição em routes.dart (specs de cada feature)
+
+shell:
+  file: lib/core/router/app_shell.dart
+  fundo: pit.tabBg(abaAtual)               # pastel da aba atual (mesmo das telas)
+  extendBody: true                          # corpo se estende ATRÁS da barra
+  transicao_de_aba: >
+    Ao trocar de aba, o conteúdo entra deslizando (_SlideTabView): pela direita
+    se a aba nova está À DIREITA da atual, pela esquerda se está à esquerda
+    (FractionalTranslation dirigida por um AnimationController, ~300ms
+    easeOutCubic). O IndexedStack segue por baixo, então o estado/scroll de cada
+    aba é preservado — só o quadro de entrada desliza.
+  nota: >
+    Com extendBody, o conteúdo rola por baixo da pílula — flutuação de verdade,
+    sem "moldura"/faixa atrás dela (feedback do dono). O Scaffold publica a
+    altura da barra como MediaQuery.padding.bottom; as listas de aba somam esse
+    inset via tabListPadding (ver specs/components/atoms.yaml) para o fim da
+    lista não ficar escondido. Toda tela de aba usa
+    PitadaScaffold(background: pit.tabBg(índice)).
+
+tab_bar:                                   # "pílula fantasma" — flutuante e minimalista
   file: lib/core/widgets/pitada_tab_bar.dart
-  ordem: [Receitas, Caderno, Home, Planos, Compras]
-  icones: [menu_book, edit_note, groups, event_note, shopping_basket]
-  ativo: AppColors.accent  # inativo: AppColors.faint
-  destaque_central:                # .tb.home / .homebtn no protótipo
-    aba: Home                      # Comunidade — índice central (2 de 5)
-    forma: circulo elevado 54x54, sobe ~18px acima da barra, sem rótulo
-    fundo: AppColors.accent        # SÓLIDO — sem degradê (regra de design)
-    anel: AppColors.bg             # anel da cor do fundo p/ separar da barra
-    icone: onAccent, tamanho 26
-    ativo: anel fino AppColors.accentLine ao redor
-    nota: >
-      O protótipo usa degradê + glow terracota no .homebtn; aqui NÃO usamos
-      (proibições visuais de rules/design-system.md). Cor sólida + anel do bg
-      dão o destaque sem quebrar a regra.
+  ordem: [Receitas, Caderno, Plano, Ingredientes, Perfil]
+  icones: [forkKnife, chefHat, clipboardText, carrot, user]  # AppIcons.* (+ *Fill ativo)
+  historico: >
+    Iterações com o dono (jul/2026): dock flutuante com cápsula -> células
+    ancoradas -> células suavizadas -> DE VOLTA à pílula flutuante, agora
+    minimalista. Pedido literal: "clean, sem pesar visualmente, a navbar não
+    pode competir com nada da página".
+  forma: >
+    Pílula compacta CENTRALIZADA (largura intrínseca, não borda a borda)
+    flutuando com margem md do fundo, sobre a SafeArea. Fundo pit.surf e
+    filete pit.line2 em AppSpacing.hair — exceção consciente à regra de borda
+    grossa, a pedido do dono (minimalismo > peso neo-brutalista aqui).
+    Flat: sem sombra, sem degradê. Raio AppSpacing.radiusPill.
+  item: >
+    Só o ícone, sem rótulo nenhum (Semantics(label) preserva acessibilidade).
+    Área de toque generosa via padding md em volta do ícone de 22.
+  item_ativo: >
+    Ícone *Fill em AppColors.accent — o único ponto de cor da barra; nada de
+    cápsula, bloco ou pastel para não competir com o conteúdo.
+  item_inativo: ícone regular em pit.muted.
+  animacao: >
+    Troca de aba com crossfade (AnimatedSwitcher ~160ms easeOut) entre o ícone
+    regular/muted e o *Fill/accent — a cor "acende" suave em vez de pular.
+  layout_nota: >
+    A pílula centraliza dentro de um Row(mainAxisAlignment: center) — NUNCA
+    via Center/Container(alignment) direto no bottomNavigationBar, que recebem
+    altura livre e esticariam a barra pela tela inteira. Altura da pílula é
+    intrínseca (~46dp + filetes).
+  proibido: [sombra, degradê, rótulos visíveis, cápsula/bloco no ativo,
+             Container(alignment)/Center soltos no bottomNavigationBar]
+
 used_by: [app.dart]

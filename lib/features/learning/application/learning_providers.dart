@@ -71,6 +71,18 @@ final versionByIdProvider =
   return ref.watch(learningRepositoryProvider).versionById(id);
 });
 
+/// O histórico de versões de UMA receita (por recipeId), ou null se não houver.
+/// Fonte única das notas "o que mudou". Usada por: RecipeVersionSheet (feature Receitas)
+/// — o seletor de versão da receita mostra a MESMA nota que o Caderno.
+final versionForRecipeProvider =
+    FutureProvider.family<RecipeVersion?, String>((ref, recipeId) async {
+  final all = await ref.watch(versionsProvider.future);
+  for (final v in all) {
+    if (v.recipeId == recipeId) return v;
+  }
+  return null;
+});
+
 // —— Logs de processo ——
 
 /// Todos os logs de processo. Usada por: ProcessLogsScreen.

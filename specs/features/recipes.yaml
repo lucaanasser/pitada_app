@@ -5,8 +5,67 @@ purpose: Guardar, ver, editar, cozinhar e importar receitas. Grama é a base.
 
 data:
   models: [Recipe, Ingredient, RecipeStep, Folder]
-  repository: RecipesRepository   # em memória (seed) hoje; Supabase depois
-  seed: recipes_seed.dart          # Frango xadrez, Bowl de quinoa, Strogonoff, Panqueca
+  models_impl: >
+    freezed + json_serializable (regra de arquitetura.md). fromJson/toJson com
+    field_rename snake (camelCase Dart <-> snake_case Postgres, ver
+    specs/backend/database.yaml). Recipe.fromJson aceita o embedding do
+    PostgREST (recipe_ingredients/recipe_steps/recipe_folders aninhados).
+  model_helpers:
+    - Recipe.copyWith(...)   # gerado pelo freezed (edição inline)
+    - Recipe.withVersionIdentity(...)  # método custom (construtor privado Recipe._())
+  repository: >
+    RecipesRepository (ABSTRATO) + 2 impls: SeedRecipesRepository (em memória,
+    preview PC — comportamento abaixo) e SupabaseRecipesRepository (online,
+    Postgres com RLS). main.dart escolhe via override do recipesRepositoryProvider
+    quando SupabaseService.initIfConfigured() == true.
+  repository_supabase:            # data/supabase_recipes_repository.dart
+    leitura: >
+      1 query com embedding: from('recipes').select('*, recipe_ingredients(*),
+      recipe_steps(*), recipe_folders(folder_id)'). fetchRecipes filtra as
+      DEFINITIVAS (linhas cujo id == id canônico do grupo, ver versões abaixo);
+      ingredientes/passos ordenados por position.
+    escrita: >
+      updateRecipe = upsert de recipes + delete/insert das filhas (ingredientes/
+      passos/pastas). saveAsNewVersion replica a lógica do seed: arquiva a
+      definitiva como linha própria e promove a edição no id canônico.
+  edicao_inline:                  # persistência MOCK das edições da sessão (impl seed)
+    overrides: >
+      Um mapa em memória id -> Recipe guarda o que foi editado/adicionado. fetchById e
+      fetchVersionGroup consultam o override ANTES do seed (aceitam ids novos, ex.: um
+      snapshot arquivado). fetchRecipes itera só as definitivas do seed aplicando override.
+      updateRecipe(Recipe) grava o override e loga (AppLog.i 'recipes'). Vira Supabase depois.
+    salvar_como_nova_versao:      # switch da QuickEditSheet -> repository.saveAsNewVersion
+      quando_desligado: updateRecipe — sobrescreve a receita no lugar (mesmo id).
+      quando_ligado: >
+        saveAsNewVersion(edited) versiona "trocar tudo": (1) o id do GRUPO é o id canônico
+        da definitiva (sem grupo ainda, o próprio id vira o grupo); (2) arquiva a definitiva
+        ATUAL sob id derivado '{canonical}-v{n}' (mesma versão, sem folderIds/favorite);
+        (3) promove a edição a nova definitiva no id canônico, com version = maxVersion+1,
+        herdando folderIds/favorite. A tela então passa a ter grupo (2+) e mostra a
+        RecipeVersionTag + seletor. A NOTA "o que mudou" não é criada aqui (mora no Caderno,
+        fonte única) — sem nota, o seletor mostra só os rótulos das versões.
+      helper_modelo: Recipe.withVersionIdentity({id, version, versionGroupId, favorite, folderIds})
+  seed: recipes_seed.dart          # DEFINITIVAS: Frango xadrez(v3), Bowl, Strogonoff(v2), Panqueca
+  seed_versions: recipes_seed_versions.dart   # snapshots ANTIGOS (Frango v1/v2, Strogonoff v1)
+  versoes:                        # "trocar tudo" — cada versão é um Recipe COMPLETO
+    campos_recipe:                # Recipe ganha 2 campos p/ agrupar versões:
+      - version: int (default 1)              # número da versão (1,2,3…) -> rótulo "V3"
+      - versionGroupId: String? (default null) # null = receita sem versões; senão, id do grupo
+    modelo: >
+      Cada versão é um Recipe INTEIRO (ingredientes/passos/macros próprios) e todos os
+      snapshots do mesmo prato compartilham o versionGroupId. A DEFINITIVA (maior version)
+      mantém o id canônico (ex.: 'frango-xadrez') p/ não quebrar links; as antigas usam
+      ids derivados ('frango-xadrez-v1'). Só a definitiva carrega folderIds/favorite —
+      versões antigas ficam fora de listas/pastas/favoritas.
+    repository:
+      - fetchRecipes()      -> só DEFINITIVAS (uma por grupo)  # listas não duplicam
+      - fetchById(id)       -> qualquer versão (inclui antigas) # /recipe/frango-xadrez-v1
+      - fetchVersionGroup(groupId) -> todas as versões do grupo, ordenadas por version asc
+    consistencia_caderno: >
+      As "versões" são as MESMAS do Caderno. O CONTEÚDO (ingredientes/passos) vem daqui
+      (recipes); as NOTAS "o que mudou" continuam fonte única no Caderno
+      (RecipeVersion.timeline, learning). A tela lê versionForRecipeProvider(definitivaId)
+      p/ mostrar a nota de cada versão no seletor. Labels casam: version N <-> 'vN'.
 
 application:
   providers:
@@ -15,31 +74,96 @@ application:
     - selectedFolderProvider (StateProvider<int>)  # 0 = Todas
     - filteredRecipesProvider
     - recipeByIdProvider (family)
+    - recipeVersionGroupProvider (family<List<Recipe>, String groupId>)  # versões do grupo (asc)
+    - selectedRecipeVersionProvider (StateProvider.family<int?, String groupId>)  # versão vista (null = definitiva)
     - folderByIdProvider (family)                   # pasta única, para FolderScreen
     - recipesInFolderProvider (family)              # receitas de uma pasta (por folderId)
+    - recipeEditControllerProvider (Provider<RecipeEditController>)  # edição inline
+  controllers:
+    - RecipeEditController.save(Recipe, {bool asNewVersion}): >
+        Persiste a receita editada e invalida os providers dependentes (recipeByIdProvider,
+        recipesProvider, recipeVersionGroupProvider do grupo) — a tela reflete na hora.
+        asNewVersion=false -> updateRecipe (no lugar); true -> saveAsNewVersion (versiona).
+        O grupo a invalidar é versionGroupId (ou o próprio id, quando cria o 1º grupo).
 
 routes:                             # eu ligo no router depois; garanta nome/assinatura
   paths:
     - {path: /recipe/:id,      screen: RecipeDetailScreen(recipeId)}   # ja existe
     - {path: /recipe/:id/edit, screen: RecipeEditScreen(recipeId)}     # recipeId nulo = criar
     - {path: /recipe/:id/cook, screen: CookModeScreen(recipeId)}
-    - {path: /folder/:id,      screen: FolderScreen(folderId)}
+    - {path: /folder/:id,      screen: FolderScreen(folderId),
+       page: CustomTransitionPage NÃO-opaca (ver FolderScreen.animacao) — a aba
+             Pastas fica visível por baixo durante abrir/fechar}
   functions:                        # sheets expostas como showXxxSheet(BuildContext)
     - showImportSheet(BuildContext)                 # import_sheet.dart
     - showCookChatSheet(BuildContext, recipe)       # cook_chat_sheet.dart
 
 screens:
   - RecipesScreen:
-      layout: [Masthead, thead("Receitas" + perfil + '+'), PitadaSearchField, ChapterTabs, lista de RecipeRow]
-      navega: RecipeDetailScreen (/recipe/:id), ProfileScreen (/profile), showImportSheet (via '+')
+      layout: [Masthead, thead("Receitas" + '+'), PitadaSearchField,
+               PitadaTabs([Minhas Receitas, Pastas, Favoritas]), lista de RecipeRow]
+      # "Receitas Salvas" removida: manuais + importadas convivem em "Minhas Receitas".
+      recipe_row: >
+        Linha da lista densa: RecipeThumb PASTEL (context.pit.card(hero)) com
+        outlined=true (borda tinta) — a cor cheia legada (AppColors.heroOf) saiu
+        da aba Receitas; o pastel + borda casa com o RecipeCard e o restante do app.
+        Título + meta em texto (recipe_meta_text) + seta.
+      alternador_de_layout: >
+        RecipeViewToggle (single/grid/list) no cabeçalho da lista — SEM moldura de
+        pílula; uma "gota" accentSoft escorrega sob o ícone ativo (easeOutBack) com
+        um squash-stretch suave no caminho (molejo leve), e a cor dos ícones anima
+        junto (muted -> accent).
+      navega: RecipeDetailScreen (/recipe/:id), showImportSheet (via '+')
+      # Perfil saiu do thead: agora é aba própria na barra (specs/features/app_shell.yaml)
+      aba_pastas:   # FoldersGrid -> FolderCard (folder_card.dart + folder_painter.dart)
+        folder_card: >
+          Card de pasta: silhueta pastel do hero com aba, papéis off-white saindo
+          de dentro e BOLSO frontal cobrindo a metade de baixo (seam em 0.50h) —
+          bolso mais alto p/ dar respiro à "boca" e caber título em 2 linhas.
+          Nome no bolso em AppType.titleXs (14, Space Grotesk), até 2 LINHAS antes
+          do "..."; contagem "N receitas" em captionSm logo abaixo. Padding inferior
+          do texto = sm (bolso curto). Press: encolhe o card (0.97) e levanta os
+          papéis (lift 0..6px).
 
   - RecipeDetailScreen:
-      layout: [galeria, título, fonte clicável, meta(porções/tempo/dificuldade),
+      # meta = TEXTO sóbrio "N porções · tempo · dificuldade" (bodySm, pit.text2) —
+      # métrica nunca vira cápsula (ver specs/components/pitada_tag.yaml: regra_de_uso);
+      # cápsulas no detalhe só nas TAGS de técnicas.
+      titulo_com_versao: >
+        A linha do título é [título + RecipeVersionTag] quando a receita tem grupo de
+        versões (2+ snapshots). A tag é "V3" em ACCENT (terracota) + caret, TOCÁVEL —
+        abre showRecipeVersionSheet. O corpo inteiro (kcal, macros, ingredientes, passos)
+        reflete a VERSÃO SELECIONADA (selectedRecipeVersionProvider, default = definitiva).
+        Trocar de versão troca a tela inteira. Ações da barra (Cozinhar/editar) usam o id
+        da versão vista. Receita sem versões: título simples, sem tag.
+      layout: [galeria, [título + RecipeVersionTag "V3"], fonte clicável,
+               meta em texto(porções/tempo/dificuldade),
                NutritionCard, nota de conversão, SectionHeader Ingredientes -> IngredientRow,
                SectionHeader "Modo de preparo" -> StepTile(+WhyCallout),
                SectionHeader "Técnicas" -> PitadaChip, "Anotações" (texto),
                barra inferior: Cozinhar + ícones]
-      navega: CookModeScreen (/recipe/:id/cook via "Cozinhar"), RecipeEditScreen (/recipe/:id/edit via ícone lápis)
+      navega: CookModeScreen (/recipe/:id/cook via "Cozinhar"), RecipeEditScreen (/recipe/:id/edit via ícone lápis),
+              showRecipeVersionSheet (tocar na RecipeVersionTag)
+      edicao_inline:   # "tudo é editável" — dois caminhos, ver specs/components/editable.yaml
+        principio: >
+          O ícone LÁPIS (galeria) abre o editor INTEIRO (RecipeEditScreen). SEGURAR ou
+          CLICAR DUAS VEZES em um elemento abre a edição só DAQUELE campo (Editable +
+          QuickEditSheet via RecipeQuickEdit). Salvar persiste (RecipeEditController) e a
+          tela atualiza na hora. O lápis, hoje solto, passa a ser ligado (onEdit -> /edit).
+        switch_nova_versao: >
+          TODA sheet de edição inline traz um switch "Salvar como nova versão" (default
+          DESLIGADO). Desligado: sobrescreve no lugar. Ligado: cria uma nova versão
+          (ver data.edicao_inline.salvar_como_nova_versao) e a tela passa a mostrar o
+          seletor de versões.
+        campos_editaveis:
+          - título              -> QuickEdit 1 campo (Nome)
+          - kcal                -> QuickEdit 1 campo numérico
+          - porções/tempo/dificuldade -> RecipeMeta: cada segmento é um Editable próprio
+          - macros              -> NutritionCard: cada célula (Proteína/Gordura/Carbo) é Editable
+          - ingrediente         -> IngredientRow: QuickEdit 4 campos (nome/gramas/qtd/unidade)
+          - passo               -> StepTile: QuickEdit 2 campos multiline (passo / "Por quê")
+          - técnicas            -> QuickEdit 1 campo multiline (uma técnica por linha)
+          - anotações           -> QuickEdit 1 campo multiline
 
   - RecipeEditScreen:
       classe: RecipeEditScreen extends ConsumerStatefulWidget  # controllers locais editáveis
@@ -88,20 +212,39 @@ screens:
                    (feedback pós-cozimento); AppLog.i('recipes', 'cozimento concluído: <id>')
 
   - FolderScreen:
-      classe: FolderScreen extends ConsumerWidget
+      classe: FolderScreen extends ConsumerWidget      # SEM controller próprio: a rota anima
       arquivo: presentation/folder_screen.dart
+      widgets_proprios: presentation/widgets/paper_fly.dart   # PaperFly + FolderMotion + BottomOpenClipper
       construtor: FolderScreen({required String folderId})
-      estado: pasta de folderByIdProvider(folderId); receitas de recipesInFolderProvider(folderId)
+      estado: pasta/receitas de foldersProvider + recipesProvider (filtro por folderId)
       layout:
-        top (PitadaScaffold.top): linha "Voltar"(seta -> context.pop) + nome da pasta (AppType.screenTitle)
-              + PitadaIconButton(add) "adicionar receita à pasta"
-        child (rolável):
-          - contagem "N receitas" (AppType.caption, muted)
-          - lista de RecipeRow (reutiliza a linha da lista principal) -> /recipe/:id
-          - EmptyState quando a pasta está vazia (title "Pasta vazia", icon folder_open,
-            message "Adicione receitas a esta pasta.")
-      adicionar: ícone '+' abre seletor (lista de recipesProvider fora da pasta, CheckItem por receita)
-                 -> ao confirmar, adiciona folderId às receitas (mock: repository + AppLog)
+        top: linha mínima seta "voltar" (-> context.pop) + rótulo 'PASTA'
+        child: grade 2 colunas de RecipeCard compacto ("papéis") -> /recipe/:id;
+               EmptyState quando vazia (title "Pasta vazia", icon folder,
+               message "Adicione receitas a esta pasta.")
+        bottom: faixa da pasta (cor pastel do hero + sombra funcional p/ cima) com
+                nome + contagem + PitadaIconButton(add)
+      animacao:   # abrir/fechar = UMA animação contínua, dirigida pela ROTA (nunca 2 fases)
+        rota: CustomTransitionPage não-opaca; transitionsBuilder devolve o child puro —
+              a tela lê ModalRoute.of(context).animation e dirige o próprio visual
+        duracoes: FolderScreen.openDuration (460ms) / closeDuration (380ms)
+        principio: a faixa da pasta NUNCA fica translúcida — a oclusão dos papéis
+                   depende dela sólida; ela DESLIZA de baixo, não dissolve
+        coreografia: intervalos/vetores centralizados em FolderMotion (paper_fly.dart)
+        abrir: aba Pastas segue visível POR BAIXO; a faixa desliza de baixo primeiro
+               (0–15%, easeOutCubic) e fundo (pit.bg) + topo dissolvem por cima (0–45%);
+               os papéis SÓ começam depois da faixa assentar (start 12% + 4,5%/índice,
+               cap 42%; janela de 50%), saindo da boca escalonados e
+               desentortando/escalando até o slot da grade (easeOutCubic)
+        fechar: context.pop() reverte a MESMA animação com reverseCurve própria —
+                fundo + topo dissolvem logo (100%→55%) enquanto os papéis mergulham
+                na faixa escalonados (mais fundo volta primeiro; todos dentro até 15%)
+                e a faixa, ainda sólida, desliza p/ baixo por último (15%→0),
+                "engolindo" tudo; proibido animar papéis primeiro e trocar de página depois
+        papel_opacidade: gate curto (primeiros ~12% do próprio trecho) só para evitar
+                         pop de 1 frame na boca — a oclusão real é a faixa sólida
+        gesto_voltar: sem PopScope — o back do sistema já reverte a rota corretamente
+      adicionar: ícone '+' na faixa (mock: AppLog até existir o seletor de receitas)
       navega: RecipeDetailScreen (/recipe/:id)
 
 sheets:
@@ -142,6 +285,36 @@ sheets:
               anexa a sugestão às Anotações da receita (repository/mock) e fecha;
               PitadaButton(outline) "Fechar" quando não há ajuste a salvar
 
-components_reutilizados: [Masthead, PitadaScaffold, PitadaSearchField, ChapterTabs, SegTabs,
+  - RecipeVersionSheet:
+      funcao: showRecipeVersionSheet(BuildContext, {versions, selected, changelog, onSelect})
+      arquivo: presentation/recipe_version_sheet.dart   # showPitadaSheet + SheetGrip
+      abre: ao tocar na RecipeVersionTag do título (RecipeDetailScreen)
+      layout:
+        - grip + título "Versões"
+        - lista das versões, MAIS RECENTE primeiro (v3, v2, v1); cada linha:
+            "V{n}" (numeralSm accent na atual, pit.text nas outras) + chip "atual" na
+            definitiva + nota "o que mudou" (do changelog do Caderno, casada por label);
+            a selecionada tem realce (accentSoft). Tocar -> onSelect(n) e fecha.
+        - rodapé (se houver changelog): HairlineRow/link "Ver histórico completo" ->
+            context.push('/versions/<changelog.id>')  (VersionHistoryScreen do Caderno)
+      nota: >
+        Conteúdo (macros/ingredientes) vem das versões (recipes); a NOTA vem do Caderno
+        (fonte única). Sem changelog, a lista mostra só os rótulos das versões.
+
+feature_widgets:                    # widgets exclusivos da feature (presentation/widgets/)
+  - QuickEditSheet: >
+      Bottom sheet genérica de edição rápida (1+ campos) usada pela edição inline do
+      detalhe. Ver specs/components/quick_edit_sheet.yaml. arquivo: widgets/quick_edit_sheet.dart
+  - RecipeQuickEdit: >
+      Orquestrador da edição inline: um método por campo (title/kcal/servings/time/
+      difficulty/macro/ingredient/step/techniques/notes) — abre a QuickEditSheet, monta o
+      Recipe editado (copyWith) e chama RecipeEditController.save. arquivo: recipe_quick_edit.dart
+  - RecipeVersionTag: >
+      Marcador "V3" da versão atual ao lado do título, em ACCENT (terracota) + caret,
+      tocável (abre o seletor). Reusa AppType.numeralSm + AppColors.accent + AppSpacing.
+      Só aparece quando a receita tem 2+ versões. arquivo: widgets/recipe_version_tag.dart
+
+components_reutilizados: [Masthead, PitadaScaffold, PitadaSearchField, PitadaTabs,
   HairlineRow, RecipeThumb, RecipeRow, NutritionCard, SectionHeader, WhyCallout, PitadaChip,
-  PitadaButton, PitadaIconButton, CheckItem, StepProgress, EmptyState, ExpiryTag]
+  PitadaButton, PitadaIconButton, CheckItem, StepProgress, EmptyState, ExpiryTag,
+  PitadaSheet, SheetGrip, Editable, EditTextField, PitadaToggle, HairlineRow]

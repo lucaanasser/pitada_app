@@ -11,6 +11,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/colors.dart';
+import '../../../core/theme/pitada_colors.dart';
 import '../../../core/theme/spacing.dart';
 import '../../../core/theme/typography.dart';
 import '../../../core/widgets/empty_state.dart';
@@ -29,6 +30,7 @@ class DiaryScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final async = ref.watch(diaryProvider);
+    final pit = context.pit;
     return PitadaScaffold(
       child: ListView(
         padding: const EdgeInsets.only(bottom: AppSpacing.xxl),
@@ -59,7 +61,8 @@ class DiaryScreen extends ConsumerWidget {
             ),
             error: (e, _) => Padding(
               padding: const EdgeInsets.all(AppSpacing.gutter),
-              child: Text('Erro: $e', style: AppType.body),
+              child:
+                  Text('Erro: $e', style: AppType.on(AppType.body, pit.text)),
             ),
             data: (entries) => _list(context, entries),
           ),

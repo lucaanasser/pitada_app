@@ -57,6 +57,14 @@ class AppType {
     height: 1.15,
     color: AppColors.text,
   );
+  static const titleXs = TextStyle(
+    fontFamily: _disp,
+    fontSize: 14,
+    fontWeight: FontWeight.w600,
+    letterSpacing: -0.1,
+    height: 1.15,
+    color: AppColors.text,
+  );
   static const numeralLg = TextStyle(
     fontFamily: _disp,
     fontSize: 26,

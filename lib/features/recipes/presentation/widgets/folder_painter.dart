@@ -56,9 +56,11 @@ class FolderPainter extends CustomPainter {
     }
 
     // —— bolso frontal, com sombra pequena para descolar do fundo ——
+    // Começa na metade da altura: bolso mais alto = respiro entre a "boca" do
+    // bolso e o título + espaço para o nome quebrar em 2 linhas (ver FolderCard).
     final pocket = RRect.fromLTRBAndCorners(
       0,
-      h * 0.58,
+      h * 0.50,
       w,
       h,
       bottomLeft: const Radius.circular(AppSpacing.radiusCard),

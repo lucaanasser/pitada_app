@@ -1,0 +1,34 @@
+# specs/components/pitada_tabs.yaml -> lib/core/widgets/pitada_tabs.dart
+component: PitadaTabs
+prototype: ".ftabs / .seg em pitada.html (unificados)"
+purpose: >
+  Abas de texto reutilizáveis do app — fonte única para TODAS as abas de
+  navegação em nível de tela (Receitas, Ingredientes, Fichas, Planos/dias). Ativo em
+  Space Grotesk (titleSm) cor text; inativos em muted. Um único sublinhado
+  terracota (accent) desliza entre as abas e ajusta a largura à palavra ativa.
+uses:
+  - context.pit.text
+  - context.pit.muted
+  - AppColors.accent
+  - AppType.titleSm
+  - AppSpacing.gutter
+  - AppSpacing.sm
+  - AppSpacing.xxl
+  - AppSpacing.borderAccent
+api:
+  - tabs: List<String>          # rótulos das abas
+  - selected: int               # índice ativo
+  - onSelect: ValueChanged<int> # callback de toque
+detalhes: >
+  Row horizontal rolável (SingleChildScrollView) com gap AppSpacing.xxl entre
+  abas. As larguras dos rótulos são medidas com TextPainter no estilo real. Um
+  AnimationController (~360ms, easeOutCubic) interpola posição/largura do
+  sublinhado entre a aba de partida e a de destino; no caminho o traço estica e
+  recolhe um tico (wobble de um ciclo ~10px, amortecido por (1-p)) — leve, mas
+  perceptível.
+  A cor do texto anima com AnimatedDefaultTextStyle. Flat: sem sombra, sem base.
+substitui: [ChapterTabs, SegTabs]   # widget único que unifica os dois antigos
+used_by:
+  - recipes_screen (Minhas Receitas / Pastas / Favoritas)
+  - shopping_screen (Lista / Despensa)
+  - lesson_cards_screen (categorias de fichas)

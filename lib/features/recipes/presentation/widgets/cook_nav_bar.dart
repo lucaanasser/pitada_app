@@ -9,7 +9,7 @@
 import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../core/theme/colors.dart';
+import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
 import '../../../../core/widgets/pitada_button.dart';
 
@@ -32,11 +32,12 @@ class CookNavBar extends StatelessWidget {
   /// Monta os dois botões lado a lado sobre o filete superior. Usada por: framework.
   @override
   Widget build(BuildContext context) {
+    final pit = context.pit;
     return Container(
-      decoration: const BoxDecoration(
-        color: AppColors.bg,
+      decoration: BoxDecoration(
+        color: pit.bg,
         border: Border(
-          top: BorderSide(color: AppColors.line, width: AppSpacing.hair),
+          top: BorderSide(color: pit.line, width: AppSpacing.hair),
         ),
       ),
       padding: const EdgeInsets.fromLTRB(

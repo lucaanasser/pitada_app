@@ -41,13 +41,15 @@ hero:
 # cor de "tinta" sobre o accent (texto de botão primário)
 sobre_accent: "#1F0D04"
 
-# —— Tema claro (base creme; superfícies + texto) ——
+# —— Tema claro (base CREME, nunca branco; superfícies + texto) ——
+# Repensado do zero: a base é creme quente; as superfícies são cremes mais
+# claros (jamais #FFF puro). O contraste é suave — papel, não tela branca.
 tema_claro:
-  bgLight:    "#F5EFE3"
-  surfLight:  "#FBF7EE"
-  surf2Light: "#F1EADE"
-  lineLight:  "#E8DFCF"
-  line2Light: "#D9CFBB"
+  bgLight:    "#F4EDDE"   # fundo geral (creme quente — base do modo claro)
+  surfLight:  "#FBF6EC"   # card/campo (creme quase-branco, não branco puro)
+  surf2Light: "#EFE8D8"   # input (creme um tom abaixo do fundo)
+  lineLight:  "#E7DECD"   # filete divisor
+  line2Light: "#D8CEB8"   # filete/borda mais forte
   textLight:  "#221E17"
   text2Light: "#6A6252"
   mutedLight: "#938A78"
@@ -56,11 +58,15 @@ tema_claro:
 # Tinta/borda neo-brutalista (usada como pit.border)
 ink:
   claro:  "#221E17"   # inkLight
-  escuro: "#3A3324"   # inkDark
+  escuro: "#0E0C08"   # inkDark — quase-preto (o marrom antigo lia como cinza)
 
-# Fundos tingidos por aba (0..4): Receitas, Aprendizado, Planos, Compras, Perfil
-tab_bg_light: ["#F1E3D4", "#E7EAD3", "#F3E9CF", "#DCE7DF", "#EEDFE0"]
-tab_bg_dark:  ["#1C1611", "#171A10", "#1D1810", "#121A16", "#1B1319"]
+# Fundos tingidos por aba (0..4): Receitas, Aprendizado, Planos, Ingredientes, Perfil
+# CLARO: tints coloridos porém MUITO próximos do creme base (#F4EDDE) — só um
+# sopro de cor por aba, nunca compete com o conteúdo (pedido do dono).
+tab_bg_light: ["#F6ECDD", "#EDF1DF", "#F7F0DA", "#E8F1E8", "#F6EAE7"]
+# ESCURO: tint sutil acima da base bg (#15130E). Meio-termo — o passo anterior
+# ficou forte demais e atrapalhava a leitura (pedido do dono: "um pouco mais claro").
+tab_bg_dark:  ["#201812", "#181D11", "#201B10", "#121D17", "#1F141D"]
 
 # Cor do bloco de foto (card) por hero, em cada tema (pastel / escuro)
 card_light: {clay: "#F3D3BC", moss: "#D3E0B4", ochre: "#F0DFA9", terra: "#F2C9B4", plum: "#E7CBD6", teal: "#BFE0CE", rust: "#F1C4B0"}

@@ -7,6 +7,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import '../theme/colors.dart';
+import '../theme/pitada_colors.dart';
 import '../theme/spacing.dart';
 
 /// Barra de combustível: preenche [progress] (0..1). [over] pinta de terracota.
@@ -22,7 +23,7 @@ class FuelBar extends StatelessWidget {
     return Container(
       height: 6,
       decoration: BoxDecoration(
-        color: AppColors.surf2,
+        color: context.pit.surf2,
         borderRadius: AppSpacing.br(4),
       ),
       child: FractionallySizedBox(

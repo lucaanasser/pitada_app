@@ -8,9 +8,10 @@
 // SPEC:      specs/features/recipes.yaml (SHEET-IMPORT)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
+import '../../../core/widgets/pitada_sheet.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/theme/colors.dart';
+import '../../../core/theme/pitada_colors.dart';
 import '../../../core/theme/spacing.dart';
 import '../../../core/theme/typography.dart';
 import '../../../core/utils/app_log.dart';
@@ -18,19 +19,13 @@ import '../../../core/widgets/step_progress.dart';
 import '../application/import_controller.dart';
 import 'widgets/import_preview.dart';
 import 'widgets/import_source_grid.dart';
-import 'widgets/sheet_grip.dart';
+import '../../../core/widgets/sheet_grip.dart';
 
 /// Abre a sheet de importação de receita (surf, cantos arredondados, grip).
 /// Usada por: recipes_screen (ação '+'). Reseta o controller ao fechar.
 void showImportSheet(BuildContext context) {
-  showModalBottomSheet<void>(
-    context: context,
-    backgroundColor: AppColors.surf,
-    isScrollControlled: true,
-    shape: const RoundedRectangleBorder(
-      borderRadius:
-          BorderRadius.vertical(top: Radius.circular(AppSpacing.radiusXxl)),
-    ),
+  showPitadaSheet<void>(
+    context,
     builder: (ctx) => const _ImportSheet(),
   );
 }
@@ -106,7 +101,10 @@ class _ImportSheetState extends ConsumerState<_ImportSheet> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('De onde vem a receita?', style: AppType.title),
+        Text(
+          'De onde vem a receita?',
+          style: AppType.on(AppType.title, context.pit.text),
+        ),
         const SizedBox(height: AppSpacing.xl),
         ImportSourceGrid(
           onPick: (origem) =>
@@ -121,11 +119,14 @@ class _ImportSheetState extends ConsumerState<_ImportSheet> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('Lendo a receita...', style: AppType.title),
+        Text(
+          'Lendo a receita...',
+          style: AppType.on(AppType.title, context.pit.text),
+        ),
         const SizedBox(height: AppSpacing.sm),
         Text(
           'A IA está estruturando ingredientes, medidas e macros.',
-          style: AppType.on(AppType.body, AppColors.muted),
+          style: AppType.on(AppType.body, context.pit.muted),
         ),
         const SizedBox(height: AppSpacing.xl),
         StepProgress(

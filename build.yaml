@@ -1,0 +1,13 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# build.yaml
+# O QUÊ:  Config do codegen. json_serializable com field_rename: snake — o Dart
+#         fica camelCase (heroColor) e o JSON/Postgres snake_case (hero_color),
+#         casando com o schema (specs/backend/database.yaml) sem @JsonKey manual.
+# ─────────────────────────────────────────────────────────────────────────────
+targets:
+  $default:
+    builders:
+      json_serializable:
+        options:
+          field_rename: snake
+          explicit_to_json: true # toJson aninhado vira Map de verdade (não instância)

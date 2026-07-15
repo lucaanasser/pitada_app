@@ -11,6 +11,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/colors.dart';
+import '../../../core/theme/pitada_colors.dart';
 import '../../../core/theme/spacing.dart';
 import '../../../core/theme/typography.dart';
 import '../../../core/widgets/empty_state.dart';
@@ -31,6 +32,7 @@ class ProcessLogsScreen extends ConsumerWidget {
   /// Monta cabeçalho, dica e lista de logs a partir de [logsProvider].
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final pit = context.pit;
     final async = ref.watch(logsProvider);
     return PitadaScaffold(
       child: ListView(
@@ -62,7 +64,8 @@ class ProcessLogsScreen extends ConsumerWidget {
             ),
             error: (e, _) => Padding(
               padding: const EdgeInsets.all(AppSpacing.gutter),
-              child: Text('Erro: $e', style: AppType.body),
+              child:
+                  Text('Erro: $e', style: AppType.on(AppType.body, pit.text)),
             ),
             data: (logs) => _list(context, logs),
           ),
@@ -100,6 +103,7 @@ class ProcessLogsScreen extends ConsumerWidget {
     ProcessLog log, {
     required bool showDivider,
   }) {
+    final pit = context.pit;
     return Padding(
       padding: AppSpacing.screenH,
       child: HairlineRow(
@@ -109,13 +113,12 @@ class ProcessLogsScreen extends ConsumerWidget {
           color: AppColors.heroOf('moss'),
           icon: AppIcons.science,
         ),
-        title: Text(log.title, style: AppType.titleSm),
+        title: Text(log.title, style: AppType.on(AppType.titleSm, pit.text)),
         subtitle: Text(
           '${log.type}  ·  ${formatDayMonth(log.date)}',
-          style: AppType.on(AppType.caption, AppColors.muted),
+          style: AppType.on(AppType.caption, pit.muted),
         ),
-        trailing:
-            const Icon(AppIcons.chevron, size: 16, color: AppColors.faint),
+        trailing: Icon(AppIcons.chevron, size: 16, color: pit.faint),
       ),
     );
   }

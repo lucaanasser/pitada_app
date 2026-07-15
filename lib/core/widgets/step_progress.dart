@@ -8,6 +8,7 @@
 import '../theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import '../theme/colors.dart';
+import '../theme/pitada_colors.dart';
 import '../theme/spacing.dart';
 import '../theme/typography.dart';
 
@@ -25,16 +26,18 @@ class StepProgress extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pit = context.pit;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        for (var i = 0; i < steps.length; i++) _row(steps[i], i <= activeIndex),
+        for (var i = 0; i < steps.length; i++)
+          _row(pit, steps[i], i <= activeIndex),
       ],
     );
   }
 
   /// Uma linha de passo: bolinha (marcada ou não) + texto. Usada por: [build].
-  Widget _row(String text, bool done) {
+  Widget _row(PitadaColors pit, String text, bool done) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
       child: Row(
@@ -46,7 +49,7 @@ class StepProgress extends StatelessWidget {
               shape: BoxShape.circle,
               color: done ? AppColors.sage : Colors.transparent,
               border: Border.all(
-                color: done ? AppColors.sage : AppColors.line2,
+                color: done ? AppColors.sage : pit.line2,
                 width: 2,
               ),
             ),
@@ -64,7 +67,7 @@ class StepProgress extends StatelessWidget {
               text,
               style: AppType.on(
                 AppType.bodySm,
-                done ? AppColors.text2 : AppColors.faint,
+                done ? pit.text2 : pit.faint,
               ),
             ),
           ),

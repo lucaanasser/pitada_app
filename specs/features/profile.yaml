@@ -1,0 +1,201 @@
+# specs/features/profile.yaml -> lib/features/profile/
+feature: Perfil
+prototype: "VIEW-PERFIL (perfil + gráfico de atividade) em pitada.html"
+purpose: >
+  Página de perfil pessoal como PAINEL da cozinha, no idioma editorial do app
+  (flat, filetes, muito respiro — caixa e pílula só onde têm significado):
+  identidade compacta, números REAIS sem caixa, gráfico de atividade estilo
+  GitHub em COR ÚNICA derivado do FIO REAL do Caderno (tocar num dia lista
+  QUAIS registros e navega até eles), radar de pendências acionáveis e amigos.
+  Aba (última da barra, índice 4).
+historia: >
+  3ª iteração (jul/2026). Feedback do dono sobre a 2ª: caixas (tiles com borda,
+  card do gráfico) e pílulas deixavam o visual pesado — reservar para onde têm
+  significado; o readout do dia dizia QUANTOS registros mas não QUAIS; amigos
+  não era para ter saído; o radar foi aprovado. Resultado: stats flat, gráfico
+  sem card, sequência sem pílula, atividade derivada do fio real (drill-down
+  navegável), FriendAvatars de volta e radar ampliado com "refazer pendente".
+  Na 2ª reforma já tinham saído bio, contadores estáticos e o resumo
+  "Sua cozinha ultimamente" (KitchenSummary segue apagado).
+
+data:
+  models:
+    - Profile:                # identidade mínima (single-user hoje)
+        campos:
+          - name: String                # "Luca Naasser"
+          - initial: String             # "L" (avatar)
+    - ActivityEntry:          # um registro dentro de um dia do gráfico
+        campos:
+          - label: String                # 'Diário' | 'Nota' | 'Versão' | 'Log'
+          - title: String                # "Frango xadrez"
+          - route: String                # detalhe a abrir no toque ('/diary/x')
+    - ActivityDay:            # uma célula do gráfico (um dia REAL)
+        campos:
+          - date: DateTime               # o dia do calendário que a célula representa
+          - weekIndex: int               # coluna (0 = semana mais antiga)
+          - dayIndex: int                # linha 0..6 (0 = segunda)
+          - intensity: int               # nº de registros no dia (0 = nenhum; cor satura em 4)
+          - entries: List<ActivityEntry> # os registros do dia (vazio = histórico de exemplo)
+        nota: >
+          Sem `kind`/cor por categoria (um dia mistura tipos). Dia real tem
+          entries == registros do fio; dia de preenchimento histórico tem
+          intensity > 0 e entries vazio — a UI o rotula "histórico de exemplo".
+    - ActivityStats:          # derivado da lista (função pura, data/activity_stats.dart)
+        campos:
+          - activeDays: int              # dias com intensity > 0
+          - bestStreak: int              # maior sequência de dias consecutivos ativos
+          - currentStreak: int           # sequência que termina hoje (tolera hoje ainda sem registro)
+          - totalDays: int               # total de células geradas
+    - ProfileCounts:          # números reais agregados das outras features
+        campos:
+          - recipes: int                 # receitas (recipesProvider)
+          - captures: int                # capturas no caderno (fioProvider)
+          - cooks: int                   # preparos no diário (diaryProvider)
+    - RadarItem:              # uma pendência acionável do radar
+        campos:
+          - kind: RadarKind              # cook | expiry | low | redo
+          - title: String                # "Frango xadrez", "Iogurte natural"
+          - detail: String?              # linha de apoio (cook e redo usam)
+          - expiresOn: DateTime?         # validade (kind expiry) -> ExpiryTag.fromDate
+          - route: String                # destino do toque
+          - push: bool                   # true = rota full-screen (push); false = aba (go)
+  builder: >
+    activity_builder.dart — buildActivityDays(today, realByDate): função PURA
+    que monta a grade de 22 semanas ancorada no calendário real (última coluna
+    = semana atual; dias futuros não geram célula; dayIndex 0 = segunda).
+    Dias com registros reais usam entries/intensity do fio; dias APÓS o
+    primeiro registro real e sem registros ficam honestamente em 0; dias
+    ANTERIORES ao primeiro registro real recebem o preenchimento determinístico
+    de exemplo (sem random), para o semestre não nascer vazio antes do Supabase.
+  repository: ProfileRepository   # só identidade hoje (seed); Supabase depois
+  seed: profile_seed.dart          # kSeedProfile (a atividade agora deriva do fio)
+  notas_de_cor: >
+    COR ÚNICA estilo GitHub: célula ativa = AppColors.accent2 com alpha por
+    intensidade (0.28..0.94, 4 degraus — helper activityColor em
+    activity_grid.dart); dia sem registro = pit.surf2; célula selecionada =
+    borda AppColors.accent. SEM card em volta do gráfico — a grade assenta
+    direto no fundo da aba (pit.tabBg(4)).
+
+application:
+  files: [profile_providers.dart, overview_providers.dart, settings_providers.dart]
+  providers:
+    - profileRepositoryProvider (Provider<ProfileRepository>)
+    - profileProvider (FutureProvider<Profile>)              # identidade
+    - selectedActivityDayProvider (StateProvider<ActivityDay?>) # dia tocado no gráfico
+    # —— agregadores cross-feature (overview_providers.dart) ——
+    # O Perfil é um agregador de propósito: lê providers de recipes/learning/
+    # shopping na camada application; a UI do perfil só lê providers da feature.
+    - activityProvider (Provider<List<ActivityDay>>): >
+        SÍNCRONO, derivado do fioProvider: agrupa os registros reais por dia
+        (FioKind -> label pt-BR) e chama buildActivityDays. É a fonte do
+        gráfico, do streak do cabeçalho e do drill-down por dia.
+    - profileCountsProvider (Provider<ProfileCounts>): >
+        números reais: recipesProvider (receitas), fioProvider (capturas no
+        caderno) e diaryProvider (preparos registrados).
+    - kitchenRadarProvider (Provider<List<RadarItem>>): >
+        pendências em ordem: cozinha sem registro (pendingCookProvider) ->
+        itens vencendo em ≤5 dias (pantryProvider, mais urgente primeiro;
+        mesmo limiar da ExpiryTag) -> itens acabando (low) -> "refazer
+        pendente" (diário com label Refazer há >5 dias, rota do detalhe via
+        push). Máx. 5 itens — usabilidade > completude.
+    # —— configurações (em memória hoje; persistência local depois) ——
+    - defaultServingsProvider (StateProvider<int>, padrão 2)   # porções padrão p/ planos
+    - techniqueTipsProvider (StateProvider<bool>, padrão true) # "porquês" nos passos
+    - notifyCookReminderProvider (StateProvider<bool>)         # lembrete diário
+    - notifyExpiryProvider (StateProvider<bool>)               # validade da despensa
+    - notifyWeeklyPlanProvider (StateProvider<bool>)           # plano da semana
+
+utils:
+  format.dart: >
+    Helpers de data pt-BR usados pelo gráfico: formatMonthAbbr (jan..dez),
+    formatWeekdayAbbr (seg..dom) e formatDayLabel ("seg · 12 mai") para o
+    detalhe do dia selecionado.
+
+screens:
+  - ProfileScreen:            # ABA /profile (branch do shell, índice 4)
+      file: lib/features/profile/presentation/profile_screen.dart
+      tipo: ConsumerWidget
+      prototype: VIEW-PERFIL (3ª iteração — painel editorial)
+      tema: 2 temas — cores via context.pit.*; fundo pit.tabBg(4)
+      layout:                 # de cima pra baixo (PitadaScaffold: top fixo + lista)
+        - Masthead
+        - "thead: título 'Perfil' (screenTitle) + PitadaIconButton(settings)"
+        - "ProfileHeader: identidade compacta — avatar quadrado pastel (56) +
+           nome + linha de sequência SEM pílula (chama accent2 + texto caption,
+           currentStreak real; some enquanto a atividade carrega)"
+        - "ProfileStats: 3 números REAIS FLAT (sem caixa) — numeral Space
+           Grotesk + rótulo caption, tocáveis: receitas -> go(/recipes),
+           capturas -> go(/learning), preparos -> push(/learning/diary)"
+        - SectionHeader "Seu semestre na cozinha"
+        - "ActivityGraph — SEM card: grade 22 semanas (meses no topo, seg/qua/
+           sex à esquerda, rola até a semana atual), linha de rodapé 'X dias
+           ativos · recorde N' à esquerda + rampa 'menos → mais' à direita,
+           e o DETALHE do dia tocado: data + nº de registros e a LISTA deles
+           (label do tipo + título, toque -> push da rota do registro);
+           dia de preenchimento mostra 'histórico de exemplo'"
+        - SectionHeader "No radar"
+        - "KitchenRadar — pendências acionáveis (HairlineRow por item, toque
+           navega go/push conforme o item): cozinha sem registro, validade,
+           acabando, refazer pendente. Vazio = linha calma."
+        - SectionHeader "Amigos" (action "ver todos") -> FriendAvatars
+      sem_voltar: é aba — não tem botão de voltar
+      navega: [SettingsScreen (/profile/settings), /recipes, /learning,
+        /learning/diary, /shopping, rotas de detalhe do fio (push)]
+
+  - SettingsScreen:           # rota full-screen /profile/settings (cobre a barra)
+      file: lib/features/profile/presentation/settings_screen.dart
+      tipo: ConsumerWidget
+      purpose: >
+        Configurações completas do app, em seções. Estado em providers da feature
+        (em memória hoje); ações ainda sem backend apenas logam via AppLog.
+      layout:                 # de cima pra baixo (PitadaScaffold: top fixo + lista)
+        - "header: PitadaIconButton(back) + título 'Configurações' (screenTitle)"
+        - SectionHeader "Aparência"
+        - "ThemePicker — 3 cards lado a lado (Claro / Escuro / Sistema), cada um
+           com mini-preview do tema (fundo + barra surf + ponto accent; Sistema =
+           metade claro/escuro). Selecionado: borda accent + check"
+        - SectionHeader "Cozinha"
+        - "SettingsStepperRow 'Porções padrão' (1..8) -> defaultServingsProvider"
+        - "SettingsSwitchRow 'Dicas de técnica' -> techniqueTipsProvider"
+        - SectionHeader "Notificações"
+        - "SettingsSwitchRow 'Lembrete de cozinhar' -> notifyCookReminderProvider"
+        - "SettingsSwitchRow 'Alertas de validade' -> notifyExpiryProvider"
+        - "SettingsSwitchRow 'Plano da semana' -> notifyWeeklyPlanProvider"
+        - SectionHeader "Sobre"
+        - "HairlineRow 'Versão' (0.1 · protótipo) + SettingsLinkRow 'Guia de
+           construção' (só loga) + rodapé caption centrado"
+      providers: [themeModeProvider (core), settings_providers da feature]
+      volta: context.pop()
+      nota_material: >
+        Rota full-screen envolve o PitadaScaffold num Scaffold (como
+        recipe_detail): sem o Material, todo texto ganha o sublinhado
+        amarelo de debug do Flutter.
+
+components_da_feature:        # em presentation/widgets/ (exclusivos, <200 linhas)
+  - ProfileHeader: identidade compacta — avatar quadrado pastel com borda +
+      nome + linha de sequência (ícone de chama + caption; SEM pílula)
+  - ProfileStats: 3 números reais FLAT (sem caixa), numeral Space Grotesk +
+      rótulo caption, tocáveis (navegam para a origem do número)
+  - ActivityGraph: grade + rodapé (stats à esquerda, rampa à direita) + detalhe
+      do dia selecionado com a lista de registros navegável — tudo SEM card
+  - ActivityGrid: a grade em si — rótulos de mês (Stack posicionado por coluna),
+      rótulos seg/qua/sex fixos, células tocáveis (selecionada ganha borda accent),
+      rolagem horizontal reversa; expõe activityColor(intensity) — cor única
+  - KitchenRadar: pendências acionáveis (kitchenRadarProvider) — HairlineRow
+      com ícone por tipo, ExpiryTag para validade/acabando, toque navega
+      (go para abas, push para detalhe); estado vazio = linha calma
+  - FriendAvatars: fileira horizontal de avatares (seed local) + botão "Adicionar"
+  - ThemePicker: seletor visual de tema com mini-previews (settings)
+  - SettingsRows: SettingsSwitchRow (toggle flat com borda, sem sombra),
+      SettingsStepperRow (− valor +) e SettingsLinkRow (chevron) (settings)
+
+componentes_apagados:         # não recriar
+  - KitchenSummary (resumo estático "Sua cozinha ultimamente", 2ª reforma)
+
+components_reutilizados: [Masthead, PitadaScaffold, SectionHeader, HairlineRow,
+  ExpiryTag, PitadaIconButton, EmptyState]
+
+tokens_chave: [context.pit (bg/surf/surf2/line/line2/border/text/text2/muted/faint,
+  tabBg(4), card('terra')), AppColors.accent, AppColors.accent2, AppColors.sage,
+  AppColors.heroOf, AppType.title, AppType.screenTitle, AppType.numeralLg,
+  AppType.caption, AppSpacing.gutter, AppSpacing.radiusLg, AppSpacing.borderStrong]

@@ -8,6 +8,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/colors.dart';
+import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
 import '../../../../core/theme/typography.dart';
 import '../../../../core/widgets/pitada_chip.dart';
@@ -30,13 +31,14 @@ class VersionStepTile extends StatelessWidget {
   /// Desenha o marcador, o fio vertical e o conteúdo do passo. Usada por: VersionHistory.
   @override
   Widget build(BuildContext context) {
+    final pit = context.pit;
     return IntrinsicHeight(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _rail(),
+          _rail(pit),
           const SizedBox(width: AppSpacing.lg),
-          Expanded(child: _body()),
+          Expanded(child: _body(pit)),
         ],
       ),
     );
@@ -44,7 +46,7 @@ class VersionStepTile extends StatelessWidget {
 
   /// Coluna do marcador (bolinha accent) e do fio até o próximo passo.
   /// Usada por: [build].
-  Widget _rail() {
+  Widget _rail(PitadaColors pit) {
     return Column(
       children: [
         Container(
@@ -52,7 +54,7 @@ class VersionStepTile extends StatelessWidget {
           height: 11,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: definitive ? AppColors.accent : AppColors.surf,
+            color: definitive ? AppColors.accent : pit.surf,
             border: Border.all(
               color: AppColors.accent,
               width: AppSpacing.borderThick,
@@ -60,9 +62,8 @@ class VersionStepTile extends StatelessWidget {
           ),
         ),
         if (!isLast)
-          const Expanded(
-            child:
-                VerticalDivider(width: AppSpacing.hair, color: AppColors.line2),
+          Expanded(
+            child: VerticalDivider(width: AppSpacing.hair, color: pit.line2),
           ),
       ],
     );
@@ -70,7 +71,7 @@ class VersionStepTile extends StatelessWidget {
 
   /// Conteúdo do passo: label vX + tag "definitiva" opcional + texto da mudança.
   /// Usada por: [build].
-  Widget _body() {
+  Widget _body(PitadaColors pit) {
     return Padding(
       padding: const EdgeInsets.only(bottom: AppSpacing.xl),
       child: Column(
@@ -78,7 +79,7 @@ class VersionStepTile extends StatelessWidget {
         children: [
           Row(
             children: [
-              Text(step.label, style: AppType.numeralSm),
+              Text(step.label, style: AppType.on(AppType.numeralSm, pit.text)),
               if (definitive) ...[
                 const SizedBox(width: AppSpacing.md),
                 const PitadaChip(
@@ -89,7 +90,7 @@ class VersionStepTile extends StatelessWidget {
             ],
           ),
           const SizedBox(height: AppSpacing.sm),
-          Text(step.change, style: AppType.on(AppType.body, AppColors.text2)),
+          Text(step.change, style: AppType.on(AppType.body, pit.text2)),
         ],
       ),
     );

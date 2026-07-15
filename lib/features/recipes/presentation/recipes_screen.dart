@@ -16,7 +16,7 @@ import '../../../core/theme/app_icons.dart';
 import '../../../core/theme/pitada_colors.dart';
 import '../../../core/theme/spacing.dart';
 import '../../../core/theme/typography.dart';
-import '../../../core/widgets/chapter_tabs.dart';
+import '../../../core/widgets/pitada_tabs.dart';
 import '../../../core/widgets/empty_state.dart';
 import '../../../core/widgets/masthead.dart';
 import '../../../core/widgets/pitada_button.dart';
@@ -31,8 +31,8 @@ import 'widgets/recipe_card.dart';
 import 'widgets/recipe_row.dart';
 import 'widgets/recipe_view_toggle.dart';
 
-/// Rótulos das 4 abas fixas (índice casa com RecipesTab). Usada por: [RecipesScreen].
-const _kTabs = ['Minhas Receitas', 'Receitas Salvas', 'Pastas', 'Favoritas'];
+/// Rótulos das 3 abas fixas (índice casa com RecipesTab). Usada por: [RecipesScreen].
+const _kTabs = ['Minhas Receitas', 'Pastas', 'Favoritas'];
 
 /// Tela principal da aba Receitas. Usada por: router (/recipes).
 class RecipesScreen extends ConsumerWidget {
@@ -51,7 +51,7 @@ class RecipesScreen extends ConsumerWidget {
       background: pit.tabBg(0),
       top: const Masthead(),
       child: ListView(
-        padding: const EdgeInsets.only(bottom: AppSpacing.xxl),
+        padding: tabListPadding(context),
         children: [
           _header(context, pit),
           const Padding(
@@ -59,7 +59,7 @@ class RecipesScreen extends ConsumerWidget {
             child: PitadaSearchField(hint: 'Buscar receita ou ingrediente'),
           ),
           const SizedBox(height: AppSpacing.xl),
-          ChapterTabs(
+          PitadaTabs(
             tabs: _kTabs,
             selected: tab,
             onSelect: (i) =>
@@ -105,19 +105,14 @@ class RecipesScreen extends ConsumerWidget {
     );
   }
 
-  /// EmptyState específico de cada aba (Minhas / Salvas / Favoritas).
+  /// EmptyState específico de cada aba (Minhas / Favoritas).
   /// Usada por: [build].
   Widget _empty(int tab) {
     return switch (RecipesTab.values[tab]) {
       RecipesTab.mine => const EmptyState(
-          title: 'Nenhuma receita sua ainda',
-          message: 'Crie uma receita no botão +',
+          title: 'Nenhuma receita ainda',
+          message: 'Crie ou importe uma receita no botão +',
           icon: AppIcons.notebook,
-        ),
-      RecipesTab.saved => const EmptyState(
-          title: 'Nada salvo ainda',
-          message: 'Importe do Instagram, YouTube ou site no +',
-          icon: AppIcons.bookmark,
         ),
       _ => const EmptyState(
           title: 'Nada favoritado',
@@ -190,15 +185,16 @@ class RecipesScreen extends ConsumerWidget {
     }
   }
 
-  /// Cabeçalho da aba: título grande + botões de perfil e importar.
-  /// Usada por: [build].
+  /// Cabeçalho da aba: título grande + botão de importar. (O perfil saiu daqui:
+  /// agora é aba própria na barra.) Usada por: [build].
   Widget _header(BuildContext context, PitadaColors pit) {
     return Padding(
+      // bottom titleGap: respiro padrão entre o título da aba e o 1º conteúdo.
       padding: const EdgeInsets.fromLTRB(
         AppSpacing.gutter,
         AppSpacing.md,
         AppSpacing.gutter,
-        AppSpacing.lg,
+        AppSpacing.titleGap,
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.end,
@@ -210,12 +206,9 @@ class RecipesScreen extends ConsumerWidget {
             ),
           ),
           PitadaIconButton(
-            icon: AppIcons.profile,
-            onPressed: () => context.push('/profile'),
-          ),
-          const SizedBox(width: AppSpacing.sm),
-          PitadaIconButton(
             icon: AppIcons.add,
+            filled: true,
+            size: AppSpacing.iconButtonSm,
             onPressed: () => showImportSheet(context),
           ),
         ],

@@ -1,0 +1,20 @@
+# specs/components/add_options_sheet.yaml -> lib/core/widgets/add_options_sheet.dart
+component: AddOptionsSheet (showAddOptionsSheet + AddSheetOption)
+prototype: "sheet-cad-add em pitada.html (generalizado para todas as abas)"
+purpose: >
+  Bottom sheet padrão "escolher o que adicionar": grip + título + lista de
+  opções (miniatura hero colorida + título + subtítulo + chevron). Promovido do
+  caderno_add_sheet para reuso — é o destino do '+' do header de cada aba.
+uses: [showPitadaSheet, SheetGrip, HairlineRow, RecipeThumb, AppColors.heroOf,
+  AppType.title/body/caption, AppSpacing, context.pit, AppIcons.chevron]
+api:
+  - "showAddOptionsSheet(BuildContext, {title: String, options: List<AddSheetOption>})"
+  - "AddSheetOption: {title, subtitle, hero (nome da cor), icon, action(BuildContext)}"
+comportamento: >
+  Tocar numa opção fecha o sheet e executa action com o contexto EXTERNO (o da
+  tela que abriu), que sobrevive ao pop — necessário para push e quick sheets.
+  As ações apontam SEMPRE para fluxos já existentes (é atalho, não fluxo novo).
+used_by:
+  - caderno_add_sheet ('+' do Caderno: ficha/nota/diário/log)
+  - plan_add_sheet ('+' do Plano: nova refeição/registrar refeição/registrar peso)
+  - shopping_add_sheet ('+' de Ingredientes: nova lista/adicionar à despensa)

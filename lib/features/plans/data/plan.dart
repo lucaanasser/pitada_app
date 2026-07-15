@@ -1,6 +1,6 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/plans/data/plan.dart
-// O QUÊ:     Modelo do plano alimentar ativo (ex.: "Cutting" com meta diária de kcal).
+// O QUÊ:     Modelo do plano alimentar ativo (nome interno + meta diária de kcal).
 // USA:       meal.dart (composição das refeições do dia).
 // USADO POR: plans_seed, plans_repository, plans_providers, PlansScreen.
 // SPEC:      specs/features/plans.yaml (data.models: Plan)
@@ -9,7 +9,7 @@ import 'meal.dart';
 
 /// O plano ativo do usuário: nome, meta diária de kcal e as refeições do dia.
 /// Imutável — mudanças (escolher opção) geram uma cópia via copyWith.
-/// Usada por: PlanController (estado), PlansScreen, DaySummaryCard.
+/// Usada por: PlanController (estado), PlansScreen, DaySummary.
 class Plan {
   final String id;
   final String name;

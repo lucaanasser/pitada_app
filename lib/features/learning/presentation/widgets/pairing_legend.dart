@@ -9,16 +9,17 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/colors.dart';
+import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
 import '../../../../core/theme/typography.dart';
 import '../../data/repertoire.dart';
 
 /// Cor do contorno/ponto por nível de confiança de uma combinação.
-/// adoro = accent2; testei = sage; clássico = line2. Usada por: PairingDetailScreen.
-Color pairingColor(PairingRating rating) => switch (rating) {
+/// adoro = accent2; testei = sage; clássico = line2 (por tema). Usada por: PairingDetailScreen.
+Color pairingColor(PitadaColors pit, PairingRating rating) => switch (rating) {
       PairingRating.adoro => AppColors.accent2,
       PairingRating.testei => AppColors.sage,
-      PairingRating.classico => AppColors.line2,
+      PairingRating.classico => pit.line2,
     };
 
 /// Legenda horizontal (ponto colorido + rótulo) dos três níveis de harmonização.
@@ -50,6 +51,7 @@ class _LegendItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pit = context.pit;
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -57,12 +59,12 @@ class _LegendItem extends StatelessWidget {
           width: AppSpacing.sm + 2,
           height: AppSpacing.sm + 2,
           decoration: BoxDecoration(
-            color: pairingColor(rating),
+            color: pairingColor(pit, rating),
             borderRadius: AppSpacing.br(AppSpacing.radiusPill),
           ),
         ),
         const SizedBox(width: AppSpacing.sm - 2),
-        Text(label, style: AppType.on(AppType.caption, AppColors.text2)),
+        Text(label, style: AppType.on(AppType.caption, pit.text2)),
       ],
     );
   }

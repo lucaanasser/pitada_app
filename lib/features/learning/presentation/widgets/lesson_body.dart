@@ -9,6 +9,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/colors.dart';
+import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
 import '../../../../core/theme/typography.dart';
 import '../../data/lesson.dart';
@@ -35,11 +36,14 @@ String kickerFor(LessonKind category) {
 /// Constrói os widgets do detalhe de [lesson] de cima para baixo, por kind.
 /// technique -> princípio + pontos-chave + erro comum; framework -> descrição +
 /// fórmula/ordem; guide -> lead + N seções livres. Usada por: LessonDetailScreen.
-List<Widget> lessonBody(Lesson lesson) {
+List<Widget> lessonBody(PitadaColors pit, Lesson lesson) {
   final header = <Widget>[
-    Text(kickerFor(lesson.category).toUpperCase(), style: AppType.label),
+    Text(
+      kickerFor(lesson.category).toUpperCase(),
+      style: AppType.on(AppType.label, pit.muted),
+    ),
     const SizedBox(height: AppSpacing.sm),
-    Text(lesson.title, style: AppType.display),
+    Text(lesson.title, style: AppType.on(AppType.display, pit.text)),
     const SizedBox(height: AppSpacing.lg),
   ];
 
@@ -53,7 +57,7 @@ List<Widget> lessonBody(Lesson lesson) {
     case LessonKind.framework:
       return [
         ...header,
-        Text(lesson.summary, style: AppType.on(AppType.body, AppColors.text2)),
+        Text(lesson.summary, style: AppType.on(AppType.body, pit.text2)),
         if (lesson.lead != null) ...[
           const SizedBox(height: AppSpacing.sm),
           Text(lesson.lead!, style: AppType.on(AppType.tip, AppColors.accent2)),
@@ -66,7 +70,7 @@ List<Widget> lessonBody(Lesson lesson) {
       return [
         ...header,
         if (lesson.lead != null)
-          Text(lesson.lead!, style: AppType.on(AppType.quote, AppColors.text2)),
+          Text(lesson.lead!, style: AppType.on(AppType.quote, pit.text2)),
         ..._sections(lesson.sections),
       ];
   }

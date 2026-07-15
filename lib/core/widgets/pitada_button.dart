@@ -87,7 +87,8 @@ class _PitadaButtonState extends State<PitadaButton> {
   }
 }
 
-/// Botão de ícone circular com contorno de tinta (.iconbtn / .btn-ic).
+/// Botão de ícone circular (.iconbtn / .btn-ic). [filled] troca o contorno de
+/// tinta pelo círculo cheio em accent (ação principal do header de aba).
 /// Usada por: headers de aba e barra do detalhe de receita.
 class PitadaIconButton extends StatelessWidget {
   const PitadaIconButton({
@@ -95,11 +96,13 @@ class PitadaIconButton extends StatelessWidget {
     required this.icon,
     this.onPressed,
     this.size = AppSpacing.iconButton,
+    this.filled = false,
   });
 
   final IconData icon;
   final VoidCallback? onPressed;
   final double size;
+  final bool filled;
 
   @override
   Widget build(BuildContext context) {
@@ -111,9 +114,19 @@ class PitadaIconButton extends StatelessWidget {
         height: size,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          border: Border.all(color: pit.border, width: AppSpacing.hair),
+          color: filled ? AppColors.accent : null,
+          // Parcimônia (como no PitadaButton): cheio é só cor chapada.
+          border: filled
+              ? null
+              : Border.all(color: pit.border, width: AppSpacing.hair),
         ),
-        child: Icon(icon, size: 19, color: pit.text),
+        // Ícone escala com o círculo (19 no padrão 42) — o botão pequeno do
+        // header fica proporcionalmente delicado.
+        child: Icon(
+          icon,
+          size: size * 0.45,
+          color: filled ? AppColors.onAccent : pit.text,
+        ),
       ),
     );
   }

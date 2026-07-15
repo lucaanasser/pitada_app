@@ -1,13 +1,14 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/shopping/data/shopping_repository.dart
-// O QUÊ:     Fonte da lista de compras e da despensa. Hoje em memória (seed).
-// USA:       shopping_item.dart, pantry_item.dart, shopping_seed.dart, app_log.
+// O QUÊ:     Fonte das listas de compras (várias, com itens crus) e da despensa.
+//            Hoje em memória (seed).
+// USA:       shopping_list.dart, pantry_item.dart, shopping_seed.dart, app_log.
 // USADO POR: shopping_providers (application). A UI nunca chama isto direto.
 // SPEC:      specs/features/shopping.yaml (data.repository)
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../../core/utils/app_log.dart';
 import 'pantry_item.dart';
-import 'shopping_item.dart';
+import 'shopping_list.dart';
 import 'shopping_seed.dart';
 
 /// Repositório de compras. Implementação atual serve os dados de exemplo.
@@ -15,10 +16,11 @@ import 'shopping_seed.dart';
 class ShoppingRepository {
   const ShoppingRepository();
 
-  /// Lista de compras já somada/subtraída. Usada por: shoppingListProvider (estado inicial).
-  Future<List<ShoppingItem>> fetchShoppingList() async {
-    AppLog.d('shopping', 'carregando lista de compras (seed)');
-    return kSeedShopping;
+  /// Listas de compras (itens crus, sem descontar a despensa).
+  /// Usada por: shoppingListsProvider (estado inicial).
+  List<ShoppingList> fetchLists() {
+    AppLog.d('shopping', 'carregando listas de compras (seed)');
+    return kSeedLists;
   }
 
   /// Itens da despensa (o que já tenho). Usada por: pantryProvider.

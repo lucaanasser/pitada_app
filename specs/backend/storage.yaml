@@ -1,0 +1,29 @@
+# specs/backend/storage.yaml -> supabase/migrations/0003_storage.sql
+# O QUÊ:  Bucket de fotos de receitas (privado) + convenção de paths + políticas.
+# USADO POR: 0003_storage.sql e recipe_photos_repository.dart (fatia futura da galeria).
+area: Backend / Storage
+purpose: >
+  Fotos das receitas moram no Storage (arquivos), nunca como bytes no Postgres.
+  Bucket PRIVADO: o app lê via URL assinada (createSignedUrl), não via URL pública.
+
+bucket:
+  id: recipe-photos
+  public: false
+  file_size_limit: 5MB
+  allowed_mime_types: [image/jpeg, image/png, image/webp]
+
+paths:
+  convencao: "{user_id}/{recipe_id}/{index}.jpg"   # 1º segmento = dono (base do RLS)
+  exemplo: "8f3c.../frango-xadrez-uuid/0.jpg"
+
+politicas:                       # em storage.objects (ver rls.yaml)
+  select/insert/update/delete: >
+    bucket_id = 'recipe-photos' and (storage.foldername(name))[1] = auth.uid()::text
+    — cada usuário só acessa a própria subpasta.
+
+lado_app:                        # esqueleto nesta fatia; galeria liga depois
+  repository: lib/features/recipes/data/recipe_photos_repository.dart
+  api:
+    - uploadPhoto(recipeId, index, bytes) -> path
+    - signedUrl(path) -> url temporária (1h) para exibir
+  nota: recipes.photo_count continua sendo o contador exibido nas listas.

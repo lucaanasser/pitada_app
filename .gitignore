@@ -3,3 +3,8 @@
 *.iml
 .flutter-plugins-dependencies
 .idea/
+
+# Supabase local (artefatos do CLI; nunca commitar segredos)
+supabase/.temp/
+supabase/.branches/
+supabase/.env

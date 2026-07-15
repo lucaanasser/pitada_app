@@ -9,6 +9,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/colors.dart';
+import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
 import '../../../../core/theme/typography.dart';
 import '../../../../core/widgets/why_callout.dart';
@@ -47,7 +48,7 @@ class CookStepView extends StatelessWidget {
         Text(
           step.text,
           style:
-              AppType.on(AppType.title, AppColors.text).copyWith(height: 1.4),
+              AppType.on(AppType.title, context.pit.text).copyWith(height: 1.4),
         ),
         if (step.tip != null) ...[
           const SizedBox(height: AppSpacing.xl),

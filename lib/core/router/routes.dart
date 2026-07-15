@@ -8,7 +8,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../features/home/presentation/profile_screen.dart';
+import '../../features/auth/presentation/sign_in_screen.dart';
 import '../../features/learning/presentation/diary_entry_screen.dart';
 import '../../features/learning/presentation/diary_screen.dart';
 import '../../features/learning/presentation/lesson_cards_screen.dart';
@@ -22,6 +22,7 @@ import '../../features/learning/presentation/process_logs_screen.dart';
 import '../../features/learning/presentation/repertoire_screen.dart';
 import '../../features/learning/presentation/version_history_screen.dart';
 import '../../features/learning/presentation/versions_screen.dart';
+import '../../features/profile/presentation/settings_screen.dart';
 import '../../features/recipes/presentation/cook_mode_screen.dart';
 import '../../features/recipes/presentation/folder_screen.dart';
 import '../../features/recipes/presentation/recipe_detail_screen.dart';
@@ -38,14 +39,30 @@ List<RouteBase> buildFullscreenRoutes(GlobalKey<NavigatorState> rootKey) {
   String p(GoRouterState s, String k) => s.pathParameters[k]!;
 
   return [
+    // —— Auth ——
+    // Entrar (e-mail + código). O gate em router.dart decide quando mostrar.
+    fs('/entrar', (c, s) => const SignInScreen()),
+
     // —— Receitas ——
     fs('/recipe/:id', (c, s) => RecipeDetailScreen(recipeId: p(s, 'id'))),
     fs('/recipe/:id/edit', (c, s) => RecipeEditScreen(recipeId: p(s, 'id'))),
     fs('/recipe/:id/cook', (c, s) => CookModeScreen(recipeId: p(s, 'id'))),
-    fs('/folder/:id', (c, s) => FolderScreen(folderId: p(s, 'id'))),
 
-    // —— Home / Perfil ——
-    fs('/profile', (c, s) => const ProfileScreen()),
+    // Pasta aberta: página NÃO-opaca sem transição própria — a FolderScreen lê
+    // a animação desta rota e dirige papéis + dissolve por cima da aba Pastas,
+    // que permanece visível por baixo durante abrir/fechar (uma transição só).
+    GoRoute(
+      path: '/folder/:id',
+      parentNavigatorKey: rootKey,
+      pageBuilder: (c, s) => CustomTransitionPage(
+        key: s.pageKey,
+        opaque: false,
+        transitionDuration: FolderScreen.openDuration,
+        reverseTransitionDuration: FolderScreen.closeDuration,
+        transitionsBuilder: (_, __, ___, child) => child,
+        child: FolderScreen(folderId: p(s, 'id')),
+      ),
+    ),
 
     // —— Caderno: listas ——
     fs('/learning/cards', (c, s) => const LessonCardsScreen()),
@@ -66,5 +83,8 @@ List<RouteBase> buildFullscreenRoutes(GlobalKey<NavigatorState> rootKey) {
     fs('/versions/:id', (c, s) => VersionHistoryScreen(versionId: p(s, 'id'))),
     fs('/log/:id', (c, s) => ProcessLogScreen(logId: p(s, 'id'))),
     fs('/pairing/:id', (c, s) => PairingDetailScreen(pairingId: p(s, 'id'))),
+
+    // —— Perfil ——
+    fs('/profile/settings', (c, s) => const SettingsScreen()),
   ];
 }

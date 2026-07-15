@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/colors.dart';
+import '../../../core/theme/pitada_colors.dart';
 import '../../../core/theme/spacing.dart';
 import '../../../core/theme/typography.dart';
 import '../../../core/widgets/section_header.dart';
@@ -29,19 +30,25 @@ class ProcessLogScreen extends ConsumerWidget {
   /// Carrega o log por id e delega a montagem do corpo. Usada por: router.
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final pit = context.pit;
     final async = ref.watch(logByIdProvider(logId));
     return Scaffold(
-      backgroundColor: AppColors.bg,
+      backgroundColor: pit.bg,
       body: SafeArea(
         bottom: false,
         child: async.when(
           loading: () => const Center(
             child: CircularProgressIndicator(color: AppColors.accent),
           ),
-          error: (e, _) => Center(child: Text('Erro: $e', style: AppType.body)),
+          error: (e, _) => Center(
+            child: Text('Erro: $e', style: AppType.on(AppType.body, pit.text)),
+          ),
           data: (log) => log == null
-              ? const Center(
-                  child: Text('Log não encontrado', style: AppType.body),
+              ? Center(
+                  child: Text(
+                    'Log não encontrado',
+                    style: AppType.on(AppType.body, pit.text),
+                  ),
                 )
               : _content(log),
         ),

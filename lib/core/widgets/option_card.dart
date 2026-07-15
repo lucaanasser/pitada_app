@@ -1,13 +1,15 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/core/widgets/option_card.dart
-// O QUÊ:     Opção de refeição (Planos): cabeçalho escolhível + pratos linkáveis.
+// O QUÊ:     Opção de refeição (Planos): bloco flat (surf2; accent se escolhida)
+//            com cabeçalho escolhível + pratos linkáveis.
 // USA:       theme/*, utils/format (formatKcal).
-// USADO POR: plans_screen.
+// USADO POR: plans (MealCard, na sub-aba Cardápio).
 // SPEC:      specs/components/option_card.yaml
 // ─────────────────────────────────────────────────────────────────────────────
 import '../theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import '../theme/colors.dart';
+import '../theme/pitada_colors.dart';
 import '../theme/spacing.dart';
 import '../theme/typography.dart';
 import '../utils/format.dart';
@@ -48,17 +50,23 @@ class OptionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pit = context.pit;
     return Container(
       margin: const EdgeInsets.only(bottom: AppSpacing.md - 2),
       padding: const EdgeInsets.symmetric(
         horizontal: AppSpacing.md + 2,
         vertical: AppSpacing.md,
       ),
+      // Bloco flat dentro do MealCard (que já tem a borda tinta): sem borda
+      // fina aninhada — cor chapada surf2; escolhida ganha o pop terracota.
+      // Borda transparente na não-escolhida = mesma métrica, sem pulo de layout.
       decoration: BoxDecoration(
-        color: chosen ? AppColors.accentSoft : Colors.transparent,
-        borderRadius: AppSpacing.br(AppSpacing.radiusXl - 2),
-        border:
-            Border.all(color: chosen ? AppColors.accentLine : AppColors.line),
+        color: chosen ? AppColors.accentSoft : pit.surf2,
+        borderRadius: AppSpacing.br(AppSpacing.radiusLg),
+        border: Border.all(
+          color: chosen ? AppColors.accent : Colors.transparent,
+          width: AppSpacing.borderStrong,
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,7 +78,12 @@ class OptionCard extends StatelessWidget {
               children: [
                 _Radio(on: chosen),
                 const SizedBox(width: AppSpacing.md - 1),
-                Expanded(child: Text(name, style: AppType.numeralSm)),
+                Expanded(
+                  child: Text(
+                    name,
+                    style: AppType.on(AppType.numeralSm, pit.text),
+                  ),
+                ),
                 Text(
                   fitLabel,
                   style: AppType.on(
@@ -82,7 +95,7 @@ class OptionCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: AppSpacing.xs),
-          for (var i = 0; i < dishes.length; i++) _dish(i),
+          for (var i = 0; i < dishes.length; i++) _dish(pit, i),
         ],
       ),
     );
@@ -90,7 +103,7 @@ class OptionCard extends StatelessWidget {
 
   /// Renderiza um prato da opção; se linkado, mostra seta e fica clicável.
   /// Usada por: [build].
-  Widget _dish(int i) {
+  Widget _dish(PitadaColors pit, int i) {
     final d = dishes[i];
     return GestureDetector(
       onTap: d.linked ? () => onTapDish?.call(i) : null,
@@ -104,17 +117,17 @@ class OptionCard extends StatelessWidget {
                 d.name,
                 style: AppType.on(
                   AppType.bodySm,
-                  d.linked ? AppColors.text : AppColors.text2,
+                  d.linked ? pit.text : pit.text2,
                 ),
               ),
             ),
             Text(
               formatKcal(d.kcal),
-              style: AppType.on(AppType.caption, AppColors.muted),
+              style: AppType.on(AppType.caption, pit.muted),
             ),
             if (d.linked) ...[
               const SizedBox(width: AppSpacing.sm),
-              const Icon(AppIcons.chevron, size: 15, color: AppColors.faint),
+              Icon(AppIcons.chevron, size: 15, color: pit.faint),
             ],
           ],
         ),
@@ -136,7 +149,7 @@ class _Radio extends StatelessWidget {
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         border: Border.all(
-          color: on ? AppColors.accent : AppColors.line2,
+          color: on ? AppColors.accent : context.pit.line2,
           width: 2,
         ),
       ),

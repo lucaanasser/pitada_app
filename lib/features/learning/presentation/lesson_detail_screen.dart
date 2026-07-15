@@ -13,6 +13,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/colors.dart';
+import '../../../core/theme/pitada_colors.dart';
 import '../../../core/theme/spacing.dart';
 import '../../../core/theme/typography.dart';
 import '../../../core/widgets/pitada_button.dart';
@@ -29,18 +30,24 @@ class LessonDetailScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final async = ref.watch(lessonByIdProvider(lessonId));
+    final pit = context.pit;
     return Scaffold(
-      backgroundColor: AppColors.bg,
+      backgroundColor: pit.bg,
       body: SafeArea(
         bottom: false,
         child: async.when(
           loading: () => const Center(
             child: CircularProgressIndicator(color: AppColors.accent),
           ),
-          error: (e, _) => Center(child: Text('Erro: $e', style: AppType.body)),
+          error: (e, _) => Center(
+            child: Text('Erro: $e', style: AppType.on(AppType.body, pit.text)),
+          ),
           data: (lesson) => lesson == null
-              ? const Center(
-                  child: Text('Ficha não encontrada', style: AppType.body),
+              ? Center(
+                  child: Text(
+                    'Ficha não encontrada',
+                    style: AppType.on(AppType.body, pit.text),
+                  ),
                 )
               : _content(context, lesson),
         ),
@@ -62,7 +69,7 @@ class LessonDetailScreen extends ConsumerWidget {
               AppSpacing.gutter,
               AppSpacing.xxxl,
             ),
-            children: lessonBody(lesson),
+            children: lessonBody(context.pit, lesson),
           ),
         ),
       ],

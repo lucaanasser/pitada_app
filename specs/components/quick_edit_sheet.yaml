@@ -1,0 +1,40 @@
+# specs/components/quick_edit_sheet.yaml -> lib/features/recipes/presentation/widgets/quick_edit_sheet.dart
+component: QuickEditSheet
+file: lib/features/recipes/presentation/widgets/quick_edit_sheet.dart
+prototype: "sheet de edição de campo único/curto disparada por gesto (VIEW-RECIPE)"
+purpose: >
+  Bottom sheet genérica de edição rápida: mostra 1+ campos rotulados (um QuickEditField
+  cada) e um botão Salvar. Devolve os valores digitados (na ordem) ao salvar, ou null se
+  dispensada. Não conhece Recipe — quem chama (RecipeQuickEdit) monta o modelo.
+uses:
+  - core/widgets/pitada_sheet (showPitadaSheet)
+  - core/widgets/sheet_grip (SheetGrip)
+  - core/widgets/pitada_button (PitadaButton "Salvar")
+  - core/widgets/hairline_row (HairlineRow) + core/widgets/pitada_toggle (PitadaToggle) — switch opcional
+  - presentation/widgets/edit_field (EditTextField — reuso; ganha maxLines/minLines)
+  - theme/* (AppSpacing, AppType, pit), MediaQuery.viewInsets (levanta acima do teclado)
+model:
+  QuickEditField:
+    - label: String            # rótulo em versalete
+    - initial: String          # texto inicial
+    - hint: String?
+    - keyboardType: TextInputType?   # number p/ kcal/porções/gramas
+    - multiline: bool = false        # true -> textarea (passo, anotações)
+  QuickEditResult:             # o que o Salvar devolve
+    - values: List<String>     # valores dos campos, na ordem
+    - toggle: bool             # estado do switch opcional (ex.: "nova versão?")
+api:
+  - showQuickEditSheet(BuildContext, {required String title, required List<QuickEditField> fields,
+      String? toggleLabel, String? toggleSubtitle, bool toggleInitial = false})
+      -> Future<QuickEditResult?>    # null se cancelado
+  - switch: >
+      Quando toggleLabel != null, mostra uma HairlineRow tocável (título + subtítulo)
+      com um PitadaToggle à direita, ANTES do botão Salvar. O sheet é genérico: não
+      conhece "versão" — só devolve o estado do toggle. Quem chama dá o rótulo.
+layout:
+  - SheetGrip + título (AppType.title)
+  - um EditTextField por campo (surf2, keyboard/multiline conforme o field)
+  - (opcional) HairlineRow com PitadaToggle — o switch
+  - PitadaButton "Salvar" -> Navigator.pop(context, QuickEditResult(values, toggle))
+used_by:
+  - recipe_quick_edit.dart (todas as edições inline do detalhe; switch = "Salvar como nova versão")

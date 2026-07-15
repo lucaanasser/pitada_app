@@ -8,6 +8,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 
+import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/typography.dart';
 import '../../../../core/widgets/check_item.dart';
 import '../../../../core/widgets/hairline_row.dart';
@@ -29,13 +30,14 @@ class CookFeedbackOptions extends StatelessWidget {
   /// Monta uma HairlineRow por opção com um CheckItem circular. Usada por: framework.
   @override
   Widget build(BuildContext context) {
+    final pit = context.pit;
     return Column(
       children: [
         for (var i = 0; i < options.length; i++)
           HairlineRow(
             onTap: () => onSelect(i),
             showDivider: i != options.length - 1,
-            title: Text(options[i], style: AppType.body),
+            title: Text(options[i], style: AppType.on(AppType.body, pit.text)),
             trailing: CheckItem(
               checked: selected == i,
               onChanged: (_) => onSelect(i),

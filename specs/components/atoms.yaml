@@ -3,17 +3,27 @@
 atoms:
   - component: RecipeThumb
     file: lib/core/widgets/recipe_thumb.dart
-    prototype: ".rrow .th (miniatura editorial colorida com ícone)"
+    prototype: ".rrow .th (miniatura colorida com ícone)"
     purpose: Quadrado colorido (hero_color) com ícone de prato — placeholder de foto.
-    uses: [AppColors.hero, AppSpacing.radiusMd]
-    api: [color: Color, size: double = 54, icon: IconData?]
-    used_by: [recipes_screen, plans (add option), meal pickers]
+    uses: [AppColors.hero, context.pit.card/border/text, AppSpacing.radiusMd/borderStrong]
+    api: [color: Color, size: double = 54, icon: IconData?, outlined: bool = false]
+    detalhes: >
+      outlined=true é o modo soft neo-brutalista: para cores PASTÉIS
+      (context.pit.card(hero)) — ganha borda tinta (pit.border, borderStrong) e o
+      ícone passa a usar tinta do tema (o branco fixo some no pastel claro).
+      outlined=false mantém o visual legado (cor cheia + ícone branco) usado nas
+      listas do Caderno.
+    used_by: [recipes_screen (RecipeRow, outlined), plans (add option, outlined), meal pickers]
 
   - component: PitadaSearchField
     file: lib/core/widgets/pitada_search_field.dart
     prototype: ".search (campo de busca com lupa)"
-    purpose: Campo de busca padrão (visual .search). Estático por ora (frontend).
-    uses: [AppColors.surf, AppColors.muted, AppColors.faint, AppType.body, AppSpacing]
+    purpose: >
+      Campo de busca padrão (visual .search): uma cápsula com fundo único + borda.
+      Reage ao tema via context.pit. O TextField interno leva filled:false para
+      ANULAR o fillColor herdado do inputDecorationTheme global — sem isso ele
+      pinta um 2º retângulo (surf2) dentro da cápsula. Estático por ora (frontend).
+    uses: [context.pit.surf/border/muted/text/faint, AppColors.accent (cursor/marca), AppType.body, AppSpacing.borderStrong]
     api: [hint: String, controller: TextEditingController?, onChanged: ValueChanged<String>?]
     used_by: [recipes_screen]
 
@@ -47,4 +57,22 @@ atoms:
     purpose: Casca padrão de uma aba — fundo bg + coluna com slivers/rolagem.
     uses: [AppColors.bg, AppSpacing]
     api: [child: Widget, top: Widget?] # top fixo (masthead/thead), child rolável
+    helpers:
+      tabListPadding: >
+        tabListPadding(context, {respiro = AppSpacing.xxl}) — padding inferior
+        padrão das listas de aba: respiro + MediaQuery.padding.bottom. Com o
+        shell em extendBody, o inset inferior inclui a altura da pílula
+        flutuante; sem ele o fim da lista ficaria escondido sob a barra.
+        Toda lista de aba usa este helper no lugar de EdgeInsets.only(bottom).
     used_by: [todas as telas de aba]
+
+  - component: SheetGrip
+    file: lib/core/widgets/sheet_grip.dart
+    prototype: "barrinha central no topo dos bottom sheets"
+    purpose: Grip de arraste padrão (36x5, line2) antes do título de todo sheet.
+    uses: [context.pit.line2, AppSpacing.md]
+    api: []
+    detalhes: >
+      Promovido de plans/ e recipes/ (existiam DUAS cópias iguais) para
+      core/widgets — todo sheet do app usa o mesmo grip.
+    used_by: [sheets de plans, recipes (import/cook_chat), shopping (nova lista)]

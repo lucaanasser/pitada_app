@@ -1,0 +1,33 @@
+# specs/backend/edge_functions.yaml -> supabase/functions/ (Deno/TypeScript)
+# O QUÊ:  Contrato das Edge Functions (IA via Gemini roda no SERVIDOR, nunca no app).
+# USADO POR: import_controller (app) quando a função existir. Hoje: contrato apenas.
+area: Backend / Edge Functions
+status: CONTRATO DEFINIDO — implementação fica para a fatia "import por IA" (TODO)
+purpose: >
+  Tudo que usa a chave do Gemini roda em Edge Function: apps Flutter são
+  descompiláveis, então a GEMINI_API_KEY vive só como secret do servidor
+  (supabase secrets set). O app chama functions.invoke com o JWT do usuário.
+
+functions:
+  import-recipe:                    # extrai receita estruturada de uma fonte
+    verbo: functions.invoke('import-recipe')
+    auth: exige usuário logado (verify_jwt: true)
+    request:
+      source: youtube | instagram | site | pdf | photo | manual
+      url: string?                  # quando é link
+      content: string?              # texto colado / base64 (foto/pdf)
+    response:                       # espelha RecipeDraft do app
+      title: string
+      servings: int
+      ingredients: [{name, grams?, human_qty?, human_unit?}]
+      steps: [{text, tip?}]
+      kcal/protein/carb/fat: number?   # estimados pela IA quando possível
+    erros: {400: fonte inválida, 401: sem sessão, 502: falha na IA (app mostra retry)}
+
+  cook-feedback:                    # sugestão de ajuste pós-cozimento (CookChatSheet)
+    status: TODO (depois do import)
+    request: {recipe_id, feedback: salgado|cru|seco|perfeito}
+    response: {suggestion: string}
+
+segredos:
+  GEMINI_API_KEY: supabase secrets set GEMINI_API_KEY=... (local: supabase/.env, git-ignored)

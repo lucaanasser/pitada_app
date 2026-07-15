@@ -8,9 +8,11 @@
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
+import '../../../core/widgets/pitada_sheet.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/colors.dart';
+import '../../../core/theme/pitada_colors.dart';
 import '../../../core/theme/spacing.dart';
 import '../../../core/theme/typography.dart';
 import '../../../core/utils/app_log.dart';
@@ -23,14 +25,8 @@ import 'widgets/add_pantry_data.dart';
 
 /// Abre o sheet de adicionar à despensa. Usada por: pantry_view.
 void showAddPantrySheet(BuildContext context) {
-  showModalBottomSheet(
-    context: context,
-    backgroundColor: AppColors.surf,
-    isScrollControlled: true,
-    shape: const RoundedRectangleBorder(
-      borderRadius:
-          BorderRadius.vertical(top: Radius.circular(AppSpacing.radiusXxl)),
-    ),
+  showPitadaSheet(
+    context,
     builder: (_) => const _AddPantrySheet(),
   );
 }
@@ -71,6 +67,7 @@ class _AddPantrySheetState extends ConsumerState<_AddPantrySheet> {
 
   @override
   Widget build(BuildContext context) {
+    final pit = context.pit;
     return SafeArea(
       top: false,
       child: Padding(
@@ -84,12 +81,13 @@ class _AddPantrySheetState extends ConsumerState<_AddPantrySheet> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _grip(),
-            const Text('Adicionar à despensa', style: AppType.title),
+            _grip(pit),
+            Text('Adicionar à despensa',
+                style: AppType.on(AppType.title, pit.text)),
             const SizedBox(height: AppSpacing.lg),
-            if (_step == 0) _chooser(),
-            if (_step == 1) _loading(),
-            if (_step == 2) _preview(),
+            if (_step == 0) _chooser(pit),
+            if (_step == 1) _loading(pit),
+            if (_step == 2) _preview(pit),
           ],
         ),
       ),
@@ -97,14 +95,14 @@ class _AddPantrySheetState extends ConsumerState<_AddPantrySheet> {
   }
 
   /// "Grip" padrão do topo do sheet (36x5, line2). Usada por: [build].
-  Widget _grip() {
+  Widget _grip(PitadaColors pit) {
     return Center(
       child: Container(
         width: 36,
         height: 5,
         margin: const EdgeInsets.symmetric(vertical: AppSpacing.md),
         decoration: BoxDecoration(
-          color: AppColors.line2,
+          color: pit.line2,
           borderRadius: AppSpacing.br(3),
         ),
       ),
@@ -112,7 +110,7 @@ class _AddPantrySheetState extends ConsumerState<_AddPantrySheet> {
   }
 
   /// Passo 1: lista de origens em HairlineRow. Usada por: [build].
-  Widget _chooser() {
+  Widget _chooser(PitadaColors pit) {
     return Column(
       children: [
         for (var i = 0; i < kPantrySources.length; i++)
@@ -121,11 +119,14 @@ class _AddPantrySheetState extends ConsumerState<_AddPantrySheet> {
             onTap: () => _read(kPantrySources[i]),
             leading:
                 Icon(kPantrySources[i].icon, size: 22, color: AppColors.accent),
-            title: Text(kPantrySources[i].label, style: AppType.body),
-            trailing: const Icon(
+            title: Text(
+              kPantrySources[i].label,
+              style: AppType.on(AppType.body, pit.text),
+            ),
+            trailing: Icon(
               AppIcons.chevron,
               size: 20,
-              color: AppColors.muted,
+              color: pit.muted,
             ),
           ),
       ],
@@ -133,7 +134,7 @@ class _AddPantrySheetState extends ConsumerState<_AddPantrySheet> {
   }
 
   /// Passo 2 (opcional): feedback de leitura da nota via StepProgress. Usada por: [build].
-  Widget _loading() {
+  Widget _loading(PitadaColors pit) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
       child: Column(
@@ -141,7 +142,7 @@ class _AddPantrySheetState extends ConsumerState<_AddPantrySheet> {
         children: [
           Text(
             'Lendo a nota',
-            style: AppType.on(AppType.titleSm, AppColors.text2),
+            style: AppType.on(AppType.titleSm, pit.text2),
           ),
           const SizedBox(height: AppSpacing.md),
           StepProgress(
@@ -154,23 +155,26 @@ class _AddPantrySheetState extends ConsumerState<_AddPantrySheet> {
   }
 
   /// Passo 3: itens reconhecidos + botão de gravar na despensa. Usada por: [build].
-  Widget _preview() {
+  Widget _preview(PitadaColors pit) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           'Confira antes de guardar',
-          style: AppType.on(AppType.bodySm, AppColors.muted),
+          style: AppType.on(AppType.bodySm, pit.muted),
         ),
         const SizedBox(height: AppSpacing.sm),
         for (var i = 0; i < kRecognizedPreview.length; i++)
           HairlineRow(
             showDivider: i != kRecognizedPreview.length - 1,
-            title: Text(kRecognizedPreview[i].name, style: AppType.body),
+            title: Text(
+              kRecognizedPreview[i].name,
+              style: AppType.on(AppType.body, pit.text),
+            ),
             subtitle: kRecognizedPreview[i].expiresOn != null
                 ? Text(
                     'Validade ${formatDayMonth(kRecognizedPreview[i].expiresOn)}',
-                    style: AppType.on(AppType.captionSm, AppColors.muted),
+                    style: AppType.on(AppType.captionSm, pit.muted),
                   )
                 : null,
             trailing: Text(
@@ -178,7 +182,7 @@ class _AddPantrySheetState extends ConsumerState<_AddPantrySheet> {
                 kRecognizedPreview[i].quantity,
                 kRecognizedPreview[i].unit,
               ),
-              style: AppType.numeralSm,
+              style: AppType.on(AppType.numeralSm, pit.text),
             ),
           ),
         const SizedBox(height: AppSpacing.xl),

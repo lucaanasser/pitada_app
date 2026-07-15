@@ -1,9 +1,9 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/plans/data/plans_seed.dart
-// O QUÊ:     Plano de exemplo do protótipo ("Cutting" 1900) para preview sem backend.
+// O QUÊ:     Plano de exemplo do protótipo ("Meu plano" 1900) para preview sem backend.
 // USA:       plan.dart, meal.dart, meal_option.dart.
 // USADO POR: plans_repository (fonte em memória enquanto não há Supabase).
-// SPEC:      specs/features/plans.yaml (seed: Cutting 1900; Café/Almoço/Jantar/Lanche)
+// SPEC:      specs/features/plans.yaml (seed: "Meu plano" 1900; Café/Almoço/Jantar/Lanche)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'meal.dart';
 import 'meal_option.dart';
@@ -13,7 +13,7 @@ import 'plan.dart';
 /// Macros são estimativas do protótipo; kcal é a base do encaixe na meta.
 const kSeedPlan = Plan(
   id: 'cutting',
-  name: 'Cutting',
+  name: 'Meu plano', // rótulo interno; a tela não exibe título de plano
   dailyKcalGoal: 1900,
   meals: [
     // ── Café · meta 500 kcal ──────────────────────────────────────────────
@@ -29,19 +29,26 @@ const kSeedPlan = Plan(
           chosen: true,
           items: [
             MealOptionItem(
-                name: 'Panqueca de banana',
-                kcal: 286,
-                protein: 12,
-                carb: 40,
-                fat: 8),
+              name: 'Panqueca de banana',
+              kcal: 286,
+              protein: 12,
+              carb: 40,
+              fat: 8,
+            ),
             MealOptionItem(
-                name: 'Iogurte natural',
-                kcal: 100,
-                protein: 10,
-                carb: 8,
-                fat: 3),
+              name: 'Iogurte natural',
+              kcal: 100,
+              protein: 10,
+              carb: 8,
+              fat: 3,
+            ),
             MealOptionItem(
-                name: 'Café com leite', kcal: 60, protein: 3, carb: 6, fat: 3),
+              name: 'Café com leite',
+              kcal: 60,
+              protein: 3,
+              carb: 6,
+              fat: 3,
+            ),
           ],
         ),
         MealOption(
@@ -50,15 +57,26 @@ const kSeedPlan = Plan(
           fitLabel: 'cabe',
           items: [
             MealOptionItem(
-                name: 'Overnight oats',
-                kcal: 320,
-                protein: 14,
-                carb: 48,
-                fat: 8),
+              name: 'Overnight oats',
+              kcal: 320,
+              protein: 14,
+              carb: 48,
+              fat: 8,
+            ),
             MealOptionItem(
-                name: 'Fruta', kcal: 120, protein: 1, carb: 30, fat: 0),
+              name: 'Fruta',
+              kcal: 120,
+              protein: 1,
+              carb: 30,
+              fat: 0,
+            ),
             MealOptionItem(
-                name: 'Iogurte', kcal: 60, protein: 6, carb: 5, fat: 2),
+              name: 'Iogurte',
+              kcal: 60,
+              protein: 6,
+              carb: 5,
+              fat: 2,
+            ),
           ],
         ),
       ],
@@ -76,14 +94,20 @@ const kSeedPlan = Plan(
           chosen: true,
           items: [
             MealOptionItem(
-                name: 'Frango xadrez',
-                kcal: 512,
-                recipeId: 'frango-xadrez',
-                protein: 42,
-                carb: 38,
-                fat: 18),
+              name: 'Frango xadrez',
+              kcal: 512,
+              recipeId: 'frango-xadrez',
+              protein: 42,
+              carb: 38,
+              fat: 18,
+            ),
             MealOptionItem(
-                name: 'Salada verde', kcal: 80, protein: 3, carb: 8, fat: 4),
+              name: 'Salada verde',
+              kcal: 80,
+              protein: 3,
+              carb: 8,
+              fat: 4,
+            ),
           ],
         ),
         MealOption(
@@ -92,18 +116,20 @@ const kSeedPlan = Plan(
           fitLabel: 'cabe',
           items: [
             MealOptionItem(
-                name: 'Bowl de quinoa',
-                kcal: 438,
-                recipeId: 'bowl-quinoa',
-                protein: 20,
-                carb: 60,
-                fat: 12),
+              name: 'Bowl de quinoa',
+              kcal: 438,
+              recipeId: 'bowl-quinoa',
+              protein: 20,
+              carb: 60,
+              fat: 12,
+            ),
             MealOptionItem(
-                name: 'Frango grelhado',
-                kcal: 200,
-                protein: 38,
-                carb: 0,
-                fat: 5),
+              name: 'Frango grelhado',
+              kcal: 200,
+              protein: 38,
+              carb: 0,
+              fat: 5,
+            ),
           ],
         ),
       ],
@@ -121,12 +147,13 @@ const kSeedPlan = Plan(
           chosen: true,
           items: [
             MealOptionItem(
-                name: 'Strogonoff de carne',
-                kcal: 680,
-                recipeId: 'strogonoff',
-                protein: 45,
-                carb: 30,
-                fat: 40),
+              name: 'Strogonoff de carne',
+              kcal: 680,
+              recipeId: 'strogonoff',
+              protein: 45,
+              carb: 30,
+              fat: 40,
+            ),
           ],
         ),
         MealOption(
@@ -135,13 +162,19 @@ const kSeedPlan = Plan(
           fitLabel: 'cabe',
           items: [
             MealOptionItem(
-                name: 'Sopa de legumes',
-                kcal: 320,
-                protein: 12,
-                carb: 45,
-                fat: 8),
+              name: 'Sopa de legumes',
+              kcal: 320,
+              protein: 12,
+              carb: 45,
+              fat: 8,
+            ),
             MealOptionItem(
-                name: 'Pão', kcal: 120, protein: 4, carb: 22, fat: 2),
+              name: 'Pão',
+              kcal: 120,
+              protein: 4,
+              carb: 22,
+              fat: 2,
+            ),
           ],
         ),
       ],

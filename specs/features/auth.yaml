@@ -1,0 +1,54 @@
+# specs/features/auth.yaml -> lib/features/auth/
+feature: Auth (entrar por e-mail com código)
+prototype: "sem protótipo em pitada.html — tela nova, segue pitada-estilo.html"
+purpose: >
+  Login passwordless: e-mail -> código de 6 dígitos (OTP). Escolhido pela
+  portabilidade iOS (sem deep-link) e simplicidade. Backend em
+  specs/backend/auth.yaml. No preview de PC (sem chaves), o app NÃO exige
+  login — usa o mock e segue direto para as abas.
+
+data:
+  repository: AuthRepository (abstrato)     # data/auth_repository.dart
+  api:
+    - signInWithOtp(String email) -> Future<void>     # dispara o e-mail com código
+    - verifyOtp(String email, String token) -> Future<void>  # troca código por sessão
+    - signOut() -> Future<void>
+    - isSignedIn -> bool
+    - authStateChanges -> Stream<bool>      # true = com sessão (alimenta o gate)
+  impls:
+    - SupabaseAuthRepository: usa SupabaseService.client.auth (online)
+    - MockAuthRepository: sessão fake sempre ativa (preview PC, sem chaves)
+  escolha: main.dart injeta via override do authRepositoryProvider (online -> real)
+
+application:                                 # application/auth_providers.dart
+  providers:
+    - authRepositoryProvider (Provider<AuthRepository>)   # default = mock; override no main
+    - authStateProvider (StreamProvider<bool>)            # espelha authStateChanges
+    - signInControllerProvider (Provider<SignInController>)
+  controller:
+    SignInController:
+      - sendCode(email): repo.signInWithOtp + AppLog.i('auth', 'código enviado')
+      - confirm(email, code): repo.verifyOtp; erro -> mensagem amigável na tela
+      - signOut(): repo.signOut (usada depois pela tela de Perfil)
+
+presentation:                                # presentation/sign_in_screen.dart
+  SignInScreen:
+    rota: /entrar (full-screen, fora do shell das abas)
+    estagios: [email, codigo]                # enum local; mesma tela, 2 estágios
+    layout:
+      - Masthead (marca centralizada)
+      - título "Entrar" (AppType.title, pit.text)
+      - estágio email: campo de e-mail + PitadaButton "Receber código"
+      - estágio codigo: texto "enviamos um código para <email>" (body, pit.text2),
+        campo do código (6 dígitos, AppType.numeral), PitadaButton "Entrar",
+        link-texto "trocar e-mail" (caption, pit.muted)
+      - erros em texto accent (sem vermelho novo — usa tokens existentes)
+    tokens: context.pit.* + AppType.* + AppSpacing.* (zero valor chumbado)
+    componentes_reutilizados: [Masthead, PitadaButton, PitadaScaffold]
+
+router_gate:                                 # core/router/router.dart
+  regra: >
+    redirect global: quando online (Env.hasSupabase) e SEM sessão -> /entrar
+    (exceto se já está em /entrar). Com sessão e em /entrar -> /recipes.
+    Offline (preview PC): nunca redireciona. refreshListenable escuta
+    authStateChanges para reavaliar na hora do login/logout.

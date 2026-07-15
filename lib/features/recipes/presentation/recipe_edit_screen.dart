@@ -11,6 +11,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/colors.dart';
+import '../../../core/theme/pitada_colors.dart';
 import '../../../core/theme/spacing.dart';
 import '../../../core/theme/typography.dart';
 import '../../../core/utils/app_log.dart';
@@ -19,7 +20,7 @@ import '../../../core/widgets/section_header.dart';
 import '../application/recipes_providers.dart';
 import '../data/recipe.dart';
 import '../data/recipe_draft.dart';
-import 'widgets/edit_field.dart';
+import '../../../core/widgets/edit_field.dart';
 import 'widgets/photo_grid.dart';
 import 'widgets/recipe_editors.dart';
 
@@ -71,9 +72,11 @@ class _RecipeEditScreenState extends ConsumerState<RecipeEditScreen> {
     final async = ref.watch(recipeByIdProvider(widget.recipeId));
     // Enquanto o provider carrega, aguarda para não pinar um rascunho em branco.
     if (async.isLoading && _draft == null) {
-      return const Scaffold(
-        backgroundColor: AppColors.bg,
-        body: Center(child: CircularProgressIndicator(color: AppColors.accent)),
+      return Scaffold(
+        backgroundColor: context.pit.bg,
+        body: const Center(
+          child: CircularProgressIndicator(color: AppColors.accent),
+        ),
       );
     }
     final recipe = async.valueOrNull;
@@ -128,6 +131,7 @@ class _RecipeEditScreenState extends ConsumerState<RecipeEditScreen> {
   /// Cabeçalho fixo: Cancelar (esq) + título (centro) + Salvar (dir, accent).
   /// Usada por: [build].
   Widget _header(BuildContext context, {required bool isNew}) {
+    final pit = context.pit;
     return SafeArea(
       bottom: false,
       child: Container(
@@ -137,9 +141,9 @@ class _RecipeEditScreenState extends ConsumerState<RecipeEditScreen> {
           AppSpacing.gutter,
           AppSpacing.md,
         ),
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           border: Border(
-            bottom: BorderSide(color: AppColors.line, width: AppSpacing.hair),
+            bottom: BorderSide(color: pit.line, width: AppSpacing.hair),
           ),
         ),
         child: Row(
@@ -149,13 +153,13 @@ class _RecipeEditScreenState extends ConsumerState<RecipeEditScreen> {
               behavior: HitTestBehavior.opaque,
               child: Text(
                 'Cancelar',
-                style: AppType.on(AppType.button, AppColors.muted),
+                style: AppType.on(AppType.button, pit.muted),
               ),
             ),
             Expanded(
               child: Text(
                 isNew ? 'Nova receita' : 'Editar receita',
-                style: AppType.title,
+                style: AppType.on(AppType.title, pit.text),
                 textAlign: TextAlign.center,
               ),
             ),

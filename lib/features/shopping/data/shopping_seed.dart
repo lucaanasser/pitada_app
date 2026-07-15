@@ -1,12 +1,14 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/shopping/data/shopping_seed.dart
-// O QUÊ:     Dados de exemplo (lista de compras + despensa do protótipo) p/ preview.
-// USA:       shopping_item.dart, pantry_item.dart (modelos imutáveis).
+// O QUÊ:     Dados de exemplo p/ preview: DUAS listas de compras (quantidades
+//            CRUAS — 'Semana' desconta a despensa, 'Praia' não) + a despensa.
+// USA:       shopping_list.dart, shopping_item.dart, pantry_item.dart.
 // USADO POR: shopping_repository (fonte em memória enquanto não há Supabase).
 // SPEC:      specs/features/shopping.yaml (data.seed)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'pantry_item.dart';
 import 'shopping_item.dart';
+import 'shopping_list.dart';
 
 // Categorias fixas do protótipo, na ordem de exibição.
 const kCatHortifruti = 'Hortifrúti';
@@ -22,55 +24,103 @@ const kShoppingCategories = <String>[
   kCatMercearia,
 ];
 
-/// Lista de compras de exemplo (já somada/subtraída). Usada por: shopping_repository.
-const kSeedShopping = <ShoppingItem>[
-  ShoppingItem(
-    id: 'sh-pimentao',
-    name: 'Pimentão',
-    category: kCatHortifruti,
-    humanQty: 3,
-    humanUnit: 'un',
-    grams: 360,
+/// Listas de exemplo com quantidades CRUAS (somadas, sem subtrair a despensa).
+/// 'Semana' desconta a despensa na exibição (cebola 6-4=2 un...); 'Praia' não
+/// (o caso "estou fora de casa, quero a lista completa").
+/// Usada por: shopping_repository / shoppingListsProvider.
+const kSeedLists = <ShoppingList>[
+  ShoppingList(
+    id: 'list-semana',
+    name: 'Semana',
+    usePantry: true,
+    items: [
+      ShoppingItem(
+        id: 'sh-pimentao',
+        name: 'Pimentão',
+        category: kCatHortifruti,
+        humanQty: 3,
+        humanUnit: 'un',
+        grams: 360,
+      ),
+      ShoppingItem(
+        id: 'sh-cebola',
+        name: 'Cebola',
+        category: kCatHortifruti,
+        humanQty: 6,
+        humanUnit: 'un',
+        grams: 720,
+      ),
+      ShoppingItem(
+        id: 'sh-frango',
+        name: 'Peito de frango',
+        category: kCatAcougue,
+        humanQty: 1600,
+        humanUnit: 'g',
+        grams: 1600,
+      ),
+      ShoppingItem(
+        id: 'sh-ovos',
+        name: 'Ovos',
+        category: kCatLaticinios,
+        humanQty: 8,
+        humanUnit: 'un',
+        grams: 320,
+      ),
+      ShoppingItem(
+        id: 'sh-shoyu',
+        name: 'Shoyu',
+        category: kCatMercearia,
+        humanQty: 2,
+        humanUnit: 'un',
+        checked: true,
+      ),
+      ShoppingItem(
+        id: 'sh-amendoim',
+        name: 'Amendoim',
+        category: kCatMercearia,
+        humanQty: 160,
+        humanUnit: 'g',
+        grams: 160,
+      ),
+    ],
   ),
-  ShoppingItem(
-    id: 'sh-cebola',
-    name: 'Cebola',
-    category: kCatHortifruti,
-    humanQty: 2,
-    humanUnit: 'un',
-    grams: 240,
-  ),
-  ShoppingItem(
-    id: 'sh-frango',
-    name: 'Peito de frango',
-    category: kCatAcougue,
-    humanQty: 800,
-    humanUnit: 'g',
-    grams: 800,
-  ),
-  ShoppingItem(
-    id: 'sh-ovos',
-    name: 'Ovos',
-    category: kCatLaticinios,
-    humanQty: 2,
-    humanUnit: 'un',
-    grams: 80,
-  ),
-  ShoppingItem(
-    id: 'sh-shoyu',
-    name: 'Shoyu',
-    category: kCatMercearia,
-    humanQty: 1,
-    humanUnit: 'un',
-    checked: true,
-  ),
-  ShoppingItem(
-    id: 'sh-amendoim',
-    name: 'Amendoim',
-    category: kCatMercearia,
-    humanQty: 140,
-    humanUnit: 'g',
-    grams: 140,
+  ShoppingList(
+    id: 'list-praia',
+    name: 'Praia',
+    usePantry: false,
+    items: [
+      ShoppingItem(
+        id: 'pr-limao',
+        name: 'Limão',
+        category: kCatHortifruti,
+        humanQty: 4,
+        humanUnit: 'un',
+        grams: 400,
+      ),
+      ShoppingItem(
+        id: 'pr-tilapia',
+        name: 'Filé de tilápia',
+        category: kCatAcougue,
+        humanQty: 600,
+        humanUnit: 'g',
+        grams: 600,
+      ),
+      ShoppingItem(
+        id: 'pr-coalho',
+        name: 'Queijo coalho',
+        category: kCatLaticinios,
+        humanQty: 400,
+        humanUnit: 'g',
+        grams: 400,
+      ),
+      ShoppingItem(
+        id: 'pr-paoalho',
+        name: 'Pão de alho',
+        category: kCatMercearia,
+        humanQty: 2,
+        humanUnit: 'un',
+      ),
+    ],
   ),
 ];
 

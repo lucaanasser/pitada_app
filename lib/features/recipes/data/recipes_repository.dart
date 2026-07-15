@@ -1,35 +1,40 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/recipes/data/recipes_repository.dart
-// O QUÊ:     Fonte de receitas/pastas. Hoje em memória (seed); depois, Supabase.
-// USA:       recipe.dart, folder.dart, recipes_seed.dart, core/utils/app_log.
-// USADO POR: recipes_providers (application). A UI nunca chama isto direto.
-// SPEC:      specs/features/recipes.yaml (data.repository)
+// O QUÊ:     CONTRATO do repositório de receitas/pastas. Impls: seed (preview) e
+//            Supabase (online) — main.dart escolhe via override do provider.
+// USA:       recipe.dart, folder.dart (modelos).
+// USADO POR: recipes_providers (application), seed_recipes_repository,
+//            supabase_recipes_repository. A UI nunca chama isto direto.
+// SPEC:      specs/features/recipes.yaml (data.repository, data.versoes)
 // ─────────────────────────────────────────────────────────────────────────────
-import '../../../core/utils/app_log.dart';
 import 'folder.dart';
 import 'recipe.dart';
-import 'recipes_seed.dart';
 
-/// Repositório de receitas. Implementação atual serve os dados de exemplo.
-/// Usada por: recipes_providers. Trocar por versão Supabase mantém a mesma API.
-class RecipesRepository {
-  const RecipesRepository();
-
-  /// Lista todas as receitas do usuário. Usada por: recipesProvider.
-  Future<List<Recipe>> fetchRecipes() async {
-    AppLog.d('recipes', 'carregando receitas (seed)');
-    return kSeedRecipes;
-  }
+/// Contrato da fonte de receitas. As duas implementações mantêm a MESMA
+/// semântica de versões ("trocar tudo", ver spec). Usada por: recipes_providers.
+abstract class RecipesRepository {
+  /// Lista as receitas do usuário: só as DEFINITIVAS (uma por grupo de versões),
+  /// para as listas não duplicarem. Usada por: recipesProvider.
+  Future<List<Recipe>> fetchRecipes();
 
   /// Lista as pastas (capítulos). Usada por: foldersProvider.
-  Future<List<Folder>> fetchFolders() async => kSeedFolders;
+  Future<List<Folder>> fetchFolders();
 
-  /// Busca uma receita por id (ou null se não achar). Usada por: recipeByIdProvider.
-  Future<Recipe?> fetchById(String id) async {
-    for (final r in kSeedRecipes) {
-      if (r.id == id) return r;
-    }
-    AppLog.w('recipes', 'receita não encontrada: $id');
-    return null;
-  }
+  /// Busca uma receita por id — INCLUI versões antigas. null quando não existe.
+  /// Usada por: recipeByIdProvider (detalhe/cozinhar/editar).
+  Future<Recipe?> fetchById(String id);
+
+  /// Todas as versões de um grupo, ordenadas por version ascendente (v1..vN).
+  /// Usada por: recipeVersionGroupProvider (seletor de versão).
+  Future<List<Recipe>> fetchVersionGroup(String groupId);
+
+  /// Grava uma edição da receita NO LUGAR (mesmo id, sem nova versão).
+  /// Usada por: RecipeEditController.save (edição inline).
+  Future<void> updateRecipe(Recipe recipe);
+
+  /// Salva [edited] como NOVA versão: arquiva a definitiva atual como snapshot
+  /// próprio (fora de listas/pastas) e promove [edited] no id canônico com
+  /// version = max+1, herdando pasta/favorito. Sem grupo ainda, o próprio id
+  /// vira o grupo. Usada por: RecipeEditController.save (asNewVersion).
+  Future<void> saveAsNewVersion(Recipe edited);
 }

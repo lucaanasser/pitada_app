@@ -13,6 +13,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/colors.dart';
+import '../../../core/theme/pitada_colors.dart';
 import '../../../core/theme/spacing.dart';
 import '../../../core/utils/app_log.dart';
 import '../../../core/widgets/step_progress.dart';
@@ -54,7 +55,7 @@ class _CookModeScreenState extends ConsumerState<CookModeScreen> {
     final recipe = async.valueOrNull;
 
     return Scaffold(
-      backgroundColor: AppColors.bg,
+      backgroundColor: context.pit.bg,
       body: SafeArea(
         child: recipe == null || recipe.steps.isEmpty
             ? const Center(
@@ -107,8 +108,7 @@ class _CookModeScreenState extends ConsumerState<CookModeScreen> {
             child: GestureDetector(
               onTap: () => context.pop(),
               behavior: HitTestBehavior.opaque,
-              child:
-                  const Icon(AppIcons.close, size: 22, color: AppColors.muted),
+              child: Icon(AppIcons.close, size: 22, color: context.pit.muted),
             ),
           ),
           const SizedBox(height: AppSpacing.sm),

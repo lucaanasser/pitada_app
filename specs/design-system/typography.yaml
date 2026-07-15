@@ -19,6 +19,7 @@ estilos_display:
   display:     { size: 34, weight: 600, ls: -0.3, height: 1.0,  uso: "título de receita / kcal grande" }
   title:       { size: 22, weight: 600, ls: -0.1, height: 1.1,  uso: "título de lição (.lrow h3)" }
   titleSm:     { size: 20, weight: 600, ls: -0.1, height: 1.1,  uso: "linha de receita/pasta, aba-capítulo" }
+  titleXs:     { size: 14, weight: 600, ls: -0.1, height: 1.15, uso: "título de card denso (pasta) — até 2 linhas" }
   numeralLg:   { size: 27, weight: 600, ls: 0.0,  height: 0.9,  uso: "número do passo (.step .n)" }
   numeral:     { size: 21, weight: 600, ls: 0.0,  height: 1.0,  uso: "gramas (.ing .qt .g)" }
   numeralSm:   { size: 18, weight: 600, ls: 0.0,  height: 1.0,  uso: "estoque, total de refeição, nome de opção" }

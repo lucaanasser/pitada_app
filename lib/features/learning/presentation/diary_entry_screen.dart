@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/colors.dart';
+import '../../../core/theme/pitada_colors.dart';
 import '../../../core/theme/spacing.dart';
 import '../../../core/theme/typography.dart';
 import '../../../core/utils/format.dart';
@@ -32,27 +33,33 @@ class DiaryEntryScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final async = ref.watch(diaryByIdProvider(entryId));
+    final pit = context.pit;
     return Scaffold(
-      backgroundColor: AppColors.bg,
+      backgroundColor: pit.bg,
       body: SafeArea(
         bottom: false,
         child: async.when(
           loading: () => const Center(
             child: CircularProgressIndicator(color: AppColors.accent),
           ),
-          error: (e, _) => Center(child: Text('Erro: $e', style: AppType.body)),
+          error: (e, _) => Center(
+            child: Text('Erro: $e', style: AppType.on(AppType.body, pit.text)),
+          ),
           data: (entry) => entry == null
-              ? const Center(
-                  child: Text('Entrada não encontrada', style: AppType.body),
+              ? Center(
+                  child: Text(
+                    'Entrada não encontrada',
+                    style: AppType.on(AppType.body, pit.text),
+                  ),
                 )
-              : _content(entry),
+              : _content(pit, entry),
         ),
       ),
     );
   }
 
   /// Monta a lista rolável com as seções da entrada. Usada por: [build].
-  Widget _content(DiaryEntry entry) {
+  Widget _content(PitadaColors pit, DiaryEntry entry) {
     return ListView(
       padding: const EdgeInsets.only(bottom: AppSpacing.xxl),
       children: [
@@ -75,7 +82,7 @@ class DiaryEntryScreen extends ConsumerWidget {
               ],
               if (entry.body.isNotEmpty) ...[
                 const SizedBox(height: AppSpacing.xl),
-                Text(entry.body, style: AppType.quote),
+                Text(entry.body, style: AppType.on(AppType.quote, pit.text)),
               ],
               if (entry.recipeIds.isNotEmpty) ...[
                 const SectionHeader(label: 'Ligado a'),

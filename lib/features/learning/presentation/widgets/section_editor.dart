@@ -10,6 +10,7 @@ import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/colors.dart';
+import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
 import '../../../../core/theme/typography.dart';
 
@@ -32,10 +33,14 @@ class EditField extends StatelessWidget {
   /// Renderiza rótulo + caixa de entrada. Usada por: o formulário de edição.
   @override
   Widget build(BuildContext context) {
+    final pit = context.pit;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label.toUpperCase(), style: AppType.label),
+        Text(
+          label.toUpperCase(),
+          style: AppType.on(AppType.label, pit.muted),
+        ),
         const SizedBox(height: AppSpacing.sm),
         Container(
           padding: const EdgeInsets.symmetric(
@@ -43,18 +48,18 @@ class EditField extends StatelessWidget {
             vertical: AppSpacing.md - 1,
           ),
           decoration: BoxDecoration(
-            color: AppColors.surf,
+            color: pit.surf,
             borderRadius: AppSpacing.br(AppSpacing.radiusMd),
-            border: Border.all(color: AppColors.line2, width: AppSpacing.hair),
+            border: Border.all(color: pit.line2, width: AppSpacing.hair),
           ),
           child: TextField(
             controller: controller,
             maxLines: maxLines,
-            style: AppType.body,
+            style: AppType.on(AppType.body, pit.text),
             cursorColor: AppColors.accent,
             decoration: InputDecoration.collapsed(
               hintText: hint,
-              hintStyle: AppType.on(AppType.body, AppColors.faint),
+              hintStyle: AppType.on(AppType.body, pit.faint),
             ),
           ),
         ),
@@ -80,6 +85,7 @@ class SectionEditor extends StatelessWidget {
   /// Renderiza os dois campos e a ação de remover. Usada por: LessonEditScreen.
   @override
   Widget build(BuildContext context) {
+    final pit = context.pit;
     return Padding(
       padding: const EdgeInsets.only(bottom: AppSpacing.lg),
       child: Column(
@@ -104,15 +110,11 @@ class SectionEditor extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(
-                  AppIcons.removeCircle,
-                  size: 15,
-                  color: AppColors.muted,
-                ),
+                Icon(AppIcons.removeCircle, size: 15, color: pit.muted),
                 const SizedBox(width: AppSpacing.xs + 2),
                 Text(
                   'Remover seção',
-                  style: AppType.on(AppType.caption, AppColors.muted),
+                  style: AppType.on(AppType.caption, pit.muted),
                 ),
               ],
             ),

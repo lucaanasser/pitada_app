@@ -28,12 +28,14 @@ class AppColors {
   static const muted = Color(0xFF8E8674); // rótulos
   static const faint = Color(0xFF605948); // placeholder / desabilitado
 
-  // —— Superfícies e filetes (TEMA CLARO — base creme, warmth do GOYA) ——
-  static const bgLight = Color(0xFFF5EFE3);
-  static const surfLight = Color(0xFFFBF7EE);
-  static const surf2Light = Color(0xFFF1EADE);
-  static const lineLight = Color(0xFFE8DFCF);
-  static const line2Light = Color(0xFFD9CFBB);
+  // —— Superfícies e filetes (TEMA CLARO — base CREME, nunca branco) ——
+  // Repensado do zero: fundo creme quente; superfícies são cremes mais claros
+  // (jamais #FFF). Contraste suave — sensação de papel, não de tela branca.
+  static const bgLight = Color(0xFFF4EDDE); // fundo geral (creme quente)
+  static const surfLight = Color(0xFFFBF6EC); // card/campo (creme quase-branco)
+  static const surf2Light = Color(0xFFEFE8D8); // input (um tom abaixo do fundo)
+  static const lineLight = Color(0xFFE7DECD);
+  static const line2Light = Color(0xFFD8CEB8);
 
   // —— Texto (TEMA CLARO) ——
   static const textLight = Color(0xFF221E17);
@@ -85,19 +87,23 @@ class AppColors {
 
   // —— Fundos tingidos por aba (índice 0..4, ordem da navbar) ——
   // Pastéis quentes de mesma luminosidade — dão identidade sem sobrecarregar.
+  // CLARO: tints coloridos porém MUITO próximos do creme base (#F4EDDE) — só um
+  // sopro de cor por aba, nunca competindo com o conteúdo (pedido do dono).
   static const List<Color> tabBgLight = [
-    Color(0xFFF1E3D4), // Receitas
-    Color(0xFFE7EAD3), // Caderno
-    Color(0xFFEEDFE0), // Home (comunidade)
-    Color(0xFFF3E9CF), // Planos
-    Color(0xFFDCE7DF), // Compras
+    Color(0xFFF6ECDD), // Receitas (quente)
+    Color(0xFFEDF1DF), // Caderno (verde)
+    Color(0xFFF7F0DA), // Planos (âmbar)
+    Color(0xFFE8F1E8), // Compras (teal)
+    Color(0xFFF6EAE7), // Perfil (rosé)
   ];
+  // ESCURO: tint sutil acima da base bg (#15130E). Meio-termo — o passo anterior
+  // ficou forte demais e atrapalhava a leitura (pedido do dono: "um pouco mais claro").
   static const List<Color> tabBgDark = [
-    Color(0xFF1C1611), // Receitas
-    Color(0xFF171A10), // Caderno
-    Color(0xFF1B1319), // Home (comunidade)
-    Color(0xFF1D1810), // Planos
-    Color(0xFF121A16), // Compras
+    Color(0xFF201812), // Receitas
+    Color(0xFF181D11), // Caderno
+    Color(0xFF201B10), // Planos
+    Color(0xFF121D17), // Compras
+    Color(0xFF1F141D), // Perfil
   ];
 
   // —— Cor do bloco de foto (card) por hero, em cada tema (pastéis / escuros) ——

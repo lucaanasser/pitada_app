@@ -24,6 +24,12 @@ class AppSpacing {
   /// Padding horizontal padrão do conteúdo das telas (.thead/.rlist/.cgrp).
   static const double gutter = 24;
 
+  /// Respiro vertical entre o título de uma aba e o início do seu conteúdo
+  /// (ex.: 'Receitas' → busca, 'Caderno' → 1º bloco). Igual em TODAS as abas.
+  /// Generoso de propósito: o título é grande, o respiro precisa ser nítido.
+  /// Usada por: recipes/plans/learning/shopping/profile screens (após o título).
+  static const double titleGap = 30;
+
   // —— Raios de borda ——
   static const double radiusSm = 7; // tag / pill de rótulo
   static const double radiusMd = 11; // input, thumb de receita
@@ -44,6 +50,8 @@ class AppSpacing {
   // —— Alturas fixas de componentes ——
   static const double button = 52;
   static const double iconButton = 42;
+  // Menor/delicado: a ação '+' / engrenagem do header de aba (pedido do dono).
+  static const double iconButtonSm = 34;
   static const double searchBar = 46;
   static const double tabBar = 76;
   static const double statusBar = 46;

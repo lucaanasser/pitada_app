@@ -7,6 +7,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import '../theme/colors.dart';
+import '../theme/pitada_colors.dart';
 import '../theme/spacing.dart';
 import '../theme/typography.dart';
 
@@ -18,11 +19,13 @@ class Masthead extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
+      // bottom lg: respiro entre a marca e o título/conteúdo da aba — sem ele o
+      // conteúdo (título grande) fica colado embaixo da masthead. Ver spec.
       padding: const EdgeInsets.fromLTRB(
         AppSpacing.lg,
         AppSpacing.sm,
         AppSpacing.lg,
-        AppSpacing.xs,
+        AppSpacing.lg,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -34,7 +37,7 @@ class Masthead extends StatelessWidget {
             style: AppType.titleSm.copyWith(
               fontSize: 18,
               letterSpacing: 1.1,
-              color: AppColors.text2,
+              color: context.pit.text2,
             ),
           ),
         ],

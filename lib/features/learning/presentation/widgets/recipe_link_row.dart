@@ -11,6 +11,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/theme/colors.dart';
+import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/typography.dart';
 import '../../../../core/widgets/hairline_row.dart';
 import '../../../../core/widgets/recipe_thumb.dart';
@@ -31,6 +32,7 @@ class RecipeLinkRow extends ConsumerWidget {
   /// Resolve o título da receita e monta a linha navegável. Usada por: detalhes.
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final pit = context.pit;
     final recipe = ref.watch(recipeByIdProvider(recipeId)).valueOrNull;
     final title = recipe?.title ?? recipeId;
     final hero = recipe?.heroColor ?? 'clay';
@@ -38,12 +40,12 @@ class RecipeLinkRow extends ConsumerWidget {
       onTap: () => context.push('/recipe/$recipeId'),
       showDivider: showDivider,
       leading: RecipeThumb(color: AppColors.heroOf(hero), size: 42),
-      title: Text(title, style: AppType.titleSm),
+      title: Text(title, style: AppType.on(AppType.titleSm, pit.text)),
       subtitle: Text(
         'Abrir receita',
         style: AppType.on(AppType.caption, AppColors.accent),
       ),
-      trailing: const Icon(AppIcons.chevron, size: 16, color: AppColors.faint),
+      trailing: Icon(AppIcons.chevron, size: 16, color: pit.faint),
     );
   }
 }

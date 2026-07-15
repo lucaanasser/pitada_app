@@ -7,6 +7,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import '../theme/colors.dart';
+import '../theme/pitada_colors.dart';
 import '../theme/spacing.dart';
 import '../theme/typography.dart';
 
@@ -32,7 +33,10 @@ class SectionHeader extends StatelessWidget {
       padding: EdgeInsets.only(top: topGap, bottom: AppSpacing.md),
       child: Row(
         children: [
-          Text(label.toUpperCase(), style: AppType.label),
+          Text(
+            label.toUpperCase(),
+            style: AppType.on(AppType.label, context.pit.muted),
+          ),
           const SizedBox(width: AppSpacing.md),
           const Expanded(child: Divider(height: AppSpacing.hair)),
           if (action != null) ...[

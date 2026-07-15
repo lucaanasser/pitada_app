@@ -1,16 +1,17 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/recipes/presentation/folder_screen.dart
 // O QUÊ:     Pasta aberta (estilo iOS Notes): grade de receitas que deslizam PARA
-//            FORA da pasta ao abrir e voltam PARA DENTRO ao fechar; a pasta vira
-//            uma faixa colorida no rodapé com nome + contagem + adicionar.
-// USA:       recipes_providers, RecipeCard, core/widgets (EmptyState,
-//            PitadaIconButton), core/theme (pit/AppType/AppSpacing/AppIcons),
-//            AppLog, go_router (push do detalhe / pop animado).
-// USADO POR: core/router (/folder/:id).
+//            FORA da pasta ao abrir e voltam PARA DENTRO ao fechar, dirigidas
+//            pela ANIMAÇÃO DA ROTA (não-opaca): a aba Pastas fica visível por
+//            baixo e some/volta junto com o voo dos papéis — uma transição só.
+//            A faixa da pasta DESLIZA (nunca fica translúcida): é ela, sólida,
+//            que oclui os papéis entrando/saindo.
+// USA:       recipes_providers, RecipeCard, PaperFly/FolderMotion/
+//            BottomOpenClipper, core/widgets (EmptyState, PitadaIconButton),
+//            core/theme (pit/AppType/AppSpacing/AppIcons), AppLog, go_router.
+// USADO POR: core/router/routes.dart (/folder/:id via CustomTransitionPage).
 // SPEC:      specs/features/recipes.yaml (FolderScreen)
 // ─────────────────────────────────────────────────────────────────────────────
-import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -25,104 +26,106 @@ import '../../../core/widgets/empty_state.dart';
 import '../../../core/widgets/pitada_button.dart';
 import '../application/recipes_providers.dart';
 import '../data/recipe.dart';
+import 'widgets/paper_fly.dart';
 import 'widgets/recipe_card.dart';
 
-/// Tela de uma pasta aberta, com papéis animados. Usada por: router (/folder/:id).
-class FolderScreen extends ConsumerStatefulWidget {
+/// Tela de uma pasta aberta, com papéis animados pela PRÓPRIA ROTA: o push
+/// avança a animação (papéis saem) e o pop a reverte (papéis voltam) enquanto
+/// a aba Pastas reaparece por baixo. Usada por: router (/folder/:id).
+class FolderScreen extends ConsumerWidget {
   const FolderScreen({super.key, required this.folderId});
 
   final String folderId;
 
-  /// Cria o estado com o controller da animação. Usada por: framework.
-  @override
-  ConsumerState<FolderScreen> createState() => _FolderScreenState();
-}
-
-/// Estado: controla a animação de "papéis saindo/entrando" da pasta.
-class _FolderScreenState extends ConsumerState<FolderScreen>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _ctrl;
-
-  /// Duração da abertura/fechamento da pasta (papéis saindo/entrando).
-  static const _openDur = Duration(milliseconds: 700);
-
-  /// Dispara a entrada dos papéis assim que a tela abre. Usada por: framework.
-  @override
-  void initState() {
-    super.initState();
-    _ctrl = AnimationController(vsync: this, duration: _openDur)..forward();
-  }
-
-  /// Libera o controller. Usada por: framework.
-  @override
-  void dispose() {
-    _ctrl.dispose();
-    super.dispose();
-  }
+  /// Durações da transição da rota (abrir/fechar). Lidas por routes.dart ao
+  /// montar a CustomTransitionPage — tela e rota compartilham a MESMA animação.
+  static const openDuration = Duration(milliseconds: 460);
+  static const closeDuration = Duration(milliseconds: 380);
 
   /// Mock do adicionar receita — o seletor real virá com o repositório de
   /// escrita. Usada por: [_folderStrip] (botão +).
-  void _logAdd() =>
-      AppLog.i('recipes', 'adicionar receita à pasta: ${widget.folderId}');
+  void _logAdd() => AppLog.i('recipes', 'adicionar receita à pasta: $folderId');
 
-  /// Fecha a pasta: os papéis voltam para dentro (reverse) e só então dá pop.
-  /// Usada por: botão voltar do topo e PopScope (gesto/botão do sistema).
-  Future<void> _close() async {
-    if (_ctrl.isAnimating) return;
-    await _ctrl.reverse();
-    if (mounted) context.pop();
-  }
-
-  /// Monta topo mínimo + grade animada + faixa da pasta no rodapé. Usada por: framework.
+  /// Monta fundo que dissolve por cima da aba Pastas + topo + grade animada +
+  /// faixa da pasta, tudo dirigido pela animação da rota. Usada por: framework.
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final pit = context.pit;
     final folders = ref.watch(foldersProvider).valueOrNull ?? const [];
     final recipes = ref.watch(recipesProvider).valueOrNull ?? const [];
-    final matches = folders.where((f) => f.id == widget.folderId).toList();
+    final matches = folders.where((f) => f.id == folderId).toList();
     final name = matches.isEmpty ? 'Pasta' : matches.first.name;
     final hero = matches.isEmpty ? 'clay' : matches.first.heroColor;
     final inFolder =
-        recipes.where((r) => r.folderIds.contains(widget.folderId)).toList();
+        recipes.where((r) => r.folderIds.contains(folderId)).toList();
 
-    return PopScope(
-      canPop: false,
-      onPopInvokedWithResult: (didPop, _) {
-        if (!didPop) _close();
-      },
-      child: Scaffold(
-        backgroundColor: pit.bg,
-        body: SafeArea(
-          bottom: false,
-          child: Column(
-            children: [
-              _topBar(pit),
-              Expanded(
-                child: inFolder.isEmpty
-                    ? const EmptyState(
-                        title: 'Pasta vazia',
-                        message: 'Adicione receitas a esta pasta.',
-                        icon: AppIcons.folder,
-                      )
-                    : _grid(inFolder),
-              ),
-              _folderStrip(pit, name, hero, inFolder.length),
-            ],
+    // A rota é NÃO-opaca: a grade de pastas continua pintada por baixo. Abrir:
+    // faixa desliza de baixo (0–15%), fundo+topo dissolvem (0–45%) e os papéis
+    // saem depois da faixa assentar. Fechar (reverseCurve): fundo dissolve logo
+    // (100%→55%), papéis mergulham e a faixa sai por último (15%→0) — tudo numa
+    // transição só, sem "animação primeiro, troca de página depois".
+    final route = ModalRoute.of(context)?.animation ?? kAlwaysCompleteAnimation;
+    final bgFade = CurvedAnimation(
+      parent: route,
+      curve: const Interval(0, 0.45, curve: Curves.easeOut),
+      reverseCurve: const Interval(0.55, 1, curve: Curves.easeOut),
+    );
+    final stripSlide = Tween<Offset>(
+      begin: const Offset(0, 1),
+      end: Offset.zero,
+    ).animate(
+      CurvedAnimation(
+        parent: route,
+        curve: const Interval(0, 0.15, curve: Curves.easeOutCubic),
+        reverseCurve: const Interval(0, 0.15, curve: Curves.easeOutCubic),
+      ),
+    );
+
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        FadeTransition(opacity: bgFade, child: ColoredBox(color: pit.bg)),
+        Scaffold(
+          backgroundColor: Colors.transparent,
+          body: SafeArea(
+            bottom: false,
+            child: Column(
+              children: [
+                FadeTransition(opacity: bgFade, child: _topBar(context, pit)),
+                Expanded(
+                  child: inFolder.isEmpty
+                      ? FadeTransition(
+                          opacity: bgFade,
+                          child: const EmptyState(
+                            title: 'Pasta vazia',
+                            message: 'Adicione receitas a esta pasta.',
+                            icon: AppIcons.folder,
+                          ),
+                        )
+                      : _grid(context, inFolder, route),
+                ),
+                SlideTransition(
+                  position: stripSlide,
+                  child:
+                      _folderStrip(context, pit, name, hero, inFolder.length),
+                ),
+              ],
+            ),
           ),
         ),
-      ),
+      ],
     );
   }
 
-  /// Linha mínima do topo: voltar (animado via [_close]) + rótulo 'PASTA'.
+  /// Linha mínima do topo: voltar (pop reverte a rota animada) + rótulo 'PASTA'.
   /// Usada por: [build].
-  Widget _topBar(PitadaColors pit) {
+  Widget _topBar(BuildContext context, PitadaColors pit) {
     return Padding(
       padding: AppSpacing.screenH.copyWith(top: AppSpacing.md),
       child: Row(
         children: [
           GestureDetector(
-            onTap: _close,
+            onTap: () => context.pop(),
             behavior: HitTestBehavior.opaque,
             child: Padding(
               padding: const EdgeInsets.only(right: AppSpacing.md),
@@ -137,14 +140,16 @@ class _FolderScreenState extends ConsumerState<FolderScreen>
 
   /// Grade 2 colunas dos "papéis" (RecipeCard compacto): cada um SAI da faixa
   /// da pasta (rodapé) e viaja até seu lugar na grade, desentortando no
-  /// caminho — e volta para dentro no fechamento. Usada por: [build].
-  Widget _grid(List<Recipe> inFolder) {
+  /// caminho — e volta para dentro no pop da rota, com a coreografia de ida e
+  /// volta vinda de FolderMotion. Usada por: [build].
+  Widget _grid(
+      BuildContext context, List<Recipe> inFolder, Animation<double> route) {
     return LayoutBuilder(
       // ClipRect aberto embaixo: o papel em voo pode passar POR TRÁS da faixa
       // da pasta (pintada depois na Column) — é o que faz parecer que ele sai
       // de dentro dela e volta para dentro no fechamento.
       builder: (context, c) => ClipRect(
-        clipper: const _BottomOpenClipper(),
+        clipper: const BottomOpenClipper(),
         child: GridView.builder(
           clipBehavior: Clip.none,
           padding: AppSpacing.screenH
@@ -153,13 +158,14 @@ class _FolderScreenState extends ConsumerState<FolderScreen>
             crossAxisCount: 2,
             crossAxisSpacing: AppSpacing.md,
             mainAxisSpacing: AppSpacing.md,
-            childAspectRatio: 0.72,
+            childAspectRatio: FolderMotion.cardAspect,
           ),
           itemCount: inFolder.length,
-          itemBuilder: (context, i) => _PaperFly(
-            animation: _ctrl,
-            interval: _intervalFor(i),
-            delta: _fromFolderDelta(i, c.biggest),
+          itemBuilder: (context, i) => PaperFly(
+            animation: route,
+            interval: FolderMotion.flyOut(i),
+            reverseInterval: FolderMotion.flyBack(i),
+            delta: FolderMotion.delta(i, c.biggest),
             angle: i.isEven ? -0.06 : 0.07,
             child: RecipeCard(
               recipe: inFolder[i],
@@ -172,35 +178,16 @@ class _FolderScreenState extends ConsumerState<FolderScreen>
     );
   }
 
-  /// Vetor do slot do papel [i] até a boca da pasta (rodapé, centro) — é o
-  /// trajeto que o papel percorre ao sair/entrar. Usada por: [_grid].
-  Offset _fromFolderDelta(int i, Size area) {
-    const gap = AppSpacing.md;
-    final cw = (area.width - 2 * AppSpacing.gutter - gap) / 2;
-    final ch = cw / 0.72;
-    final col = i % 2, row = i ~/ 2;
-    final slot = Offset(
-      AppSpacing.gutter + cw / 2 + col * (cw + gap),
-      AppSpacing.md + ch / 2 + row * (ch + gap),
-    );
-    // Fundo o bastante para o papel mergulhar atrás da faixa da pasta.
-    final mouth = Offset(area.width / 2, area.height + ch * 0.55);
-    return mouth - slot;
-  }
-
-  /// Trecho do controller que anima o papel [i] — quanto mais fundo na pasta,
-  /// mais tarde ele sai. Usada por: [_grid].
-  Interval _intervalFor(int i) {
-    final start = math.min(i * 0.06, 0.4);
-    final end = math.min(start + 0.55, 1.0);
-    return Interval(start, end, curve: Curves.easeOutCubic);
-  }
-
-  /// A PASTA no rodapé: faixa na cor pastel do hero com borda de tinta no topo,
-  /// nome + contagem + botão de adicionar. Fica PARADA durante a animação —
-  /// a pasta é o ponto fixo; são os papéis que saem/entram por trás dela.
-  /// Usada por: [build].
-  Widget _folderStrip(PitadaColors pit, String name, String hero, int count) {
+  /// A PASTA no rodapé: faixa na cor pastel do hero, nome + contagem + botão
+  /// de adicionar. É o ponto fixo da cena — são os papéis que saem/entram por
+  /// trás dela. Usada por: [build].
+  Widget _folderStrip(
+    BuildContext context,
+    PitadaColors pit,
+    String name,
+    String hero,
+    int count,
+  ) {
     final label = '$count receita${count == 1 ? '' : 's'}';
     return Container(
       width: double.infinity,
@@ -249,61 +236,4 @@ class _FolderScreenState extends ConsumerState<FolderScreen>
       ),
     );
   }
-}
-
-/// Papel saindo da pasta: parte da boca da pasta ([delta]), levemente girado
-/// ([angle]) e menor, e chega reto no seu slot da grade; o reverse o devolve
-/// para dentro. Usada por: _FolderScreenState (grade).
-class _PaperFly extends StatelessWidget {
-  const _PaperFly({
-    required this.animation,
-    required this.interval,
-    required this.delta,
-    required this.angle,
-    required this.child,
-  });
-
-  final Animation<double> animation;
-  final Interval interval;
-  final Offset delta; // slot → boca da pasta
-  final double angle; // torto dentro da pasta, reto na grade
-  final Widget child;
-
-  /// Interpola posição/rotação/escala/opacidade pelo intervalo. Usada por: framework.
-  @override
-  Widget build(BuildContext context) {
-    final curved = CurvedAnimation(parent: animation, curve: interval);
-    return AnimatedBuilder(
-      animation: curved,
-      builder: (context, _) {
-        final v = curved.value;
-        return Opacity(
-          // Só some quando já está mergulhado atrás da faixa (primeiros 20%).
-          opacity: (v * 5).clamp(0, 1).toDouble(),
-          child: Transform.translate(
-            offset: delta * (1 - v),
-            child: Transform.rotate(
-              angle: angle * (1 - v),
-              child: Transform.scale(scale: 0.72 + 0.28 * v, child: child),
-            ),
-          ),
-        );
-      },
-    );
-  }
-}
-
-/// Recorte aberto embaixo: corta o conteúdo no topo (scroll limpo) mas deixa
-/// os papéis em voo aparecerem abaixo da grade, atrás da faixa da pasta.
-/// Usada por: _FolderScreenState._grid.
-class _BottomOpenClipper extends CustomClipper<Rect> {
-  const _BottomOpenClipper();
-
-  /// Estende o recorte bem além da base da grade. Usada por: framework.
-  @override
-  Rect getClip(Size size) => Rect.fromLTRB(0, 0, size.width, size.height + 600);
-
-  /// O recorte é fixo. Usada por: framework.
-  @override
-  bool shouldReclip(covariant CustomClipper<Rect> oldClipper) => false;
 }
