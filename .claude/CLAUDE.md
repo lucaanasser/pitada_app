@@ -28,10 +28,10 @@ The UI never calls Supabase directly and only imports models from `data/`.
 
 ## Conventions
 
-- File/folder/feature names in English; tab labels in pt-BR (`Caderno` → `notebook`, `Ingredientes` → `groceries`). Never keep a legacy name (see `language.md`).
+- File/folder/feature names in English; tab labels in pt-BR (`Caderno` → `notebook`, `Ingredientes` → `groceries`). A pt-BR identifier is a bug (see `language.md`).
 - Two themes (light/dark): per-theme color via `context.pit.*`, brand in `AppColors`; every screen works in both.
 - Hardware (scanner/camera/share) sits behind an abstract service (real + mock) so the app runs on desktop.
 - Forbidden visuals: shadow, gradient, cursive font. Allowed: borders, pastels, Space Grotesk, colored tags, bordered cards.
 - Usability over decoration: generous breathing room, never crowd the screen.
 
-Living migration plan toward the naming standard: `.claude/reestruturacao.md`.
+Known debts against these rules, ranked: `.claude/reestruturacao.md`. The rules above say what is true; that file says where the code is not there yet.

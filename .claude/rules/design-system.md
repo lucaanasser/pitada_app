@@ -20,7 +20,9 @@ Aesthetic: **soft pastel neo-brutalism** — pastel surfaces, **borders** (not h
 ## Two themes (mandatory in all UI)
 Colors that change per theme live in `PitadaColors` and are read via **`context.pit.*`**: `bg surf surf2 line line2 border text text2 muted faint`, plus `pit.card('moss')` (photo block) and `pit.tabBg(i)` (per-tab background). Brand (`accent`/`sage`) and heroes stay in `AppColors` (identical in both themes). Exact values live in `colors.dart` — the source of truth, not duplicated here.
 
-**Never use directly** the raw dark tokens (`AppColors.text/text2/muted/faint/line/line2/surf/surf2/bg`) — they are unreadable in light mode. Replace 1:1 with the same-named `context.pit.*`. `AppType.*` carries a dark fallback color; always override it with `AppType.on(AppType.<style>, context.pit.<token>)`. Migrate a whole screen as a unit (background + text + borders), never half.
+**Never use directly** the raw dark tokens (`AppColors.text/text2/muted/faint/line/line2/surf/surf2/bg`) — they are unreadable in light mode. Use the same-named `context.pit.*`. `AppType.*` carries a dark fallback color; always override it with `AppType.on(AppType.<style>, context.pit.<token>)`.
+
+Sole exception: UI that renders one theme while the other is active — a theme preview must name both palettes explicitly (`AppColors.bg` vs `AppColors.bgLight`), because `context.pit.*` only ever yields the active theme.
 
 ## Typography
 - **Space Grotesk** (`_disp`): titles, numbers (kcal, grams, "Opção N"), buttons.

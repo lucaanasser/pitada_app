@@ -55,10 +55,13 @@ Apply **only when the count demands it** — a small feature (≤ 7 per layer) s
 ## Preview on desktop
 All hardware (scanner/camera/share) sits behind an abstract service: a real implementation and a **mock** (desktop/web), injected via a Riverpod override. This is what enables running in Chrome/Linux with hot reload.
 
-## Renaming and moving files
-The `shopping/` → `groceries/` and `learning/` → `notebook/` migrations are **done** (jul/2026); the tree now follows this file. Two leftovers are still open and tracked in `.claude/reestruturacao.md`: the route strings `/learning` and `/shopping`, and `AppIcons.learning`.
+## Renaming or moving a file
+Renaming a file is three jobs, and only the first is `git mv`:
+1. **The path** — every import in this repo is relative, so a move breaks both the file's own `../` imports and every importer's path to it. Both depend on where each end landed: that is path **arithmetic**, not `sed`. Resolve each import against the file's old location, map the target, recompute it from the new one.
+2. **The identifiers** — types, providers, `AppLog` tags. List them and review one by one; `sed` cannot tell a name from a substring.
+3. **The prose** — the header (`// path`, `USA`, `USADO POR`, `SPEC`), every `///` doc, and spec prose that names the file outside a `file:` key. No compiler checks these, so they rot silently. The only gate is `grep` for the dead name across `lib specs` → zero.
 
-Before any future rename or move, read `.claude/reestruturacao.md`: it carries the reusable rename recipe and, above all, the two rules those migrations cost us — **`flutter analyze` (and `build web`) before you call a rename done**, and **a moved file is path ARITHMETIC, never `sed`** (every import here is relative, so moving a file breaks both its own imports and every importer's path to it).
+A rename is done when `flutter analyze` reports 0 errors **and** `flutter build web --release` succeeds — `analyze` alone does not prove it compiles.
 
 ## Checklist (creating or moving a file)
 1. English snake_case with the correct role suffix.

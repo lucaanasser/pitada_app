@@ -28,7 +28,7 @@ A pt-BR label never leaks into an identifier. The label is data; the name is cod
 - Tab reads `Caderno` → feature is `notebook`, never `caderno`.
 - Tab reads `Ingredientes` → feature is `groceries`, never `ingredientes`.
 
-A legacy pt-BR identifier is a bug, not a style choice — rename it (migration plan in `.claude/reestruturacao.md`).
+A pt-BR identifier is a bug, not a style choice — rename it (how: `architecture.md`, "Renaming or moving a file").
 
 ## Translating, not transliterating
 Pick the word an English speaker would use for the concept, not a literal gloss.
