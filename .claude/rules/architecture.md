@@ -55,8 +55,10 @@ Apply **only when the count demands it** — a small feature (≤ 7 per layer) s
 ## Preview on desktop
 All hardware (scanner/camera/share) sits behind an abstract service: a real implementation and a **mock** (desktop/web), injected via a Riverpod override. This is what enables running in Chrome/Linux with hot reload.
 
-## Legacy names being migrated
-`features/shopping/` → `features/groceries/` (entities become `Grocery*`; the `pantry` concept stays). `features/learning/` → `features/notebook/`; `caderno_*` → `notebook_*`. The mass-rename recipe and the full plan live in `.claude/reestruturacao.md`.
+## Renaming and moving files
+The `shopping/` → `groceries/` and `learning/` → `notebook/` migrations are **done** (jul/2026); the tree now follows this file. Two leftovers are still open and tracked in `.claude/reestruturacao.md`: the route strings `/learning` and `/shopping`, and `AppIcons.learning`.
+
+Before any future rename or move, read `.claude/reestruturacao.md`: it carries the reusable rename recipe and, above all, the two rules those migrations cost us — **`flutter analyze` (and `build web`) before you call a rename done**, and **a moved file is path ARITHMETIC, never `sed`** (every import here is relative, so moving a file breaks both its own imports and every importer's path to it).
 
 ## Checklist (creating or moving a file)
 1. English snake_case with the correct role suffix.
