@@ -2,7 +2,8 @@
 // lib/features/notebook/data/repertoire.dart
 // O QUÊ:     Repertório para cozinhar sem receita: rácios, substituições e harmonizações.
 // USA:       nada (modelos imutáveis puros).
-// USADO POR: learning_seed, learning_repository, RepertoireScreen, HarmScreen.
+// USADO POR: seed, repository, providers, RepertoireScreen, PairingDetailScreen,
+//            PairingLegend.
 // SPEC:      specs/features/notebook.yaml (data.models.Ratio/Substitution/Pairing)
 // ─────────────────────────────────────────────────────────────────────────────
 

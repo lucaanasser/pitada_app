@@ -2,7 +2,8 @@
 // lib/core/widgets/controls/check_item.dart
 // O QUÊ:     Caixa de seleção do app (círculo terracota ou quadrado verde).
 // USA:       theme/colors, theme/spacing.
-// USADO POR: shopping (lista de compras = círculo; checklists = quadrado).
+// USADO POR: groceries (lista de compras = círculo) e recipes
+//            (cook_feedback_options = quadrado).
 // SPEC:      specs/components/controls/check_item.yaml
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../theme/app_icons.dart';

@@ -2,8 +2,8 @@
 // lib/features/notebook/presentation/repertoire_screen.dart
 // O QUÊ:     Lista do Repertório parametrizada por kind: rácios, substituições ou
 //            harmonizações. Harmonização navega para o detalhe (/pairing/:id).
-// USA:       learning_providers, core/widgets, widgets locais, go_router, theme/*.
-// USADO POR: core/router (/learning/repertoire/:kind).
+// USA:       providers, core/widgets, widgets locais, go_router, theme/*.
+// USADO POR: core/router/routes.dart (/learning/repertoire/:kind).
 // SPEC:      specs/features/notebook.yaml (screens.RepertoireScreen — view-racios/subs/harm)
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../../core/theme/app_icons.dart';

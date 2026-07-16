@@ -9,7 +9,7 @@ import 'lesson.dart';
 import 'lesson_section.dart';
 
 /// Guias de Ingredientes — como tratar cada base do dia a dia.
-/// Usada por: learning_seed (kSeedLessons).
+/// Usada por: seed (kSeedLessons).
 const kSeedGuideIngredients = <Lesson>[
   Lesson(
     id: 'guia-alho',

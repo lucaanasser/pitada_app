@@ -1,8 +1,8 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/notebook/presentation/versions_screen.dart
 // O QUÊ:     Tela "Versões de receita": lista de receitas que têm histórico (RecipeVersion).
-// USA:       learning_providers (versionsProvider), VersionRow, DetailHeader, core/widgets.
-// USADO POR: core/router/router.dart (/learning/versions).
+// USA:       providers (versionsProvider), VersionRow, DetailHeader, core/widgets.
+// USADO POR: core/router/routes.dart (/learning/versions).
 // SPEC:      specs/features/notebook.yaml (screens.VersionsScreen)
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../../core/theme/app_icons.dart';

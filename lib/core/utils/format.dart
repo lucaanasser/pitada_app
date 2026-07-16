@@ -2,11 +2,12 @@
 // lib/core/utils/format.dart
 // O QUÊ:     Formatação de números/medidas para exibição (gramas, kcal, tempo...).
 // USA:       nada (funções puras). Mantém a UI livre de lógica de formatação.
-// USADO POR: RecipeDetail, IngredientRow, NutritionCard, Compras, Planos.
+// USADO POR: core/widgets (nutrition_card, option_card) e telas/widgets de
+//            recipes, groceries, notebook, plans e profile.
 // ─────────────────────────────────────────────────────────────────────────────
 
 /// Formata gramas para exibição: usa kg acima de 1000 g. Ex.: 500 -> "500 g".
-/// Usada por: IngredientRow, HairlineRow de compras/despensa.
+/// Usada por: IngredientRow, GroceryListView, PantryView.
 String formatGrams(num? grams) {
   if (grams == null) return '';
   if (grams >= 1000) {
@@ -45,7 +46,8 @@ String formatKgDelta(num kg) {
   return '$sign$abs kg';
 }
 
-/// Formata quantidade humana + unidade. Ex.: (2,'un') -> "2 un". Usada por: Compras.
+/// Formata quantidade humana + unidade. Ex.: (2,'un') -> "2 un".
+/// Usada por: IngredientRow, GroceryListView, PantryView, AddPantrySheet.
 String formatHuman(num? qty, String? unit) {
   if (qty == null) return unit ?? '';
   final q = _trim(qty);

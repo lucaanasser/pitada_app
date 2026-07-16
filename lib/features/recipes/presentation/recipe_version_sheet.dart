@@ -2,8 +2,10 @@
 // lib/features/recipes/presentation/recipe_version_sheet.dart
 // O QUÊ:     Bottom sheet "Versões" — lista as versões da receita (mais recente
 //            primeiro) com a nota "o que mudou"; escolher troca a tela inteira.
-// USA:       core/widgets (pitada_sheet, sheet_grip, pitada_chip), theme/*, recipes
-//            providers (grupo + seleção), learning versionForRecipeProvider (notas).
+// USA:       core/widgets (pitada_sheet, sheet_grip, pitada_chip), theme/*,
+//            recipes_providers (grupo + seleção), notebook/providers
+//            (versionForRecipeProvider — notas), notebook/recipe_version
+//            (modelo), go_router, app_log.
 // USADO POR: recipe_detail_screen (tocar na RecipeVersionTag do título).
 // SPEC:      specs/features/recipes.yaml (sheets.RecipeVersionSheet)
 // ─────────────────────────────────────────────────────────────────────────────

@@ -2,9 +2,9 @@
 // lib/features/notebook/presentation/lesson_cards_screen.dart
 // O QUÊ:     Fichas — enciclopédia pessoal. Abas por categoria (Técnicas…Ervas)
 //            e lista de fichas que abre o detalhe.
-// USA:       core/widgets (PitadaTabs), theme/*, learning_providers, LessonCardRow,
+// USA:       core/widgets (PitadaTabs), theme/*, providers, LessonCardRow,
 //            DetailHeader, go_router (navegação).
-// USADO POR: core/router/router.dart (/learning/cards).
+// USADO POR: core/router/routes.dart (/learning/cards).
 // SPEC:      specs/features/notebook.yaml (screens.LessonCardsScreen)
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../../core/theme/app_icons.dart';

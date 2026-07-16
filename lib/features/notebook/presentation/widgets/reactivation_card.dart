@@ -3,7 +3,7 @@
 // O QUÊ:     Card pastel de reativação ("Para hoje") do hub do Caderno: kicker,
 //            título, corpo curto, botão-selo de ação e dispensa ("depois").
 // USA:       core/theme (pit.*, AppColors, AppType, AppSpacing), go_router,
-//            caderno_providers (dismiss), reactivation_item, diary_quick_sheet.
+//            hub_providers (dismiss), reactivation_item, diary_quick_sheet.
 // USADO POR: NotebookScreen (seção "Para hoje" do hub).
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';

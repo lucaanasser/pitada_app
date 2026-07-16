@@ -2,7 +2,8 @@
 // lib/core/widgets/cards/hairline_row.dart
 // O QUÊ:     Linha de lista genérica separada por filete inferior (sem card).
 // USA:       theme/colors, theme/spacing. É a base de quase toda lista do app.
-// USADO POR: recipes, learning, shopping, plans, home (listas em geral).
+// USADO POR: recipes, notebook, groceries, plans, profile e add_options_sheet
+//            (listas em geral).
 // SPEC:      specs/components/cards/hairline_row.yaml
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';

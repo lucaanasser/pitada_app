@@ -2,9 +2,10 @@
 // lib/features/groceries/application/providers.dart
 // O QUÊ:     Providers de Compras: as listas (com ações), a lista ativa, os itens
 //            exibidos (crus ou com a despensa descontada) e os agrupadores.
-// USA:       shopping_repository, shopping_list, shopping_item, pantry_item,
-//            shopping_seed (categorias), riverpod, app_log.
-// USADO POR: shopping_screen e seus widgets (camada de apresentação).
+// USA:       repository, grocery_list, grocery_item, pantry_item,
+//            seed (categorias), riverpod, app_log.
+// USADO POR: grocery_list_view, pantry_view, list_header, lists_sheet e
+//            new_list_sheet (apresentação); profile/overview_providers.
 // SPEC:      specs/features/groceries.yaml (application.providers)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -26,7 +27,7 @@ final groceriesRepositoryProvider =
 class GroceryListsNotifier extends StateNotifier<List<GroceryList>> {
   GroceryListsNotifier(super.initial);
 
-  /// Alterna o `checked` de um item da lista dada. Usada por: GroceryListRow.
+  /// Alterna o `checked` de um item da lista dada. Usada por: GroceryListView.
   void toggleItem(String listId, String itemId) {
     state = [
       for (final l in state)

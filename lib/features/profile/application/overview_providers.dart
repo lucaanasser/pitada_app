@@ -4,10 +4,10 @@
 //            real (ActivityDay), números reais (ProfileCounts) e o radar de
 //            pendências acionáveis (RadarItem). O Perfil é um agregador de
 //            propósito — a UI dele só lê providers desta feature.
-// USA:       caderno_providers (fio, cozinha pendente), learning_providers
-//            (diário), recipes_providers (receitas), shopping_providers
-//            (despensa), activity_builder, activity_entry, profile_counts,
-//            radar_item, fio_entry (modelo), riverpod.
+// USA:       notebook/hub_providers (fio, cozinha pendente), notebook/providers
+//            (diário), recipes_providers (receitas), groceries/providers
+//            (despensa), activity_builder, activity_day, activity_entry,
+//            profile_counts, radar_item, fio_entry (modelo), riverpod.
 // USADO POR: ProfileHeader, ProfileStats, ActivityGraph e KitchenRadar.
 // SPEC:      specs/features/profile.yaml (application.providers — agregadores)
 // ─────────────────────────────────────────────────────────────────────────────

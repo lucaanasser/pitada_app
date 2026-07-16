@@ -4,7 +4,7 @@
 //            Aceita fundo customizado (ex.: pastel da aba via pit.tabBg).
 //            Inclui tabListPadding — padding inferior padrão das listas de aba.
 // USA:       theme/colors (fundo bg padrão), theme/spacing (respiro do padding).
-// USADO POR: todas as telas de aba (recipes/learning/plans/shopping/home).
+// USADO POR: todas as telas de aba (recipes/notebook/plans/groceries/profile).
 // SPEC:      specs/components/layout/pitada_scaffold.yaml
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
@@ -14,7 +14,7 @@ import '../../theme/spacing.dart';
 /// Padding inferior padrão das listas de aba: [respiro] + inset do sistema.
 /// Com o shell em extendBody, o inset inclui a altura da pílula flutuante —
 /// sem ele o fim da lista ficaria escondido sob a barra.
-/// Usada por: ListViews das telas de aba (recipes, learning, plans, shopping,
+/// Usada por: ListViews das telas de aba (recipes, notebook, plans, groceries,
 /// profile).
 EdgeInsets tabListPadding(BuildContext context,
     {double respiro = AppSpacing.xxl}) {

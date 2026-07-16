@@ -3,7 +3,7 @@
 // O QUÊ:     Painel "Ferramentas" do hub do Caderno: as 8 ferramentas agrupadas
 //            pelos 3 pilares (Conhecimento/Prática/Repertório) numa tabela-mini
 //            com divisórias internas grossas (desenho da NutritionCard).
-// USA:       theme (pitada_colors, spacing, typography), learning_providers
+// USA:       theme (pitada_colors, spacing, typography), providers
 //            (contagens de cada ferramenta), go_router (navegação por célula).
 // USADO POR: NotebookScreen (hub do Caderno).
 // ─────────────────────────────────────────────────────────────────────────────

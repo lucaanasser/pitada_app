@@ -2,9 +2,9 @@
 // lib/features/notebook/presentation/lesson_detail_screen.dart
 // O QUÊ:     Detalhe de uma ficha — renderiza por kind (técnica/framework/guia).
 //            Cabeçalho com voltar e botão editar (lápis).
-// USA:       core/widgets (PitadaIconButton), theme/*, learning_providers,
+// USA:       core/widgets (PitadaIconButton), theme/*, providers,
 //            lessonBody (corpo por kind), go_router (voltar/editar).
-// USADO POR: core/router/router.dart (/lesson/:id).
+// USADO POR: core/router/routes.dart (/lesson/:id).
 // SPEC:      specs/features/notebook.yaml (screens.LessonDetailScreen)
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../../core/theme/app_icons.dart';

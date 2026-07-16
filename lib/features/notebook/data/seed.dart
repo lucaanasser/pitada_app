@@ -3,7 +3,7 @@
 // O QUÊ:     Dados de exemplo do Caderno: agrega as fichas + repertório e
 //            re-exporta os seeds de atividade (notas/diário/versões/logs).
 // USA:       modelos do Caderno + seeds de fichas e de atividade.
-// USADO POR: learning_repository (fonte em memória enquanto não há Supabase).
+// USADO POR: repository (fonte em memória enquanto não há Supabase).
 // SPEC:      specs/features/notebook.yaml (data.seed)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'seed_flavors.dart';
@@ -25,7 +25,7 @@ const kSeedLessons = <Lesson>[
   ...kSeedGuideHerbs,
 ];
 
-/// Rácios de confiança de exemplo. Usada por: learning_repository.
+/// Rácios de confiança de exemplo. Usada por: repository.
 const kSeedRatios = <Ratio>[
   Ratio(name: 'Vinagrete', ratio: '3 : 1', note: 'óleo : ácido'),
   Ratio(name: 'Arroz branco', ratio: '1 : 2', note: 'arroz : água'),
@@ -37,7 +37,7 @@ const kSeedRatios = <Ratio>[
   ),
 ];
 
-/// Substituições testadas de exemplo. Usada por: learning_repository.
+/// Substituições testadas de exemplo. Usada por: repository.
 const kSeedSubstitutions = <Substitution>[
   Substitution(
     missing: 'Sem shoyu',
@@ -56,7 +56,7 @@ const kSeedSubstitutions = <Substitution>[
   ),
 ];
 
-/// Harmonizações de exemplo. Usada por: learning_repository.
+/// Harmonizações de exemplo. Usada por: repository.
 const kSeedPairings = <Pairing>[
   Pairing(
     id: 'harm-tomate',

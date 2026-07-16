@@ -1,9 +1,9 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/notebook/presentation/version_history_screen.dart
 // O QUÊ:     Detalhe do histórico: título (receita) + link p/ receita + linha do tempo.
-// USA:       learning_providers (versionByIdProvider), DetailHeader, RecipeLinkRow,
+// USA:       providers (versionByIdProvider), DetailHeader, RecipeLinkRow,
 //            VersionStepTile, SectionHeader, core/widgets, theme/*.
-// USADO POR: core/router/router.dart (/versions/:id).
+// USADO POR: core/router/routes.dart (/versions/:id).
 // SPEC:      specs/features/notebook.yaml (screens.VersionHistoryScreen)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';

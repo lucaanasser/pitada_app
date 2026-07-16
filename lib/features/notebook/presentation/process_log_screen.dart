@@ -2,8 +2,8 @@
 // lib/features/notebook/presentation/process_log_screen.dart
 // O QUÊ:     Detalhe de um log de processo: tipo, título, data, parâmetros,
 //            linha do tempo de eventos e nota final.
-// USA:       learning_providers, core/widgets, widgets locais, theme/*, format.
-// USADO POR: core/router (/log/:id).
+// USA:       providers, core/widgets, widgets locais, theme/*, format.
+// USADO POR: core/router/routes.dart (/log/:id).
 // SPEC:      specs/features/notebook.yaml (screens.ProcessLogScreen — view-log)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';

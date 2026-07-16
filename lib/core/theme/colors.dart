@@ -77,14 +77,14 @@ class AppColors {
     Color(0xFFF6ECDD), // Receitas (quente)
     Color(0xFFEDF1DF), // Caderno (verde)
     Color(0xFFF7F0DA), // Planos (âmbar)
-    Color(0xFFE8F1E8), // Compras (teal)
+    Color(0xFFE8F1E8), // Ingredientes (teal)
     Color(0xFFF6EAE7), // Perfil (rosé)
   ];
   static const List<Color> tabBgDark = [
     Color(0xFF201812), // Receitas
     Color(0xFF181D11), // Caderno
     Color(0xFF201B10), // Planos
-    Color(0xFF121D17), // Compras
+    Color(0xFF121D17), // Ingredientes
     Color(0xFF1F141D), // Perfil
   ];
 

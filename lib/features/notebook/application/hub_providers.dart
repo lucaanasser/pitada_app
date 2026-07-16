@@ -2,9 +2,10 @@
 // lib/features/notebook/application/hub_providers.dart
 // O QUÊ:     Providers do HUB do Caderno: fio cronológico unificado, cards de
 //            reativação ("Para hoje") e cozinha pendente de registro.
-// USA:       learning_providers (fontes), modelos fio_entry/reactivation_item/
+// USA:       providers (fontes), modelos fio_entry/reactivation_item/
 //            pending_cook, riverpod.
-// USADO POR: NotebookScreen e widgets do hub (CaptureBar, ReactivationCard, Fio).
+// USADO POR: NotebookScreen, CaptureBar, ReactivationCard e overview_providers
+//            (perfil).
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

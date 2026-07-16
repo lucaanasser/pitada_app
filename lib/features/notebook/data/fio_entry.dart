@@ -3,7 +3,8 @@
 // O QUÊ:     Item do "fio" do Caderno — visão unificada e cronológica de tudo
 //            que foi capturado (diário, nota, versão, log) para o hub.
 // USA:       nada (modelo imutável puro, derivado dos outros modelos).
-// USADO POR: caderno_providers (montagem do fio), FioTile (render no hub).
+// USADO POR: hub_providers (montagem do fio), FioTile (render no hub),
+//            overview_providers (perfil).
 // ─────────────────────────────────────────────────────────────────────────────
 
 /// O tipo de captura que originou o item do fio (define cor e rótulo da tag).

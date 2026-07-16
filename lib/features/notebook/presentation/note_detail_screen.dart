@@ -1,9 +1,9 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/notebook/presentation/note_detail_screen.dart
 // O QUÊ:     Detalhe de uma nota de fonte: kicker, título, meta, "O que fica", "Aplica em".
-// USA:       learning_providers (noteByIdProvider), DetailHeader, NoteTake,
+// USA:       providers (noteByIdProvider), DetailHeader, NoteTake,
 //            RecipeLinkRow, PitadaChip, SectionHeader, core/widgets, theme/*.
-// USADO POR: core/router/router.dart (/note/:id).
+// USADO POR: core/router/routes.dart (/note/:id).
 // SPEC:      specs/features/notebook.yaml (screens.NoteDetailScreen)
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../../core/theme/app_icons.dart';

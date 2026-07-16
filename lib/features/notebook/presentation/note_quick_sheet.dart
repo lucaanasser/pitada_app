@@ -21,7 +21,7 @@ import '../../../core/widgets/tags/pitada_tag.dart';
 import 'widgets/section_editor.dart';
 
 /// Abre o bottom sheet de nota de fonte rápida (tipo + título + o que fica).
-/// Usada por: NotebookScreen (captura rápida) e caderno_add_sheet.
+/// Usada por: CaptureBar (captura rápida) e add_sheet.
 void showNoteQuickSheet(BuildContext context) {
   showPitadaSheet<void>(
     context,
@@ -60,7 +60,7 @@ class _NoteQuickSheetState extends State<_NoteQuickSheet> {
   void _save() {
     // TODO(pitada): persistir quando houver escrita no repositório
     AppLog.i(
-      'learning',
+      'notebook',
       'nota rápida guardada: $_type · ${_titleCtrl.text.trim()}',
     );
     final messenger = ScaffoldMessenger.of(context);

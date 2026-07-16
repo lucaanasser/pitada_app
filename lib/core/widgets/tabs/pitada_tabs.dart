@@ -6,7 +6,7 @@
 //            ChapterTabs e SegTabs — todas as telas usam este widget.
 // USA:       theme/colors (accent), theme/pitada_colors (context.pit),
 //            theme/spacing, theme/typography.
-// USADO POR: recipes_screen, shopping_screen, lesson_cards_screen.
+// USADO POR: recipes_screen, groceries_screen, plans_screen, lesson_cards_screen.
 // SPEC:      specs/components/tabs/pitada_tabs.yaml
 // ─────────────────────────────────────────────────────────────────────────────
 import 'dart:math' as math;
@@ -19,7 +19,7 @@ import '../../theme/typography.dart';
 
 /// Abas de texto roláveis: [selected] em cor text, demais em muted; um único
 /// sublinhado accent desliza (com molejo leve) e cobre exatamente a palavra ativa.
-/// Usada por: recipes/shopping/learning/plans — toda aba de nível de tela.
+/// Usada por: recipes/groceries/notebook/plans — toda aba de nível de tela.
 class PitadaTabs extends StatefulWidget {
   const PitadaTabs({
     super.key,

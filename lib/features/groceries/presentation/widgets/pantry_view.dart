@@ -1,9 +1,9 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/groceries/presentation/widgets/pantry_view.dart
 // O QUÊ:     Aba Despensa: legenda, grupos por categoria (estoque + validade/tag) e ação.
-// USA:       shopping_providers, category_group, add_pantry_sheet, core/widgets
+// USA:       providers, category_group, add_pantry_sheet, core/widgets
 //            (HairlineRow, ExpiryTag, PitadaButton, EmptyState), utils/format, theme/*.
-// USADO POR: shopping_screen (corpo da aba Despensa).
+// USADO POR: groceries_screen (corpo da aba Despensa).
 // SPEC:      specs/features/groceries.yaml (screens.GroceriesScreen.despensa)
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../../../core/theme/app_icons.dart';
@@ -25,12 +25,12 @@ import '../add_pantry_sheet.dart';
 import 'category_group.dart';
 
 /// Corpo da aba Despensa: legenda, itens agrupados com validade e botão de adicionar.
-/// Usada por: shopping_screen (aba 1).
+/// Usada por: groceries_screen (aba 1).
 class PantryView extends ConsumerWidget {
   const PantryView({super.key});
 
   /// Renderiza a despensa agrupada ou um EmptyState quando ainda não há itens.
-  /// Usada por: shopping_screen.
+  /// Usada por: groceries_screen.
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final pit = context.pit;

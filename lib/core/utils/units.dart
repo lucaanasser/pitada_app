@@ -2,12 +2,14 @@
 // lib/core/utils/units.dart
 // O QUÊ:     Regras de unidade humana e agregação da lista de compras por UNIDADE.
 // USA:       nada (funções puras). Implementa a regra de dados do guia.
-// USADO POR: shopping_repository (soma da lista), IngredientRow (rótulo).
-// REGRA:     grama é base; lista soma por unidade humana (.claude/rules/arquitetura.md)
+// USADO POR: ninguém hoje — nenhum arquivo importa este módulo. A mesma regra
+//            está reimplementada em groceries/data/grocery_list.dart
+//            (discountPantry), que desconta a despensa na exibição.
+// REGRA:     grama é base; lista soma por unidade humana (.claude/rules/data-model.md)
 // ─────────────────────────────────────────────────────────────────────────────
 
 /// Par (quantidade, unidade) agregável para a lista de compras.
-/// Usada por: [sumByHumanUnit] e o repositório de compras.
+/// Usada por: [sumByHumanUnit] e [subtractPantry].
 class HumanQty {
   final String name;
   final String unit;
@@ -24,7 +26,7 @@ class HumanQty {
 
 /// Soma itens agrupando por (nome, unidade humana): 2 receitas com 2 ovos = "4 un".
 /// A grama fica só como referência (somada quando existir). Regra de dados do guia.
-/// Usada por: shopping_repository ao montar a lista a partir das receitas do plano.
+/// Usada por: ninguém hoje — sem chamador na árvore.
 List<HumanQty> sumByHumanUnit(Iterable<HumanQty> items) {
   final byKey = <String, HumanQty>{};
   for (final it in items) {
@@ -45,7 +47,8 @@ List<HumanQty> sumByHumanUnit(Iterable<HumanQty> items) {
 }
 
 /// Subtrai da lista o que já existe na despensa, casando por (nome, unidade).
-/// Quantidade nunca fica negativa; itens zerados saem da lista. Usada por: compras.
+/// Quantidade nunca fica negativa; itens zerados saem da lista.
+/// Usada por: ninguém hoje — grocery_list.discountPantry aplica a mesma regra.
 List<HumanQty> subtractPantry(List<HumanQty> list, List<HumanQty> pantry) {
   final have = <String, num>{};
   for (final p in pantry) {

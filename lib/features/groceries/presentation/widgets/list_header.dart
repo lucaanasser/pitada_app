@@ -3,7 +3,7 @@
 // O QUÊ:     Cabeçalho da lista ativa: nome em Space Grotesk + caret (toca ->
 //            sheet de listas) e a contagem de itens em texto sóbrio. SEM chips —
 //            cápsula é só para tag (regra do dono).
-// USA:       theme/*, shopping_providers (lista ativa + itens exibidos),
+// USA:       theme/*, providers (lista ativa + itens exibidos),
 //            lists_sheet, new_list_sheet (createAndSelectList).
 // USADO POR: GroceryListView (topo da aba Lista).
 // SPEC:      specs/features/groceries.yaml (screens.lista: ListHeaderRow)

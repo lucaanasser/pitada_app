@@ -2,7 +2,8 @@
 // lib/core/widgets/layout/section_header.dart
 // O QUÊ:     Rótulo de seção em versalete + filete fino (.shead), com ação opcional.
 // USA:       theme/colors, theme/spacing, theme/typography.
-// USADO POR: recipe_detail, learning, shopping, plans — em toda seção de conteúdo.
+// USADO POR: recipes (detail/edit/import), notebook, groceries, plans, profile
+//            — em toda seção de conteúdo.
 // SPEC:      specs/components/layout/section_header.yaml
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';

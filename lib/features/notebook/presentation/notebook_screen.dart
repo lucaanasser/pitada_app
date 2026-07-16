@@ -3,7 +3,7 @@
 // O QUÊ:     Aba Caderno — o caderno aberto: captura rápida (CaptureBar),
 //            reativação do dia ("Para hoje"), fio cronológico e ferramentas.
 // USA:       core/widgets (Masthead, PitadaScaffold, SectionHeader, botões),
-//            caderno_providers (fio/reativação) e os widgets do hub.
+//            hub_providers (fio/reativação) e os widgets do hub.
 // USADO POR: core/router/router.dart (branch /learning).
 // SPEC:      specs/features/notebook.yaml (screens.NotebookScreen)
 // ─────────────────────────────────────────────────────────────────────────────

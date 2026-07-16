@@ -26,7 +26,7 @@ class AppSpacing {
   /// Respiro vertical entre o título de uma aba e o início do seu conteúdo
   /// (ex.: 'Receitas' → busca, 'Caderno' → 1º bloco). Igual em TODAS as abas.
   /// Generoso de propósito: o título é grande, o respiro precisa ser nítido.
-  /// Usada por: recipes/plans/learning/shopping/profile screens (após o título).
+  /// Usada por: recipes/plans/notebook/groceries/profile/auth screens (após o título).
   static const double titleGap = 30;
 
   static const double radiusSm = 7; // tag / pill de rótulo

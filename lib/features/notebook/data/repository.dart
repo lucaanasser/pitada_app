@@ -2,7 +2,7 @@
 // lib/features/notebook/data/repository.dart
 // O QUÊ:     Fonte do Caderno (fichas, notas, diário, versões, logs, repertório).
 // USA:       modelos do Caderno, seed.dart, core/utils/app_log.
-// USADO POR: learning_providers (application). A UI nunca chama isto direto.
+// USADO POR: providers (application). A UI nunca chama isto direto.
 // SPEC:      specs/features/notebook.yaml (data.repository)
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../../core/utils/app_log.dart';
@@ -16,7 +16,7 @@ import 'repertoire.dart';
 import 'source_note.dart';
 
 /// Repositório do Caderno. Hoje serve os dados de exemplo (seed); trocar por
-/// versão Supabase mantém a mesma API. Usada por: learning_providers.
+/// versão Supabase mantém a mesma API. Usada por: providers.
 class NotebookRepository {
   const NotebookRepository();
 

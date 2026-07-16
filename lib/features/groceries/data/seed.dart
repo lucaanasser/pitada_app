@@ -3,7 +3,8 @@
 // O QUÊ:     Dados de exemplo p/ preview: DUAS listas de compras (quantidades
 //            CRUAS — 'Semana' desconta a despensa, 'Praia' não) + a despensa.
 // USA:       grocery_list.dart, grocery_item.dart, pantry_item.dart.
-// USADO POR: shopping_repository (fonte em memória enquanto não há Supabase).
+// USADO POR: repository (fonte em memória enquanto não há Supabase) e providers
+//            (ordem das categorias).
 // SPEC:      specs/features/groceries.yaml (data.seed)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'pantry_item.dart';
@@ -15,7 +16,7 @@ const kCatAcougue = 'Açougue';
 const kCatLaticinios = 'Laticínios & ovos';
 const kCatMercearia = 'Mercearia';
 
-/// Ordem canônica das categorias. Usada por: agrupadores de shopping_providers.
+/// Ordem canônica das categorias. Usada por: agrupadores de providers.
 const kGroceryCategories = <String>[
   kCatHortifruti,
   kCatAcougue,
@@ -26,7 +27,7 @@ const kGroceryCategories = <String>[
 /// Listas de exemplo com quantidades CRUAS (somadas, sem subtrair a despensa).
 /// 'Semana' desconta a despensa na exibição (cebola 6-4=2 un...); 'Praia' não
 /// (o caso "estou fora de casa, quero a lista completa").
-/// Usada por: shopping_repository / groceryListsProvider.
+/// Usada por: repository (fetchLists) / groceryListsProvider.
 const kSeedLists = <GroceryList>[
   GroceryList(
     id: 'list-semana',
@@ -131,7 +132,7 @@ final _pantryDates = <String, DateTime>{
   'ovos': DateTime(2026, 7, 9),
 };
 
-/// Despensa de exemplo (o que já tenho, com validade). Usada por: shopping_repository.
+/// Despensa de exemplo (o que já tenho, com validade). Usada por: repository.
 /// `final` (não const) porque usa DateTime fixas relativas a 2026-06-30.
 final kSeedPantry = <PantryItem>[
   PantryItem(

@@ -3,7 +3,7 @@
 // O QUÊ:     Cozinha pendente de registro — receita cozida sem entrada de diário.
 //            Alimenta o card "Ontem você cozinhou" do hub do Caderno.
 // USA:       nada (modelo imutável puro).
-// USADO POR: learning_seed_activity, learning_repository, caderno_providers.
+// USADO POR: seed_activity, repository, hub_providers.
 // ─────────────────────────────────────────────────────────────────────────────
 
 /// Uma cozinha ainda não registrada no diário: receita + quando aconteceu.

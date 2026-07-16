@@ -2,7 +2,8 @@
 // lib/features/notebook/data/diary_entry.dart
 // O QUÊ:     Entrada do diário de cozinha — registro após cozinhar uma receita.
 // USA:       nada (modelo imutável puro).
-// USADO POR: learning_seed, learning_repository, DiaryScreen, DiaryEntryScreen.
+// USADO POR: seed_activity, repository, providers, DiaryScreen, DiaryEntryScreen,
+//            DiaryRow.
 // SPEC:      specs/features/notebook.yaml (data.models.DiaryEntry)
 // ─────────────────────────────────────────────────────────────────────────────
 

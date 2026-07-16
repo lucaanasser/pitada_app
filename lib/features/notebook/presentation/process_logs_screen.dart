@@ -1,8 +1,8 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/notebook/presentation/process_logs_screen.dart
 // O QUÊ:     Lista de logs de processo (avançado): dica + linhas de ProcessLog.
-// USA:       learning_providers, core/widgets, widgets locais, go_router, theme/*.
-// USADO POR: core/router (/learning/logs).
+// USA:       providers, core/widgets, widgets locais, go_router, theme/*.
+// USADO POR: core/router/routes.dart (/learning/logs).
 // SPEC:      specs/features/notebook.yaml (screens.ProcessLogsScreen — view-logs)
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../../core/theme/app_icons.dart';

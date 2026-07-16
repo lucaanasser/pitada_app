@@ -1,8 +1,9 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/notebook/application/providers.dart
 // O QUÊ:     Providers Riverpod do Caderno (fichas, notas, diário, versões, logs, repertório).
-// USA:       learning_repository e os modelos do Caderno, riverpod.
-// USADO POR: as telas do Caderno (camada de apresentação).
+// USA:       data/repository e os modelos do Caderno, riverpod.
+// USADO POR: as telas do Caderno, hub_providers, overview_providers (perfil) e
+//            recipe_version_sheet (receitas).
 // SPEC:      specs/features/notebook.yaml (application.providers)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter_riverpod/flutter_riverpod.dart';

@@ -2,13 +2,14 @@
 // lib/features/groceries/data/pantry_item.dart
 // O QUÊ:     Modelo de um item que já tenho na despensa (com validade opcional).
 // USA:       nada (modelo imutável puro, const constructor).
-// USADO POR: shopping_seed, shopping_repository, shopping_providers e a tela Compras.
+// USADO POR: seed, repository, providers, grocery_list, pantry_view e
+//            add_pantry_data (aba Ingredientes).
 // SPEC:      specs/features/groceries.yaml (data.models.PantryItem)
 // ─────────────────────────────────────────────────────────────────────────────
 
 /// Um item da despensa: o que já tenho, com quantidade e validade opcional.
 /// `low` sinaliza que está acabando. Sem `checked` — a Despensa não usa CheckItem.
-/// Usada por: shopping_repository (despensa seed) e PantryRow (rótulo + ExpiryTag).
+/// Usada por: repository (despensa seed) e PantryView (rótulo + ExpiryTag).
 class PantryItem {
   final String id;
   final String name;

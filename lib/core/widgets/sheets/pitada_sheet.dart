@@ -5,7 +5,8 @@
 //            sheet e seu scrim cobrem o shell inteiro, escondendo a navbar flutuante
 //            (que, como bottomNavigationBar, ficaria na frente de um sheet do branch).
 // USA:       theme/pitada_colors (context.pit.surf), theme/spacing (radiusXxl).
-// USADO POR: todos os show*Sheet do app (plans, learning, recipes, shopping).
+// USADO POR: todos os show*Sheet do app (plans, notebook, recipes, groceries)
+//            e o add_options_sheet do core.
 // SPEC:      specs/components/sheets/pitada_sheet.yaml
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';

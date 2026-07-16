@@ -9,7 +9,7 @@ import 'lesson.dart';
 import 'lesson_section.dart';
 
 /// Guias de Ervas & especiarias — aroma, momento certo e combinações.
-/// Usada por: learning_seed (kSeedLessons).
+/// Usada por: seed (kSeedLessons).
 const kSeedGuideHerbs = <Lesson>[
   Lesson(
     id: 'guia-manjericao',

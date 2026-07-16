@@ -4,7 +4,7 @@
 //            nova. Devolve true quando a pessoa pediu lista nova (o chamador
 //            dispara createAndSelectList — o sheet já fechou).
 // USA:       theme/*, core/widgets (HairlineRow, SheetGrip, pitada_sheet),
-//            shopping_providers (listas + ativa).
+//            providers (listas + ativa).
 // USADO POR: ListHeaderRow (título com caret da aba Lista).
 // SPEC:      specs/features/groceries.yaml (sheets.showListsSheet)
 // ─────────────────────────────────────────────────────────────────────────────

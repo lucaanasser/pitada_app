@@ -3,7 +3,8 @@
 // O QUÊ:     "Grip" padrão no topo de TODO bottom sheet (barrinha central).
 //            Promovido de plans/ e recipes/ (havia duas cópias iguais).
 // USA:       theme/pitada_colors, theme/spacing.
-// USADO POR: sheets de plans, recipes (import/cook_chat) e shopping (nova lista).
+// USADO POR: add_options_sheet e sheets de plans, recipes (import/cook_chat) e
+//            groceries (lists_sheet, new_list_sheet).
 // SPEC:      specs/components/sheets/sheet_grip.yaml
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';

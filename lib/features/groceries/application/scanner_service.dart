@@ -2,7 +2,7 @@
 // lib/features/groceries/application/scanner_service.dart
 // O QUÊ:     Service abstrato de scanner (código de barras) + mock para desktop.
 // USA:       core/utils/app_log (log do scan). Riverpod (Provider de injeção).
-// USADO POR: add_pantry_sheet e shopping_providers (scannerProvider).
+// USADO POR: add_pantry_sheet (scannerProvider).
 // SPEC:      specs/features/groceries.yaml (services.ScannerService)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter_riverpod/flutter_riverpod.dart';

@@ -3,7 +3,7 @@
 // O QUÊ:     Item de reativação do hub ("Para hoje"): cozinha pendente, refazer
 //            esquecido ou revisão do dia. Puxa o usuário de volta ao Caderno.
 // USA:       nada (modelo imutável puro, derivado dos outros modelos).
-// USADO POR: caderno_providers (montagem), ReactivationCard (render no hub).
+// USADO POR: hub_providers (montagem), ReactivationCard (render no hub).
 // ─────────────────────────────────────────────────────────────────────────────
 
 /// O gatilho que gerou o card (define a ação primária no widget).

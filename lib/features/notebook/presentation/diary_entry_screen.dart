@@ -2,9 +2,9 @@
 // lib/features/notebook/presentation/diary_entry_screen.dart
 // O QUÊ:     Detalhe de uma entrada de diário: rótulo, título (receita + data),
 //            corpo da reflexão e "Ligado a" (receitas).
-// USA:       learning_providers (diaryByIdProvider), DetailHeader, RecipeLinkRow,
+// USA:       providers (diaryByIdProvider), DetailHeader, RecipeLinkRow,
 //            PitadaChip, SectionHeader, utils/format, core/widgets, theme/*.
-// USADO POR: core/router/router.dart (/diary/:id).
+// USADO POR: core/router/routes.dart (/diary/:id).
 // SPEC:      specs/features/notebook.yaml (screens.DiaryEntryScreen)
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../../core/theme/app_icons.dart';

@@ -1,8 +1,8 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/notebook/presentation/notes_screen.dart
 // O QUÊ:     Tela "Notas de fonte": lista de SourceNote (livro/vídeo/curso/chef).
-// USA:       learning_providers (notesProvider), NoteRow, DetailHeader, core/widgets.
-// USADO POR: core/router/router.dart (/learning/notes).
+// USA:       providers (notesProvider), NoteRow, DetailHeader, core/widgets.
+// USADO POR: core/router/routes.dart (/learning/notes).
 // SPEC:      specs/features/notebook.yaml (screens.NotesScreen)
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../../core/theme/app_icons.dart';

@@ -2,7 +2,8 @@
 // lib/features/notebook/data/process_log.dart
 // O QUÊ:     Log de processo avançado (fermentação, sous-vide, cura…) e seus eventos.
 // USA:       nada (modelos imutáveis puros).
-// USADO POR: learning_seed, learning_repository, ProcessLogsScreen, ProcessLogScreen.
+// USADO POR: seed_activity, repository, providers, ProcessLogsScreen,
+//            ProcessLogScreen.
 // SPEC:      specs/features/notebook.yaml (data.models.ProcessLog)
 // ─────────────────────────────────────────────────────────────────────────────
 

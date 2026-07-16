@@ -4,7 +4,7 @@
 //            cozinha pendente). Datas relativas a hoje para o fio ficar vivo.
 // USA:       modelos do Caderno (source_note, diary_entry, recipe_version,
 //            process_log, pending_cook).
-// USADO POR: learning_seed (re-exporta), learning_repository.
+// USADO POR: seed (re-exporta), repository.
 // ─────────────────────────────────────────────────────────────────────────────
 import 'diary_entry.dart';
 import 'pending_cook.dart';
@@ -17,14 +17,14 @@ import 'source_note.dart';
 DateTime _daysAgo(int days) => DateTime.now().subtract(Duration(days: days));
 
 /// Cozinha ainda sem registro no diário — alimenta o card "Ontem você cozinhou".
-/// Usada por: learning_repository.fetchPendingCook.
+/// Usada por: repository.fetchPendingCook.
 final kSeedPendingCook = PendingCook(
   recipeId: 'strogonoff',
   recipeName: 'Strogonoff de carne',
   when: _daysAgo(1),
 );
 
-/// Notas de fonte de exemplo. Usada por: learning_repository.
+/// Notas de fonte de exemplo. Usada por: repository.
 final kSeedNotes = <SourceNote>[
   SourceNote(
     id: 'nota-salt-fat',
@@ -65,7 +65,7 @@ final kSeedNotes = <SourceNote>[
   ),
 ];
 
-/// Entradas de diário de exemplo. Usada por: learning_repository.
+/// Entradas de diário de exemplo. Usada por: repository.
 final kSeedDiary = <DiaryEntry>[
   DiaryEntry(
     id: 'diario-legumes',
@@ -96,7 +96,7 @@ final kSeedDiary = <DiaryEntry>[
   ),
 ];
 
-/// Versões de receita de exemplo. Usada por: learning_repository.
+/// Versões de receita de exemplo. Usada por: repository.
 final kSeedVersions = <RecipeVersion>[
   RecipeVersion(
     id: 'ver-xadrez',
@@ -136,7 +136,7 @@ final kSeedVersions = <RecipeVersion>[
   ),
 ];
 
-/// Logs de processo de exemplo. Usada por: learning_repository.
+/// Logs de processo de exemplo. Usada por: repository.
 final kSeedLogs = <ProcessLog>[
   ProcessLog(
     id: 'log-pao',

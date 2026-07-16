@@ -3,9 +3,9 @@
 // O QUÊ:     Aba Lista: cabeçalho da lista ativa (nome + caret), toggle
 //            "descontar a despensa" em HairlineRow (o caso praia = desligado),
 //            grupos por categoria e "Comprei tudo". Quantidades já derivadas.
-// USA:       shopping_providers, list_header, category_group, core/widgets
+// USA:       providers, list_header, category_group, core/widgets
 //            (HairlineRow, CheckItem, PitadaButton, EmptyState), utils/format, theme/*.
-// USADO POR: shopping_screen (corpo da aba Lista).
+// USADO POR: groceries_screen (corpo da aba Lista).
 // SPEC:      specs/features/groceries.yaml (screens.GroceriesScreen.lista)
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../../../core/theme/app_icons.dart';
@@ -28,12 +28,12 @@ import 'category_group.dart';
 import 'list_header.dart';
 
 /// Corpo da aba Lista: seletor de listas, toggle da despensa e itens agrupados.
-/// Usada por: shopping_screen.
+/// Usada por: groceries_screen.
 class GroceryListView extends ConsumerWidget {
   const GroceryListView({super.key});
 
   /// Renderiza o cabeçalho da lista, o toggle e a lista agrupada (ou EmptyState).
-  /// Usada por: shopping_screen (aba 0).
+  /// Usada por: groceries_screen (aba 0).
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final pit = context.pit;

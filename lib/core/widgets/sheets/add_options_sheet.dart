@@ -2,9 +2,9 @@
 // lib/core/widgets/sheets/add_options_sheet.dart
 // O QUÊ:     Bottom sheet padrão "escolher o que adicionar": grip + título +
 //            opções (miniatura hero + título + subtítulo). Destino do '+' do
-//            header de cada aba. Promovido do caderno_add_sheet (reuso).
+//            header de cada aba. Promovido do notebook/add_sheet (reuso).
 // USA:       pitada_sheet, sheet_grip, hairline_row, recipe_thumb, theme/*.
-// USADO POR: caderno_add_sheet, plan_add_sheet, shopping_add_sheet.
+// USADO POR: notebook/add_sheet, plans/plan_add_sheet, groceries/add_sheet.
 // SPEC:      specs/components/sheets/add_options_sheet.yaml
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
@@ -21,7 +21,7 @@ import 'sheet_grip.dart';
 
 /// Uma opção do sheet: dados visuais + ação executada DEPOIS do pop, com o
 /// contexto externo (da tela) — que sobrevive ao fechamento do sheet.
-/// Usada por: caderno_add_sheet, plan_add_sheet, shopping_add_sheet.
+/// Usada por: notebook/add_sheet, plans/plan_add_sheet, groceries/add_sheet.
 class AddSheetOption {
   final String title;
   final String subtitle;

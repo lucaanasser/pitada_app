@@ -3,7 +3,7 @@
 // O QUÊ:     Barra de captura do hub do Caderno: convite permanente de escrita
 //            ("O que ficou de hoje?") + 3 chips de captura de 1 toque.
 // USA:       core/theme (pit, ícones, tipos, espaçamento), core/widgets
-//            (PitadaTag), caderno_providers (cozinha pendente), sheets rápidos
+//            (PitadaTag), hub_providers (cozinha pendente), sheets rápidos
 //            (diário/nota/add), go_router (rota da ficha).
 // USADO POR: NotebookScreen (topo do hub do Caderno).
 // ─────────────────────────────────────────────────────────────────────────────

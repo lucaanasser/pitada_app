@@ -3,8 +3,8 @@
 // O QUÊ:     Sheet de criar lista de compras (só o nome) + createAndSelectList,
 //            o fluxo completo que cria a lista e a torna ativa.
 // USA:       theme/*, core/widgets (PitadaButton, pitada_sheet, SheetGrip),
-//            flutter_riverpod + shopping_providers (createAndSelectList).
-// USADO POR: ListHeaderRow (via ListsSheet), shopping_add_sheet ('+' do header).
+//            flutter_riverpod + providers (createAndSelectList).
+// USADO POR: ListHeaderRow (via ListsSheet), add_sheet ('+' do header).
 // SPEC:      specs/features/groceries.yaml (sheets.showNewListSheet)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';

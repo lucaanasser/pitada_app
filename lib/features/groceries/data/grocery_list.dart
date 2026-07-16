@@ -3,7 +3,7 @@
 // O QUÊ:     Modelo de uma lista de compras nomeada (a pessoa pode ter várias) e
 //            o desconto da despensa NA EXIBIÇÃO (as quantidades gravadas são cruas).
 // USA:       grocery_item.dart, pantry_item.dart.
-// USADO POR: shopping_seed, shopping_repository, shopping_providers, ListsSheet.
+// USADO POR: seed, repository, providers, lists_sheet, grocery_list_view.
 // SPEC:      specs/features/groceries.yaml (data.models.GroceryList, regra_de_soma)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'pantry_item.dart';

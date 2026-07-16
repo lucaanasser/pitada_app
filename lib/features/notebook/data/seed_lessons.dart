@@ -9,7 +9,7 @@ import 'lesson.dart';
 import 'lesson_section.dart';
 
 /// Técnicas — cada uma com princípio (summary), 4 pontos-chave e o erro comum.
-/// Usada por: learning_seed (kSeedLessons).
+/// Usada por: seed (kSeedLessons).
 const kSeedTechniques = <Lesson>[
   Lesson(
     id: 'tec-selar',
@@ -114,7 +114,7 @@ const kSeedTechniques = <Lesson>[
 ];
 
 /// Frameworks — receita-esqueleto: uma fórmula, a ordem e como aplicar.
-/// Usada por: learning_seed (kSeedLessons).
+/// Usada por: seed (kSeedLessons).
 const kSeedFrameworks = <Lesson>[
   Lesson(
     id: 'fwk-stirfry',

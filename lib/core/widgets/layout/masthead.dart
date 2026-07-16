@@ -2,7 +2,8 @@
 // lib/core/widgets/layout/masthead.dart
 // O QUÊ:     Marca 'pitada' centralizada no topo das abas (três pontos + serifa).
 // USA:       theme/colors, theme/spacing, theme/typography (tokens do design system).
-// USADO POR: recipes/learning/plans/shopping/home screens (topo de cada aba).
+// USADO POR: recipes/notebook/plans/groceries/profile screens (topo de cada aba)
+//            e sign_in_screen.
 // SPEC:      specs/components/layout/masthead.yaml
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';

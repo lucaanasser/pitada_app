@@ -3,13 +3,13 @@
 // O QUÊ:     Log padronizado do app. Formato único: [Pitada][<tag>] <mensagem>.
 // USA:       dart:developer (log) e foundation (kDebugMode). Nada de print solto.
 // USADO POR: repositórios, controllers e services de todas as features.
-// REGRA:     .claude/rules/comentarios-e-logs.md
+// REGRA:     .claude/rules/comments-and-logs.md
 // ─────────────────────────────────────────────────────────────────────────────
 import 'dart:developer' as dev;
 import 'package:flutter/foundation.dart';
 
 /// Logger central do Pitada. Sempre passe a `tag` da feature como 1º argumento
-/// (ex.: 'recipes', 'plans', 'shopping', 'learning', 'core').
+/// ('recipes', 'notebook', 'plans', 'groceries', 'profile', 'auth', 'core').
 /// Usada por: qualquer camada que precise registrar algo (nunca use print).
 class AppLog {
   AppLog._();

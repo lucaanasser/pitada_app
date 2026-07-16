@@ -9,7 +9,7 @@ import 'lesson.dart';
 import 'lesson_section.dart';
 
 /// Guias de Sabores — como pensar equilíbrio, camadas e harmonia.
-/// Usada por: learning_seed (kSeedLessons).
+/// Usada por: seed (kSeedLessons).
 const kSeedGuideFlavors = <Lesson>[
   Lesson(
     id: 'guia-cinco-gostos',
