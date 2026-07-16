@@ -46,8 +46,8 @@ class AppIcons {
   static const dish = PhosphorIconsRegular.cookingPot;
   static const servings = PhosphorIconsRegular.users;
   static const time = PhosphorIconsRegular.clock;
-  static const difficulty = PhosphorIconsRegular.chartBar;
   static const technique = PhosphorIconsRegular.graduationCap;
+  static const framework = PhosphorIconsRegular.blueprint;
 
   static const check = PhosphorIconsRegular.check;
   static const checkCircle = PhosphorIconsRegular.checkCircle;

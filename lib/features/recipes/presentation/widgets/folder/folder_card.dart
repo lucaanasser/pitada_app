@@ -51,7 +51,7 @@ class _FolderCardState extends State<FolderCard> {
         duration: const Duration(milliseconds: 110),
         curve: Curves.easeOut,
         child: AspectRatio(
-          aspectRatio: 1.45,
+          aspectRatio: 1.18,
           child: TweenAnimationBuilder<double>(
             tween: Tween(end: _pressed ? 6 : 0),
             duration: const Duration(milliseconds: 140),

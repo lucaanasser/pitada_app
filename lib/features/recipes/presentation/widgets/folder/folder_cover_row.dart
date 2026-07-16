@@ -73,7 +73,7 @@ class _NewFolderCover extends StatelessWidget {
       // TODO(pitada): abrir o editor de pasta quando ele existir.
       onTap: () => AppLog.i('recipes', 'criar pasta — editor no próximo passo'),
       child: AspectRatio(
-        aspectRatio: 1.45,
+        aspectRatio: 1.18,
         child: Container(
           decoration: BoxDecoration(
             borderRadius: AppSpacing.br(AppSpacing.radiusCard),

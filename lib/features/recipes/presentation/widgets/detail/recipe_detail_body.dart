@@ -22,6 +22,7 @@ import '../../../../../core/widgets/controls/editable.dart';
 import '../../../../../core/widgets/cards/nutrition_card.dart';
 import '../../../../../core/widgets/tags/pitada_tag.dart';
 import '../../../../../core/widgets/layout/section_header.dart';
+import '../../../application/framework_providers.dart';
 import '../../../data/models/recipe.dart';
 import '../../recipe_quick_edit.dart';
 import 'ingredient_row.dart';
@@ -62,7 +63,7 @@ class RecipeDetailBody extends ConsumerWidget {
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: _sections(context, qe),
+                  children: _sections(context, ref, qe),
                 ),
               ),
             ],
@@ -77,9 +78,10 @@ class RecipeDetailBody extends ConsumerWidget {
 
   /// As seções, de cima para baixo, cada campo com seu gesto de edição inline.
   /// Usada por: [build].
-  List<Widget> _sections(BuildContext context, RecipeQuickEdit qe) {
+  List<Widget> _sections(BuildContext context, WidgetRef ref, RecipeQuickEdit qe) {
     final pit = context.pit;
     final r = recipe;
+    final frameworks = ref.watch(frameworksForRecipeProvider(r.id));
     return [
       Row(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -110,8 +112,33 @@ class RecipeDetailBody extends ConsumerWidget {
         recipe: r,
         onEditServings: () => qe.servings(r),
         onEditTime: () => qe.time(r),
-        onEditDifficulty: () => qe.difficulty(r),
       ),
+      for (final f in frameworks)
+        Padding(
+          padding: const EdgeInsets.only(top: AppSpacing.md),
+          child: GestureDetector(
+            onTap: () => context.push('/framework/${f.id}'),
+            behavior: HitTestBehavior.opaque,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(
+                  AppIcons.framework,
+                  size: 14,
+                  color: AppColors.accent2,
+                ),
+                const SizedBox(width: 5),
+                Flexible(
+                  child: Text(
+                    'faz parte de: ${f.name}',
+                    style: AppType.on(AppType.bodySm, AppColors.accent2),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       const SizedBox(height: AppSpacing.xl),
       NutritionCard(
         protein: r.protein,

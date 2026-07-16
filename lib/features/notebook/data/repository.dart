@@ -15,10 +15,15 @@ import 'models/activity/recipe_version.dart';
 import 'models/knowledge/repertoire.dart';
 import 'models/activity/source_note.dart';
 
-/// Repositório do Caderno. Hoje serve os dados de exemplo (seed); trocar por
-/// versão Supabase mantém a mesma API. Usada por: providers.
+/// Repositório do Caderno. Hoje serve os dados de exemplo (seed) e guarda as
+/// entradas novas da sessão em memória; trocar por versão Supabase mantém a
+/// mesma API. Usada por: providers.
 class NotebookRepository {
   const NotebookRepository();
+
+  /// Entradas de diário criadas nesta sessão (em memória, some ao recarregar).
+  /// Usada por: [fetchDiary], [addDiaryEntry].
+  static final List<DiaryEntry> _sessionDiary = [];
 
   /// Lista todas as fichas (técnicas, frameworks, guias). Usada por: lessonsProvider.
   Future<List<Lesson>> fetchLessons() async {
@@ -40,12 +45,20 @@ class NotebookRepository {
   Future<SourceNote?> noteById(String id) async =>
       _firstOrNull(kSeedNotes, (n) => n.id == id);
 
-  /// Lista as entradas do diário. Usada por: diaryProvider.
-  Future<List<DiaryEntry>> fetchDiary() async => kSeedDiary;
+  /// Lista as entradas do diário (novas da sessão primeiro). Usada por: diaryProvider.
+  Future<List<DiaryEntry>> fetchDiary() async =>
+      [..._sessionDiary.reversed, ...kSeedDiary];
+
+  /// Grava uma entrada nova do diário (em memória nesta fase).
+  /// Usada por: diary_quick_sheet.
+  Future<void> addDiaryEntry(DiaryEntry entry) async {
+    _sessionDiary.add(entry);
+    AppLog.i('notebook', 'diário gravado: ${entry.recipeName}');
+  }
 
   /// Busca uma entrada de diário por id (ou null). Usada por: diaryByIdProvider.
   Future<DiaryEntry?> diaryById(String id) async =>
-      _firstOrNull(kSeedDiary, (d) => d.id == id);
+      _firstOrNull([..._sessionDiary, ...kSeedDiary], (d) => d.id == id);
 
   /// Lista os históricos de versão. Usada por: versionsProvider.
   Future<List<RecipeVersion>> fetchVersions() async => kSeedVersions;

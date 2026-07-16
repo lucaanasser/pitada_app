@@ -24,7 +24,6 @@ mixin _$Recipe {
   num get protein;
   num get carb;
   num get fat;
-  String? get difficulty;
   String get heroColor;
   int get photoCount;
   String? get notes;
@@ -63,8 +62,6 @@ mixin _$Recipe {
             (identical(other.protein, protein) || other.protein == protein) &&
             (identical(other.carb, carb) || other.carb == carb) &&
             (identical(other.fat, fat) || other.fat == fat) &&
-            (identical(other.difficulty, difficulty) ||
-                other.difficulty == difficulty) &&
             (identical(other.heroColor, heroColor) ||
                 other.heroColor == heroColor) &&
             (identical(other.photoCount, photoCount) ||
@@ -95,7 +92,6 @@ mixin _$Recipe {
         protein,
         carb,
         fat,
-        difficulty,
         heroColor,
         photoCount,
         notes,
@@ -109,7 +105,7 @@ mixin _$Recipe {
 
   @override
   String toString() {
-    return 'Recipe(id: $id, title: $title, source: $source, sourceUrl: $sourceUrl, servings: $servings, timeMinutes: $timeMinutes, kcal: $kcal, protein: $protein, carb: $carb, fat: $fat, difficulty: $difficulty, heroColor: $heroColor, photoCount: $photoCount, notes: $notes, folderIds: $folderIds, techniques: $techniques, ingredients: $ingredients, steps: $steps, version: $version, versionGroupId: $versionGroupId)';
+    return 'Recipe(id: $id, title: $title, source: $source, sourceUrl: $sourceUrl, servings: $servings, timeMinutes: $timeMinutes, kcal: $kcal, protein: $protein, carb: $carb, fat: $fat, heroColor: $heroColor, photoCount: $photoCount, notes: $notes, folderIds: $folderIds, techniques: $techniques, ingredients: $ingredients, steps: $steps, version: $version, versionGroupId: $versionGroupId)';
   }
 }
 
@@ -129,7 +125,6 @@ abstract mixin class $RecipeCopyWith<$Res> {
       num protein,
       num carb,
       num fat,
-      String? difficulty,
       String heroColor,
       int photoCount,
       String? notes,
@@ -163,7 +158,6 @@ class _$RecipeCopyWithImpl<$Res> implements $RecipeCopyWith<$Res> {
     Object? protein = null,
     Object? carb = null,
     Object? fat = null,
-    Object? difficulty = freezed,
     Object? heroColor = null,
     Object? photoCount = null,
     Object? notes = freezed,
@@ -215,10 +209,6 @@ class _$RecipeCopyWithImpl<$Res> implements $RecipeCopyWith<$Res> {
           ? _self.fat
           : fat // ignore: cast_nullable_to_non_nullable
               as num,
-      difficulty: freezed == difficulty
-          ? _self.difficulty
-          : difficulty // ignore: cast_nullable_to_non_nullable
-              as String?,
       heroColor: null == heroColor
           ? _self.heroColor
           : heroColor // ignore: cast_nullable_to_non_nullable
@@ -363,7 +353,6 @@ extension RecipePatterns on Recipe {
             num protein,
             num carb,
             num fat,
-            String? difficulty,
             String heroColor,
             int photoCount,
             String? notes,
@@ -390,7 +379,6 @@ extension RecipePatterns on Recipe {
             _that.protein,
             _that.carb,
             _that.fat,
-            _that.difficulty,
             _that.heroColor,
             _that.photoCount,
             _that.notes,
@@ -431,7 +419,6 @@ extension RecipePatterns on Recipe {
             num protein,
             num carb,
             num fat,
-            String? difficulty,
             String heroColor,
             int photoCount,
             String? notes,
@@ -457,7 +444,6 @@ extension RecipePatterns on Recipe {
             _that.protein,
             _that.carb,
             _that.fat,
-            _that.difficulty,
             _that.heroColor,
             _that.photoCount,
             _that.notes,
@@ -497,7 +483,6 @@ extension RecipePatterns on Recipe {
             num protein,
             num carb,
             num fat,
-            String? difficulty,
             String heroColor,
             int photoCount,
             String? notes,
@@ -523,7 +508,6 @@ extension RecipePatterns on Recipe {
             _that.protein,
             _that.carb,
             _that.fat,
-            _that.difficulty,
             _that.heroColor,
             _that.photoCount,
             _that.notes,
@@ -553,7 +537,6 @@ class _Recipe extends Recipe {
       this.protein = 0,
       this.carb = 0,
       this.fat = 0,
-      this.difficulty,
       this.heroColor = 'clay',
       this.photoCount = 0,
       this.notes,
@@ -595,8 +578,6 @@ class _Recipe extends Recipe {
   @override
   @JsonKey()
   final num fat;
-  @override
-  final String? difficulty;
   @override
   @JsonKey()
   final String heroColor;
@@ -680,8 +661,6 @@ class _Recipe extends Recipe {
             (identical(other.protein, protein) || other.protein == protein) &&
             (identical(other.carb, carb) || other.carb == carb) &&
             (identical(other.fat, fat) || other.fat == fat) &&
-            (identical(other.difficulty, difficulty) ||
-                other.difficulty == difficulty) &&
             (identical(other.heroColor, heroColor) ||
                 other.heroColor == heroColor) &&
             (identical(other.photoCount, photoCount) ||
@@ -713,7 +692,6 @@ class _Recipe extends Recipe {
         protein,
         carb,
         fat,
-        difficulty,
         heroColor,
         photoCount,
         notes,
@@ -727,7 +705,7 @@ class _Recipe extends Recipe {
 
   @override
   String toString() {
-    return 'Recipe(id: $id, title: $title, source: $source, sourceUrl: $sourceUrl, servings: $servings, timeMinutes: $timeMinutes, kcal: $kcal, protein: $protein, carb: $carb, fat: $fat, difficulty: $difficulty, heroColor: $heroColor, photoCount: $photoCount, notes: $notes, folderIds: $folderIds, techniques: $techniques, ingredients: $ingredients, steps: $steps, version: $version, versionGroupId: $versionGroupId)';
+    return 'Recipe(id: $id, title: $title, source: $source, sourceUrl: $sourceUrl, servings: $servings, timeMinutes: $timeMinutes, kcal: $kcal, protein: $protein, carb: $carb, fat: $fat, heroColor: $heroColor, photoCount: $photoCount, notes: $notes, folderIds: $folderIds, techniques: $techniques, ingredients: $ingredients, steps: $steps, version: $version, versionGroupId: $versionGroupId)';
   }
 }
 
@@ -748,7 +726,6 @@ abstract mixin class _$RecipeCopyWith<$Res> implements $RecipeCopyWith<$Res> {
       num protein,
       num carb,
       num fat,
-      String? difficulty,
       String heroColor,
       int photoCount,
       String? notes,
@@ -782,7 +759,6 @@ class __$RecipeCopyWithImpl<$Res> implements _$RecipeCopyWith<$Res> {
     Object? protein = null,
     Object? carb = null,
     Object? fat = null,
-    Object? difficulty = freezed,
     Object? heroColor = null,
     Object? photoCount = null,
     Object? notes = freezed,
@@ -834,10 +810,6 @@ class __$RecipeCopyWithImpl<$Res> implements _$RecipeCopyWith<$Res> {
           ? _self.fat
           : fat // ignore: cast_nullable_to_non_nullable
               as num,
-      difficulty: freezed == difficulty
-          ? _self.difficulty
-          : difficulty // ignore: cast_nullable_to_non_nullable
-              as String?,
       heroColor: null == heroColor
           ? _self.heroColor
           : heroColor // ignore: cast_nullable_to_non_nullable

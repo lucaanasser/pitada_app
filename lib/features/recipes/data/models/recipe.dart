@@ -36,7 +36,6 @@ abstract class Recipe with _$Recipe {
     @Default(0) num protein,
     @Default(0) num carb,
     @Default(0) num fat,
-    String? difficulty,
     @Default('clay') String heroColor,
     @Default(0) int photoCount,
     String? notes,

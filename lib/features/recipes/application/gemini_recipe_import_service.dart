@@ -19,7 +19,7 @@ import 'recipe_import_service.dart';
 
 /// Importação via Gemini na Edge Function `import-recipe`. Contrato:
 ///   entrada:  { source, url? , content? (base64) }
-///   saída:    { title, servings, time_minutes?, difficulty?, techniques?,
+///   saída:    { title, servings, time_minutes?, techniques?,
 ///               ingredients:[{name, grams?, human_qty?, human_unit?}],
 ///               steps:[{text, tip?}], kcal/protein/carb/fat? }
 /// Usada por: recipeImportServiceProvider quando online (override).
@@ -75,7 +75,6 @@ class GeminiRecipeImportService implements RecipeImportService {
       protein: (d['protein'] as num?) ?? 0,
       carb: (d['carb'] as num?) ?? 0,
       fat: (d['fat'] as num?) ?? 0,
-      difficulty: d['difficulty'] as String?,
       techniques: (d['techniques'] as List?)?.cast<String>() ?? const [],
       ingredients: ingredients,
       steps: steps,

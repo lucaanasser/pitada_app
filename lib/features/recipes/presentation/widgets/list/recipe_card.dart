@@ -1,10 +1,10 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/recipes/presentation/widgets/list/recipe_card.dart
 // O QUÊ:     Card de receita sóbrio: bloco de foto (pastel) + título + uma linha
-//            de meta em texto (tempo · kcal · dificuldade). [compact] encolhe
+//            de meta em texto (tempo · kcal). [compact] encolhe
 //            p/ 2 colunas. Reage ao tema; sem sombra, sem pílulas.
 // USA:       core/theme (AppIcons, PitadaColors), recipe_meta_text, Recipe.
-// USADO POR: recipes_screen (modos single e grid), folder_screen (grade da pasta).
+// USADO POR: folder_screen (grade da pasta).
 // SPEC:      specs/components/recipe_card.yaml
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
@@ -17,21 +17,21 @@ import '../../../data/models/recipe.dart';
 import 'recipe_meta_text.dart';
 
 /// Card de receita com foto (placeholder colorido) e meta em texto sóbrio.
-/// [ownership] é a linha de posse opcional ("v3 sua · feita 2×").
-/// Usada por: recipes_screen, folder_screen.
+/// [mastery] é a linha de maestria opcional ("nunca fiz" / "fiz 2×" / "domino").
+/// Usada por: folder_screen (grade da pasta).
 class RecipeCard extends StatelessWidget {
   const RecipeCard({
     super.key,
     required this.recipe,
     this.onTap,
     this.compact = false,
-    this.ownership,
+    this.mastery,
   });
 
   final Recipe recipe;
   final VoidCallback? onTap;
   final bool compact;
-  final String? ownership;
+  final String? mastery;
 
   /// Monta a caixa (borda tinta) com foto, título e meta. Usada por: framework.
   @override
@@ -72,11 +72,11 @@ class RecipeCard extends StatelessWidget {
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  if (ownership != null && ownership!.isNotEmpty)
+                  if (mastery != null && mastery!.isNotEmpty)
                     Padding(
                       padding: const EdgeInsets.only(top: AppSpacing.xs),
                       child: Text(
-                        ownership!,
+                        mastery!,
                         style: AppType.on(AppType.captionSm, pit.muted),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,

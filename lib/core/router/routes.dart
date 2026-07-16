@@ -25,6 +25,8 @@ import '../../features/notebook/presentation/screens/version/versions_screen.dar
 import '../../features/profile/presentation/settings_screen.dart';
 import '../../features/recipes/presentation/screens/cook_mode_screen.dart';
 import '../../features/recipes/presentation/screens/folder_screen.dart';
+import '../../features/recipes/presentation/screens/framework_create_screen.dart';
+import '../../features/recipes/presentation/screens/framework_detail_screen.dart';
 import '../../features/recipes/presentation/screens/recipe_detail_screen.dart';
 import '../../features/recipes/presentation/screens/recipe_edit_screen.dart';
 
@@ -43,6 +45,17 @@ List<RouteBase> buildFullscreenRoutes(GlobalKey<NavigatorState> rootKey) {
     fs('/recipe/:id', (c, s) => RecipeDetailScreen(recipeId: p(s, 'id'))),
     fs('/recipe/:id/edit', (c, s) => RecipeEditScreen(recipeId: p(s, 'id'))),
     fs('/recipe/:id/cook', (c, s) => CookModeScreen(recipeId: p(s, 'id'))),
+
+    fs(
+      '/framework/new',
+      (c, s) => FrameworkCreateScreen(
+        recipeIds: s.uri.queryParameters['recipes']?.split(',') ?? const [],
+      ),
+    ),
+    fs(
+      '/framework/:id',
+      (c, s) => FrameworkDetailScreen(frameworkId: p(s, 'id')),
+    ),
 
     GoRoute(
       path: '/folder/:id',

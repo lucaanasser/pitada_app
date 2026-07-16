@@ -1,7 +1,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/recipes/presentation/widgets/detail/recipe_meta.dart
-// O QUÊ:     Fonte de origem + meta da receita em TEXTO sóbrio (porções · tempo ·
-//            dificuldade). Métrica não vira cápsula (regra: pitada_tag.yaml).
+// O QUÊ:     Fonte de origem + meta da receita em TEXTO sóbrio (porções · tempo).
+//            Métrica não vira cápsula (regra: pitada_tag.yaml).
 // USA:       core/theme (AppIcons, AppColors, PitadaColors), utils/format, Recipe.
 // USADO POR: recipe_detail_screen.
 // SPEC:      specs/features/recipes.yaml (RecipeDetailScreen: meta)
@@ -18,7 +18,7 @@ import '../../../../../core/widgets/controls/editable.dart';
 import '../../../data/models/recipe.dart';
 
 /// Bloco com o link de origem (quando houver) e a meta em texto sóbrio. Cada
-/// segmento (porções/tempo/dificuldade) é editável por gesto quando o respectivo
+/// segmento (porções/tempo) é editável por gesto quando o respectivo
 /// onEdit* é passado. Usada por: recipe_detail_screen.
 class RecipeMeta extends StatelessWidget {
   const RecipeMeta({
@@ -26,13 +26,11 @@ class RecipeMeta extends StatelessWidget {
     required this.recipe,
     this.onEditServings,
     this.onEditTime,
-    this.onEditDifficulty,
   });
 
   final Recipe recipe;
   final VoidCallback? onEditServings;
   final VoidCallback? onEditTime;
-  final VoidCallback? onEditDifficulty;
 
   /// Monta a fonte de origem + a linha de meta em segmentos editáveis. Usada por: framework.
   @override
@@ -42,7 +40,6 @@ class RecipeMeta extends StatelessWidget {
       ('${recipe.servings} porções', onEditServings),
       if (recipe.timeMinutes != null)
         (formatMinutes(recipe.timeMinutes), onEditTime),
-      if (recipe.difficulty != null) (recipe.difficulty!, onEditDifficulty),
     ];
     final style = AppType.on(AppType.bodySm, pit.text2);
     return Column(

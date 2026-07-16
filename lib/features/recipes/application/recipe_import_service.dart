@@ -68,7 +68,6 @@ class MockRecipeImportService implements RecipeImportService {
       protein: 42,
       carb: 38,
       fat: 18,
-      difficulty: 'Intermediário',
       heroColor: 'terra',
       techniques: <String>['Selar a carne', 'Emulsionar um molho'],
       ingredients: const <Ingredient>[

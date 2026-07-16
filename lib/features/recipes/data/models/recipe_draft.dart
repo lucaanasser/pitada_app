@@ -23,7 +23,6 @@ class RecipeDraft {
   num protein;
   num carb;
   num fat;
-  String? difficulty;
   String heroColor;
   String? notes;
   List<String> folderIds;
@@ -42,7 +41,6 @@ class RecipeDraft {
     this.protein = 0,
     this.carb = 0,
     this.fat = 0,
-    this.difficulty,
     this.heroColor = 'clay',
     this.notes,
     List<String>? folderIds,
@@ -67,7 +65,6 @@ class RecipeDraft {
         protein: r.protein,
         carb: r.carb,
         fat: r.fat,
-        difficulty: r.difficulty,
         heroColor: r.heroColor,
         notes: r.notes,
         folderIds: List<String>.of(r.folderIds),
@@ -89,7 +86,6 @@ class RecipeDraft {
         protein: protein,
         carb: carb,
         fat: fat,
-        difficulty: difficulty,
         heroColor: heroColor,
         notes: notes,
         folderIds: List<String>.of(folderIds),

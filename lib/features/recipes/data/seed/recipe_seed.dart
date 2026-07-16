@@ -32,7 +32,6 @@ const kSeedRecipes = <Recipe>[
     protein: 42,
     carb: 38,
     fat: 18,
-    difficulty: 'Intermediário',
     heroColor: 'terra',
     folderIds: ['rapidos'],
     version: 3,
@@ -90,7 +89,6 @@ const kSeedRecipes = <Recipe>[
     protein: 22,
     carb: 54,
     fat: 14,
-    difficulty: 'Fácil',
     heroColor: 'moss',
     folderIds: ['fit'],
     ingredients: [
@@ -122,9 +120,9 @@ const kSeedRecipes = <Recipe>[
     protein: 38,
     carb: 40,
     fat: 34,
-    difficulty: 'Intermediário',
     heroColor: 'rust',
     folderIds: ['rapidos'],
+    techniques: ['Selar a carne', 'Emulsionar um molho'],
     version: 2,
     versionGroupId: 'strogonoff',
     ingredients: [
@@ -153,7 +151,6 @@ const kSeedRecipes = <Recipe>[
     protein: 12,
     carb: 44,
     fat: 7,
-    difficulty: 'Fácil',
     heroColor: 'ochre',
     folderIds: ['doces', 'fit'],
     ingredients: [

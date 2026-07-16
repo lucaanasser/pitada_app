@@ -1,7 +1,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/recipes/presentation/recipe_quick_edit.dart
 // O QUÊ:     Orquestra a edição inline do detalhe: um método por campo (título,
-//            kcal, porções, tempo, dificuldade, macros, ingrediente, passo, técnicas,
+//            kcal, porções, tempo, macros, ingrediente, passo, técnicas,
 //            anotações). Abre a QuickEditSheet, monta o Recipe editado e salva.
 // USA:       QuickEditSheet, recipes_providers (RecipeEditController), modelos.
 // USADO POR: recipe_detail_body (gestos Editable de cada campo).
@@ -111,18 +111,6 @@ class RecipeQuickEdit {
               ? r.timeMinutes
               : int.tryParse(s.trim()) ?? r.timeMinutes,
         ),
-      );
-
-  /// Edita a dificuldade. Usada por: segmento "dificuldade" da meta.
-  Future<void> difficulty(Recipe r) => _one(
-        'Dificuldade',
-        QuickEditField(
-          label: 'Dificuldade',
-          initial: r.difficulty ?? '',
-          hint: 'Ex.: Fácil, Médio',
-        ),
-        (s) =>
-            r.copyWith(difficulty: s.trim().isEmpty ? r.difficulty : s.trim()),
       );
 
   /// Edita um macro (célula da NutritionCard). Usada por: proteína/gordura/carbo.

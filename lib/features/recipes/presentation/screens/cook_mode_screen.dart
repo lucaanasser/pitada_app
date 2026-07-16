@@ -1,9 +1,10 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/recipes/presentation/screens/cook_mode_screen.dart
 // O QUÊ:     Modo cozinhar em tela cheia: um passo por vez, com progresso no topo
-//            e navegação embaixo. Ao concluir, abre o chat pós-preparo.
-// USA:       recipes_providers, cook_step_view, cook_nav_bar, cook_chat_sheet,
-//            core/widgets (StepProgress), theme/*.
+//            e navegação embaixo. Ao concluir, abre o diário rápido do Caderno
+//            (as 3 perguntas) — o registro acontece na hora, não depois.
+// USA:       recipes_providers, cook_step_view, cook_nav_bar,
+//            notebook/diary_quick_sheet, core/widgets (StepProgress), theme/*.
 // USADO POR: core/router (/recipe/:id/cook) — via botão "Cozinhar" do detalhe.
 // SPEC:      specs/features/recipes.yaml (CookModeScreen)
 // ─────────────────────────────────────────────────────────────────────────────
@@ -17,9 +18,9 @@ import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
 import '../../../../core/utils/app_log.dart';
 import '../../../../core/widgets/cards/step_progress.dart';
+import '../../../notebook/presentation/sheets/diary_quick_sheet.dart';
 import '../../application/recipes_providers.dart';
 import '../../data/models/recipe.dart';
-import '../sheets/cook_chat_sheet.dart';
 import '../widgets/cook/cook_nav_bar.dart';
 import '../widgets/cook/cook_step_view.dart';
 
@@ -37,14 +38,15 @@ class CookModeScreen extends ConsumerStatefulWidget {
 class _CookModeScreenState extends ConsumerState<CookModeScreen> {
   int _current = 0;
 
-  /// Avança um passo ou, no último, conclui e abre o chat. Usada por: CookNavBar.
+  /// Avança um passo ou, no último, conclui e abre o diário rápido (as 3
+  /// perguntas, no momento certo). Usada por: CookNavBar.
   void _next(Recipe recipe) {
     if (_current < recipe.steps.length - 1) {
       setState(() => _current++);
       return;
     }
     AppLog.i('recipes', 'cozimento concluído: ${recipe.id}');
-    showCookChatSheet(context, recipe: recipe);
+    showDiaryQuickSheet(context, recipeName: recipe.title, recipeId: recipe.id);
     context.pop();
   }
 

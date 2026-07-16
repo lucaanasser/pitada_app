@@ -1,9 +1,10 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/recipes/presentation/widgets/list/recipe_row.dart
-// O QUÊ:     Linha de receita na lista (miniatura pastel + título + meta + seta).
+// O QUÊ:     Linha de receita na lista (miniatura pastel + título + meta +
+//            maestria + memória do caderno + seta).
 // USA:       core/theme (AppIcons, PitadaColors), core/widgets (HairlineRow,
 //            RecipeThumb outlined), recipe_meta_text (linha de meta), Recipe.
-// USADO POR: recipes_screen, folder_screen.
+// USADO POR: recipes_screen (via RecipeListView), framework_detail_screen.
 // SPEC:      specs/features/recipes.yaml (RecipesScreen: recipe_row)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
@@ -16,27 +17,32 @@ import '../../../../../core/widgets/cards/recipe_thumb.dart';
 import '../../../data/models/recipe.dart';
 import 'recipe_meta_text.dart';
 
-/// Uma receita como linha de lista. [ownership] é a linha de posse opcional
-/// ("v3 sua · feita 2×"). Usada por: recipes_screen.
+/// Uma receita como linha de lista. [mastery] é a linha de maestria
+/// ("nunca fiz" / "fiz 2×" / "domino") e [memory] a anotação da última vez
+/// ("última vez: faltou ácido"). Usada por: RecipeListView.
 class RecipeRow extends StatelessWidget {
   const RecipeRow({
     super.key,
     required this.recipe,
     this.onTap,
     this.showDivider = true,
-    this.ownership,
+    this.mastery,
+    this.memory,
   });
 
   final Recipe recipe;
   final VoidCallback? onTap;
   final bool showDivider;
-  final String? ownership;
+  final String? mastery;
+  final String? memory;
 
-  /// Monta a linha (miniatura + título + meta + posse + seta). Usada por: framework.
+  /// Monta a linha (miniatura + título + meta + maestria + memória + seta).
+  /// Usada por: framework.
   @override
   Widget build(BuildContext context) {
     final pit = context.pit;
-    final has = ownership != null && ownership!.isNotEmpty;
+    final hasMastery = mastery != null && mastery!.isNotEmpty;
+    final hasMemory = memory != null && memory!.isNotEmpty;
     return HairlineRow(
       onTap: onTap,
       showDivider: showDivider,
@@ -46,15 +52,19 @@ class RecipeRow extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            recipeMetaText(recipe),
+            hasMastery
+                ? '${recipeMetaText(recipe)}  ·  $mastery'
+                : recipeMetaText(recipe),
             style: AppType.on(AppType.caption, pit.muted),
           ),
-          if (has)
+          if (hasMemory)
             Padding(
               padding: const EdgeInsets.only(top: 2),
               child: Text(
-                ownership!,
+                memory!,
                 style: AppType.on(AppType.captionSm, pit.text2),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
         ],
