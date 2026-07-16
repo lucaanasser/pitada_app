@@ -6,7 +6,7 @@
 // USADO POR: profile_repository (fonte em memória enquanto não há Supabase).
 // SPEC:      specs/features/profile.yaml (seed: profile_seed.dart)
 // ─────────────────────────────────────────────────────────────────────────────
-import 'profile.dart';
+import 'models/profile.dart';
 
 /// Identidade de exemplo (Luca Naasser). Usada por: profile_repository.fetchProfile.
 const Profile kSeedProfile = Profile(name: 'Luca Naasser', initial: 'L');

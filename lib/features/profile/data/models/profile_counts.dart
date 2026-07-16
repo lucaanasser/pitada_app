@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/profile/data/profile_counts.dart
+// lib/features/profile/data/models/profile_counts.dart
 // O QUÊ:     Modelo dos números REAIS do perfil, agregados das outras features
 //            (receitas, capturas no caderno, preparos no diário).
 // USA:       nada (classe pura imutável, sem dependências).

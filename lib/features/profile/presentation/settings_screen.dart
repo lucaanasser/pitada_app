@@ -22,8 +22,8 @@ import '../../../core/widgets/controls/pitada_button.dart';
 import '../../../core/widgets/layout/pitada_scaffold.dart';
 import '../../../core/widgets/layout/section_header.dart';
 import '../application/settings_providers.dart';
-import 'widgets/settings_rows.dart';
-import 'widgets/theme_picker.dart';
+import 'widgets/settings/settings_rows.dart';
+import 'widgets/settings/theme_picker.dart';
 
 /// Tela de configurações do app. Usada por: router (/profile/settings).
 class SettingsScreen extends ConsumerWidget {

@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/profile/data/activity_day.dart
+// lib/features/profile/data/models/activity_day.dart
 // O QUÊ:     Modelo de uma célula do gráfico de atividade (um dia REAL estilo
 //            GitHub): data + posição na grade + intensidade + registros do dia.
 // USA:       activity_entry.dart (os registros do dia).

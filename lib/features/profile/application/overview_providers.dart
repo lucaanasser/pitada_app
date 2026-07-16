@@ -19,10 +19,10 @@ import '../../notebook/data/models/hub/fio_entry.dart';
 import '../../recipes/application/recipes_providers.dart';
 import '../../groceries/application/providers.dart';
 import '../data/activity_builder.dart';
-import '../data/activity_day.dart';
-import '../data/activity_entry.dart';
-import '../data/profile_counts.dart';
-import '../data/radar_item.dart';
+import '../data/models/activity_day.dart';
+import '../data/models/activity_entry.dart';
+import '../data/models/profile_counts.dart';
+import '../data/models/radar_item.dart';
 
 /// Rótulo pt-BR de um tipo de captura do fio. Usada por: [activityProvider].
 String _fioLabel(FioKind kind) => switch (kind) {

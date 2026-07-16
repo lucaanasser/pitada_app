@@ -7,7 +7,7 @@
 // SPEC:      specs/features/profile.yaml (repository: ProfileRepository)
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../../core/utils/app_log.dart';
-import 'profile.dart';
+import 'models/profile.dart';
 import 'profile_seed.dart';
 
 /// Repositório do Perfil. Implementação atual serve os dados de exemplo.

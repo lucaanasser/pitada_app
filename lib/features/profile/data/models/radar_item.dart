@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/profile/data/radar_item.dart
+// lib/features/profile/data/models/radar_item.dart
 // O QUÊ:     Modelo de uma pendência acionável do radar do perfil (cozinha sem
 //            registro, item vencendo/acabando na despensa, refazer pendente).
 // USA:       nada (classe pura imutável, sem dependências).

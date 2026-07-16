@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/profile/presentation/widgets/activity_grid.dart
+// lib/features/profile/presentation/widgets/activity/activity_grid.dart
 // O QUÊ:     A grade do gráfico de atividade: rótulos de mês no topo, seg/qua/sex
 //            à esquerda, células tocáveis em COR ÚNICA estilo GitHub (quanto mais
 //            registros no dia, mais intensa). Rolagem horizontal reversa.
@@ -12,13 +12,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../core/theme/colors.dart';
-import '../../../../core/theme/pitada_colors.dart';
-import '../../../../core/theme/spacing.dart';
-import '../../../../core/theme/typography.dart';
-import '../../../../core/utils/format.dart';
-import '../../application/profile_providers.dart';
-import '../../data/activity_day.dart';
+import '../../../../../core/theme/colors.dart';
+import '../../../../../core/theme/pitada_colors.dart';
+import '../../../../../core/theme/spacing.dart';
+import '../../../../../core/theme/typography.dart';
+import '../../../../../core/utils/format.dart';
+import '../../../application/profile_providers.dart';
+import '../../../data/models/activity_day.dart';
 
 /// Lado de cada célula e vão entre células (~GitHub). Usadas por: [ActivityGrid].
 const double _kCell = 12;

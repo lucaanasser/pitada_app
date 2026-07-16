@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/profile/data/activity_entry.dart
+// lib/features/profile/data/models/activity_entry.dart
 // O QUÊ:     Modelo de UM registro dentro de um dia do gráfico de atividade
 //            (o que responde "quais registros fiz naquele dia").
 // USA:       nada (classe pura imutável, sem dependências).

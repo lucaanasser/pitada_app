@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/profile/data/activity_stats.dart
+// lib/features/profile/data/models/activity_stats.dart
 // O QUÊ:     Estatísticas derivadas da lista de atividade (dias ativos, melhor
 //            sequência, sequência atual) — função pura, sem estado.
 // USA:       activity_day.dart (modelo).

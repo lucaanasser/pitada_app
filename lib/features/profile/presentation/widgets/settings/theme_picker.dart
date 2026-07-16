@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/profile/presentation/widgets/theme_picker.dart
+// lib/features/profile/presentation/widgets/settings/theme_picker.dart
 // O QUÊ:     Seletor visual de tema: 3 cards (Claro / Escuro / Sistema) com
 //            mini-preview de cada tema; o selecionado ganha borda accent.
 // USA:       core/theme (AppColors — tokens crus dos 2 temas p/ os previews,
@@ -10,12 +10,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../core/theme/colors.dart';
-import '../../../../core/theme/pitada_colors.dart';
-import '../../../../core/theme/spacing.dart';
-import '../../../../core/theme/theme_providers.dart';
-import '../../../../core/theme/typography.dart';
-import '../../../../core/utils/app_log.dart';
+import '../../../../../core/theme/colors.dart';
+import '../../../../../core/theme/pitada_colors.dart';
+import '../../../../../core/theme/spacing.dart';
+import '../../../../../core/theme/theme_providers.dart';
+import '../../../../../core/theme/typography.dart';
+import '../../../../../core/utils/app_log.dart';
 
 /// Altura do mini-preview de tema dentro do card. Usada por: [_Preview].
 const double _kPreview = 56;

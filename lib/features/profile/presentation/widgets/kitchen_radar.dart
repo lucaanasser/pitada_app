@@ -22,7 +22,7 @@ import '../../../../core/utils/app_log.dart';
 import '../../../../core/widgets/tags/expiry_tag.dart';
 import '../../../../core/widgets/cards/hairline_row.dart';
 import '../../application/overview_providers.dart';
-import '../../data/radar_item.dart';
+import '../../data/models/radar_item.dart';
 
 /// Lista de pendências acionáveis (máx. 5) ou a linha calma de "tudo em dia".
 /// Usada por: ProfileScreen.

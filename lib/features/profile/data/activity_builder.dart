@@ -7,8 +7,8 @@
 // USADO POR: overview_providers (activityProvider).
 // SPEC:      specs/features/profile.yaml (data.builder)
 // ─────────────────────────────────────────────────────────────────────────────
-import 'activity_day.dart';
-import 'activity_entry.dart';
+import 'models/activity_day.dart';
+import 'models/activity_entry.dart';
 
 /// Quantas semanas o gráfico de atividade cobre (~1 semestre).
 /// Usada por: buildActivityDays.

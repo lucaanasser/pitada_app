@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/profile/data/profile.dart
+// lib/features/profile/data/models/profile.dart
 // O QUÊ:     Modelo do perfil pessoal — identidade mínima (nome + inicial).
 //            Números e resumos saíram: hoje são derivados de dados reais.
 // USA:       nada (classe pura imutável, sem dependências).

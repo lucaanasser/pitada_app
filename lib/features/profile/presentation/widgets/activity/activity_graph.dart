@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/profile/presentation/widgets/activity_graph.dart
+// lib/features/profile/presentation/widgets/activity/activity_graph.dart
 // O QUÊ:     Gráfico de atividade estilo GitHub, SEM card: grade em cor única,
 //            rodapé (dias ativos · recorde + rampa "menos → mais") e o detalhe
 //            do dia tocado com a LISTA de registros (navegável).
@@ -14,18 +14,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../core/theme/app_icons.dart';
-import '../../../../core/theme/colors.dart';
-import '../../../../core/theme/pitada_colors.dart';
-import '../../../../core/theme/spacing.dart';
-import '../../../../core/theme/typography.dart';
-import '../../../../core/utils/app_log.dart';
-import '../../../../core/utils/format.dart';
-import '../../application/overview_providers.dart';
-import '../../application/profile_providers.dart';
-import '../../data/activity_day.dart';
-import '../../data/activity_entry.dart';
-import '../../data/activity_stats.dart';
+import '../../../../../core/theme/app_icons.dart';
+import '../../../../../core/theme/colors.dart';
+import '../../../../../core/theme/pitada_colors.dart';
+import '../../../../../core/theme/spacing.dart';
+import '../../../../../core/theme/typography.dart';
+import '../../../../../core/utils/app_log.dart';
+import '../../../../../core/utils/format.dart';
+import '../../../application/overview_providers.dart';
+import '../../../application/profile_providers.dart';
+import '../../../data/models/activity_day.dart';
+import '../../../data/models/activity_entry.dart';
+import '../../../data/models/activity_stats.dart';
 import 'activity_grid.dart';
 
 /// Gráfico de atividade da cozinha (grade + rodapé + detalhe do dia), assentado

@@ -8,8 +8,8 @@
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../data/activity_day.dart';
-import '../data/profile.dart';
+import '../data/models/activity_day.dart';
+import '../data/models/profile.dart';
 import '../data/profile_repository.dart';
 
 /// Instância do repositório de Perfil. Usada por: profileProvider.

@@ -16,8 +16,8 @@ import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
 import '../../../../core/theme/typography.dart';
 import '../../application/overview_providers.dart';
-import '../../data/activity_stats.dart';
-import '../../data/profile.dart';
+import '../../data/models/activity_stats.dart';
+import '../../data/models/profile.dart';
 
 /// Lado do avatar quadrado (compacto — a página é painel, não cartão de visita).
 /// Usada por: [_Avatar].
