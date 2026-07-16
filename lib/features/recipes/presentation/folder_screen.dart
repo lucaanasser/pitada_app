@@ -59,11 +59,6 @@ class FolderScreen extends ConsumerWidget {
     final inFolder =
         recipes.where((r) => r.folderIds.contains(folderId)).toList();
 
-    // A rota é NÃO-opaca: a grade de pastas continua pintada por baixo. Abrir:
-    // faixa desliza de baixo (0–15%), fundo+topo dissolvem (0–45%) e os papéis
-    // saem depois da faixa assentar. Fechar (reverseCurve): fundo dissolve logo
-    // (100%→55%), papéis mergulham e a faixa sai por último (15%→0) — tudo numa
-    // transição só, sem "animação primeiro, troca de página depois".
     final route = ModalRoute.of(context)?.animation ?? kAlwaysCompleteAnimation;
     final bgFade = CurvedAnimation(
       parent: route,
@@ -145,9 +140,6 @@ class FolderScreen extends ConsumerWidget {
   Widget _grid(
       BuildContext context, List<Recipe> inFolder, Animation<double> route) {
     return LayoutBuilder(
-      // ClipRect aberto embaixo: o papel em voo pode passar POR TRÁS da faixa
-      // da pasta (pintada depois na Column) — é o que faz parecer que ele sai
-      // de dentro dela e volta para dentro no fechamento.
       builder: (context, c) => ClipRect(
         clipper: const BottomOpenClipper(),
         child: GridView.builder(
@@ -193,8 +185,6 @@ class FolderScreen extends ConsumerWidget {
       width: double.infinity,
       decoration: BoxDecoration(
         color: pit.card(hero),
-        // Sem borda: a faixa descola do fundo por uma sombra curta p/ cima
-        // (sombra funcional — mesma exceção do card de pasta).
         boxShadow: const [
           BoxShadow(
             color: AppColors.shadow,

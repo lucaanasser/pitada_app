@@ -4,7 +4,7 @@
 //            implementações (Supabase x mock/seed) e sobe o app. Em debug + web,
 //            embrulha com DevicePreview (moldura de celular).
 // USA:       core/supabase (init), core/utils/app_log, app.dart (PitadaApp), riverpod,
-//            features/auth (override online), device_preview (só debug/web).
+//            features/auth + recipes + plans (overrides online), device_preview (debug/web).
 // USADO POR: o runtime do Flutter (função main).
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:device_preview/device_preview.dart';
@@ -17,6 +17,10 @@ import 'core/supabase/supabase.dart';
 import 'core/utils/app_log.dart';
 import 'features/auth/application/auth_providers.dart';
 import 'features/auth/data/auth_repository.dart';
+import 'features/plans/application/food_estimate_service.dart';
+import 'features/plans/application/gemini_food_estimate_service.dart';
+import 'features/recipes/application/gemini_recipe_import_service.dart';
+import 'features/recipes/application/recipe_import_service.dart';
 import 'features/recipes/application/recipes_providers.dart';
 import 'features/recipes/data/supabase_recipes_repository.dart';
 
@@ -28,8 +32,6 @@ Future<void> main() async {
   final online = await SupabaseService.initIfConfigured();
   AppLog.i('core', 'app iniciando (online=$online)');
 
-  // Overrides por ambiente: sem chaves valem os defaults (mock de auth + seed).
-  // Services de hardware (câmera/scanner) entram aqui no futuro, no mesmo molde.
   runApp(
     DevicePreview(
       enabled: kDebugMode && kIsWeb,
@@ -40,6 +42,10 @@ Future<void> main() async {
                 .overrideWithValue(const SupabaseAuthRepository()),
             recipesRepositoryProvider
                 .overrideWithValue(const SupabaseRecipesRepository()),
+            foodEstimateServiceProvider
+                .overrideWithValue(const GeminiFoodEstimateService()),
+            recipeImportServiceProvider
+                .overrideWithValue(const GeminiRecipeImportService()),
           ],
         ],
         child: const PitadaApp(),

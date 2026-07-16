@@ -19,7 +19,7 @@ abstract class Folder with _$Folder {
     required String id,
     required String name,
     @Default('clay')
-    String heroColor, // nome em AppColors.hero (pastel do card)
+    String heroColor,
   }) = _Folder;
 
   /// Monta a partir do JSON do banco (id/name/hero_color).

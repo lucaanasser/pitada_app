@@ -69,11 +69,10 @@ class _WeightPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    const inset = AppSpacing.md; // margem p/ os pontos não colarem na borda
+    const inset = AppSpacing.md;
     final left = inset, right = size.width - inset;
     final top = inset, bottom = size.height - inset;
 
-    // Escala vertical com folga (10% do intervalo, mín. 0.5 kg) p/ a linha respirar.
     var minKg = entries.first.kg, maxKg = entries.first.kg;
     for (final e in entries) {
       if (e.kg < minKg) minKg = e.kg;
@@ -83,7 +82,6 @@ class _WeightPainter extends CustomPainter {
     final pad = span < 0.01 ? 0.5 : span * 0.1;
     final lo = minKg - pad, hi = maxKg + pad;
 
-    // Converte cada pesagem em ponto (x igualmente espaçado; y invertido).
     final points = <Offset>[];
     for (var i = 0; i < entries.length; i++) {
       final tx = entries.length == 1 ? 0.5 : i / (entries.length - 1);
@@ -93,7 +91,6 @@ class _WeightPainter extends CustomPainter {
       );
     }
 
-    // Baseline discreta no rodapé (sem grade cheia — mantém o visual limpo).
     canvas.drawLine(
       Offset(left, bottom),
       Offset(right, bottom),
@@ -102,7 +99,6 @@ class _WeightPainter extends CustomPainter {
         ..strokeWidth = AppSpacing.hair,
     );
 
-    // Linha do peso.
     final path = Path()..moveTo(points.first.dx, points.first.dy);
     for (final p in points.skip(1)) {
       path.lineTo(p.dx, p.dy);
@@ -117,7 +113,6 @@ class _WeightPainter extends CustomPainter {
         ..strokeJoin = StrokeJoin.round,
     );
 
-    // Pontos.
     final dot = Paint()..color = line;
     for (final p in points) {
       canvas.drawCircle(p, 3, dot);

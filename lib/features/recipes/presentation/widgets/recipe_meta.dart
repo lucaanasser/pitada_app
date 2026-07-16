@@ -38,8 +38,6 @@ class RecipeMeta extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final pit = context.pit;
-    // Meta como texto (não cápsula): porções · tempo · dificuldade — kcal já
-    // aparece grande logo acima, no título da tela. Cada parte é um Editable.
     final segs = <(String, VoidCallback?)>[
       ('${recipe.servings} porções', onEditServings),
       if (recipe.timeMinutes != null)

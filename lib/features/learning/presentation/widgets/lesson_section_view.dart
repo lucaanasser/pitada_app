@@ -35,7 +35,6 @@ class LessonSectionView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // O callout (tip) já traz o próprio cabeçalho embutido — sem SectionHeader.
     if (section.kind == SectionKind.tip) {
       return Padding(
         padding: EdgeInsets.only(top: topGap),

@@ -19,8 +19,8 @@ class Lesson {
   final String id;
   final LessonKind category;
   final String title;
-  final String summary; // princípio (técnica) ou descrição (framework/guia)
-  final String? lead; // abertura livre dos guias
+  final String summary;
+  final String? lead;
   final List<LessonSection> sections;
 
   const Lesson({

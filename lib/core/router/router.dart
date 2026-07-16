@@ -59,8 +59,6 @@ final routerProvider = Provider<GoRouter>((ref) {
     navigatorKey: _rootKey,
     initialLocation: '/recipes',
     refreshListenable: refresh,
-    // Gate: online sem sessão -> /entrar; logado em /entrar -> abas.
-    // Offline (preview no PC, sem chaves) nunca redireciona.
     redirect: (context, state) {
       if (!Env.hasSupabase) return null;
       final atSignIn = state.matchedLocation == '/entrar';
@@ -68,8 +66,6 @@ final routerProvider = Provider<GoRouter>((ref) {
       return atSignIn ? '/recipes' : null;
     },
     routes: [
-      // —— Shell das 5 abas (cada aba mantém sua própria pilha) ——
-      // Ordem = índice da barra = índice de pit.tabBg. Perfil fecha a fila.
       StatefulShellRoute.indexedStack(
         builder: (context, state, shell) => AppShell(shell: shell),
         branches: [
@@ -81,7 +77,6 @@ final routerProvider = Provider<GoRouter>((ref) {
         ],
       ),
 
-      // —— Rotas full-screen (detalhe/edição, cobrem a barra) ——
       ...buildFullscreenRoutes(_rootKey),
     ],
   );

@@ -10,9 +10,9 @@
 /// Usada por: [sumByHumanUnit] e o repositório de compras.
 class HumanQty {
   final String name;
-  final String unit; // 'un', 'g', 'ml', 'c. sopa'...
-  final num qty; // na unidade humana
-  final num? grams; // referência (não some por aqui)
+  final String unit;
+  final num qty;
+  final num? grams;
 
   const HumanQty({
     required this.name,

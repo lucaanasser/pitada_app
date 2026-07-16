@@ -93,7 +93,6 @@ class ProfileScreen extends ConsumerWidget {
   /// Cabeçalho da aba: título grande + botão de configurações. Usada por: [_content].
   Widget _header(BuildContext context, PitadaColors pit) {
     return Padding(
-      // bottom titleGap: respiro padrão entre o título da aba e o 1º conteúdo.
       padding: const EdgeInsets.fromLTRB(
         AppSpacing.gutter,
         AppSpacing.md,

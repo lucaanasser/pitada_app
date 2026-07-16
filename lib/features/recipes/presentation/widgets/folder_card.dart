@@ -34,7 +34,7 @@ class FolderCard extends StatefulWidget {
 }
 
 class _FolderCardState extends State<FolderCard> {
-  bool _pressed = false; // microinteração: encolhe o card e sobe os papéis
+  bool _pressed = false;
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +68,6 @@ class _FolderCardState extends State<FolderCard> {
               ),
               child: child,
             ),
-            // nome + contagem sobre o bolso frontal
             child: Padding(
               padding: const EdgeInsets.fromLTRB(
                 AppSpacing.lg,
@@ -84,8 +83,6 @@ class _FolderCardState extends State<FolderCard> {
                   children: [
                     Text(
                       widget.folder.name,
-                      // fonte compacta + até 2 linhas: nome longo quebra antes
-                      // de cair no "..." (ver typography titleXs).
                       style: AppType.on(AppType.titleXs, pit.text),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,

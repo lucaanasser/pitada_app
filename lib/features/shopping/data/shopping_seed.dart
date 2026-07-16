@@ -10,7 +10,6 @@ import 'pantry_item.dart';
 import 'shopping_item.dart';
 import 'shopping_list.dart';
 
-// Categorias fixas do protótipo, na ordem de exibição.
 const kCatHortifruti = 'Hortifrúti';
 const kCatAcougue = 'Açougue';
 const kCatLaticinios = 'Laticínios & ovos';
@@ -124,13 +123,12 @@ const kSeedLists = <ShoppingList>[
   ),
 ];
 
-// Datas de validade fixas, relativas a 2026-06-30 (hoje no protótipo).
 final _pantryDates = <String, DateTime>{
-  'tomate': DateTime(2026, 7, 1), // vence amanhã
-  'cebola': DateTime(2026, 7, 14), // validade 14/07
-  'frango': DateTime(2026, 7, 3), // vence em 3 dias
-  'iogurte': DateTime(2026, 7, 2), // vence em 2 dias
-  'ovos': DateTime(2026, 7, 9), // validade 09/07
+  'tomate': DateTime(2026, 7, 1),
+  'cebola': DateTime(2026, 7, 14),
+  'frango': DateTime(2026, 7, 3),
+  'iogurte': DateTime(2026, 7, 2),
+  'ovos': DateTime(2026, 7, 9),
 };
 
 /// Despensa de exemplo (o que já tenho, com validade). Usada por: shopping_repository.
@@ -193,7 +191,7 @@ final kSeedPantry = <PantryItem>[
     category: kCatMercearia,
     quantity: 90,
     unit: 'ml',
-    low: true, // acabando
+    low: true,
   ),
   const PantryItem(
     id: 'pt-shoyu',
@@ -209,6 +207,6 @@ final kSeedPantry = <PantryItem>[
     quantity: 20,
     unit: 'g',
     grams: 20,
-    low: true, // acabando
+    low: true,
   ),
 ];

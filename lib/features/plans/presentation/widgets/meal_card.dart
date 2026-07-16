@@ -38,8 +38,6 @@ class MealCard extends ConsumerWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: AppSpacing.lg),
       padding: const EdgeInsets.all(AppSpacing.lg),
-      // Caixa neo-brutalista, igual ao RecipeCard/NutritionCard: borda tinta
-      // forte + raio chunky (o filete fino era resquício do visual antigo).
       decoration: BoxDecoration(
         color: pit.surf,
         borderRadius: AppSpacing.br(AppSpacing.radiusCard),
@@ -119,7 +117,6 @@ class MealHeaderRow extends StatelessWidget {
     final pit = context.pit;
     return Row(
       children: [
-        // Só o nome+lápis abre a edição; assim a pega e o resto não disparam o sheet.
         Expanded(
           child: GestureDetector(
             onTap: () => showMealSheet(context, meal: meal),
@@ -144,7 +141,6 @@ class MealHeaderRow extends StatelessWidget {
           style: AppType.on(AppType.caption, pit.muted),
         ),
         const SizedBox(width: AppSpacing.sm),
-        // Pega de arrastar: segurar e mover reordena a refeição no dia.
         ReorderableDragStartListener(
           index: index,
           child: Padding(

@@ -15,13 +15,13 @@ enum ReactivationKind { cook, redo, review }
 class ReactivationItem {
   final String id;
   final ReactivationKind kind;
-  final String kicker; // ex.: 'Ontem você cozinhou'
+  final String kicker;
   final String title;
   final String body;
-  final String hero; // nome do pastel do card (AppColors.hero)
+  final String hero;
   final String actionLabel;
-  final String? actionRoute; // rota da ação (null p/ cook: abre sheet)
-  final String? trailing; // numeral-ornamento (ex.: '№ 7/21')
+  final String? actionRoute;
+  final String? trailing;
 
   const ReactivationItem({
     required this.id,

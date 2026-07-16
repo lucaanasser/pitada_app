@@ -55,7 +55,6 @@ class CookNavBar extends StatelessWidget {
                 label: 'Voltar',
                 icon: AppIcons.back,
                 variant: PitadaButtonVariant.outline,
-                // Sem callback = desabilitado no primeiro passo.
                 onPressed: isFirst ? null : onBack,
               ),
             ),

@@ -11,10 +11,10 @@
 /// Cada número vem do provider da feature dona do dado — nada de seed estático.
 /// Usada por: ProfileStats (via profileCountsProvider).
 class ProfileCounts {
-  final int recipes; // receitas salvas (recipesProvider)
+  final int recipes;
   final int
-      captures; // capturas no caderno: diário+notas+versões+logs (fioProvider)
-  final int cooks; // preparos registrados no diário (diaryProvider)
+      captures;
+  final int cooks;
 
   const ProfileCounts({
     required this.recipes,

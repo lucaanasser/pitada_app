@@ -391,6 +391,14 @@ deno_version = 2
 # [edge_runtime.secrets]
 # secret_key = "env(SECRET_VALUE)"
 
+# Edge Functions de IA via Gemini (ver specs/backend/edge_functions.yaml).
+# verify_jwt = true -> só chamadas autenticadas (o app envia o JWT do usuário).
+[functions.estimate-food]
+verify_jwt = true
+
+[functions.import-recipe]
+verify_jwt = true
+
 [analytics]
 enabled = true
 port = 54327

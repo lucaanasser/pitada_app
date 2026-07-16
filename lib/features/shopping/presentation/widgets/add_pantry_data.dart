@@ -15,7 +15,7 @@ import '../../data/pantry_item.dart';
 class PantrySource {
   final String label;
   final IconData icon;
-  final bool scan; // true = passa pelo loading; false = vai direto ao preview
+  final bool scan;
   const PantrySource(this.label, this.icon, {required this.scan});
 }
 

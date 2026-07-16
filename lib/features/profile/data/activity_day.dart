@@ -17,11 +17,11 @@ import 'activity_entry.dart';
 /// tem intensity > 0 e entries vazio (a UI o rotula "histórico de exemplo").
 /// Usada por: ActivityGrid (pintar/tocar), ActivityGraph (detalhe do dia).
 class ActivityDay {
-  final DateTime date; // o dia do calendário que a célula representa
-  final int weekIndex; // coluna: 0 = semana mais antiga
-  final int dayIndex; // linha: 0..6 (0 = segunda-feira)
-  final int intensity; // nº de registros no dia (0 = nenhum; cor satura em 4)
-  final List<ActivityEntry> entries; // registros do dia (vazio = exemplo)
+  final DateTime date;
+  final int weekIndex;
+  final int dayIndex;
+  final int intensity;
+  final List<ActivityEntry> entries;
 
   const ActivityDay({
     required this.date,

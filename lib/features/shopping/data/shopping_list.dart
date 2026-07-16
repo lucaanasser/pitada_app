@@ -65,7 +65,6 @@ List<ShoppingItem> discountPantry(
         category: it.category,
         humanQty: remaining,
         humanUnit: it.humanUnit,
-        // Grama é só referência: escala junto com a fração que falta comprar.
         grams: it.grams == null ? null : it.grams! * (remaining / it.humanQty),
         checked: it.checked,
       ),

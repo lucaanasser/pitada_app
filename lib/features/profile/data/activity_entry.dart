@@ -12,9 +12,9 @@
 /// Vem do fio do Caderno (diário/nota/versão/log) via overview_providers.
 /// Usada por: ActivityGraph (lista do dia selecionado, toque navega).
 class ActivityEntry {
-  final String label; // 'Diário' | 'Nota' | 'Versão' | 'Log'
-  final String title; // "Frango xadrez"
-  final String route; // detalhe a abrir no toque (ex.: '/diary/diario-x')
+  final String label;
+  final String title;
+  final String route;
 
   const ActivityEntry({
     required this.label,

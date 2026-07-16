@@ -34,7 +34,6 @@ class FoldersGrid extends ConsumerWidget {
     final folders = ref.watch(foldersProvider).valueOrNull ?? const [];
     final recipes = ref.watch(recipesProvider).valueOrNull ?? const [];
 
-    // células: uma por pasta + o fantasma "Nova pasta" fechando a grade
     final cells = <Widget>[
       for (final f in folders)
         FolderCard(

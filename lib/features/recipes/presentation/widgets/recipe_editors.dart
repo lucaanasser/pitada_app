@@ -35,7 +35,6 @@ class IngredientsEditor extends StatefulWidget {
 }
 
 class _IngredientsEditorState extends State<IngredientsEditor> {
-  // Uma chave estável por ingrediente, na mesma ordem da lista.
   late final List<Key> _keys =
       List.generate(widget.ingredients.length, (_) => UniqueKey());
 

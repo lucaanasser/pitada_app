@@ -37,7 +37,6 @@ FoodItem _f(
 /// Ordem/valores pensados p/ o brasileiro; ajuste fino é aceitável (é estimativa).
 /// Usada por: ProgressRepository.fetchFoods, FoodSearchSheet (busca + chips).
 final List<FoodItem> kSeedFoods = [
-  // —— Doces ——
   _f('brigadeiro', 'Brigadeiro', '1 un', 90, 1, 14, 4, 'doce'),
   _f('bolo_choco', 'Bolo de chocolate', '1 fatia', 260, 4, 38, 11, 'doce'),
   _f('sorvete', 'Sorvete', '1 bola', 130, 2, 16, 7, 'doce'),
@@ -48,7 +47,6 @@ final List<FoodItem> kSeedFoods = [
   _f('paodemel', 'Pão de mel', '1 un', 210, 3, 32, 8, 'doce'),
   _f('cookie', 'Cookie', '1 un', 150, 2, 20, 7, 'doce'),
   _f('brownie', 'Brownie', '1 pedaço', 240, 3, 30, 12, 'doce'),
-  // —— Salgados de padaria/lanchonete ——
   _f('coxinha', 'Coxinha', '1 un', 180, 6, 18, 9, 'salgado'),
   _f('paodequeijo', 'Pão de queijo', '1 un', 90, 2, 9, 5, 'salgado'),
   _f('pastel', 'Pastel de carne', '1 un', 280, 8, 26, 16, 'salgado'),
@@ -63,7 +61,6 @@ final List<FoodItem> kSeedFoods = [
   _f('salgadinho', 'Salgadinho de pacote', '1 pacote', 200, 2, 24, 12,
       'salgado'),
   _f('pipoca', 'Pipoca', '1 saco', 150, 3, 20, 7, 'salgado'),
-  // —— Fast food ——
   _f('pizza', 'Pizza', '1 fatia', 285, 12, 30, 12, 'fastfood'),
   _f('hamburguer', 'Hambúrguer', '1 un', 500, 25, 40, 27, 'fastfood'),
   _f('x_bacon', 'X-bacon', '1 un', 650, 30, 42, 38, 'fastfood'),
@@ -74,7 +71,6 @@ final List<FoodItem> kSeedFoods = [
   _f('temaki', 'Temaki de salmão', '1 un', 320, 14, 40, 11, 'fastfood'),
   _f('sushi', 'Sushi', '8 peças', 340, 12, 56, 6, 'fastfood'),
   _f('esfirra', 'Esfirra aberta', '1 un', 200, 8, 22, 8, 'fastfood'),
-  // —— Bebidas ——
   _f('refri', 'Refrigerante', '1 lata', 140, 0, 37, 0, 'bebida'),
   _f('refri_zero', 'Refrigerante zero', '1 lata', 1, 0, 0, 0, 'bebida'),
   _f('suco', 'Suco de fruta', '1 copo', 120, 1, 28, 0, 'bebida'),
@@ -84,14 +80,12 @@ final List<FoodItem> kSeedFoods = [
   _f('agua_coco', 'Água de coco', '1 copo', 45, 0, 10, 0, 'bebida'),
   _f('energetico', 'Energético', '1 lata', 120, 0, 30, 0, 'bebida'),
   _f('vitamina', 'Vitamina de banana', '1 copo', 250, 8, 40, 6, 'bebida'),
-  // —— Álcool ——
   _f('cerveja', 'Cerveja', '1 lata', 150, 1, 13, 0, 'alcool'),
   _f('chopp', 'Chopp', '1 copo', 120, 1, 10, 0, 'alcool'),
   _f('vinho', 'Vinho', '1 taça', 125, 0, 4, 0, 'alcool'),
   _f('caipirinha', 'Caipirinha', '1 copo', 250, 0, 25, 0, 'alcool'),
   _f('destilado', 'Dose de destilado', '1 dose', 100, 0, 0, 0, 'alcool'),
   _f('whisky_refri', 'Whisky com refri', '1 copo', 200, 0, 18, 0, 'alcool'),
-  // —— Frutas ——
   _f('banana', 'Banana', '1 un', 105, 1, 27, 0, 'fruta'),
   _f('maca', 'Maçã', '1 un', 95, 0, 25, 0, 'fruta'),
   _f('laranja', 'Laranja', '1 un', 62, 1, 15, 0, 'fruta'),
@@ -100,7 +94,6 @@ final List<FoodItem> kSeedFoods = [
   _f('uva', 'Uva', '1 cacho pequeno', 100, 1, 27, 0, 'fruta'),
   _f('morango', 'Morango', '1 xícara', 50, 1, 12, 0, 'fruta'),
   _f('abacate', 'Abacate', '1/2 un', 160, 2, 9, 15, 'fruta'),
-  // —— Lanches / diversos ——
   _f('iogurte', 'Iogurte', '1 pote', 120, 6, 18, 3, 'lanche'),
   _f('iogurte_grego', 'Iogurte grego', '1 pote', 150, 10, 14, 5, 'lanche'),
   _f('barra_cereal', 'Barra de cereal', '1 un', 100, 2, 18, 3, 'lanche'),
@@ -111,7 +104,6 @@ final List<FoodItem> kSeedFoods = [
   _f('biscoito', 'Biscoito recheado', '3 un', 150, 2, 22, 6, 'lanche'),
   _f('tapioca', 'Tapioca', '1 un', 200, 6, 32, 5, 'lanche'),
   _f('ovo', 'Ovo', '1 un', 75, 6, 1, 5, 'lanche'),
-  // —— Pratos ——
   _f('pf', 'Prato feito (PF)', '1 prato', 700, 35, 80, 25, 'prato'),
   _f('arroz_feijao', 'Arroz com feijão', '1 prato', 350, 12, 62, 6, 'prato'),
   _f('feijoada', 'Feijoada', '1 prato', 560, 30, 45, 28, 'prato'),

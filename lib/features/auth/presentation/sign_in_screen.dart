@@ -85,7 +85,6 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
       await ref
           .read(signInControllerProvider)
           .confirm(_email.text.trim(), _code.text.trim());
-      // Sem navegação manual: o redirect do router reage à sessão nova.
     } catch (e, s) {
       AppLog.e('auth', 'código recusado', e, s);
       setState(() {
@@ -131,7 +130,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                 hint: '000000',
                 keyboardType: TextInputType.number,
                 autofocus: true,
-                style: AppType.numeral, // 6 dígitos em Space Grotesk
+                style: AppType.numeral,
               ),
             if (_error != null) ...[
               Text(

@@ -49,7 +49,6 @@ class _PlansScreenState extends ConsumerState<PlansScreen> {
         children: [
           const Masthead(),
           Padding(
-            // bottom titleGap: respiro padrão entre o título da aba e o 1º conteúdo.
             padding: const EdgeInsets.fromLTRB(
               AppSpacing.gutter,
               AppSpacing.md,
@@ -65,7 +64,6 @@ class _PlansScreenState extends ConsumerState<PlansScreen> {
                     style: AppType.on(AppType.screenTitle, pit.text),
                   ),
                 ),
-                // Atalho: mesmos fluxos dos botões das sub-abas (não os substitui).
                 PitadaIconButton(
                   icon: AppIcons.add,
                   filled: true,
@@ -76,8 +74,6 @@ class _PlansScreenState extends ConsumerState<PlansScreen> {
             ),
           ),
           _daySummary(),
-          // Align: a Column centraliza filhos que encolhem (as abas); aqui elas
-          // ficam à esquerda, como nas outras telas.
           Align(
             alignment: Alignment.centerLeft,
             child: PitadaTabs(
@@ -98,8 +94,6 @@ class _PlansScreenState extends ConsumerState<PlansScreen> {
     final plan = ref.watch(planControllerProvider);
     final totals = ref.watch(dayTotalsProvider);
     return Padding(
-      // top 0: o titleGap do título já dá o respiro; bottom xl = respiro
-      // pedido pelo dono entre os macros e as abas.
       padding: const EdgeInsets.fromLTRB(
         AppSpacing.gutter,
         0,

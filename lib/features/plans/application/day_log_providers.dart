@@ -83,7 +83,6 @@ final adherenceProvider = Provider<List<DayAdherence>>((ref) {
   final goal = ref.watch(planControllerProvider).dailyKcalGoal;
   final now = DateTime.now();
   final today = DateTime(now.year, now.month, now.day);
-  // Índice por dia (chave y*10000+m*100+d) p/ achar o log de cada data rápido.
   final byDay = <int, DayLog>{
     for (final d in logs) _key(d.date): d,
   };

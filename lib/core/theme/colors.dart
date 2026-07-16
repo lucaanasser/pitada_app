@@ -13,46 +13,35 @@ import 'package:flutter/painting.dart';
 /// Marca (accent/sage) e cores hero são iguais nos dois temas.
 /// Usada por: todo o app (tema, widgets compartilhados, telas).
 class AppColors {
-  AppColors._(); // sem instância — só tokens estáticos.
+  AppColors._();
 
-  // —— Superfícies e filetes (TEMA ESCURO) ——
   static const bg = Color(0xFF15130E); // fundo geral
   static const surf = Color(0xFF1D1A13); // card / campo
   static const surf2 = Color(0xFF242017); // input
   static const line = Color(0xFF29251A); // filete divisor
   static const line2 = Color(0xFF383223); // borda / filete forte
 
-  // —— Texto (TEMA ESCURO) ——
   static const text = Color(0xFFF2EDE1); // principal
   static const text2 = Color(0xFFC5BEAD); // secundário
   static const muted = Color(0xFF8E8674); // rótulos
   static const faint = Color(0xFF605948); // placeholder / desabilitado
 
-  // —— Superfícies e filetes (TEMA CLARO — base CREME, nunca branco) ——
-  // Repensado do zero: fundo creme quente; superfícies são cremes mais claros
-  // (jamais #FFF). Contraste suave — sensação de papel, não de tela branca.
   static const bgLight = Color(0xFFF4EDDE); // fundo geral (creme quente)
   static const surfLight = Color(0xFFFBF6EC); // card/campo (creme quase-branco)
   static const surf2Light = Color(0xFFEFE8D8); // input (um tom abaixo do fundo)
   static const lineLight = Color(0xFFE7DECD);
   static const line2Light = Color(0xFFD8CEB8);
 
-  // —— Texto (TEMA CLARO) ——
   static const textLight = Color(0xFF221E17);
   static const text2Light = Color(0xFF6A6252);
   static const mutedLight = Color(0xFF938A78);
   static const faintLight = Color(0xFFB4AB98);
 
-  // Tinta/borda "neo-brutalista": quase-preta nos dois temas — o marrom médio
-  // antigo (#3A3324) lia como "borda cinza" no escuro.
   static const inkLight = Color(0xFF221E17);
   static const inkDark = Color(0xFF0E0C08);
 
-  // Sombra funcional (exceção pontual à regra "flat": profundidade de bolso/
-  // papéis da pasta). Uso parcimonioso e sempre via este token.
   static const shadow = Color(0x59000000);
 
-  // —— Marca (iguais nos dois temas) ——
   static const accent = Color(0xFFC2703F); // terracota (primário/destaque)
   static const accent2 = Color(0xFFD98C5A); // terracota claro (links, "acima")
   static const sage = Color(0xFFA9B26C); // verde (sucesso, "dentro da meta")
@@ -61,7 +50,6 @@ class AppColors {
   static const accentLine = Color.fromRGBO(194, 112, 63, 0.32); // borda suave
   static const sageSoft = Color.fromRGBO(169, 178, 108, 0.13); // fundo verde
 
-  // —— Cores de miniatura editorial (nome hero da receita) ——
   static const clay = Color(0xFF8A5A43);
   static const moss = Color(0xFF5E6B45);
   static const ochre = Color(0xFF9A7B3C);
@@ -85,10 +73,6 @@ class AppColors {
   /// Usada por: qualquer widget que receba `hero_color` como String do banco.
   static Color heroOf(String? name) => hero[name] ?? clay;
 
-  // —— Fundos tingidos por aba (índice 0..4, ordem da navbar) ——
-  // Pastéis quentes de mesma luminosidade — dão identidade sem sobrecarregar.
-  // CLARO: tints coloridos porém MUITO próximos do creme base (#F4EDDE) — só um
-  // sopro de cor por aba, nunca competindo com o conteúdo (pedido do dono).
   static const List<Color> tabBgLight = [
     Color(0xFFF6ECDD), // Receitas (quente)
     Color(0xFFEDF1DF), // Caderno (verde)
@@ -96,8 +80,6 @@ class AppColors {
     Color(0xFFE8F1E8), // Compras (teal)
     Color(0xFFF6EAE7), // Perfil (rosé)
   ];
-  // ESCURO: tint sutil acima da base bg (#15130E). Meio-termo — o passo anterior
-  // ficou forte demais e atrapalhava a leitura (pedido do dono: "um pouco mais claro").
   static const List<Color> tabBgDark = [
     Color(0xFF201812), // Receitas
     Color(0xFF181D11), // Caderno
@@ -106,7 +88,6 @@ class AppColors {
     Color(0xFF1F141D), // Perfil
   ];
 
-  // —— Cor do bloco de foto (card) por hero, em cada tema (pastéis / escuros) ——
   static const Map<String, Color> cardLight = {
     'clay': Color(0xFFF3D3BC),
     'moss': Color(0xFFD3E0B4),

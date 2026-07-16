@@ -72,8 +72,6 @@ class _FriendAvatar extends StatelessWidget {
           ),
           child: Text(
             friend.initial,
-            // Creme fixo (AppColors.text): as cores hero são médias/escuras
-            // nos 2 temas, então a inicial clara lê bem em ambos.
             style: AppType.on(AppType.titleSm, AppColors.text),
           ),
         ),

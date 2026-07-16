@@ -24,8 +24,6 @@ class SupabaseService {
     }
     await Supabase.initialize(
       url: Env.supabaseUrl,
-      // A "anon key" foi renomeada para "publishable key" em versões novas do SDK.
-      // Mantemos anonKey por ora (backend fica para depois); silenciamos a dica.
       // ignore: deprecated_member_use
       anonKey: Env.supabaseAnonKey,
     );

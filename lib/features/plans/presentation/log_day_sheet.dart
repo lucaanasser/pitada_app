@@ -46,8 +46,8 @@ class _LogDaySheet extends ConsumerStatefulWidget {
 }
 
 class _LogDaySheetState extends ConsumerState<_LogDaySheet> {
-  final Map<String, String?> _selected = {}; // mealId -> opção comida
-  final Set<String> _skipped = {}; // refeições puladas
+  final Map<String, String?> _selected = {};
+  final Set<String> _skipped = {};
   final List<ExtraEntry> _extras = [];
 
   /// Pré-preenche o sheet: se HOJE já tem log, restaura escolhas/puladas/extras

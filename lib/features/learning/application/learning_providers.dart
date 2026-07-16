@@ -19,8 +19,6 @@ import '../data/source_note.dart';
 final learningRepositoryProvider =
     Provider<LearningRepository>((ref) => const LearningRepository());
 
-// —— Fichas ——
-
 /// Todas as fichas (técnicas, frameworks, guias). Usada por: LessonCardsScreen.
 final lessonsProvider = FutureProvider<List<Lesson>>((ref) {
   return ref.watch(learningRepositoryProvider).fetchLessons();
@@ -34,8 +32,6 @@ final lessonByIdProvider = FutureProvider.family<Lesson?, String>((ref, id) {
 /// Índice da aba/categoria de ficha selecionada (0 = Técnicas). Usada por: abas das Fichas.
 final selectedLessonCategoryProvider = StateProvider<int>((ref) => 0);
 
-// —— Notas de fonte ——
-
 /// Todas as notas de fonte. Usada por: NotesScreen.
 final notesProvider = FutureProvider<List<SourceNote>>((ref) {
   return ref.watch(learningRepositoryProvider).fetchNotes();
@@ -46,8 +42,6 @@ final noteByIdProvider = FutureProvider.family<SourceNote?, String>((ref, id) {
   return ref.watch(learningRepositoryProvider).noteById(id);
 });
 
-// —— Diário ——
-
 /// Todas as entradas do diário. Usada por: DiaryScreen.
 final diaryProvider = FutureProvider<List<DiaryEntry>>((ref) {
   return ref.watch(learningRepositoryProvider).fetchDiary();
@@ -57,8 +51,6 @@ final diaryProvider = FutureProvider<List<DiaryEntry>>((ref) {
 final diaryByIdProvider = FutureProvider.family<DiaryEntry?, String>((ref, id) {
   return ref.watch(learningRepositoryProvider).diaryById(id);
 });
-
-// —— Versões de receita ——
 
 /// Todos os históricos de versão. Usada por: VersionsScreen.
 final versionsProvider = FutureProvider<List<RecipeVersion>>((ref) {
@@ -83,8 +75,6 @@ final versionForRecipeProvider =
   return null;
 });
 
-// —— Logs de processo ——
-
 /// Todos os logs de processo. Usada por: ProcessLogsScreen.
 final logsProvider = FutureProvider<List<ProcessLog>>((ref) {
   return ref.watch(learningRepositoryProvider).fetchLogs();
@@ -94,8 +84,6 @@ final logsProvider = FutureProvider<List<ProcessLog>>((ref) {
 final logByIdProvider = FutureProvider.family<ProcessLog?, String>((ref, id) {
   return ref.watch(learningRepositoryProvider).logById(id);
 });
-
-// —— Repertório ——
 
 /// Todos os rácios de confiança. Usada por: RepertoireScreen (kind ratio).
 final ratiosProvider = FutureProvider<List<Ratio>>((ref) {

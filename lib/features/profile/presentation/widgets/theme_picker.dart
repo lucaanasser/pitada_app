@@ -136,7 +136,6 @@ class _PreviewHalf extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Tokens crus de cada tema — o preview mostra o tema em si, não o atual.
     final bg = dark ? AppColors.bg : AppColors.bgLight;
     final ink = dark ? AppColors.text : AppColors.textLight;
     final line = dark ? AppColors.line2 : AppColors.line2Light;

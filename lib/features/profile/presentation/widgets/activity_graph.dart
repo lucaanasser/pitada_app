@@ -112,7 +112,6 @@ class _DayDetail extends StatelessWidget {
           style: AppType.on(AppType.bodySm, pit.text)
               .copyWith(fontWeight: FontWeight.w600),
         ),
-        // Dia preenchido (anterior aos primeiros registros reais): sem drill-down.
         if (n > 0 && day.entries.isEmpty) ...[
           const SizedBox(height: AppSpacing.xs),
           Text(
@@ -147,8 +146,6 @@ class _EntryRow extends StatelessWidget {
         padding: const EdgeInsets.only(top: AppSpacing.sm + 2),
         child: Row(
           children: [
-            // Bolinha "de tinta": tinta no claro, accent no escuro (regra do
-            // estudo de estilo p/ elementos de tinta, como no fio do Caderno).
             Container(
               width: 6,
               height: 6,

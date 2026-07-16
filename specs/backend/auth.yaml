@@ -22,6 +22,13 @@ config_toml:
 
 dev_local:
   inbucket: e-mails de OTP aparecem em http://127.0.0.1:54324 (sem SMTP real)
+  test_otp: >                              # atalho de dev — NUNCA vai p/ produção
+    [auth.email.test_otp] no config.toml mapeia luca@pitada.dev -> "123456".
+    Com isso o login local não depende do inbox: digita 123456 sempre. O código
+    real por e-mail (Mailpit) continua valendo para qualquer outro endereço.
+  recarregar_config: >                      # pegadinha comum
+    templates e test_otp só entram após `supabase stop && supabase start`;
+    `db reset`/restart de container não relê o config.toml.
 
 producao:
   smtp: começa com o e-mail embutido do Supabase (limite baixo, ok p/ uso pessoal);

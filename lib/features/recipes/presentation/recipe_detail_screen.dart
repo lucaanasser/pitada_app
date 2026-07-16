@@ -61,7 +61,7 @@ class RecipeDetailScreen extends ConsumerWidget {
       return RecipeDetailBody(recipe: base);
     }
 
-    final maxVersion = group.last.version; // grupo vem ordenado asc (v1..vN)
+    final maxVersion = group.last.version;
     final selected =
         ref.watch(selectedRecipeVersionProvider(groupId)) ?? maxVersion;
     final current = group.firstWhere(

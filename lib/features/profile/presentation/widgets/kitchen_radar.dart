@@ -74,7 +74,6 @@ class KitchenRadar extends ConsumerWidget {
       trailing: _trailing(pit, item),
       onTap: () {
         AppLog.i('profile', 'radar -> ${item.route} (${item.kind.name})');
-        // push para detalhe full-screen (volta cai no Perfil); go para abas.
         item.push ? context.push(item.route) : context.go(item.route);
       },
     );

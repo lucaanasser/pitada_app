@@ -15,8 +15,8 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Ingredient {
   String get name;
-  num? get grams; // base para cálculo de macros
-  num? get humanQty; // ex.: 2
+  num? get grams;
+  num? get humanQty;
   String? get humanUnit;
 
   /// Create a copy of Ingredient
@@ -276,10 +276,8 @@ class _Ingredient implements Ingredient {
   final String name;
   @override
   final num? grams;
-// base para cálculo de macros
   @override
   final num? humanQty;
-// ex.: 2
   @override
   final String? humanUnit;
 

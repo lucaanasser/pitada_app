@@ -16,7 +16,6 @@ class AppType {
   static const _disp = 'Space Grotesk'; // números, títulos (geométrica, chunky)
   static const _ui = 'Inter'; // corpo, botões, rótulos
 
-  // —— Display (Space Grotesk) ——
   static const displayXl = TextStyle(
     fontFamily: _disp,
     fontSize: 40,
@@ -102,7 +101,6 @@ class AppType {
     color: AppColors.text2,
   );
 
-  // —— UI (Inter) ——
   static const bodyLg = TextStyle(
     fontFamily: _ui,
     fontSize: 16,

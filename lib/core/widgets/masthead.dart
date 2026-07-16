@@ -19,8 +19,6 @@ class Masthead extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      // bottom lg: respiro entre a marca e o título/conteúdo da aba — sem ele o
-      // conteúdo (título grande) fica colado embaixo da masthead. Ver spec.
       padding: const EdgeInsets.fromLTRB(
         AppSpacing.lg,
         AppSpacing.sm,

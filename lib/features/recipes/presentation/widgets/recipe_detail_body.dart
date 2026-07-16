@@ -81,7 +81,6 @@ class RecipeDetailBody extends ConsumerWidget {
     final pit = context.pit;
     final r = recipe;
     return [
-      // Linha do título: nome (editável) + marcador de versão "V3" ao lado.
       Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [

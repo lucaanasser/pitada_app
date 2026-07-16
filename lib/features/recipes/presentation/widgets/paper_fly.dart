@@ -32,10 +32,10 @@ class PaperFly extends StatelessWidget {
   });
 
   final Animation<double> animation;
-  final Interval interval; // trecho da rota no abrir (forward)
-  final Interval reverseInterval; // trecho da rota no fechar (reverse)
-  final Offset delta; // slot → boca da pasta
-  final double angle; // torto dentro da pasta, reto na grade
+  final Interval interval;
+  final Interval reverseInterval;
+  final Offset delta;
+  final double angle;
 
   final Widget child;
 
@@ -52,8 +52,6 @@ class PaperFly extends StatelessWidget {
       builder: (context, _) {
         final v = curved.value;
         return Opacity(
-          // Gate curto (primeiros ~12%): evita pop de 1 frame perto da boca.
-          // A oclusão real é a faixa da pasta, sempre sólida (ver FolderScreen).
           opacity: (v * 8).clamp(0, 1).toDouble(),
           child: Transform.translate(
             offset: delta * (1 - v),

@@ -122,7 +122,6 @@ class _PantryRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final pit = context.pit;
-    // Prefere a tag de validade calculada; se sem data mas acabando, mostra 'acabando'.
     final expiryTag = ExpiryTag.fromDate(item.expiresOn);
     final tag =
         expiryTag ?? (item.low ? const ExpiryTag(label: 'acabando') : null);
@@ -141,7 +140,6 @@ class _PantryRow extends StatelessWidget {
         children: [
           Text(
             _stock(item),
-            // Mesmo corpo (numeral) da quantidade na Lista — pedido do dono.
             style: AppType.on(AppType.numeral, pit.text),
           ),
           if (tag != null)

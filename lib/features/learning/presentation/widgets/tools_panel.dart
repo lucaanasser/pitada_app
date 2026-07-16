@@ -24,7 +24,7 @@ class _Tool {
   final String label;
   final ProviderListenable<AsyncValue<List<Object?>>> provider;
   final String route;
-  final bool subtle; // ferramenta avançada: presente, sem promoção
+  final bool subtle;
 
   /// Contagem formatada da ferramenta ('–' enquanto carrega/erro).
   /// Usada por: [ToolsPanel]._cell.
@@ -78,7 +78,6 @@ class ToolsPanel extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           for (var i = 0; i < _groups.length; i++) ...[
-            // divisória horizontal grossa entre pilares
             if (i != 0)
               Container(height: AppSpacing.borderStrong, color: pit.border),
             _group(context, ref, pit, _groups[i]),

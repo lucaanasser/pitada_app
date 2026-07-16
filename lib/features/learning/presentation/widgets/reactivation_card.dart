@@ -57,7 +57,6 @@ class ReactivationCard extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // —— kicker + numeral-ornamento ——
           Row(
             children: [
               Text(
@@ -82,7 +81,6 @@ class ReactivationCard extends ConsumerWidget {
             overflow: TextOverflow.ellipsis,
           ),
           const SizedBox(height: AppSpacing.lg),
-          // —— ação primária (botão-selo) + dispensa ——
           Row(
             children: [
               GestureDetector(

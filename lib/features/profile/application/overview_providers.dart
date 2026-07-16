@@ -69,7 +69,6 @@ final profileCountsProvider = Provider<ProfileCounts>((ref) {
 final kitchenRadarProvider = Provider<List<RadarItem>>((ref) {
   final items = <RadarItem>[];
 
-  // 1. Cozinha sem registro — a captura de 20 s que fecha o loop do Caderno.
   final cook = ref.watch(pendingCookProvider).valueOrNull;
   if (cook != null) {
     items.add(
@@ -86,7 +85,6 @@ final kitchenRadarProvider = Provider<List<RadarItem>>((ref) {
   final now = DateTime.now();
   final today = DateTime(now.year, now.month, now.day);
 
-  // 2. Vencendo em até 5 dias, o mais urgente primeiro.
   final expiring = pantry
       .where(
         (p) =>
@@ -105,14 +103,12 @@ final kitchenRadarProvider = Provider<List<RadarItem>>((ref) {
     );
   }
 
-  // 3. Acabando (low) — sem duplicar quem já apareceu por validade.
   for (final p in pantry.where((p) => p.low && !expiring.contains(p))) {
     items.add(
       RadarItem(kind: RadarKind.low, title: p.name, route: '/shopping'),
     );
   }
 
-  // 4. "Refazer" carimbado no diário e esquecido há mais de 5 dias.
   final diary = ref.watch(diaryProvider).valueOrNull ?? [];
   for (final d in diary) {
     final days = now.difference(d.date).inDays;
@@ -128,7 +124,7 @@ final kitchenRadarProvider = Provider<List<RadarItem>>((ref) {
           push: true,
         ),
       );
-      break; // um por vez basta — o radar não vira lista de culpa
+      break;
     }
   }
 

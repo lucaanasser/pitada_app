@@ -42,7 +42,6 @@ class MockFoodEstimateService implements FoodEstimateService {
     final qty = _quantity(text);
     final base = _match(text);
     if (base == null) {
-      // Sem correspondência: chute genérico por porção (~140 kcal) × quantidade.
       final kcal = (qty * 140).round();
       AppLog.i(
           'plans', 'estimativa mock (genérica): "$description" ~$kcal kcal');
@@ -74,7 +73,6 @@ class MockFoodEstimateService implements FoodEstimateService {
   double _quantity(String text) {
     final m = RegExp(r'(\d+[.,]?\d*)').firstMatch(text);
     if (m != null) return double.parse(m.group(1)!.replaceAll(',', '.'));
-    // Ordem importa: "meia dúzia" antes de "duzia".
     const words = <String, double>{
       'meia duzia': 6,
       'meio': 0.5,

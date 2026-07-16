@@ -9,8 +9,8 @@
 /// Um evento na linha do tempo de um log de processo: quando + o que aconteceu.
 /// Usada por: ProcessLog (composição) e ProcessLogScreen.
 class LogEvent {
-  final String date; // rótulo de momento (ex.: 'Sáb · 08h')
-  final String text; // o que aconteceu neste ponto
+  final String date;
+  final String text;
 
   const LogEvent({
     required this.date,
@@ -23,12 +23,12 @@ class LogEvent {
 /// Usada por: lista de logs e a tela de detalhe do log.
 class ProcessLog {
   final String id;
-  final String type; // categoria livre (ex.: 'Fermentação')
-  final String title; // nome do processo (ex.: 'Pão de fermentação natural')
+  final String type;
+  final String title;
   final DateTime date;
-  final Map<String, String> params; // medidas do processo
+  final Map<String, String> params;
   final List<LogEvent> timeline;
-  final String note; // observação final
+  final String note;
 
   const ProcessLog({
     required this.id,

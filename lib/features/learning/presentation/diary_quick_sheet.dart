@@ -99,7 +99,6 @@ class _DiaryQuickSheetState extends State<_DiaryQuickSheet> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // —— grip ——
               Center(
                 child: Container(
                   width: 36,
@@ -116,7 +115,6 @@ class _DiaryQuickSheetState extends State<_DiaryQuickSheet> {
                 style: AppType.on(AppType.label, AppColors.accent),
               ),
               const SizedBox(height: AppSpacing.sm),
-              // —— receita: fixa (veio do cozinhar) ou digitável ——
               if (widget.recipeName != null)
                 Text(
                   widget.recipeName!,
@@ -141,7 +139,6 @@ class _DiaryQuickSheetState extends State<_DiaryQuickSheet> {
                 maxLines: 2,
               ),
               const SizedBox(height: AppSpacing.xl),
-              // —— veredito ——
               Text('REFAZER ASSIM?',
                   style: AppType.on(AppType.label, pit.muted)),
               const SizedBox(height: AppSpacing.sm),

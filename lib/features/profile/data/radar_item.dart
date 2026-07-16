@@ -16,11 +16,11 @@ enum RadarKind { cook, expiry, low, redo }
 /// Usada por: KitchenRadar (via kitchenRadarProvider).
 class RadarItem {
   final RadarKind kind;
-  final String title; // "Frango xadrez", "Iogurte natural"
-  final String? detail; // linha de apoio (cook e redo usam)
-  final DateTime? expiresOn; // validade (kind expiry)
-  final String route; // destino do toque
-  final bool push; // true = full-screen (push); false = aba (go)
+  final String title;
+  final String? detail;
+  final DateTime? expiresOn;
+  final String route;
+  final bool push;
 
   const RadarItem({
     required this.kind,

@@ -42,15 +42,14 @@ class _PitadaTabsState extends State<PitadaTabs>
   static const double _gap = AppSpacing.xxl;
   static const Duration _duration = Duration(milliseconds: 360);
   static const Curve _curve = Curves.easeOutCubic;
-  // Amplitude do wobble do sublinhado (px). Leve, mas perceptível.
   static const double _stretch = 10;
 
   late final AnimationController _c;
-  List<double> _lefts = const []; // offsets medidos no último build
+  List<double> _lefts = const [];
   List<double> _widths = const [];
-  double _fromLeft = 0; // geometria de partida (capturada ao trocar de aba)
+  double _fromLeft = 0;
   double _fromWidth = 0;
-  late int _toIndex; // aba de destino
+  late int _toIndex;
 
   @override
   void initState() {
@@ -119,7 +118,6 @@ class _PitadaTabsState extends State<PitadaTabs>
         AppSpacing.sm,
       ),
       child: Stack(
-        // Clip.none: o sublinhado esticado pode passar da palavra sem cortar.
         clipBehavior: Clip.none,
         children: [
           Row(
@@ -142,21 +140,19 @@ class _PitadaTabsState extends State<PitadaTabs>
     );
   }
 
-  /// Sublinhado único: interpola posição/largura (easeOutCubic) e estica de leve
-  /// no meio do caminho (pulso sin) — daí o molejo sutil. Usada por: [build].
+  /// Sublinhado único que desliza até a aba de destino e a cobre, com molejo
+  /// sutil. Usada por: [build].
   Widget _underline(int toIndex) {
     final t = _curve.transform(_c.value);
     final left = _lerp(_fromLeft, _lefts[toIndex], t);
     final width = _lerp(_fromWidth, _widths[toIndex], t);
     final moving = (_lefts[toIndex] - _fromLeft).abs() > 0.5 ||
         (_widths[toIndex] - _fromWidth).abs() > 0.5;
-    // Wobble: estica no caminho e recolhe um tico ao assentar (oscilação de um
-    // ciclo, amortecida por (1-p) para terminar exatamente na largura certa).
     final p = _c.value;
     final ext = moving ? _stretch * math.sin(2 * math.pi * p) * (1 - p) : 0.0;
     return Positioned(
       bottom: 0,
-      left: left - ext / 2, // cresce centrado
+      left: left - ext / 2,
       width: width + ext,
       height: AppSpacing.borderAccent,
       child: DecoratedBox(
@@ -185,7 +181,6 @@ class _PitadaTabsState extends State<PitadaTabs>
             i == widget.selected ? pit.text : pit.muted,
           ),
           child: Padding(
-            // Reserva a faixa do sublinhado (sm de respiro + a espessura).
             padding: const EdgeInsets.only(
               bottom: AppSpacing.sm + AppSpacing.borderAccent,
             ),

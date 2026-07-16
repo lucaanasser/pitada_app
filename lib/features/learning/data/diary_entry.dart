@@ -13,9 +13,9 @@ class DiaryEntry {
   final String id;
   final String recipeName;
   final DateTime date;
-  final String label; // veredito curto (ex.: 'Refazer', 'Ajustar')
-  final String body; // reflexão (o que mudei / o que aprendi)
-  final List<String> recipeIds; // receitas ligadas à entrada
+  final String label;
+  final String body;
+  final List<String> recipeIds;
 
   const DiaryEntry({
     required this.id,

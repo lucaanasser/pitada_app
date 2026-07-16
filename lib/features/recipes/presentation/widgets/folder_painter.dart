@@ -14,7 +14,7 @@ import '../../../../core/theme/spacing.dart';
 /// Menos receitas = menos papéis; teto 3 para não ficar lotado.
 /// Usada por: [FolderPainter.paint].
 const _paperLayouts = <List<(double, double, double)>>[
-  [], // pasta vazia
+  [],
   [(.28, .12, -.03)],
   [(.11, .11, -.08), (.43, .08, .07)],
   [(.06, .11, -.10), (.46, .07, .09), (.24, .15, -.02)],
@@ -35,13 +35,13 @@ class FolderPainter extends CustomPainter {
     this.lift = 0,
   });
 
-  final Color pastel; // corpo da pasta (pit.card(hero))
-  final Color paper; // papel da frente (creme claro)
-  final Color paperBack; // papéis de trás (creme sombreado)
-  final Color paperLine; // "linhas de texto" do papel
-  final Color shadow; // sombra funcional (AppColors.shadow)
-  final int count; // nº de receitas (0..n → 0..3 papéis)
-  final double lift; // elevação dos papéis no press
+  final Color pastel;
+  final Color paper;
+  final Color paperBack;
+  final Color paperLine;
+  final Color shadow;
+  final int count;
+  final double lift;
 
   /// Desenha fundo → papéis → bolso, nessa ordem. Usada por: framework.
   @override
@@ -55,9 +55,6 @@ class FolderPainter extends CustomPainter {
       _paper(canvas, size, spec, isFront);
     }
 
-    // —— bolso frontal, com sombra pequena para descolar do fundo ——
-    // Começa na metade da altura: bolso mais alto = respiro entre a "boca" do
-    // bolso e o título + espaço para o nome quebrar em 2 linhas (ver FolderCard).
     final pocket = RRect.fromLTRBAndCorners(
       0,
       h * 0.50,
@@ -82,8 +79,8 @@ class FolderPainter extends CustomPainter {
   /// generosos (radiusCard, a cara do app). Usada por: [paint].
   Path _backPath(double w, double h, double i) {
     final tabW = w * 0.36;
-    const tabH = 22.0; // altura da aba
-    const s = 14.0; // vão da curva S aba→corpo
+    const tabH = 22.0;
+    const s = 14.0;
     const rTab = AppSpacing.radiusMd;
     const rBody = AppSpacing.radiusCard;
     return Path()
@@ -134,7 +131,6 @@ class FolderPainter extends CustomPainter {
     );
     canvas.drawShadow(Path()..addRRect(rrect), shadow, 3, false);
     canvas.drawRRect(rrect, Paint()..color = isFront ? paper : paperBack);
-    // linhas de "texto" no alto da folha
     for (final (k, lineW) in [pw * .52, pw * .36].indexed) {
       canvas.drawRRect(
         RRect.fromRectAndRadius(

@@ -148,6 +148,8 @@ screens:
                SectionHeader "Modo de preparo" -> StepTile(+WhyCallout),
                SectionHeader "Técnicas" -> PitadaChip, "Anotações" (texto),
                barra inferior: Cozinhar + ícones]
+      # Toggle "pôr na bancada" na barra inferior entra com a implementação da Bancada
+      # (ver specs/features/bancada.yaml: integracoes.entrada).
       navega: CookModeScreen (/recipe/:id/cook via "Cozinhar"), RecipeEditScreen (/recipe/:id/edit via ícone lápis),
               showRecipeVersionSheet (tocar na RecipeVersionTag)
       edicao_inline:   # "tudo é editável" — dois caminhos, ver specs/components/editable.yaml
@@ -216,6 +218,7 @@ screens:
           - "Próximo" (PitadaButton primary) que avança; no ÚLTIMO passo vira "Concluir"
       ao_concluir: no último passo, "Concluir" chama showCookChatSheet(context, recipe: recipe)
                    (feedback pós-cozimento); AppLog.i('recipes', 'cozimento concluído: <id>')
+                   # markCooked na bancada entra com a implementação da Bancada (bancada.yaml)
 
   - FolderScreen:
       classe: FolderScreen extends ConsumerWidget      # SEM controller próprio: a rota anima
@@ -257,21 +260,30 @@ sheets:
   - ImportSheet:
       funcao: showImportSheet(BuildContext)   # showModalBottomSheet padrão (surf, radiusXxl, grip)
       arquivo: presentation/import_sheet.dart
-      classe_interna: _ImportSheet extends StatefulWidget  # controla o estágio do fluxo
+      classe_interna: _ImportSheet extends ConsumerStatefulWidget  # controla o estágio
       widgets_proprios: presentation/widgets/import_source_grid.dart, import_preview.dart
-      estagios (enum ImportStage: choose, loading, preview):
+      servico: >
+        RecipeImportService (application) atrás de interface: MockRecipeImportService
+        (preview PC, rascunho de exemplo) e GeminiRecipeImportService (online, chama a
+        Edge Function import-recipe — ver specs/backend/edge_functions.yaml). Ligado via
+        override de recipeImportServiceProvider no main.dart quando online.
+      estagios (enum ImportPhase: idle/choose, loading, ready/preview, error):
         1. choose  -> "De onde vem a receita?" + ImportSourceGrid:
-              4 opções (HairlineRow ou cards): YouTube (Icons.smart_display),
-              Foto (Icons.photo_camera), PDF (Icons.picture_as_pdf), Escrever (Icons.edit_note)
-              cada opção define o RecipeSource (youtube/photo/pdf/manual) e avança para loading
-              ("Escrever" pode pular direto para preview em branco)
-        2. loading -> StepProgress(steps: ['Lendo', 'Extraindo', 'Estruturando'], activeIndex crescente)
-              simula extração por IA (mock com Future.delayed); AppLog.d('recipes', 'import iniciado: <origem>')
-        3. preview -> ImportPreview: rascunho editável do resultado
-              (nome, porções, ingredientes em gramas, passos) — reutiliza os editores do RecipeEditScreen
-              rodapé: PitadaButton "Salvar receita" -> salva (repository/mock) e fecha a sheet;
-              AppLog.i('recipes', 'receita importada salva: <id>')
-      nota: câmera/arquivo/rede atrás de service abstrato (real + mock) — hoje só mock
+              - campo de link (PitadaSearchField) + PitadaButton "Importar link" quando há texto:
+                deduz o RecipeSource pela url (instagram/youtube/site) e chama startFrom
+              - card PDF -> file_picker (withData) -> base64 -> startFrom(source: pdf, content)
+              - card Escrever -> startFrom(source: manual) = rascunho em branco (sem rede)
+        2. loading -> StepProgress(['Lendo','Extraindo','Estruturando']); passos são cosméticos
+              enquanto a importação real roda; AppLog.d('recipes', 'import iniciado: <source>')
+        3. ready -> ImportPreview: rascunho editável (nome, porções, ingredientes, passos);
+              rodapé "Salvar receita" -> RecipeEditController.create(draft.toRecipe()) grava
+              uma receita NOVA e invalida recipesProvider; AppLog.i('receita importada salva: <id>')
+        4. error -> mensagem + PitadaButton "Tentar de novo" (retry) + "Escolher outra fonte" (reset)
+      fatia_atual: site | instagram | pdf | manual   # foto/youtube-como-card ficam p/ depois
+      nota: >
+        arquivo (file_picker) e rede (Edge Function) atrás de service abstrato (real + mock).
+        Compartilhamento do SO (ACTION_SEND do Instagram/navegador) é fatia futura — exige
+        criar android/ + intent-filter; hoje a entrada é colar o link ou escolher o PDF.
 
   - CookChatSheet:
       funcao: showCookChatSheet(BuildContext, {required Recipe recipe})   # sheet padrão (surf, grip)
@@ -287,6 +299,7 @@ sheets:
               (label "Ajuste sugerido", ex.: salgado -> "Reduza o sal em ~20% na próxima")
               mock: mapa fixo feedback -> sugestão; AppLog.i('recipes', 'feedback: <opção>')
         - "Perfeito": mensagem curta de parabéns, sem sugestão
+        # seção "Voltar pra bancada?" entra com a implementação da Bancada (bancada.yaml)
         - rodapé: PitadaButton "Salvar ajuste na receita" (só quando há sugestão) ->
               anexa a sugestão às Anotações da receita (repository/mock) e fecha;
               PitadaButton(outline) "Fechar" quando não há ajuste a salvar

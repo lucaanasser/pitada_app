@@ -41,8 +41,8 @@ class _AddPantrySheet extends ConsumerStatefulWidget {
 }
 
 class _AddPantrySheetState extends ConsumerState<_AddPantrySheet> {
-  int _step = 0; // 0 = escolha, 1 = lendo, 2 = preview
-  int _progress = 0; // índice ativo do StepProgress
+  int _step = 0;
+  int _progress = 0;
 
   /// Dispara a leitura simulada (StepProgress) e avança ao preview. Usada por: escolha.
   Future<void> _read(PantrySource source) async {
@@ -54,7 +54,6 @@ class _AddPantrySheetState extends ConsumerState<_AddPantrySheet> {
       _step = 1;
       _progress = 0;
     });
-    // Log da leitura (service abstrato, mock no desktop) — destrava rodar sem câmera.
     final code = await ref.read(scannerProvider).scanBarcode();
     AppLog.i('shopping', 'origem "${source.label}" lida: ${code ?? "-"}');
     for (var i = 1; i <= 2; i++) {

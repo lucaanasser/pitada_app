@@ -12,10 +12,10 @@ import 'activity_day.dart';
 /// Usada por: ActivityGraph ("X dias ativos · recorde N") e ProfileHeader
 /// (PitadaTag "currentStreak dias seguidos").
 class ActivityStats {
-  final int activeDays; // dias com pelo menos 1 registro
-  final int bestStreak; // maior sequência de dias consecutivos ativos
-  final int currentStreak; // sequência que termina hoje (tolera hoje vazio)
-  final int totalDays; // total de células geradas (denominador)
+  final int activeDays;
+  final int bestStreak;
+  final int currentStreak;
+  final int totalDays;
 
   const ActivityStats({
     required this.activeDays,
@@ -26,9 +26,7 @@ class ActivityStats {
 }
 
 /// Calcula dias ativos, melhor sequência e sequência atual a partir das células.
-/// Assume a lista em ordem cronológica (como o seed/repositório entregam).
-/// A sequência atual anda de trás pra frente e tolera SÓ a última célula
-/// (hoje) sem registro — o dia ainda não acabou, a sequência não quebrou.
+/// A sequência atual tolera a última célula (hoje) sem registro sem quebrar.
 /// Usada por: ActivityGraph e ProfileHeader.
 ActivityStats computeActivityStats(List<ActivityDay> days) {
   var active = 0;
@@ -46,7 +44,7 @@ ActivityStats computeActivityStats(List<ActivityDay> days) {
 
   var current = 0;
   var i = days.length - 1;
-  if (i >= 0 && days[i].intensity <= 0) i--; // hoje ainda sem registro: tolera
+  if (i >= 0 && days[i].intensity <= 0) i--;
   while (i >= 0 && days[i].intensity > 0) {
     current++;
     i--;

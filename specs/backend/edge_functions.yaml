@@ -1,28 +1,107 @@
 # specs/backend/edge_functions.yaml -> supabase/functions/ (Deno/TypeScript)
 # O QUÊ:  Contrato das Edge Functions (IA via Gemini roda no SERVIDOR, nunca no app).
-# USADO POR: import_controller (app) quando a função existir. Hoje: contrato apenas.
+# USADO POR: GeminiFoodEstimateService (estimate-food, ativa); import_controller (futuro).
 area: Backend / Edge Functions
-status: CONTRATO DEFINIDO — implementação fica para a fatia "import por IA" (TODO)
+status: >
+  estimate-food e import-recipe IMPLEMENTADAS. cook-feedback segue como
+  CONTRATO DEFINIDO (implementação futura).
 purpose: >
   Tudo que usa a chave do Gemini roda em Edge Function: apps Flutter são
   descompiláveis, então a GEMINI_API_KEY vive só como secret do servidor
   (supabase secrets set). O app chama functions.invoke com o JWT do usuário.
 
 functions:
-  import-recipe:                    # extrai receita estruturada de uma fonte
+  estimate-food:                    # estima kcal/macros de um texto livre — IMPLEMENTADA
+    arquivo: >
+      supabase/functions/estimate-food/{index.ts, deps.ts, parser.ts, gemini.ts,
+      hints.ts, aliases.ts, foods.ts, disambiguate.ts, resolve.ts} — cada <200 linhas.
+    verbo: functions.invoke('estimate-food')
+    auth: exige usuário logado (verify_jwt: true — JWT do app; anon key vale p/ teste)
+    lado_app: >
+      GeminiFoodEstimateService (plans/application) chama esta função; ligado via
+      override de foodEstimateServiceProvider no main.dart quando online. Offline
+      (preview PC) usa MockFoodEstimateService (heurística por base curada).
+    estrategia: >
+      REGRA DE OURO: a IA decide LINGUAGEM/MATCH (onde aumenta a precisão), NUNCA
+      produz número. TODO valor (grama, kcal, macro) vem de tabela + aritmética — LLM
+      sozinho erra 25-40% em kcal. Objetivo: aproximação AUDITÁVEL (como Nutritionix/
+      MacroFactor/PlateLens) — cada item mostra o que casou, a fonte, a confiança e
+      alternativas. Pipeline híbrido:
+      (1) parser.ts — extrai {qty, unit, food} deterministicamente (massa/volume e
+          medidas caseiras via portion_hints); separa "300g" grudado, singulariza plural.
+          Se nem tokeniza, gemini.ts.normalize() traduz a linguagem nos mesmos tokens
+          (sem número; unit restrito ao vocab de portion_hints);
+      (2) gramas = qty × massa/volume OU portion_hints[unit] × qty (resolve.ts/toGrams);
+      (3) MATCH do alimento (resolve.ts), em ordem de precisão/eficiência:
+          a. food_aliases (termo coloquial → canônico, "leite"→"leite integral") = alta;
+          b. vencedor lexical claro em search_foods (gap de score alto) = alta/média;
+          c. AMBÍGUO → disambiguate.ts: a IA escolhe o candidato certo + confiança
+             ("leite" = fluido, não "leite em pó") — só índice+confiança, sem número;
+          d. sem candidato → canonicalizeFoods (IA renomeia) e tenta de novo;
+      (4) macros = por100 × gramas/100; soma só o que casou;
+      (5) AUDITÁVEL: cada BreakdownItem traz via (alias|busca|ia), confidence
+          (alta|media|baixa), alternatives[] (outras linhas p/ trocar), assumed
+          (porção assumida) e unresolved (sem match → fora do total, nunca chuta).
+    request:
+      text: string                  # descrição natural, ex.: "5 colheres de brigadeiro"
+    response:                       # espelha o mapeamento em GeminiFoodEstimateService
+      name: string                  # nome curto da comida (do Gemini)
+      portion: string               # porção reconhecida (ex.: "5 colheres")
+      kcal: number                  # SOMA da conta determinística
+      protein: number               # gramas (soma)
+      carb: number                  # gramas (soma)
+      fat: number                   # gramas (soma)
+      via: parser | ia             # como o texto virou tokens (Tier 0 ou IA)
+      breakdown:                    # 1 item por ingrediente (auditável: confere/troca)
+        - {name, grams, kcal, protein, carb, fat,
+           matched: string?, matchedSource: string?, barcode: string?, score: number?,
+           via: alias|busca|ia,     # como o MATCH foi decidido
+           confidence: alta|media|baixa,
+           assumed: bool,           # porção assumida (qty/unit ausentes) — conferir
+           unresolved: bool,        # sem match na base — NÃO entra no total; UI pede escolher
+           alternatives: [{name, source, kcal}]}   # outras opções p/ trocar
+    ia:
+      modelo: gemini-flash-lite-latest (env GEMINI_MODEL sobrescreve) — ~1s, free tier
+              # gemini-2.0-flash dá cota 0 p/ chaves novas; flash-latest (thinking) fica 503
+      papel: SÓ decompor em ingredientes+gramas (+fallback por-100g quando fora da TACO)
+      saida_estruturada: responseSchema (JSON forçado) — sem parse frágil de texto
+      idioma: prompt e nomes em pt-BR
+    fonte_dados: tabela foods (TACO) via search_foods() — ver specs/backend/database.yaml
+    erros: {400: text vazio, 401: sem sessão, 502: falha/timeout da IA (app mostra retry)}
+
+  import-recipe:                    # extrai receita estruturada de uma fonte — IMPLEMENTADA
+    arquivo: supabase/functions/import-recipe/index.ts
     verbo: functions.invoke('import-recipe')
-    auth: exige usuário logado (verify_jwt: true)
+    auth: exige usuário logado (verify_jwt: true — JWT do app; anon key vale p/ teste)
+    lado_app: >
+      GeminiRecipeImportService (recipes/application) chama esta função; ligado via
+      override de recipeImportServiceProvider no main.dart quando online. Offline
+      (preview PC) usa MockRecipeImportService (rascunho de exemplo).
+    fatia_atual: site | instagram | pdf   # photo/youtube ficam p/ fatia futura
     request:
       source: youtube | instagram | site | pdf | photo | manual
-      url: string?                  # quando é link
-      content: string?              # texto colado / base64 (foto/pdf)
+      url: string?                  # quando é link (site/instagram/youtube)
+      content: string?              # base64 do arquivo (pdf) — sem prefixo data:
+    coleta_no_servidor:             # como a função obtém o texto p/ a IA
+      site: fetch da url -> extrai texto legível do HTML (tira script/style/tags)
+      instagram: fetch da url -> pega a legenda de og:description (best-effort;
+                 login-wall pode limitar) + texto legível de fallback
+      pdf: content (base64) vai direto ao Gemini como inlineData application/pdf
+    ia:
+      modelo: gemini-flash-lite-latest (env GEMINI_MODEL) — mesmo de estimate-food
+      saida_estruturada: responseSchema (JSON forçado espelhando RecipeDraft)
+      idioma: prompt e conteúdo em pt-BR; converte medidas p/ grama quando dá
     response:                       # espelha RecipeDraft do app
       title: string
       servings: int
+      time_minutes: int?
+      difficulty: string?
+      techniques: [string]?
       ingredients: [{name, grams?, human_qty?, human_unit?}]
       steps: [{text, tip?}]
-      kcal/protein/carb/fat: number?   # estimados pela IA quando possível
-    erros: {400: fonte inválida, 401: sem sessão, 502: falha na IA (app mostra retry)}
+      kcal/protein/carb/fat: number?   # por porção, estimados quando possível
+    erros: {400: source/url/content inválidos, 401: sem sessão,
+            422: não achou receita no conteúdo, 502: falha/timeout da IA (app mostra retry)}
 
   cook-feedback:                    # sugestão de ajuste pós-cozimento (CookChatSheet)
     status: TODO (depois do import)

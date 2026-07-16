@@ -42,11 +42,7 @@ class PitadaTabBar extends StatelessWidget {
     final pit = context.pit;
     return SafeArea(
       top: false,
-      // Respiro da pílula; embaixo, o inset de gesto vale quando for maior.
       minimum: const EdgeInsets.only(bottom: AppSpacing.md),
-      // Row centralizador: tem altura intrínseca — nunca Center/alignment
-      // direto no bottomNavigationBar, que recebem altura livre e esticariam
-      // a barra pela tela inteira.
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -55,8 +51,6 @@ class PitadaTabBar extends StatelessWidget {
             decoration: BoxDecoration(
               color: pit.surf,
               borderRadius: AppSpacing.br(AppSpacing.radiusPill),
-              // Filete fino de propósito (pedido do dono): a pílula precisa
-              // ser leve e não competir com o conteúdo da tela.
               border: Border.all(color: pit.line2, width: AppSpacing.hair),
             ),
             child: Row(
@@ -94,8 +88,6 @@ class PitadaTabBar extends StatelessWidget {
             switchOutCurve: Curves.easeOut,
             child: Icon(
               active ? tab.activeIcon : tab.icon,
-              // A key faz o Switcher tratar ativo/inativo como widgets
-              // distintos e animar o fade entre eles.
               key: ValueKey(active),
               size: 22,
               color: active ? AppColors.accent : pit.muted,

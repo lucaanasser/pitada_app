@@ -31,7 +31,6 @@ class CaptureBar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final pit = context.pit;
-    // Cozinha sem registro → o chip "Cozinhei" já abre com a receita.
     final pending = ref.watch(pendingCookProvider).valueOrNull;
     return Container(
       clipBehavior: Clip.antiAlias,
@@ -43,7 +42,6 @@ class CaptureBar extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // —— linha 1: convite de escrita livre ——
           GestureDetector(
             behavior: HitTestBehavior.opaque,
             onTap: () => showCadernoAddSheet(context),
@@ -61,9 +59,7 @@ class CaptureBar extends ConsumerWidget {
               ),
             ),
           ),
-          // divisória interna de largura total, na tinta da borda
           Container(height: AppSpacing.borderStrong, color: pit.border),
-          // —— linha 2: capturas de 1 toque ——
           Padding(
             padding: const EdgeInsets.symmetric(
               horizontal: AppSpacing.lg,
@@ -114,7 +110,7 @@ class _QuickChip extends StatefulWidget {
 
   final String label;
   final IconData icon;
-  final Color color; // fundo pastel — ex.: pit.card('moss')
+  final Color color;
   final VoidCallback onTap;
 
   @override

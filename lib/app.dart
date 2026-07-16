@@ -30,7 +30,6 @@ class PitadaApp extends ConsumerWidget {
       darkTheme: AppTheme.dark,
       themeMode: mode,
       routerConfig: router,
-      // No-op quando não há DevicePreview ancestral (release / mobile debug).
       locale: DevicePreview.locale(context),
       builder: DevicePreview.appBuilder,
     );

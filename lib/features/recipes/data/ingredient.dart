@@ -16,9 +16,9 @@ part 'ingredient.g.dart';
 abstract class Ingredient with _$Ingredient {
   const factory Ingredient({
     required String name,
-    num? grams, // base para cálculo de macros
-    num? humanQty, // ex.: 2
-    String? humanUnit, // ex.: 'unidade', 'c. sopa'
+    num? grams,
+    num? humanQty,
+    String? humanUnit,
   }) = _Ingredient;
 
   /// Monta a partir do JSON do banco (name/grams/human_qty/human_unit).

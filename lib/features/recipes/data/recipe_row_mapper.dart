@@ -24,8 +24,6 @@ List<Map<String, dynamic>> _sortedByPosition(Object? embedded) {
 Recipe recipeFromRow(Map<String, dynamic> row) {
   return Recipe.fromJson({
     ...row,
-    // Os aninhados do PostgREST viram os campos do modelo (JSON snake_case);
-    // chaves extras das linhas (id/recipe_id/position) são ignoradas no fromJson.
     'ingredients': _sortedByPosition(row['recipe_ingredients']),
     'steps': _sortedByPosition(row['recipe_steps']),
     'folder_ids': [

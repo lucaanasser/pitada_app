@@ -12,11 +12,11 @@
 class ShoppingItem {
   final String id;
   final String name;
-  final String category; // Hortifrúti | Açougue | Laticínios & ovos | Mercearia
-  final num humanQty; // ex.: 2
-  final String humanUnit; // ex.: 'un', 'g', 'ml'
-  final num? grams; // referência (não some por aqui)
-  final bool checked; // marcado como comprado
+  final String category;
+  final num humanQty;
+  final String humanUnit;
+  final num? grams;
+  final bool checked;
 
   const ShoppingItem({
     required this.id,

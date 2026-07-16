@@ -49,7 +49,7 @@ class FioTile extends StatelessWidget {
   const FioTile({super.key, required this.entry, this.isLast = false});
 
   final FioEntry entry;
-  final bool isLast; // último item não desenha o trilho abaixo da bolinha
+  final bool isLast;
 
   /// Monta data + trilho + conteúdo e navega para [FioEntry.route] no toque.
   @override
@@ -63,7 +63,6 @@ class FioTile extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // —— coluna da data ——
             SizedBox(
               width: 40,
               child: Column(
@@ -80,13 +79,10 @@ class FioTile extends StatelessWidget {
                 ],
               ),
             ),
-            // —— trilho vertical de tinta ——
             SizedBox(
               width: 14,
               child: Column(
                 children: [
-                  // Bolinha "de tinta": tinta no claro, accent no escuro
-                  // (regra do estudo de estilo p/ elementos de tinta).
                   Container(
                     width: 10,
                     height: 10,
@@ -109,7 +105,6 @@ class FioTile extends StatelessWidget {
               ),
             ),
             const SizedBox(width: AppSpacing.md),
-            // —— conteúdo ——
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.only(bottom: AppSpacing.xl),
@@ -136,7 +131,6 @@ class FioTile extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: AppSpacing.xs),
-                    // Excerto SEMPRE em 1 linha — disciplina anti-densidade.
                     Text(
                       entry.excerpt,
                       style: AppType.on(AppType.bodySm, pit.text2),

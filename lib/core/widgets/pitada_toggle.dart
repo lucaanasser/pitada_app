@@ -43,7 +43,6 @@ class PitadaToggle extends StatelessWidget {
           width: 16,
           height: 16,
           decoration: BoxDecoration(
-            // Creme fixo: lê bem sobre accent (ligado) e surf2 (desligado).
             color: value ? AppColors.text : pit.faint,
             shape: BoxShape.circle,
           ),

@@ -37,8 +37,6 @@ class AppShell extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: context.pit.tabBg(shell.currentIndex),
-      // O corpo se estende atrás da barra: o conteúdo rola por baixo da pílula
-      // (flutuação de verdade). As listas de aba compensam via tabListPadding.
       extendBody: true,
       body: _SlideTabView(index: shell.currentIndex, child: shell),
       bottomNavigationBar: PitadaTabBar(
@@ -75,7 +73,7 @@ class _SlideTabViewState extends State<_SlideTabView>
   static const Curve _curve = Curves.easeOutCubic;
 
   late final AnimationController _c;
-  double _dir = 0; // -1 = entra pela esquerda; 1 = entra pela direita
+  double _dir = 0;
 
   @override
   void initState() {

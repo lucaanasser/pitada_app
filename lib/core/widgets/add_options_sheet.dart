@@ -25,7 +25,7 @@ import 'sheet_grip.dart';
 class AddSheetOption {
   final String title;
   final String subtitle;
-  final String hero; // nome da cor hero da miniatura (AppColors.heroOf)
+  final String hero;
   final IconData icon;
   final void Function(BuildContext) action;
   const AddSheetOption(
@@ -104,8 +104,6 @@ class _AddOptionsSheet extends StatelessWidget {
                 trailing: Icon(AppIcons.chevron, size: 20, color: pit.faint),
                 showDivider: i != options.length - 1,
                 onTap: () {
-                  // Fecha o sheet e age com o contexto EXTERNO — o ctx do
-                  // builder morre no pop e quebraria push/quick sheets.
                   Navigator.of(context).pop();
                   options[i].action(rootContext);
                 },

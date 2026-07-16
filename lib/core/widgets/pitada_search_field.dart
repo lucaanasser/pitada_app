@@ -47,8 +47,6 @@ class PitadaSearchField extends StatelessWidget {
               onChanged: onChanged,
               style: AppType.on(AppType.body, pit.text),
               cursorColor: AppColors.accent,
-              // filled:false anula o fillColor herdado do tema global — sem ele o
-              // TextField pintaria um 2º retângulo (surf2) dentro desta cápsula.
               decoration: InputDecoration(
                 isCollapsed: true,
                 filled: false,

@@ -16,8 +16,6 @@ import '../data/recipe.dart';
 import '../data/recipe_step.dart';
 import 'widgets/quick_edit_sheet.dart';
 
-// Edição de itens de lista (ingrediente/passo) mora na extension do arquivo abaixo,
-// na MESMA biblioteca — assim reusa os helpers privados (_save/_toNum/_numStr).
 part 'recipe_item_edit.dart';
 
 /// Qual macro está sendo editado (célula da NutritionCard). Usada por: [RecipeQuickEdit.macro].

@@ -16,7 +16,7 @@ part 'recipe_step.g.dart';
 abstract class RecipeStep with _$RecipeStep {
   const factory RecipeStep({
     required String text,
-    String? tip, // callout "Por quê" (técnica)
+    String? tip,
   }) = _RecipeStep;
 
   /// Monta a partir do JSON do banco (text/tip).

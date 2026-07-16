@@ -31,7 +31,6 @@ class ProfileStats extends ConsumerWidget {
         _Stat(
           value: counts.recipes,
           label: 'receitas',
-          // go: receitas é aba — troca de branch, sem empilhar tela.
           onTap: () => _open(context, '/recipes', go: true),
         ),
         _Stat(
@@ -42,7 +41,6 @@ class ProfileStats extends ConsumerWidget {
         _Stat(
           value: counts.cooks,
           label: 'preparos',
-          // push: o diário é rota full-screen — voltar cai de volta no Perfil.
           onTap: () => _open(context, '/learning/diary', go: false),
         ),
       ],

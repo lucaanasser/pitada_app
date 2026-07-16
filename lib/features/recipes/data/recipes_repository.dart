@@ -28,6 +28,11 @@ abstract class RecipesRepository {
   /// Usada por: recipeVersionGroupProvider (seletor de versão).
   Future<List<Recipe>> fetchVersionGroup(String groupId);
 
+  /// Cria uma receita NOVA (id próprio) e devolve o id final gerado.
+  /// Online o Postgres gera o uuid; no seed é um id local. Usada por: importação
+  /// de receita (RecipeEditController.create).
+  Future<String> createRecipe(Recipe recipe);
+
   /// Grava uma edição da receita NO LUGAR (mesmo id, sem nova versão).
   /// Usada por: RecipeEditController.save (edição inline).
   Future<void> updateRecipe(Recipe recipe);

@@ -46,7 +46,6 @@ class ActivityGrid extends ConsumerWidget {
     final weeks = days.isEmpty
         ? 0
         : days.map((d) => d.weekIndex).reduce((a, b) => a > b ? a : b) + 1;
-    // Índice rápido por (semana, dia) para não varrer a lista em cada célula.
     final byPos = <int, ActivityDay>{
       for (final d in days) d.weekIndex * 7 + d.dayIndex: d,
     };
@@ -58,7 +57,6 @@ class ActivityGrid extends ConsumerWidget {
         Expanded(
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            // reverse: a posição inicial mostra as semanas mais recentes.
             reverse: true,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -124,10 +122,9 @@ class ActivityGrid extends ConsumerWidget {
     final labels = <Widget>[];
     int? lastMonth;
     for (var w = 0; w < weeks; w++) {
-      final first = byPos[w * 7]; // segunda-feira da coluna (sempre existe)
+      final first = byPos[w * 7];
       if (first == null) continue;
       final month = first.date.month;
-      // Sem rótulo colado na borda: só marca a virada a partir da 2ª coluna.
       if (lastMonth != null && month != lastMonth) {
         labels.add(
           Positioned(
@@ -143,7 +140,7 @@ class ActivityGrid extends ConsumerWidget {
     }
     return SizedBox(
       width: weeks * _kCol,
-      height: 14, // altura da linha de captionSm
+      height: 14,
       child: Stack(clipBehavior: Clip.none, children: labels),
     );
   }

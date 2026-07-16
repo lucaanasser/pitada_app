@@ -12,8 +12,8 @@
 /// (agregados reais) e a sequência vem de ActivityStats (derivada da atividade).
 /// Usada por: ProfileScreen/ProfileHeader (via profileProvider).
 class Profile {
-  final String name; // "Luca Naasser"
-  final String initial; // inicial do avatar, ex.: "L"
+  final String name;
+  final String initial;
 
   const Profile({required this.name, required this.initial});
 }

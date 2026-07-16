@@ -42,7 +42,6 @@ class ShoppingScreen extends ConsumerWidget {
       child: Column(
         children: [
           Padding(
-            // bottom titleGap: respiro padrão entre o título da aba e o 1º conteúdo.
             padding: const EdgeInsets.fromLTRB(
               AppSpacing.gutter,
               AppSpacing.md,
@@ -58,7 +57,6 @@ class ShoppingScreen extends ConsumerWidget {
                     style: AppType.on(AppType.screenTitle, pit.text),
                   ),
                 ),
-                // Atalho: mesmos fluxos do chip '+ Nova' e da aba Despensa.
                 PitadaIconButton(
                   icon: AppIcons.add,
                   filled: true,
@@ -68,8 +66,6 @@ class ShoppingScreen extends ConsumerWidget {
               ],
             ),
           ),
-          // Align: a Column centraliza filhos que encolhem (as abas); aqui elas
-          // ficam à esquerda, como nas outras telas.
           Align(
             alignment: Alignment.centerLeft,
             child: PitadaTabs(

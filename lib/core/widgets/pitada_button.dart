@@ -63,7 +63,6 @@ class _PitadaButtonState extends State<PitadaButton> {
           decoration: BoxDecoration(
             color: primary ? AppColors.accent : Colors.transparent,
             borderRadius: AppSpacing.br(AppSpacing.radiusLg),
-            // Parcimônia: primário é só cor chapada; contorno fica no outline.
             border: primary
                 ? null
                 : Border.all(
@@ -115,13 +114,10 @@ class PitadaIconButton extends StatelessWidget {
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: filled ? AppColors.accent : null,
-          // Parcimônia (como no PitadaButton): cheio é só cor chapada.
           border: filled
               ? null
               : Border.all(color: pit.border, width: AppSpacing.hair),
         ),
-        // Ícone escala com o círculo (19 no padrão 42) — o botão pequeno do
-        // header fica proporcionalmente delicado.
         child: Icon(
           icon,
           size: size * 0.45,

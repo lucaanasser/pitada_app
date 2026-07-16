@@ -18,23 +18,45 @@ import 'recipes_seed_versions.dart';
 /// do seed em toda leitura. Usada por: SeedRecipesRepository (fetch* + updateRecipe).
 final Map<String, Recipe> _recipeOverrides = {};
 
+/// Receitas NOVAS criadas na sessão (ex.: importadas), fora do seed. Aparecem no
+/// topo das listas. Usada por: SeedRecipesRepository (createRecipe + fetch*).
+final List<Recipe> _createdRecipes = [];
+
 /// Repositório de preview: dados de exemplo + edições em memória. A semântica é
 /// idêntica à versão Supabase. Usada por: recipes_providers (default offline).
 class SeedRecipesRepository implements RecipesRepository {
   const SeedRecipesRepository();
 
-  /// Todos os snapshots: definitivas + versões antigas. Usada internamente.
-  List<Recipe> get _all => const [...kSeedRecipes, ...kSeedOldVersions];
+  /// Todos os snapshots: criadas na sessão + definitivas + versões antigas.
+  /// Usada internamente por fetchById/fetchVersionGroup.
+  List<Recipe> get _all =>
+      [..._createdRecipes, ...kSeedRecipes, ...kSeedOldVersions];
 
   /// Aplica o override da sessão (se houver) por cima da receita do seed. Usada
   /// internamente por fetchRecipes/fetchById/fetchVersionGroup.
   Recipe _withOverride(Recipe r) => _recipeOverrides[r.id] ?? r;
 
-  /// Só as DEFINITIVAS do seed, com override aplicado. Usada por: recipesProvider.
+  /// Criadas na sessão (topo) + definitivas do seed, com override aplicado.
+  /// Usada por: recipesProvider.
   @override
   Future<List<Recipe>> fetchRecipes() async {
     AppLog.d('recipes', 'carregando receitas (seed)');
-    return [for (final r in kSeedRecipes) _withOverride(r)];
+    return [
+      for (final r in _createdRecipes) _withOverride(r),
+      for (final r in kSeedRecipes) _withOverride(r),
+    ];
+  }
+
+  /// Cria uma receita nova em memória (topo da lista). Gera id se vier vazio.
+  /// Devolve o id final. Usada por: RecipeEditController.create (importação).
+  @override
+  Future<String> createRecipe(Recipe recipe) async {
+    final id = recipe.id.isEmpty
+        ? 'novo-${DateTime.now().millisecondsSinceEpoch}'
+        : recipe.id;
+    _createdRecipes.insert(0, recipe.copyWith(id: id));
+    AppLog.i('recipes', 'receita criada (seed): $id');
+    return id;
   }
 
   /// Pastas fixas do seed. Usada por: foldersProvider.
@@ -81,10 +103,9 @@ class SeedRecipesRepository implements RecipesRepository {
   /// com version = max+1, herdando as pastas. Usada por: RecipeEditController.
   @override
   Future<void> saveAsNewVersion(Recipe edited) async {
-    // O id do grupo é o id canônico da definitiva; sem grupo, o próprio id o inicia.
     final groupId = edited.versionGroupId ?? edited.id;
     final prev =
-        await fetchById(groupId); // definitiva atual (antes desta edição)
+        await fetchById(groupId);
     final group = await fetchVersionGroup(groupId);
     final maxV = group.isEmpty ? (prev?.version ?? 1) : group.last.version;
 

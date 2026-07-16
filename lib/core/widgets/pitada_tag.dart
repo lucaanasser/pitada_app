@@ -22,7 +22,7 @@ class PitadaTag extends StatelessWidget {
   });
 
   final String label;
-  final Color color; // fundo pastel — ex.: context.pit.card('moss')
+  final Color color;
   final IconData? icon;
 
   @override

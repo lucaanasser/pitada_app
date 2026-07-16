@@ -32,25 +32,18 @@ import '../../features/recipes/presentation/recipe_edit_screen.dart';
 /// [rootKey] é o Navigator raiz — garante que estas telas cubram as abas.
 /// Usada por: router.dart.
 List<RouteBase> buildFullscreenRoutes(GlobalKey<NavigatorState> rootKey) {
-  // Atalho: rota full-screen ancorada no Navigator raiz.
   GoRoute fs(String path, Widget Function(BuildContext, GoRouterState) build) =>
       GoRoute(path: path, parentNavigatorKey: rootKey, builder: build);
 
   String p(GoRouterState s, String k) => s.pathParameters[k]!;
 
   return [
-    // —— Auth ——
-    // Entrar (e-mail + código). O gate em router.dart decide quando mostrar.
     fs('/entrar', (c, s) => const SignInScreen()),
 
-    // —— Receitas ——
     fs('/recipe/:id', (c, s) => RecipeDetailScreen(recipeId: p(s, 'id'))),
     fs('/recipe/:id/edit', (c, s) => RecipeEditScreen(recipeId: p(s, 'id'))),
     fs('/recipe/:id/cook', (c, s) => CookModeScreen(recipeId: p(s, 'id'))),
 
-    // Pasta aberta: página NÃO-opaca sem transição própria — a FolderScreen lê
-    // a animação desta rota e dirige papéis + dissolve por cima da aba Pastas,
-    // que permanece visível por baixo durante abrir/fechar (uma transição só).
     GoRoute(
       path: '/folder/:id',
       parentNavigatorKey: rootKey,
@@ -64,7 +57,6 @@ List<RouteBase> buildFullscreenRoutes(GlobalKey<NavigatorState> rootKey) {
       ),
     ),
 
-    // —— Caderno: listas ——
     fs('/learning/cards', (c, s) => const LessonCardsScreen()),
     fs('/learning/notes', (c, s) => const NotesScreen()),
     fs('/learning/diary', (c, s) => const DiaryScreen()),
@@ -76,7 +68,6 @@ List<RouteBase> buildFullscreenRoutes(GlobalKey<NavigatorState> rootKey) {
     ),
     fs('/lesson-edit', (c, s) => const LessonEditScreen()),
 
-    // —— Caderno: detalhes ——
     fs('/lesson/:id', (c, s) => LessonDetailScreen(lessonId: p(s, 'id'))),
     fs('/note/:id', (c, s) => NoteDetailScreen(noteId: p(s, 'id'))),
     fs('/diary/:id', (c, s) => DiaryEntryScreen(entryId: p(s, 'id'))),
@@ -84,7 +75,6 @@ List<RouteBase> buildFullscreenRoutes(GlobalKey<NavigatorState> rootKey) {
     fs('/log/:id', (c, s) => ProcessLogScreen(logId: p(s, 'id'))),
     fs('/pairing/:id', (c, s) => PairingDetailScreen(pairingId: p(s, 'id'))),
 
-    // —— Perfil ——
     fs('/profile/settings', (c, s) => const SettingsScreen()),
   ];
 }

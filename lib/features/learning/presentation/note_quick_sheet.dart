@@ -101,7 +101,6 @@ class _NoteQuickSheetState extends State<_NoteQuickSheet> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // —— grip ——
               Center(
                 child: Container(
                   width: 36,
@@ -118,7 +117,6 @@ class _NoteQuickSheetState extends State<_NoteQuickSheet> {
                 style: AppType.on(AppType.label, AppColors.accent),
               ),
               const SizedBox(height: AppSpacing.md),
-              // —— tipo de fonte ——
               Wrap(
                 spacing: AppSpacing.sm,
                 runSpacing: AppSpacing.sm,

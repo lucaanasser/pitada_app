@@ -48,7 +48,7 @@ vale aqui também. Todo `file:` aponta o `.dart` real.
 ## Nomes legados a corrigir (mentem sobre a realidade)
 | Hoje | Vira | Motivo |
 |---|---|---|
-| `features/shopping/` | `features/pantry/` | aba é "Ingredientes"; despensa é o núcleo |
+| `features/shopping/` | `features/groceries/` | aba é "Ingredientes"; entidades → `Grocery*`, mas `pantry`/despensa fica |
 | `features/learning/` | `features/notebook/` | aba é "Caderno" |
 | `caderno_*` | `notebook_*` / `providers` / `add_sheet` | pt-BR solto no código |
 

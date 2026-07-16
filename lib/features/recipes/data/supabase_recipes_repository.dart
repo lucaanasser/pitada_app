@@ -75,6 +75,21 @@ class SupabaseRecipesRepository implements RecipesRepository {
     return rows.map(recipeFromRow).toList();
   }
 
+  /// Insere uma receita NOVA (o Postgres gera o uuid) + filhas; devolve o id.
+  /// user_id vem do default auth.uid(). Usada por: RecipeEditController.create.
+  @override
+  Future<String> createRecipe(Recipe recipe) async {
+    final inserted = await _db
+        .from('recipes')
+        .insert(recipeToRow(recipe, withId: false))
+        .select('id')
+        .single();
+    final id = inserted['id'] as String;
+    await _writeChildren(recipe, id);
+    AppLog.i('recipes', 'receita criada (supabase): $id');
+    return id;
+  }
+
   /// Upsert da linha + troca das filhas. (Sem transação multi-tabela no
   /// PostgREST: numa falha rara no meio, reeditar/salvar conserta — ver spec.)
   /// Usada por: RecipeEditController.save (edição inline).
@@ -92,13 +107,13 @@ class SupabaseRecipesRepository implements RecipesRepository {
   @override
   Future<void> saveAsNewVersion(Recipe edited) async {
     final groupId = edited.versionGroupId ?? edited.id;
-    final prev = await fetchById(groupId); // definitiva atual
+    final prev = await fetchById(groupId);
     final group = await fetchVersionGroup(groupId);
     final maxV = group.isEmpty ? (prev?.version ?? 1) : group.last.version;
 
     if (prev != null) {
       final archived = prev.withVersionIdentity(
-        id: prev.id, // descartado no insert (withId: false) — banco gera outro
+        id: prev.id,
         version: prev.version,
         versionGroupId: groupId,
         folderIds: const [],

@@ -36,7 +36,6 @@ class AdherenceSection extends ConsumerWidget {
     ];
     final logged = loggedDays.length;
     final within = loggedDays.where((d) => d.within).length;
-    // Média de kcal só dos dias logados (dias sem registro não puxam p/ baixo).
     final avg = logged == 0
         ? 0
         : (loggedDays.fold<int>(0, (s, d) => s + d.kcal) / logged).round();
@@ -67,7 +66,7 @@ class AdherenceSection extends ConsumerWidget {
     final Color color;
     final double frac;
     if (!d.logged) {
-      color = pit.surf2; // sem registro: stub neutro
+      color = pit.surf2;
       frac = 0.05;
     } else {
       color = d.over ? AppColors.accent2 : AppColors.sage;

@@ -34,7 +34,6 @@ class WeightSection extends ConsumerWidget {
         style: AppType.on(AppType.body, pit.text2),
       );
     }
-    // Seta indica a direção da variação; cor neutra (não julga ganhar/perder).
     final down = stats.delta < 0;
     final arrow = stats.delta == 0 ? '' : (down ? '▼ ' : '▲ ');
     return Column(
@@ -57,7 +56,6 @@ class WeightSection extends ConsumerWidget {
         ),
         const SizedBox(height: AppSpacing.lg),
         WeightChart(entries: entries),
-        // O lembrete só até o hábito existir; depois vira ruído permanente.
         if (entries.length < 3) ...[
           const SizedBox(height: AppSpacing.lg),
           _reminder(pit),

@@ -55,7 +55,7 @@ class _FoodSearchSheet extends ConsumerStatefulWidget {
 
 class _FoodSearchSheetState extends ConsumerState<_FoodSearchSheet> {
   String _query = '';
-  String? _category; // null = todas as categorias
+  String? _category;
 
   /// Filtra o dataset pela categoria e pelo texto buscado. Usada por: [build].
   List<FoodItem> _filtered(List<FoodItem> all) {

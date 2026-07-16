@@ -6,3 +6,10 @@
 .env.keys
 .env.local
 .env.*.local
+
+# Segredos de Edge Functions (GEMINI_API_KEY etc.) — nunca commitar.
+# .env.example (sem valores) é versionado de propósito.
+.env
+functions/.env
+!.env.example
+!functions/.env.example

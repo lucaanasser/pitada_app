@@ -13,10 +13,9 @@ import 'plan.dart';
 /// Macros são estimativas do protótipo; kcal é a base do encaixe na meta.
 const kSeedPlan = Plan(
   id: 'cutting',
-  name: 'Meu plano', // rótulo interno; a tela não exibe título de plano
+  name: 'Meu plano',
   dailyKcalGoal: 1900,
   meals: [
-    // ── Café · meta 500 kcal ──────────────────────────────────────────────
     Meal(
       id: 'cafe',
       name: 'Café',
@@ -81,7 +80,6 @@ const kSeedPlan = Plan(
         ),
       ],
     ),
-    // ── Almoço · meta 650 kcal ────────────────────────────────────────────
     Meal(
       id: 'almoco',
       name: 'Almoço',
@@ -134,7 +132,6 @@ const kSeedPlan = Plan(
         ),
       ],
     ),
-    // ── Jantar · meta 550 kcal ────────────────────────────────────────────
     Meal(
       id: 'jantar',
       name: 'Jantar',
@@ -179,7 +176,6 @@ const kSeedPlan = Plan(
         ),
       ],
     ),
-    // ── Lanche · meta 300 kcal · sem opções ───────────────────────────────
     Meal(
       id: 'lanche',
       name: 'Lanche',

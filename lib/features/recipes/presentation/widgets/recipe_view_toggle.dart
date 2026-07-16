@@ -39,14 +39,12 @@ class _RecipeViewToggleState extends State<RecipeViewToggle>
   static const _opts = [RecipeView.single, RecipeView.grid, RecipeView.list];
   static const double _cellW = 38;
   static const double _cellH = 30;
-  // Um tico mais longa que um slide seco: dá tempo da gota molejar e assentar.
   static const Duration _duration = Duration(milliseconds: 420);
-  // easeOutBack passa um tico do alvo e volta — a mola que dá o quê de molenga.
   static const Curve _slide = Curves.easeOutBack;
 
   late final AnimationController _c;
-  late double _fromX; // posição (-1..1) de onde a gota parte
-  late double _toX; // posição de destino
+  late double _fromX;
+  late double _toX;
 
   /// Alinhamento horizontal (-1, 0, 1) que mira o centro da célula de [v].
   double _xFor(RecipeView v) => _opts.indexOf(v).toDouble() - 1;
@@ -85,7 +83,6 @@ class _RecipeViewToggleState extends State<RecipeViewToggle>
       width: _cellW * _opts.length,
       height: _cellH,
       child: Stack(
-        // Clip.none: a gota espichada/adiantada pode passar da célula sem cortar.
         clipBehavior: Clip.none,
         children: [
           AnimatedBuilder(animation: _c, builder: (_, __) => _drop()),
@@ -106,7 +103,6 @@ class _RecipeViewToggleState extends State<RecipeViewToggle>
   Widget _drop() {
     final t = _c.value;
     final x = _fromX + (_toX - _fromX) * _slide.transform(t);
-    // Pulso 0→1→0 no meio do caminho; só "molha" quando há de fato deslocamento.
     final moving = (_toX - _fromX).abs() > 0.001;
     final pulse = moving ? math.sin(math.pi * t) : 0.0;
     return Align(

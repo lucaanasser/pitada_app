@@ -49,11 +49,9 @@ class LearningScreen extends ConsumerWidget {
         padding: tabListPadding(context, respiro: AppSpacing.xxxl),
         children: [
           _header(context, pit),
-          // titleGap: respiro padrão entre o título da aba e o 1º conteúdo.
           const SizedBox(height: AppSpacing.titleGap),
           const Padding(padding: AppSpacing.screenH, child: CaptureBar()),
 
-          // —— Para hoje: reativação (máx. 2 cards, disciplina anti-ruído) ——
           if (reactivation.isNotEmpty) ...[
             const Padding(
               padding: AppSpacing.screenH,
@@ -71,7 +69,6 @@ class LearningScreen extends ConsumerWidget {
               ),
           ],
 
-          // —— O fio: tudo que foi capturado, em ordem cronológica ——
           const Padding(
             padding: AppSpacing.screenH,
             child: SectionHeader(label: 'O fio'),
@@ -107,7 +104,6 @@ class LearningScreen extends ConsumerWidget {
               ),
           ],
 
-          // —— Ferramentas: os 3 pilares, sempre a 2 toques ——
           const Padding(
             padding: AppSpacing.screenH,
             child: SectionHeader(label: 'Ferramentas'),

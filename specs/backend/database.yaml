@@ -57,8 +57,181 @@ migrations:
 
   - 0003_storage.sql: ver specs/backend/storage.yaml
 
+  - 0004_foods.sql:                # tabela de composição nutricional (TACO) — REFERÊNCIA
+      motivo: >
+        Base da estimativa CONFIÁVEL de calorias: a IA (estimate-food) só decompõe o
+        texto em {ingrediente, gramas}; a CONTA sai daqui (valores reais por 100 g),
+        não de chute do modelo. Dado de referência (sem user_id) — mesmo p/ todos,
+        por isso vai em MIGRATION (existe em prod), não no seed de dev.
+      extensoes: [pg_trgm, unaccent]   # busca fuzzy + insensível a acento por nome
+      foods:                       # 1 linha por alimento; valores SEMPRE por 100 g
+        colunas: [id uuid pk, source text not null default 'taco',
+                  ext_id int,                    # id na fonte (TACO) — rastreabilidade
+                  name text not null,            # description da TACO
+                  name_norm text not null,       # unaccent(lower(name)) — usado na busca
+                  category text,
+                  kcal numeric not null,         # por 100 g
+                  protein numeric not null default 0,   # g por 100 g
+                  carb numeric not null default 0,      # g por 100 g
+                  fat numeric not null default 0,       # g por 100 g
+                  fiber numeric default 0,              # g por 100 g
+                  created_at timestamptz default now()]
+        indices: [unique (source, ext_id),
+                  gin (name_norm gin_trgm_ops)]  # similaridade por trigram
+        rls: >
+          leitura liberada a qualquer usuário autenticado (dado público de referência,
+          não é de usuário). Sem INSERT/UPDATE pelo app — só migration/seed.
+      search_foods(query text, max_rows int default 5):   # função de busca fuzzy
+        retorna: >
+          table(id, name, category, source, barcode, kcal, protein, carb, fat,
+          fiber, score) — obs.: source/barcode entram na migration 0006.
+        como: >
+          ordena por word_similarity(name_norm, unaccent(lower(query))) desc; score é
+          a similaridade [0..1]. Usada pela Edge Function estimate-food p/ casar cada
+          ingrediente decomposto com a linha da tabela (v2 desempata por fonte).
+
+  - 0005_foods_taco_seed.sql:      # dados: ~600 alimentos da TACO 4ª ed. (GERADO)
+      fonte: >
+        TACO 4ª edição (NEPA/UNICAMP, 2011), digitalização MIT
+        github.com/marcelosanto/tabela_taco (TACO.json). GERADO por
+        supabase/seed/gen_taco_sql.mjs a partir de supabase/seed/TACO.json.
+        Idempotente: on conflict (source, ext_id) do update.
+
+  - 0006_foods_multisource.sql:    # base p/ empilhar VÁRIAS fontes na mesma foods
+      motivo: >
+        Banco "muito completo" = camadas de fontes (TACO in natura → IBGE preparados
+        → Open Food Facts marcas/código de barras → USDA fallback), todas na tabela
+        foods, casadas por search_foods e desempatadas por confiança da fonte.
+      foods_add:
+        barcode: text                # código de barras (Open Food Facts) — liga no scanner
+      indices_add: [foods (barcode) where barcode is not null]
+      food_sources:                  # metadados/rank/atribuição por fonte (dado de referência)
+        colunas: [source text pk, rank int not null,   # rank menor = mais confiável (desempate)
+                  label text, license text, attribution text]
+        seed: >
+          taco(rank 1), ibge(2), off(3, ODbL — exige atribuição), usda(4). Atribuição
+          da OFF é obrigatória pela ODbL — guardada aqui e exibível na UI de créditos.
+      search_foods_muda: >
+        passa a devolver também source, barcode e a ordenar por score desc, rank asc
+        (desempate por fonte). max_rows sobe (default 5) p/ alimentar o RE-RANK da IA.
+
+  - 0007_foods_off_seed.sql:       # dados: produtos de MARCA do Brasil (Open Food Facts)
+      fonte: >
+        Open Food Facts (ODbL — atribuição obrigatória). GERADO por
+        supabase/seed/gen_off_sql.mjs, que consulta a API da OFF (país=brasil) por
+        termos relevantes (leite, toddy, nescau, whey, granola, aveia, iogurte...).
+      qualidade: >
+        OFF é colaborativo — filtra só produtos com nome + energia por 100 g plausível
+        (0<kcal≤900) e macros presentes; deduplica por barcode; teto por termo. Cobre
+        os exemplos do usuário (Toddy, whey, granola). source='off', com barcode.
+      idempotente: on conflict (source, barcode) do update.
+
+  - 0009_foods_ibge_seed.sql:      # dados: ~1.960 preparações do IBGE POF (GERADO)
+      fonte: >
+        IBGE POF 2008-2009 "Tabela de Composição Nutricional dos Alimentos
+        Consumidos no Brasil" (dado público). XLS baixado do FTP do IBGE
+        (tabelacompleta.xls), extraído p/ supabase/seed/ibge_pof.csv por um passo
+        Python (xlrd) documentado; GERADO por supabase/seed/gen_ibge_sql.mjs.
+      valor: >
+        alimentos "como consumidos" no Brasil, com variações de preparo (cru/cozido/
+        grelhado/refogado) e nomes coloquiais/regionais (canjiquinha, etc.) — cobre o
+        que a TACO (in natura) não nomeia. source='ibge', rank 2 (abaixo da TACO).
+      idempotente: on conflict (source, ext_id) do update.
+
+  - 0008_portion_hints.sql:        # medidas caseiras → gramas (estabiliza o eixo porção)
+      motivo: >
+        "um copo", "uma colher de granola", "2 scoops de whey" hoje dependem do bom
+        senso da IA (varia entre chamadas). Esta tabela dá conversões FIXAS que a Edge
+        Function injeta no prompt do Gemini — "um copo" vira sempre ~200 g/ml.
+      portion_hints:                # dado de referência (sem user_id)
+        colunas: [id uuid pk, term text unique,     # frase de medida (ex.: 'copo', 'scoop de whey')
+                  grams numeric not null,           # equivalência em gramas/ml
+                  note text]                         # observação curta (ex.: 'líquido ~200ml')
+        rls: leitura liberada a authenticated
+      usada_por: >
+        gemini.ts (estimate-food) lê tudo e injeta no prompt de decomposição, para as
+        conversões de medida caseira ficarem determinísticas.
+
+  - 0010_bancada.sql:              # aba "Bancada" (ex-"Favoritas") — fila de rotatividade
+      motivo: >
+        A Bancada é a fila do "quero cozinhar em breve" (ver specs/features/bancada.yaml).
+        NÃO é um bool na receita — é uma tabela própria, porque cada item tem DATA-ALVO,
+        estado (ativo/cozinhado) e histórico (contador do mês). Um bool não daria ordem,
+        cutucada de atraso nem fechamento de ciclo.
+      bancada_items:               # 1 linha = 1 receita marcada pra cozinhar
+        colunas: [id uuid pk default gen_random_uuid(),
+                  user_id uuid not null default auth.uid() references auth.users on delete cascade,
+                  recipe_id uuid not null references recipes(id) on delete cascade,
+                  target_date date not null,        # "pretendo cozinhar em"
+                  note text,                        # contexto opcional
+                  cooked_at timestamptz,            # null = ATIVO na bancada; preenchido = cozinhou
+                  created_at timestamptz default now(),
+                  updated_at timestamptz default now()]
+        indices:
+          - unique (user_id, recipe_id) where cooked_at is null   # máx 1 item ATIVO por receita
+          - (user_id, target_date) where cooked_at is null        # ordenar a bancada ativa
+          - (user_id, cooked_at) where cooked_at is not null      # contador "cozinhadas do mês"
+        trigger: set_updated_at() BEFORE UPDATE
+        semantica: >
+          "tirar sem cozinhar" = DELETE (sem valor histórico). "cozinhou" = update
+          cooked_at = now() (some da bancada, entra no contador). "repetir em breve" =
+          INSERT de uma linha nova com target_date futura.
+      deprecacao_favorite: >
+        recipes.favorite (migration 0002) e a antiga aba "Favoritas" ficam DEPRECADOS:
+        "favoritar de verdade" vira uma PASTA comum criada pelo usuário. A coluna NÃO é
+        dropada agora (o versionamento ainda a referencia) — fica sem UI, drop futuro.
+
+  - 0012_foods_usda_seed.sql:      # dados: ~7.750 alimentos do USDA SR Legacy (GERADO)
+      fonte: >
+        USDA FoodData Central, SR Legacy (domínio público). CSV bulk → extraído p/
+        supabase/seed/usda_sr.csv (Python, filtra energia/proteína/gordura/carbo/
+        fibra por 100 g) → GERADO por supabase/seed/gen_usda_sql.mjs.
+      valor: >
+        nomes em INGLÊS — preenche lacunas que TACO/IBGE/OFF não cobrem (peixes como
+        tilápia, cortes, suplementos). source='usda', rank 4. A busca cross-idioma
+        (PT→EN) vem da camada semântica (embeddings/pgvector, migration 0013).
+      idempotente: on conflict (source, ext_id) do update.
+
+  - 0011_food_aliases.sql:         # canonicalização determinística de termos comuns
+      motivo: >
+        Termo único ambíguo erra na busca lexical: "leite" casa "leite em pó" (480kcal),
+        "arroz" casa "arroz-doce". Esta tabela mapeia o termo coloquial → consulta
+        canônica ("leite"→"leite integral", "arroz"→"arroz cozido") p/ os alimentos
+        mais registrados — atalho de ALTA confiança, sem IA. O long tail ambíguo é
+        resolvido pela IA de desambiguação (ver edge_functions.yaml).
+      food_aliases:                # dado de referência (sem user_id)
+        colunas: [term text pk,     # termo coloquial normalizado (unaccent+lower): 'leite','feijao'
+                  canonical text not null,  # consulta p/ search_foods: 'leite integral'
+                  note text]
+        rls: leitura a authenticated; grant select a anon/authenticated/service_role
+      usada_por: resolve.ts (estimate-food) — consulta antes da busca; hit = confiança alta.
+
+  - 0013_foods_embeddings.sql:     # BUSCA SEMÂNTICA (pgvector) — cruza idioma/sinônimo
+      motivo: >
+        Lexical não cruza idioma nem sinônimo: "tilápia grelhada" (PT) não acha
+        "Fish, tilapia, cooked" (USDA, EN). Embeddings casam por SIGNIFICADO. Modelo:
+        gemini-embedding-001 (768d, multilíngue) — PT↔EN ~0.72 de cosseno.
+      extensao: vector (pgvector)
+      foods_add: embedding vector(768)      # populado por gen_embeddings.mjs (derivado, não migration)
+      indice: hnsw (embedding vector_cosine_ops)   # vizinho mais próximo por cosseno
+      search_foods_hybrid(query text, query_embedding text default null, max_rows int default 5):
+        retorna: mesmas colunas de search_foods + score (word_similarity)
+        como: >
+          blend = 0.4·word_similarity + 0.5·cosseno(embedding, query_embedding) +
+          0.1·(começa com a palavra-cabeça). Inclui linha se casar lexical (>=0.3) OU
+          semanticamente (cosseno alto). Sem embedding populado → cai p/ lexical puro
+          (query_embedding null). A Edge Function embeda a query (gemini-embedding-001)
+          e passa o vetor como texto '[...]' (cast ::vector no SQL).
+      geracao_embeddings: >
+        supabase/seed/gen_embeddings.mjs — lê foods (id,name), embeda em lote
+        (batchEmbedContents, taskType RETRIEVAL_DOCUMENT) e faz UPDATE. Roda 1x após
+        reset/deploy (dado DERIVADO, fora de migration). Sem ele, busca segue lexical.
+
 leitura_pelo_app:                    # PostgREST embedding — 1 query traz tudo
   exemplo: >
     from('recipes').select('*, recipe_ingredients(*), recipe_steps(*),
     recipe_folders(folder_id)') — Recipe.fromJson monta o aninhado
     (ingredientes/passos ordenados por position).
+  bancada: >
+    from('bancada_items').select() filtrando por cooked_at (null = ativos); a Recipe de
+    cada item vem por lookup no app (recipeByIdProvider), não por embedding.

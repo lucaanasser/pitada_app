@@ -24,7 +24,6 @@ Future<T?> showPitadaSheet<T>(
 }) {
   return showModalBottomSheet<T>(
     context: context,
-    // Root navigator: o sheet cobre o shell (incl. a navbar flutuante).
     useRootNavigator: true,
     backgroundColor: background ?? context.pit.surf,
     isScrollControlled: true,

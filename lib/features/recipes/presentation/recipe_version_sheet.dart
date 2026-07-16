@@ -66,10 +66,10 @@ class _RecipeVersionSheet extends ConsumerWidget {
         ref.watch(versionForRecipeProvider(definitivaId)).valueOrNull;
     if (group.isEmpty) return const SizedBox.shrink();
 
-    final maxVersion = group.last.version; // grupo vem ordenado asc (v1..vN)
+    final maxVersion = group.last.version;
     final selected =
         ref.watch(selectedRecipeVersionProvider(groupId)) ?? maxVersion;
-    final desc = group.reversed.toList(); // mais recente primeiro
+    final desc = group.reversed.toList();
 
     return SafeArea(
       top: false,

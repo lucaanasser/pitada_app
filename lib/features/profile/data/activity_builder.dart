@@ -27,11 +27,9 @@ List<ActivityDay> buildActivityDays(
   Map<DateTime, List<ActivityEntry>> realByDate,
 ) {
   final anchor = DateTime(today.year, today.month, today.day);
-  // Segunda-feira da semana atual — âncora da última coluna da grade.
   final monday = anchor.subtract(Duration(days: anchor.weekday - 1));
   final start = monday.subtract(const Duration(days: 7 * (kActivityWeeks - 1)));
 
-  // Antes desta data não existe registro real: entra o exemplo determinístico.
   DateTime? firstReal;
   for (final d in realByDate.keys) {
     if (firstReal == null || d.isBefore(firstReal)) firstReal = d;
@@ -41,7 +39,6 @@ List<ActivityDay> buildActivityDays(
   for (var week = 0; week < kActivityWeeks; week++) {
     for (var day = 0; day < 7; day++) {
       final date = start.add(Duration(days: week * 7 + day));
-      // Semana atual é parcial: dias futuros ficam fora da grade.
       if (date.isAfter(anchor)) continue;
       final entries = realByDate[date] ?? const <ActivityEntry>[];
       var intensity = entries.length;

@@ -34,7 +34,7 @@ A UI nunca chama Supabase direto e só importa modelos de `data/`.
 ## Convenções
 
 - Nome de arquivo/pasta/feature em inglês; rótulo de aba em pt-BR (`Caderno`→`notebook`,
-  `Ingredientes`→`pantry`). Nome nunca legado (ver regra 5).
+  `Ingredientes`→`groceries`). Nome nunca legado (ver regra 5).
 - Dois temas (claro/escuro): cor por tema via `context.pit.*`, marca em `AppColors`;
   toda tela funciona nos dois.
 - Hardware (scanner/câmera/share) atrás de service abstrato (real + mock) p/ rodar no PC.

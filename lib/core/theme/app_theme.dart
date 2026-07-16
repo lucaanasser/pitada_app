@@ -73,7 +73,7 @@ class AppTheme {
       colorScheme: scheme,
       scaffoldBackgroundColor: scaffold,
       fontFamily: 'Inter',
-      splashFactory: NoSplash.splashFactory, // sem brilho: visual editorial
+      splashFactory: NoSplash.splashFactory,
       highlightColor: Colors.transparent,
       textTheme: textTheme,
       extensions: <ThemeExtension<dynamic>>[ext],

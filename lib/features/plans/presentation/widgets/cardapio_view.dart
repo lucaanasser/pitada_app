@@ -33,8 +33,6 @@ class CardapioView extends ConsumerWidget {
       children: [
         const SizedBox(height: AppSpacing.md),
         ReorderableListView(
-          // Embutida no ListView: não rola sozinha, encolhe ao conteúdo.
-          // Sem pega padrão (usamos a do MealHeaderRow) e proxy flat (sem sombra).
           padding: AppSpacing.screenH,
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),

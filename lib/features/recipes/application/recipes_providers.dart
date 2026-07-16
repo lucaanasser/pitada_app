@@ -73,6 +73,14 @@ class RecipeEditController {
 
   final Ref _ref;
 
+  /// Cria uma receita NOVA (ex.: importada) e refaz a lista. Devolve o id gerado.
+  /// Usada por: import_sheet (salvar o preview importado).
+  Future<String> create(Recipe recipe) async {
+    final id = await _ref.read(recipesRepositoryProvider).createRecipe(recipe);
+    _ref.invalidate(recipesProvider);
+    return id;
+  }
+
   /// Persiste [recipe] e invalida os providers dependentes, para a edição aparecer na
   /// hora. [asNewVersion]=false sobrescreve no lugar; true cria uma nova versão (a tela
   /// passa a mostrar o seletor). Usada por: sheets de edição inline (RecipeQuickEdit).
@@ -80,13 +88,12 @@ class RecipeEditController {
     final repo = _ref.read(recipesRepositoryProvider);
     if (asNewVersion) {
       await repo.saveAsNewVersion(recipe);
-      // A definitiva vive no id do grupo (id canônico); sem grupo, o próprio id o inicia.
       final canonicalId = recipe.versionGroupId ?? recipe.id;
       _ref.invalidate(recipeByIdProvider(canonicalId));
       _ref.invalidate(recipeVersionGroupProvider(canonicalId));
       _ref.invalidate(
         selectedRecipeVersionProvider(canonicalId),
-      ); // volta p/ definitiva
+      );
       _ref.invalidate(recipesProvider);
       return;
     }

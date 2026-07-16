@@ -80,7 +80,6 @@ final reactivationItemsProvider = Provider<List<ReactivationItem>>((ref) {
   final dismissed = ref.watch(dismissedReactivationsProvider);
   final items = <ReactivationItem>[];
 
-  // 1. Cozinha sem registro — a captura de 20 segundos, empurrada.
   final cook = ref.watch(pendingCookProvider).valueOrNull;
   if (cook != null) {
     final days = DateTime.now().difference(cook.when).inDays;
@@ -97,7 +96,6 @@ final reactivationItemsProvider = Provider<List<ReactivationItem>>((ref) {
     );
   }
 
-  // 2. "Refazer" marcado e esquecido há mais de 5 dias — fecha o loop do diário.
   final diary = ref.watch(diaryProvider).valueOrNull ?? [];
   for (final d in diary) {
     final days = DateTime.now().difference(d.date).inDays;
@@ -116,11 +114,10 @@ final reactivationItemsProvider = Provider<List<ReactivationItem>>((ref) {
               : '/recipe/${d.recipeIds.first}',
         ),
       );
-      break; // um por dia basta
+      break;
     }
   }
 
-  // 3. Revisão do dia: uma ficha rotativa (estilo Readwise, determinística).
   final lessons = ref.watch(lessonsProvider).valueOrNull ?? [];
   if (lessons.isNotEmpty) {
     final now = DateTime.now();

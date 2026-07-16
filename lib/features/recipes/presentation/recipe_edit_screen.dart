@@ -70,7 +70,6 @@ class _RecipeEditScreenState extends ConsumerState<RecipeEditScreen> {
   @override
   Widget build(BuildContext context) {
     final async = ref.watch(recipeByIdProvider(widget.recipeId));
-    // Enquanto o provider carrega, aguarda para não pinar um rascunho em branco.
     if (async.isLoading && _draft == null) {
       return Scaffold(
         backgroundColor: context.pit.bg,

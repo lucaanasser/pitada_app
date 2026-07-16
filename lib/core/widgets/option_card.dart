@@ -57,9 +57,6 @@ class OptionCard extends StatelessWidget {
         horizontal: AppSpacing.md + 2,
         vertical: AppSpacing.md,
       ),
-      // Bloco flat dentro do MealCard (que já tem a borda tinta): sem borda
-      // fina aninhada — cor chapada surf2; escolhida ganha o pop terracota.
-      // Borda transparente na não-escolhida = mesma métrica, sem pulo de layout.
       decoration: BoxDecoration(
         color: chosen ? AppColors.accentSoft : pit.surf2,
         borderRadius: AppSpacing.br(AppSpacing.radiusLg),

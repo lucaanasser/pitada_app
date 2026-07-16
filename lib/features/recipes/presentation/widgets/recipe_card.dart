@@ -63,8 +63,6 @@ class RecipeCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: AppSpacing.xs + 2),
-                  // Meta sóbria em texto, como o subtítulo do estudo de estilo
-                  // (.rsub): pit.text2 — presente sem virar pílula/enfeite.
                   Text(
                     recipeMetaText(recipe),
                     style: AppType.on(AppType.bodySm, pit.text2),

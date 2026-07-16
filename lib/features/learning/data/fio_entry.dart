@@ -18,8 +18,8 @@ class FioEntry {
   final DateTime date;
   final String title;
   final String excerpt;
-  final String route; // detalhe a abrir no toque (ex.: '/diary/diario-x')
-  final String? tag; // selo extra (veredito do diário, 'definitiva'…)
+  final String route;
+  final String? tag;
 
   const FioEntry({
     required this.id,

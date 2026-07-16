@@ -9,9 +9,9 @@
 /// Um rácio de confiança: proporção que dispensa receita (ex.: vinagrete 3:1).
 /// Usada por: RepertoireScreen (kind ratio).
 class Ratio {
-  final String name; // ex.: 'Vinagrete'
-  final String ratio; // ex.: '3 : 1'
-  final String note; // detalhe pequeno (ex.: 'óleo : ácido')
+  final String name;
+  final String ratio;
+  final String note;
 
   const Ratio({
     required this.name,
@@ -23,9 +23,9 @@ class Ratio {
 /// Uma substituição testada: o que usar quando falta um ingrediente.
 /// Usada por: RepertoireScreen (kind substitution).
 class Substitution {
-  final String missing; // o que faltou (ex.: 'Sem shoyu')
-  final String use; // o que usar no lugar
-  final String note; // contexto (ex.: 'marinadas')
+  final String missing;
+  final String use;
+  final String note;
 
   const Substitution({
     required this.missing,
@@ -57,7 +57,7 @@ class Pairing {
   final String id;
   final String ingredient;
   final List<PairingItem> items;
-  final List<String> recipeIds; // receitas que usam a harmonização
+  final List<String> recipeIds;
 
   const Pairing({
     required this.id,

@@ -12,7 +12,6 @@ import 'package:flutter/widgets.dart';
 class AppSpacing {
   AppSpacing._();
 
-  // —— Espaço (padding / gap / margin) ——
   static const double xs = 4;
   static const double sm = 8;
   static const double md = 12;
@@ -30,7 +29,6 @@ class AppSpacing {
   /// Usada por: recipes/plans/learning/shopping/profile screens (após o título).
   static const double titleGap = 30;
 
-  // —— Raios de borda ——
   static const double radiusSm = 7; // tag / pill de rótulo
   static const double radiusMd = 11; // input, thumb de receita
   static const double radiusLg = 13; // botão, card de campo
@@ -40,23 +38,18 @@ class AppSpacing {
   static const double radiusXxl = 24; // bottom sheet
   static const double radiusPill = 999; // chip totalmente arredondado
 
-  // —— Filetes (larguras de borda) ——
   static const double hair = 1; // divisor padrão
   static const double borderThick = 1.5; // checkbox / destaque
   static const double borderAccent = 2; // aba ativa, borda-esquerda de callout
-  // Borda de card/tag: neo-brutalismo com parcimônia — 1.5, não 2 (pedido do dono).
   static const double borderStrong = 1.5;
 
-  // —— Alturas fixas de componentes ——
   static const double button = 52;
   static const double iconButton = 42;
-  // Menor/delicado: a ação '+' / engrenagem do header de aba (pedido do dono).
   static const double iconButtonSm = 34;
   static const double searchBar = 46;
   static const double tabBar = 76;
   static const double statusBar = 46;
 
-  // —— Atalhos de EdgeInsets recorrentes ——
   /// Padding horizontal do gutter (24) — usado em quase toda tela.
   static const EdgeInsets screenH = EdgeInsets.symmetric(horizontal: gutter);
 

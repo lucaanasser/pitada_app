@@ -15,9 +15,9 @@ enum SectionKind { text, pairs, keys, tip }
 /// vira um item (parágrafo, chip, ponto-chave etc.) conforme o `kind`.
 /// Usada por: Lesson (composição) e LessonDetailScreen.
 class LessonSection {
-  final String label; // versalete no cabeçalho da seção
-  final SectionKind kind; // como renderizar `body`
-  final List<String> body; // itens da seção (1+ conforme o kind)
+  final String label;
+  final SectionKind kind;
+  final List<String> body;
 
   const LessonSection({
     required this.label,

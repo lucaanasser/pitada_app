@@ -9,8 +9,8 @@
 /// Um ponto na linha do tempo de versões: rótulo (ex.: 'v2') + o que mudou.
 /// Usada por: RecipeVersion (composição) e VersionHistoryScreen.
 class VersionStep {
-  final String label; // ex.: 'v1', 'v2', 'v3'
-  final String change; // o que mudou nesta versão
+  final String label;
+  final String change;
 
   const VersionStep({
     required this.label,
@@ -23,9 +23,9 @@ class VersionStep {
 class RecipeVersion {
   final String id;
   final String recipeName;
-  final String recipeId; // liga à receita original
+  final String recipeId;
   final List<VersionStep> timeline;
-  final DateTime? date; // última mudança (entra no fio do Caderno)
+  final DateTime? date;
 
   const RecipeVersion({
     required this.id,

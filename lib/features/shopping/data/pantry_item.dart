@@ -12,12 +12,12 @@
 class PantryItem {
   final String id;
   final String name;
-  final String category; // Hortifrúti | Açougue | Laticínios & ovos | Mercearia
-  final num quantity; // ex.: 6
-  final String unit; // ex.: 'un', 'g', 'ml', 'kg'
-  final num? grams; // referência (não some por aqui)
-  final DateTime? expiresOn; // validade (null = sem data)
-  final bool low; // acabando
+  final String category;
+  final num quantity;
+  final String unit;
+  final num? grams;
+  final DateTime? expiresOn;
+  final bool low;
 
   const PantryItem({
     required this.id,
