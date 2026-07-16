@@ -9,9 +9,11 @@ Living visual references: `pitada-estilo.html`, `pitada-guia-de-construcao.html`
 
 1. **Spec before code.** Nothing is built without a `.yaml` spec in `specs/`. The order is spec → code, never the reverse. → `specs-first.md`
 2. **Architecture and naming.** Feature-first layers, ≤ 200 lines per file, English snake_case with a role suffix, max 7 loose files per folder. → `architecture.md`
-3. **No hard-coded visuals.** Every color, font, spacing, icon, and reused widget comes from the design tokens / `core/widgets`. → `design-system.md`
-4. **Comments only in the header and above declarations**, stating WHAT, never HOW. → `comments-and-logs.md`
-5. **Always version.** Finished something that works? Local commit, sole author, no push. → `versioning.md`
+3. **Grams are the base.** The human unit is a reference; the list sums by human unit. → `data-model.md`
+4. **English in code, pt-BR in prose.** Identifiers English; comments, spec prose, UI, and logs pt-BR. → `language.md`
+5. **No hard-coded visuals.** Every color, font, spacing, icon, and reused widget comes from the design tokens / `core/widgets`. → `design-system.md`
+6. **Comments only in the header and above declarations**, stating WHAT, never HOW. → `comments-and-logs.md`
+7. **Always version.** Finished something that works? Local commit, sole author, no push. → `versioning.md`
 
 ## Structure (details and the rule of 7 in `architecture.md`)
 
@@ -26,7 +28,7 @@ The UI never calls Supabase directly and only imports models from `data/`.
 
 ## Conventions
 
-- File/folder/feature names in English; tab labels in pt-BR (`Caderno` → `notebook`, `Ingredientes` → `groceries`). Never keep a legacy name (see `architecture.md`).
+- File/folder/feature names in English; tab labels in pt-BR (`Caderno` → `notebook`, `Ingredientes` → `groceries`). Never keep a legacy name (see `language.md`).
 - Two themes (light/dark): per-theme color via `context.pit.*`, brand in `AppColors`; every screen works in both.
 - Hardware (scanner/camera/share) sits behind an abstract service (real + mock) so the app runs on desktop.
 - Forbidden visuals: shadow, gradient, cursive font. Allowed: borders, pastels, Space Grotesk, colored tags, bordered cards.

@@ -21,7 +21,7 @@ Over the limit? Split, in this order:
 4. One model per file in `data/`.
 
 ## Names
-- **snake_case, always English** (files, folders, features). Types `PascalCase`, providers/vars `lowerCamelCase`. Product UI stays pt-BR; code does not.
+- **snake_case, always English** (files, folders, features). Types `PascalCase`, providers/vars `lowerCamelCase`. Which language goes where: `language.md`.
 - **The folder names the feature once; the file never repeats it.** File name = ROLE + ENTITY.
   - Wrong: `recipes/data/recipes_repository.dart`
   - Right: `recipes/data/repositories/recipe_repository.dart`
@@ -51,11 +51,6 @@ core/
   widgets/{controls,sheets,tabs,tags,layout,cards}/   # only once it exceeds 7
 ```
 Apply **only when the count demands it** — a small feature (≤ 7 per layer) stays flat.
-
-## Data model (non-negotiable)
-- **Grams are the base**; the human unit ("2 eggs") is a reference. Macros are computed in grams.
-- **The shopping list sums by human unit** (2 recipes × 2 eggs = "4 un"), then subtracts the pantry.
-- A **folder** groups independent recipes. A **sub-recipe** is a component whose macros add up within one dish. These are different things.
 
 ## Preview on desktop
 All hardware (scanner/camera/share) sits behind an abstract service: a real implementation and a **mock** (desktop/web), injected via a Riverpod override. This is what enables running in Chrome/Linux with hot reload.
