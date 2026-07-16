@@ -1,10 +1,10 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/learning/presentation/widgets/log_param.dart
+// lib/features/notebook/presentation/widgets/log_param.dart
 // O QUÊ:     Peças de um log de processo: parâmetro (valor grande + rótulo) e
 //            evento da linha do tempo (momento + texto).
 // USA:       core/widgets (HairlineRow), theme/*, ProcessLog (LogEvent).
 // USADO POR: ProcessLogScreen (Parâmetros e Linha do tempo).
-// SPEC:      specs/features/learning.yaml (ProcessLogScreen "Parâmetros"/"Linha do tempo")
+// SPEC:      specs/features/notebook.yaml (ProcessLogScreen "Parâmetros"/"Linha do tempo")
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 

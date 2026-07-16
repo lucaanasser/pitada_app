@@ -1,10 +1,10 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/shopping/presentation/add_pantry_sheet.dart
+// lib/features/groceries/presentation/add_pantry_sheet.dart
 // O QUÊ:     Bottom sheet "Adicionar à despensa": escolher origem, ler nota, conferir.
 // USA:       scanner_service (scannerProvider), add_pantry_data (origens/preview),
 //            core/widgets (StepProgress, HairlineRow, PitadaButton), format+app_log, theme/*.
 // USADO POR: pantry_view (botão "Adicionar à despensa").
-// SPEC:      specs/features/shopping.yaml (sheets.showAddPantrySheet)
+// SPEC:      specs/features/groceries.yaml (sheets.showAddPantrySheet)
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';

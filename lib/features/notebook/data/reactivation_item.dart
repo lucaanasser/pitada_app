@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/learning/data/reactivation_item.dart
+// lib/features/notebook/data/reactivation_item.dart
 // O QUÊ:     Item de reativação do hub ("Para hoje"): cozinha pendente, refazer
 //            esquecido ou revisão do dia. Puxa o usuário de volta ao Caderno.
 // USA:       nada (modelo imutável puro, derivado dos outros modelos).

@@ -1,11 +1,11 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/learning/presentation/lesson_detail_screen.dart
+// lib/features/notebook/presentation/lesson_detail_screen.dart
 // O QUÊ:     Detalhe de uma ficha — renderiza por kind (técnica/framework/guia).
 //            Cabeçalho com voltar e botão editar (lápis).
 // USA:       core/widgets (PitadaIconButton), theme/*, learning_providers,
 //            lessonBody (corpo por kind), go_router (voltar/editar).
 // USADO POR: core/router/router.dart (/lesson/:id).
-// SPEC:      specs/features/learning.yaml (screens.LessonDetailScreen)
+// SPEC:      specs/features/notebook.yaml (screens.LessonDetailScreen)
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +17,7 @@ import '../../../core/theme/pitada_colors.dart';
 import '../../../core/theme/spacing.dart';
 import '../../../core/theme/typography.dart';
 import '../../../core/widgets/pitada_button.dart';
-import '../application/learning_providers.dart';
+import '../application/providers.dart';
 import '../data/lesson.dart';
 import 'widgets/lesson_body.dart';
 

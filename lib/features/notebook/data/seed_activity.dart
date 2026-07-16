@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/learning/data/learning_seed_activity.dart
+// lib/features/notebook/data/seed_activity.dart
 // O QUÊ:     Seeds de ATIVIDADE do Caderno (notas, diário, versões, logs e a
 //            cozinha pendente). Datas relativas a hoje para o fio ficar vivo.
 // USA:       modelos do Caderno (source_note, diary_entry, recipe_version,

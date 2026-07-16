@@ -1,11 +1,11 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/shopping/presentation/new_list_sheet.dart
+// lib/features/groceries/presentation/new_list_sheet.dart
 // O QUÊ:     Sheet de criar lista de compras (só o nome) + createAndSelectList,
 //            o fluxo completo que cria a lista e a torna ativa.
 // USA:       theme/*, core/widgets (PitadaButton, pitada_sheet, SheetGrip),
 //            flutter_riverpod + shopping_providers (createAndSelectList).
 // USADO POR: ListHeaderRow (via ListsSheet), shopping_add_sheet ('+' do header).
-// SPEC:      specs/features/shopping.yaml (sheets.showNewListSheet)
+// SPEC:      specs/features/groceries.yaml (sheets.showNewListSheet)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,7 +17,7 @@ import '../../../core/theme/typography.dart';
 import '../../../core/widgets/pitada_button.dart';
 import '../../../core/widgets/pitada_sheet.dart';
 import '../../../core/widgets/sheet_grip.dart';
-import '../application/shopping_providers.dart';
+import '../application/providers.dart';
 
 /// Abre o sheet de nova lista e devolve o nome digitado (ou null se cancelou).
 /// Usada por: [createAndSelectList].
@@ -29,12 +29,12 @@ Future<String?> showNewListSheet(BuildContext context) {
 }
 
 /// Fluxo completo de criar lista: abre o sheet de nome, cria e a torna ativa.
-/// Usada por: ListHeaderRow (sheet de listas) e showShoppingAddSheet — o atalho
+/// Usada por: ListHeaderRow (sheet de listas) e showGroceriesAddSheet — o atalho
 /// do header cai exatamente no mesmo fluxo.
 Future<void> createAndSelectList(BuildContext context, WidgetRef ref) async {
   final name = await showNewListSheet(context);
   if (name == null || name.trim().isEmpty) return;
-  final id = ref.read(shoppingListsProvider.notifier).addList(name.trim());
+  final id = ref.read(groceryListsProvider.notifier).addList(name.trim());
   ref.read(activeListIdProvider.notifier).state = id;
 }
 

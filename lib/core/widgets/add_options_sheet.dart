@@ -39,7 +39,7 @@ class AddSheetOption {
 
 /// Abre o sheet "escolher o que adicionar" com [title] e [options]. As ações
 /// são SEMPRE atalhos para fluxos já existentes (mesmo destino, nunca novo).
-/// Usada por: showCadernoAddSheet, showPlanAddSheet, showShoppingAddSheet.
+/// Usada por: showNotebookAddSheet, showPlanAddSheet, showGroceriesAddSheet.
 void showAddOptionsSheet(
   BuildContext context, {
   required String title,

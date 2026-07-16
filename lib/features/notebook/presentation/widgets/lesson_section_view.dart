@@ -1,11 +1,11 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/learning/presentation/widgets/lesson_section_view.dart
+// lib/features/notebook/presentation/widgets/lesson_section_view.dart
 // O QUÊ:     Renderiza uma LessonSection conforme o kind (text/pairs/keys/tip).
 //            Usada pelos guias e para reaproveitar os pontos-chave.
 // USA:       core/widgets (SectionHeader, PitadaChip, WhyCallout), theme/*,
 //            KeyPoint (lista numerada), data (LessonSection).
 // USADO POR: LessonDetailScreen (guias) e as seções das técnicas/frameworks.
-// SPEC:      specs/features/learning.yaml (LessonSection.render)
+// SPEC:      specs/features/notebook.yaml (LessonSection.render)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 

@@ -1,11 +1,11 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/learning/presentation/widgets/tools_panel.dart
+// lib/features/notebook/presentation/widgets/tools_panel.dart
 // O QUÊ:     Painel "Ferramentas" do hub do Caderno: as 8 ferramentas agrupadas
 //            pelos 3 pilares (Conhecimento/Prática/Repertório) numa tabela-mini
 //            com divisórias internas grossas (desenho da NutritionCard).
 // USA:       theme (pitada_colors, spacing, typography), learning_providers
 //            (contagens de cada ferramenta), go_router (navegação por célula).
-// USADO POR: LearningScreen (hub do Caderno).
+// USADO POR: NotebookScreen (hub do Caderno).
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,7 +14,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
 import '../../../../core/theme/typography.dart';
-import '../../application/learning_providers.dart';
+import '../../application/providers.dart';
 
 /// Uma ferramenta do painel: rótulo, provider da contagem, rota e destaque.
 /// Usada por: [ToolsPanel] para montar cada célula.
@@ -60,7 +60,7 @@ final _groups = <({String label, List<_Tool> tools})>[
 ];
 
 /// Painel das 8 ferramentas do Caderno em tabela-mini com borda e divisórias.
-/// Usada por: LearningScreen (hub do Caderno).
+/// Usada por: NotebookScreen (hub do Caderno).
 class ToolsPanel extends ConsumerWidget {
   const ToolsPanel({super.key});
 

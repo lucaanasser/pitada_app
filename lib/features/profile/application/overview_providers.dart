@@ -13,11 +13,11 @@
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../learning/application/caderno_providers.dart';
-import '../../learning/application/learning_providers.dart';
-import '../../learning/data/fio_entry.dart';
+import '../../notebook/application/hub_providers.dart';
+import '../../notebook/application/providers.dart';
+import '../../notebook/data/fio_entry.dart';
 import '../../recipes/application/recipes_providers.dart';
-import '../../shopping/application/shopping_providers.dart';
+import '../../groceries/application/providers.dart';
 import '../data/activity_builder.dart';
 import '../data/activity_day.dart';
 import '../data/activity_entry.dart';

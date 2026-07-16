@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/learning/presentation/diary_quick_sheet.dart
+// lib/features/notebook/presentation/diary_quick_sheet.dart
 // O QUÊ:     Sheet de diário rápido (20 segundos): as 3 perguntas pós-cozinha
 //            (o que mudei / o que aprendi / refazer assim?) com atrito mínimo.
 // USA:       theme/* (pit, AppType, AppSpacing, AppColors), core/widgets
@@ -22,7 +22,7 @@ import 'widgets/section_editor.dart';
 
 /// Abre o bottom sheet de diário rápido. Se [recipeName] vier preenchido
 /// (ex.: veio do modo cozinhar), a receita já aparece fixa no título.
-/// Usada por: LearningScreen (reativação "Você cozinhou X") e cook mode.
+/// Usada por: NotebookScreen (reativação "Você cozinhou X") e cook mode.
 void showDiaryQuickSheet(BuildContext context, {String? recipeName}) {
   showPitadaSheet<void>(
     context,

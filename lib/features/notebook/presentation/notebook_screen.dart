@@ -1,11 +1,11 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/learning/presentation/learning_screen.dart
+// lib/features/notebook/presentation/notebook_screen.dart
 // O QUÊ:     Aba Caderno — o caderno aberto: captura rápida (CaptureBar),
 //            reativação do dia ("Para hoje"), fio cronológico e ferramentas.
 // USA:       core/widgets (Masthead, PitadaScaffold, SectionHeader, botões),
 //            caderno_providers (fio/reativação) e os widgets do hub.
 // USADO POR: core/router/router.dart (branch /learning).
-// SPEC:      specs/features/learning.yaml (screens.LearningScreen)
+// SPEC:      specs/features/notebook.yaml (screens.NotebookScreen)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -19,20 +19,20 @@ import '../../../core/widgets/masthead.dart';
 import '../../../core/widgets/pitada_button.dart';
 import '../../../core/widgets/pitada_scaffold.dart';
 import '../../../core/widgets/section_header.dart';
-import '../application/caderno_providers.dart';
-import 'caderno_add_sheet.dart';
+import '../application/hub_providers.dart';
+import 'add_sheet.dart';
 import 'widgets/capture_bar.dart';
 import 'widgets/fio_tile.dart';
 import 'widgets/reactivation_card.dart';
 import 'widgets/tools_panel.dart';
 
-/// Quantos itens o fio mostra resumido (anti-densidade). Usada por: [LearningScreen].
+/// Quantos itens o fio mostra resumido (anti-densidade). Usada por: [NotebookScreen].
 const _kFioPreview = 5;
 
 /// Tela principal do Caderno: o próprio caderno aberto, não um menu.
 /// Usada por: router (/learning).
-class LearningScreen extends ConsumerWidget {
-  const LearningScreen({super.key});
+class NotebookScreen extends ConsumerWidget {
+  const NotebookScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -137,7 +137,7 @@ class LearningScreen extends ConsumerWidget {
             icon: AppIcons.add,
             filled: true,
             size: AppSpacing.iconButtonSm,
-            onPressed: () => showCadernoAddSheet(context),
+            onPressed: () => showNotebookAddSheet(context),
           ),
         ],
       ),

@@ -1,12 +1,12 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/shopping/presentation/widgets/shopping_list_view.dart
+// lib/features/groceries/presentation/widgets/grocery_list_view.dart
 // O QUÊ:     Aba Lista: cabeçalho da lista ativa (nome + caret), toggle
 //            "descontar a despensa" em HairlineRow (o caso praia = desligado),
 //            grupos por categoria e "Comprei tudo". Quantidades já derivadas.
 // USA:       shopping_providers, list_header, category_group, core/widgets
 //            (HairlineRow, CheckItem, PitadaButton, EmptyState), utils/format, theme/*.
 // USADO POR: shopping_screen (corpo da aba Lista).
-// SPEC:      specs/features/shopping.yaml (screens.ShoppingScreen.lista)
+// SPEC:      specs/features/groceries.yaml (screens.GroceriesScreen.lista)
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
@@ -21,16 +21,16 @@ import '../../../../core/widgets/empty_state.dart';
 import '../../../../core/widgets/hairline_row.dart';
 import '../../../../core/widgets/pitada_button.dart';
 import '../../../../core/widgets/pitada_scaffold.dart';
-import '../../application/shopping_providers.dart';
-import '../../data/shopping_item.dart';
-import '../../data/shopping_list.dart';
+import '../../application/providers.dart';
+import '../../data/grocery_item.dart';
+import '../../data/grocery_list.dart';
 import 'category_group.dart';
 import 'list_header.dart';
 
 /// Corpo da aba Lista: seletor de listas, toggle da despensa e itens agrupados.
 /// Usada por: shopping_screen.
-class ShoppingListView extends ConsumerWidget {
-  const ShoppingListView({super.key});
+class GroceryListView extends ConsumerWidget {
+  const GroceryListView({super.key});
 
   /// Renderiza o cabeçalho da lista, o toggle e a lista agrupada (ou EmptyState).
   /// Usada por: shopping_screen (aba 0).
@@ -61,11 +61,11 @@ class ShoppingListView extends ConsumerWidget {
               topGap: c == 0 ? AppSpacing.xl : AppSpacing.xxxl,
               children: [
                 for (var i = 0; i < grouped[categories[c]]!.length; i++)
-                  _ShoppingRow(
+                  _GroceryRow(
                     item: grouped[categories[c]]![i],
                     showDivider: i != grouped[categories[c]]!.length - 1,
                     onToggle: () => ref
-                        .read(shoppingListsProvider.notifier)
+                        .read(groceryListsProvider.notifier)
                         .toggleItem(list.id, grouped[categories[c]]![i].id),
                   ),
               ],
@@ -81,7 +81,7 @@ class ShoppingListView extends ConsumerWidget {
               label: 'Comprei tudo',
               icon: AppIcons.check,
               onPressed: () {
-                ref.read(shoppingListsProvider.notifier).checkAll(list.id);
+                ref.read(groceryListsProvider.notifier).checkAll(list.id);
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Guardado na despensa')),
                 );
@@ -95,9 +95,9 @@ class ShoppingListView extends ConsumerWidget {
 
   /// Toggle "descontar a despensa" da lista ativa como HairlineRow (o subtítulo
   /// explica o estado; desligado = caso praia). Usada por: [build].
-  Widget _pantryToggle(PitadaColors pit, WidgetRef ref, ShoppingList list) {
+  Widget _pantryToggle(PitadaColors pit, WidgetRef ref, GroceryList list) {
     void flip() =>
-        ref.read(shoppingListsProvider.notifier).togglePantry(list.id);
+        ref.read(groceryListsProvider.notifier).togglePantry(list.id);
     return Padding(
       padding: const EdgeInsets.fromLTRB(
         AppSpacing.gutter,
@@ -129,7 +129,7 @@ class ShoppingListView extends ConsumerWidget {
 
   /// EmptyState da lista ativa: distingue lista sem itens de lista toda coberta
   /// pela despensa. Usada por: [build].
-  Widget _empty(ShoppingList list) {
+  Widget _empty(GroceryList list) {
     final covered = list.items.isNotEmpty;
     return EmptyState(
       title: covered ? 'Nada a comprar' : 'Lista vazia',
@@ -142,15 +142,15 @@ class ShoppingListView extends ConsumerWidget {
 }
 
 /// Uma linha da lista: CheckItem (círculo) + nome + quantidade somada e grama menor.
-/// Usada por: [ShoppingListView].
-class _ShoppingRow extends StatelessWidget {
-  const _ShoppingRow({
+/// Usada por: [GroceryListView].
+class _GroceryRow extends StatelessWidget {
+  const _GroceryRow({
     required this.item,
     required this.showDivider,
     required this.onToggle,
   });
 
-  final ShoppingItem item;
+  final GroceryItem item;
   final bool showDivider;
   final VoidCallback onToggle;
 

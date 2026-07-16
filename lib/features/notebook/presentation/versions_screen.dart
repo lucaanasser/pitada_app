@@ -1,9 +1,9 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/learning/presentation/versions_screen.dart
+// lib/features/notebook/presentation/versions_screen.dart
 // O QUÊ:     Tela "Versões de receita": lista de receitas que têm histórico (RecipeVersion).
 // USA:       learning_providers (versionsProvider), VersionRow, DetailHeader, core/widgets.
 // USADO POR: core/router/router.dart (/learning/versions).
-// SPEC:      specs/features/learning.yaml (screens.VersionsScreen)
+// SPEC:      specs/features/notebook.yaml (screens.VersionsScreen)
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +16,7 @@ import '../../../core/theme/spacing.dart';
 import '../../../core/theme/typography.dart';
 import '../../../core/widgets/empty_state.dart';
 import '../../../core/widgets/pitada_scaffold.dart';
-import '../application/learning_providers.dart';
+import '../application/providers.dart';
 import '../data/recipe_version.dart';
 import 'widgets/detail_header.dart';
 import 'widgets/version_row.dart';

@@ -1,9 +1,9 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/learning/presentation/widgets/hint_card.dart
+// lib/features/notebook/presentation/widgets/hint_card.dart
 // O QUÊ:     Caixa de dica discreta (fundo suave + texto em itálico serifa).
 // USA:       theme/colors, theme/spacing, theme/typography.
 // USADO POR: ProcessLogsScreen (aviso de recurso avançado) e telas do Caderno.
-// SPEC:      specs/features/learning.yaml (layout "hintcard(...)")
+// SPEC:      specs/features/notebook.yaml (layout "hintcard(...)")
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 

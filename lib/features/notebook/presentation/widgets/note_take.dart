@@ -1,9 +1,9 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/learning/presentation/widgets/note_take.dart
+// lib/features/notebook/presentation/widgets/note_take.dart
 // O QUÊ:     Item numerado de "O que fica" (numeral em serifa + texto do aprendizado).
 // USA:       theme/* (AppType.numeralSm, AppSpacing). Sem dependências externas.
 // USADO POR: NoteDetailScreen (lista de takeaways).
-// SPEC:      specs/features/learning.yaml (NoteDetailScreen: "O que fica" -> takes numeradas)
+// SPEC:      specs/features/notebook.yaml (NoteDetailScreen: "O que fica" -> takes numeradas)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 

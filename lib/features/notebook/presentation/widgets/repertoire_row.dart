@@ -1,9 +1,9 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/learning/presentation/widgets/repertoire_row.dart
+// lib/features/notebook/presentation/widgets/repertoire_row.dart
 // O QUÊ:     Linha do Repertório: nome + detalhe pequeno à esquerda, valor à direita.
 // USA:       core/widgets (HairlineRow), theme/*.
 // USADO POR: RepertoireScreen (rácios e substituições).
-// SPEC:      specs/features/learning.yaml (RepertoireRow "nome + detalhe / valor")
+// SPEC:      specs/features/notebook.yaml (RepertoireRow "nome + detalhe / valor")
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 

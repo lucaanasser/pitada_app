@@ -1,32 +1,32 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/learning/application/caderno_providers.dart
+// lib/features/notebook/application/hub_providers.dart
 // O QUÊ:     Providers do HUB do Caderno: fio cronológico unificado, cards de
 //            reativação ("Para hoje") e cozinha pendente de registro.
 // USA:       learning_providers (fontes), modelos fio_entry/reactivation_item/
 //            pending_cook, riverpod.
-// USADO POR: LearningScreen e widgets do hub (CaptureBar, ReactivationCard, Fio).
+// USADO POR: NotebookScreen e widgets do hub (CaptureBar, ReactivationCard, Fio).
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../data/fio_entry.dart';
 import '../data/pending_cook.dart';
 import '../data/reactivation_item.dart';
-import 'learning_providers.dart';
+import 'providers.dart';
 
 /// Cozinha ainda sem registro no diário. Usada por: reactivationItemsProvider.
 final pendingCookProvider = FutureProvider<PendingCook?>((ref) {
-  return ref.watch(learningRepositoryProvider).fetchPendingCook();
+  return ref.watch(notebookRepositoryProvider).fetchPendingCook();
 });
 
 /// Ids de reativação dispensados ("depois") nesta sessão. Usada por: hub.
 final dismissedReactivationsProvider =
     StateProvider<Set<String>>((ref) => const {});
 
-/// Fio expandido (mostrar tudo) ou resumido (5 itens). Usada por: LearningScreen.
+/// Fio expandido (mostrar tudo) ou resumido (5 itens). Usada por: NotebookScreen.
 final fioExpandedProvider = StateProvider<bool>((ref) => false);
 
 /// O fio do Caderno: diário + notas + versões + logs, do mais recente ao mais
-/// antigo. Usada por: LearningScreen (seção "O fio").
+/// antigo. Usada por: NotebookScreen (seção "O fio").
 final fioProvider = Provider<List<FioEntry>>((ref) {
   final entries = <FioEntry>[
     for (final d in ref.watch(diaryProvider).valueOrNull ?? [])
@@ -75,7 +75,7 @@ final fioProvider = Provider<List<FioEntry>>((ref) {
 });
 
 /// Cards de reativação do dia (máx. 2, disciplina anti-ruído): cozinha
-/// pendente > refazer esquecido > revisão do dia. Usada por: LearningScreen.
+/// pendente > refazer esquecido > revisão do dia. Usada por: NotebookScreen.
 final reactivationItemsProvider = Provider<List<ReactivationItem>>((ref) {
   final dismissed = ref.watch(dismissedReactivationsProvider);
   final items = <ReactivationItem>[];

@@ -1,13 +1,13 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/learning/data/learning_repository.dart
+// lib/features/notebook/data/repository.dart
 // O QUÊ:     Fonte do Caderno (fichas, notas, diário, versões, logs, repertório).
-// USA:       modelos do Caderno, learning_seed.dart, core/utils/app_log.
+// USA:       modelos do Caderno, seed.dart, core/utils/app_log.
 // USADO POR: learning_providers (application). A UI nunca chama isto direto.
-// SPEC:      specs/features/learning.yaml (data.repository)
+// SPEC:      specs/features/notebook.yaml (data.repository)
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../../core/utils/app_log.dart';
 import 'diary_entry.dart';
-import 'learning_seed.dart';
+import 'seed.dart';
 import 'lesson.dart';
 import 'pending_cook.dart';
 import 'process_log.dart';
@@ -17,19 +17,19 @@ import 'source_note.dart';
 
 /// Repositório do Caderno. Hoje serve os dados de exemplo (seed); trocar por
 /// versão Supabase mantém a mesma API. Usada por: learning_providers.
-class LearningRepository {
-  const LearningRepository();
+class NotebookRepository {
+  const NotebookRepository();
 
   /// Lista todas as fichas (técnicas, frameworks, guias). Usada por: lessonsProvider.
   Future<List<Lesson>> fetchLessons() async {
-    AppLog.d('learning', 'carregando fichas (seed)');
+    AppLog.d('notebook', 'carregando fichas (seed)');
     return kSeedLessons;
   }
 
   /// Busca uma ficha por id (ou null). Usada por: lessonByIdProvider.
   Future<Lesson?> lessonById(String id) async {
     final found = _firstOrNull(kSeedLessons, (l) => l.id == id);
-    if (found == null) AppLog.w('learning', 'ficha não encontrada: $id');
+    if (found == null) AppLog.w('notebook', 'ficha não encontrada: $id');
     return found;
   }
 

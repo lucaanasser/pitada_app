@@ -1,9 +1,9 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/shopping/presentation/widgets/category_group.dart
+// lib/features/groceries/presentation/widgets/category_group.dart
 // O QUÊ:     Grupo de uma categoria: rótulo em versalete + linhas filhas (filete).
 // USA:       core/widgets/section_header, theme/spacing.
 // USADO POR: shopping_list_view e pantry_view (agrupam itens por categoria).
-// SPEC:      specs/features/shopping.yaml (screens.ShoppingScreen — grupos por categoria)
+// SPEC:      specs/features/groceries.yaml (screens.GroceriesScreen — grupos por categoria)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 

@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/learning/data/fio_entry.dart
+// lib/features/notebook/data/fio_entry.dart
 // O QUÊ:     Item do "fio" do Caderno — visão unificada e cronológica de tudo
 //            que foi capturado (diário, nota, versão, log) para o hub.
 // USA:       nada (modelo imutável puro, derivado dos outros modelos).

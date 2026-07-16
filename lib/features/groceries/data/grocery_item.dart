@@ -1,15 +1,15 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/shopping/data/shopping_item.dart
+// lib/features/groceries/data/grocery_item.dart
 // O QUÊ:     Modelo de um item da lista de compras (somado por unidade humana).
 // USA:       nada (modelo imutável puro, const constructor).
 // USADO POR: shopping_seed, shopping_repository, shopping_providers e a tela Compras.
-// SPEC:      specs/features/shopping.yaml (data.models.ShoppingItem)
+// SPEC:      specs/features/groceries.yaml (data.models.GroceryItem)
 // ─────────────────────────────────────────────────────────────────────────────
 
 /// Um item da lista de compras. Quantidade na unidade humana (2 un, 500 g);
 /// grama é só referência. `checked` marca "já comprei". Imutável.
-/// Usada por: shopping_repository (lista somada) e ShoppingListRow (rótulo).
-class ShoppingItem {
+/// Usada por: shopping_repository (lista somada) e GroceryListRow (rótulo).
+class GroceryItem {
   final String id;
   final String name;
   final String category;
@@ -18,7 +18,7 @@ class ShoppingItem {
   final num? grams;
   final bool checked;
 
-  const ShoppingItem({
+  const GroceryItem({
     required this.id,
     required this.name,
     required this.category,
@@ -30,7 +30,7 @@ class ShoppingItem {
 
   /// Cópia com `checked` alternado/definido. Usada por: shoppingListProvider
   /// ao marcar/desmarcar um item comprado (mantém o resto imutável).
-  ShoppingItem copyWith({bool? checked}) => ShoppingItem(
+  GroceryItem copyWith({bool? checked}) => GroceryItem(
         id: id,
         name: name,
         category: category,

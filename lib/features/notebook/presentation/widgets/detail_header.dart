@@ -1,10 +1,10 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/learning/presentation/widgets/detail_header.dart
+// lib/features/notebook/presentation/widgets/detail_header.dart
 // O QUÊ:     Cabeçalho das telas de detalhe/lista do Caderno: voltar + kicker +
 //            título + lead, com ação opcional à direita (editar/adicionar).
 // USA:       core/widgets (PitadaIconButton), theme/*, go_router (voltar).
 // USADO POR: ProcessLogsScreen, ProcessLogScreen, RepertoireScreen, PairingDetailScreen.
-// SPEC:      specs/features/learning.yaml (layout "voltar/'+', kicker + título + lead")
+// SPEC:      specs/features/notebook.yaml (layout "voltar/'+', kicker + título + lead")
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';

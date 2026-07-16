@@ -1,9 +1,9 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/learning/data/source_note.dart
+// lib/features/notebook/data/source_note.dart
 // O QUÊ:     Nota de fonte (livro/vídeo/curso/chef) — o que ficou de uma fonte.
 // USA:       nada (modelo imutável puro).
 // USADO POR: learning_seed, learning_repository, NotesScreen, NoteDetailScreen.
-// SPEC:      specs/features/learning.yaml (data.models.SourceNote)
+// SPEC:      specs/features/notebook.yaml (data.models.SourceNote)
 // ─────────────────────────────────────────────────────────────────────────────
 
 /// Uma nota de fonte: destila o que aprendeu de um livro/vídeo/curso/chef e

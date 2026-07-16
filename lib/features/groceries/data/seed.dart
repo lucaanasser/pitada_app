@@ -1,14 +1,14 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/shopping/data/shopping_seed.dart
+// lib/features/groceries/data/seed.dart
 // O QUÊ:     Dados de exemplo p/ preview: DUAS listas de compras (quantidades
 //            CRUAS — 'Semana' desconta a despensa, 'Praia' não) + a despensa.
-// USA:       shopping_list.dart, shopping_item.dart, pantry_item.dart.
+// USA:       grocery_list.dart, grocery_item.dart, pantry_item.dart.
 // USADO POR: shopping_repository (fonte em memória enquanto não há Supabase).
-// SPEC:      specs/features/shopping.yaml (data.seed)
+// SPEC:      specs/features/groceries.yaml (data.seed)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'pantry_item.dart';
-import 'shopping_item.dart';
-import 'shopping_list.dart';
+import 'grocery_item.dart';
+import 'grocery_list.dart';
 
 const kCatHortifruti = 'Hortifrúti';
 const kCatAcougue = 'Açougue';
@@ -16,7 +16,7 @@ const kCatLaticinios = 'Laticínios & ovos';
 const kCatMercearia = 'Mercearia';
 
 /// Ordem canônica das categorias. Usada por: agrupadores de shopping_providers.
-const kShoppingCategories = <String>[
+const kGroceryCategories = <String>[
   kCatHortifruti,
   kCatAcougue,
   kCatLaticinios,
@@ -26,14 +26,14 @@ const kShoppingCategories = <String>[
 /// Listas de exemplo com quantidades CRUAS (somadas, sem subtrair a despensa).
 /// 'Semana' desconta a despensa na exibição (cebola 6-4=2 un...); 'Praia' não
 /// (o caso "estou fora de casa, quero a lista completa").
-/// Usada por: shopping_repository / shoppingListsProvider.
-const kSeedLists = <ShoppingList>[
-  ShoppingList(
+/// Usada por: shopping_repository / groceryListsProvider.
+const kSeedLists = <GroceryList>[
+  GroceryList(
     id: 'list-semana',
     name: 'Semana',
     usePantry: true,
     items: [
-      ShoppingItem(
+      GroceryItem(
         id: 'sh-pimentao',
         name: 'Pimentão',
         category: kCatHortifruti,
@@ -41,7 +41,7 @@ const kSeedLists = <ShoppingList>[
         humanUnit: 'un',
         grams: 360,
       ),
-      ShoppingItem(
+      GroceryItem(
         id: 'sh-cebola',
         name: 'Cebola',
         category: kCatHortifruti,
@@ -49,7 +49,7 @@ const kSeedLists = <ShoppingList>[
         humanUnit: 'un',
         grams: 720,
       ),
-      ShoppingItem(
+      GroceryItem(
         id: 'sh-frango',
         name: 'Peito de frango',
         category: kCatAcougue,
@@ -57,7 +57,7 @@ const kSeedLists = <ShoppingList>[
         humanUnit: 'g',
         grams: 1600,
       ),
-      ShoppingItem(
+      GroceryItem(
         id: 'sh-ovos',
         name: 'Ovos',
         category: kCatLaticinios,
@@ -65,7 +65,7 @@ const kSeedLists = <ShoppingList>[
         humanUnit: 'un',
         grams: 320,
       ),
-      ShoppingItem(
+      GroceryItem(
         id: 'sh-shoyu',
         name: 'Shoyu',
         category: kCatMercearia,
@@ -73,7 +73,7 @@ const kSeedLists = <ShoppingList>[
         humanUnit: 'un',
         checked: true,
       ),
-      ShoppingItem(
+      GroceryItem(
         id: 'sh-amendoim',
         name: 'Amendoim',
         category: kCatMercearia,
@@ -83,12 +83,12 @@ const kSeedLists = <ShoppingList>[
       ),
     ],
   ),
-  ShoppingList(
+  GroceryList(
     id: 'list-praia',
     name: 'Praia',
     usePantry: false,
     items: [
-      ShoppingItem(
+      GroceryItem(
         id: 'pr-limao',
         name: 'Limão',
         category: kCatHortifruti,
@@ -96,7 +96,7 @@ const kSeedLists = <ShoppingList>[
         humanUnit: 'un',
         grams: 400,
       ),
-      ShoppingItem(
+      GroceryItem(
         id: 'pr-tilapia',
         name: 'Filé de tilápia',
         category: kCatAcougue,
@@ -104,7 +104,7 @@ const kSeedLists = <ShoppingList>[
         humanUnit: 'g',
         grams: 600,
       ),
-      ShoppingItem(
+      GroceryItem(
         id: 'pr-coalho',
         name: 'Queijo coalho',
         category: kCatLaticinios,
@@ -112,7 +112,7 @@ const kSeedLists = <ShoppingList>[
         humanUnit: 'g',
         grams: 400,
       ),
-      ShoppingItem(
+      GroceryItem(
         id: 'pr-paoalho',
         name: 'Pão de alho',
         category: kCatMercearia,

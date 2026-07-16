@@ -1,9 +1,9 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/learning/data/repertoire.dart
+// lib/features/notebook/data/repertoire.dart
 // O QUÊ:     Repertório para cozinhar sem receita: rácios, substituições e harmonizações.
 // USA:       nada (modelos imutáveis puros).
 // USADO POR: learning_seed, learning_repository, RepertoireScreen, HarmScreen.
-// SPEC:      specs/features/learning.yaml (data.models.Ratio/Substitution/Pairing)
+// SPEC:      specs/features/notebook.yaml (data.models.Ratio/Substitution/Pairing)
 // ─────────────────────────────────────────────────────────────────────────────
 
 /// Um rácio de confiança: proporção que dispensa receita (ex.: vinagrete 3:1).

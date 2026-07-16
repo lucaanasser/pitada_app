@@ -1,9 +1,9 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/learning/presentation/widgets/version_step_tile.dart
+// lib/features/notebook/presentation/widgets/version_step_tile.dart
 // O QUÊ:     Nó da linha do tempo de versões (marcador + label vX + tag def. + mudança).
 // USA:       core/widgets (PitadaChip), theme/*, VersionStep. Sem lógica externa.
 // USADO POR: VersionHistoryScreen.
-// SPEC:      specs/features/learning.yaml (VersionHistoryScreen: VersionStep v/tag/nota)
+// SPEC:      specs/features/notebook.yaml (VersionHistoryScreen: VersionStep v/tag/nota)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 

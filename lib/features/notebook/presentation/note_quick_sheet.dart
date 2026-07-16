@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/learning/presentation/note_quick_sheet.dart
+// lib/features/notebook/presentation/note_quick_sheet.dart
 // O QUÊ:     Sheet de nota de fonte rápida: guarda "o que fica" de um livro,
 //            vídeo, curso ou chef com atrito mínimo.
 // USA:       theme/* (pit, AppType, AppSpacing, AppColors), core/widgets
@@ -21,7 +21,7 @@ import '../../../core/widgets/pitada_tag.dart';
 import 'widgets/section_editor.dart';
 
 /// Abre o bottom sheet de nota de fonte rápida (tipo + título + o que fica).
-/// Usada por: LearningScreen (captura rápida) e caderno_add_sheet.
+/// Usada por: NotebookScreen (captura rápida) e caderno_add_sheet.
 void showNoteQuickSheet(BuildContext context) {
   showPitadaSheet<void>(
     context,

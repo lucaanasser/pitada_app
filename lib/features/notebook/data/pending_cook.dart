@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/learning/data/pending_cook.dart
+// lib/features/notebook/data/pending_cook.dart
 // O QUÊ:     Cozinha pendente de registro — receita cozida sem entrada de diário.
 //            Alimenta o card "Ontem você cozinhou" do hub do Caderno.
 // USA:       nada (modelo imutável puro).

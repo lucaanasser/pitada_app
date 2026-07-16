@@ -1,11 +1,11 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/learning/presentation/lesson_cards_screen.dart
+// lib/features/notebook/presentation/lesson_cards_screen.dart
 // O QUÊ:     Fichas — enciclopédia pessoal. Abas por categoria (Técnicas…Ervas)
 //            e lista de fichas que abre o detalhe.
 // USA:       core/widgets (PitadaTabs), theme/*, learning_providers, LessonCardRow,
 //            DetailHeader, go_router (navegação).
 // USADO POR: core/router/router.dart (/learning/cards).
-// SPEC:      specs/features/learning.yaml (screens.LessonCardsScreen)
+// SPEC:      specs/features/notebook.yaml (screens.LessonCardsScreen)
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +18,7 @@ import '../../../core/theme/spacing.dart';
 import '../../../core/theme/typography.dart';
 import '../../../core/widgets/empty_state.dart';
 import '../../../core/widgets/pitada_tabs.dart';
-import '../application/learning_providers.dart';
+import '../application/providers.dart';
 import '../data/lesson.dart';
 import 'widgets/detail_header.dart';
 import 'widgets/lesson_card_row.dart';

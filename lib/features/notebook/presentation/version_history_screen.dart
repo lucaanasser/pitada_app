@@ -1,10 +1,10 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/learning/presentation/version_history_screen.dart
+// lib/features/notebook/presentation/version_history_screen.dart
 // O QUÊ:     Detalhe do histórico: título (receita) + link p/ receita + linha do tempo.
 // USA:       learning_providers (versionByIdProvider), DetailHeader, RecipeLinkRow,
 //            VersionStepTile, SectionHeader, core/widgets, theme/*.
 // USADO POR: core/router/router.dart (/versions/:id).
-// SPEC:      specs/features/learning.yaml (screens.VersionHistoryScreen)
+// SPEC:      specs/features/notebook.yaml (screens.VersionHistoryScreen)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,7 +14,7 @@ import '../../../core/theme/pitada_colors.dart';
 import '../../../core/theme/spacing.dart';
 import '../../../core/theme/typography.dart';
 import '../../../core/widgets/section_header.dart';
-import '../application/learning_providers.dart';
+import '../application/providers.dart';
 import '../data/recipe_version.dart';
 import 'widgets/detail_header.dart';
 import 'widgets/recipe_link_row.dart';

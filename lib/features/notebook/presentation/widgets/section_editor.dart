@@ -1,10 +1,10 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/learning/presentation/widgets/section_editor.dart
+// lib/features/notebook/presentation/widgets/section_editor.dart
 // O QUÊ:     Editor de uma seção da ficha (rótulo + conteúdo) e o campo de texto
 //            padronizado do formulário de edição.
 // USA:       theme/*, core/widgets (SectionHeader não; usa filete próprio).
 // USADO POR: LessonEditScreen.
-// SPEC:      specs/features/learning.yaml (LessonEditScreen "editor de Seções")
+// SPEC:      specs/features/notebook.yaml (LessonEditScreen "editor de Seções")
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';

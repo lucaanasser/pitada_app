@@ -1,9 +1,9 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/learning/presentation/widgets/key_point.dart
+// lib/features/notebook/presentation/widgets/key_point.dart
 // O QUÊ:     Item de lista numerada do Caderno: número em serifa (accent) + texto.
 // USA:       theme/* (AppType.numeralSm, cores, espaços).
 // USADO POR: LessonDetailScreen (pontos-chave de técnica, "cuidados" de guia).
-// SPEC:      specs/features/learning.yaml (LessonSection render: keys)
+// SPEC:      specs/features/notebook.yaml (LessonSection render: keys)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 

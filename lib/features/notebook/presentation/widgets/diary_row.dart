@@ -1,9 +1,9 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/learning/presentation/widgets/diary_row.dart
+// lib/features/notebook/presentation/widgets/diary_row.dart
 // O QUÊ:     Linha do diário (miniatura + receita + data, tag Refazer/Ajustar à direita).
 // USA:       core/widgets (HairlineRow, RecipeThumb), utils/format, theme/*, DiaryEntry.
 // USADO POR: DiaryScreen.
-// SPEC:      specs/features/learning.yaml (DiaryScreen: HairlineRow + tag veredito)
+// SPEC:      specs/features/notebook.yaml (DiaryScreen: HairlineRow + tag veredito)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 

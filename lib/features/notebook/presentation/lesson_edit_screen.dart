@@ -1,11 +1,11 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/learning/presentation/lesson_edit_screen.dart
+// lib/features/notebook/presentation/lesson_edit_screen.dart
 // O QUÊ:     Formulário para criar/editar uma ficha: categoria (chips), nome,
 //            resumo e editor de seções. Só coleta os dados; persiste depois.
 // USA:       core/widgets (PitadaChip, PitadaButton), widgets locais, theme/*,
 //            utils/app_log, go_router (Cancelar/Salvar).
 // USADO POR: core/router (/lesson-edit).
-// SPEC:      specs/features/learning.yaml (screens.LessonEditScreen — view-lesson-edit)
+// SPEC:      specs/features/notebook.yaml (screens.LessonEditScreen — view-lesson-edit)
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';

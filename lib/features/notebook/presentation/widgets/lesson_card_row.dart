@@ -1,10 +1,10 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/learning/presentation/widgets/lesson_card_row.dart
+// lib/features/notebook/presentation/widgets/lesson_card_row.dart
 // O QUÊ:     Linha de ficha na lista de Fichas: título + chevron + resumo;
 //            framework mostra também a fórmula (lead).
 // USA:       core/widgets (HairlineRow), theme/*, data/lesson.dart.
 // USADO POR: LessonCardsScreen (lista de fichas por categoria).
-// SPEC:      specs/features/learning.yaml (screens.LessonCardsScreen)
+// SPEC:      specs/features/notebook.yaml (screens.LessonCardsScreen)
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';

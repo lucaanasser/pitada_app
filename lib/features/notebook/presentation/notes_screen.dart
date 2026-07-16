@@ -1,9 +1,9 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/learning/presentation/notes_screen.dart
+// lib/features/notebook/presentation/notes_screen.dart
 // O QUÊ:     Tela "Notas de fonte": lista de SourceNote (livro/vídeo/curso/chef).
 // USA:       learning_providers (notesProvider), NoteRow, DetailHeader, core/widgets.
 // USADO POR: core/router/router.dart (/learning/notes).
-// SPEC:      specs/features/learning.yaml (screens.NotesScreen)
+// SPEC:      specs/features/notebook.yaml (screens.NotesScreen)
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +17,7 @@ import '../../../core/theme/typography.dart';
 import '../../../core/widgets/empty_state.dart';
 import '../../../core/widgets/pitada_button.dart';
 import '../../../core/widgets/pitada_scaffold.dart';
-import '../application/learning_providers.dart';
+import '../application/providers.dart';
 import '../data/source_note.dart';
 import 'widgets/detail_header.dart';
 import 'widgets/note_row.dart';

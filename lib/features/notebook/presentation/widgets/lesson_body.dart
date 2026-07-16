@@ -1,10 +1,10 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/learning/presentation/widgets/lesson_body.dart
+// lib/features/notebook/presentation/widgets/lesson_body.dart
 // O QUÊ:     Monta o corpo do detalhe de uma ficha conforme o kind (técnica,
 //            framework, guia): kicker, título, abertura e as seções.
 // USA:       theme/*, LessonSectionView, PrincipleQuote, data (Lesson).
 // USADO POR: LessonDetailScreen (delega a construção das seções por kind).
-// SPEC:      specs/features/learning.yaml (LessonDetailScreen.layout_por_kind)
+// SPEC:      specs/features/notebook.yaml (LessonDetailScreen.layout_por_kind)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 

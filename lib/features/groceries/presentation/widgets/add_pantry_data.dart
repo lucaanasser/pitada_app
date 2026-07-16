@@ -1,9 +1,9 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/shopping/presentation/widgets/add_pantry_data.dart
+// lib/features/groceries/presentation/widgets/add_pantry_data.dart
 // O QUÊ:     Dados/estáticos do sheet "Adicionar à despensa": origens e preview de exemplo.
 // USA:       pantry_item (modelo), material (IconData).
 // USADO POR: add_pantry_sheet (mantém o sheet enxuto, < 200 linhas).
-// SPEC:      specs/features/shopping.yaml (sheets.showAddPantrySheet)
+// SPEC:      specs/features/groceries.yaml (sheets.showAddPantrySheet)
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';

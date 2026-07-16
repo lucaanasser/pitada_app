@@ -1,10 +1,10 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/shopping/presentation/widgets/pantry_view.dart
+// lib/features/groceries/presentation/widgets/pantry_view.dart
 // O QUÊ:     Aba Despensa: legenda, grupos por categoria (estoque + validade/tag) e ação.
 // USA:       shopping_providers, category_group, add_pantry_sheet, core/widgets
 //            (HairlineRow, ExpiryTag, PitadaButton, EmptyState), utils/format, theme/*.
 // USADO POR: shopping_screen (corpo da aba Despensa).
-// SPEC:      specs/features/shopping.yaml (screens.ShoppingScreen.despensa)
+// SPEC:      specs/features/groceries.yaml (screens.GroceriesScreen.despensa)
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +19,7 @@ import '../../../../core/widgets/expiry_tag.dart';
 import '../../../../core/widgets/hairline_row.dart';
 import '../../../../core/widgets/pitada_button.dart';
 import '../../../../core/widgets/pitada_scaffold.dart';
-import '../../application/shopping_providers.dart';
+import '../../application/providers.dart';
 import '../../data/pantry_item.dart';
 import '../add_pantry_sheet.dart';
 import 'category_group.dart';

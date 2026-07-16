@@ -1,9 +1,9 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/learning/data/lesson.dart
+// lib/features/notebook/data/lesson.dart
 // O QUÊ:     Ficha de conhecimento do Caderno (técnica, framework, guia).
 // USA:       lesson_section.dart (composição das seções).
 // USADO POR: learning_seed, learning_repository, providers e telas de Fichas.
-// SPEC:      specs/features/learning.yaml (data.models.Lesson)
+// SPEC:      specs/features/notebook.yaml (data.models.Lesson)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'lesson_section.dart';
 

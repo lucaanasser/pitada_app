@@ -1,10 +1,10 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/learning/presentation/widgets/principle_quote.dart
+// lib/features/notebook/presentation/widgets/principle_quote.dart
 // O QUÊ:     Princípio de uma técnica: citação (AppType.quote) com filete accent
 //            à esquerda — o "por que" central da ficha.
 // USA:       theme/* (cores, espaços, AppType.quote).
 // USADO POR: LessonDetailScreen (cabeçalho das técnicas).
-// SPEC:      specs/features/learning.yaml (LessonDetailScreen.technique -> quote)
+// SPEC:      specs/features/notebook.yaml (LessonDetailScreen.technique -> quote)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 

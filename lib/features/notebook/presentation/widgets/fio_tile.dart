@@ -1,10 +1,10 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/learning/presentation/widgets/fio_tile.dart
+// lib/features/notebook/presentation/widgets/fio_tile.dart
 // O QUÊ:     Item do fio cronológico do hub do Caderno: data + trilho de tinta
 //            + tag do tipo (Diário/Nota/Versão/Log) + título + excerto de 1 linha.
 // USA:       core/theme (pitada_colors, spacing, typography), core/widgets
 //            (PitadaTag, PitadaChip), go_router (abrir detalhe), FioEntry.
-// USADO POR: hub do Caderno (seção "Fio" da LearningScreen).
+// USADO POR: hub do Caderno (seção "Fio" da NotebookScreen).
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';

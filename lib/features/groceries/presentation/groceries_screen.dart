@@ -1,10 +1,10 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/shopping/presentation/shopping_screen.dart
+// lib/features/groceries/presentation/groceries_screen.dart
 // O QUÊ:     Aba Ingredientes: título + PitadaTabs (Lista/Despensa) e o corpo conforme a aba.
-// USA:       core/widgets (Masthead, PitadaScaffold, PitadaTabs), ShoppingListView,
+// USA:       core/widgets (Masthead, PitadaScaffold, PitadaTabs), GroceryListView,
 //            PantryView, theme/*. Estado da aba num StateProvider local à tela.
 // USADO POR: core/router/router.dart (branch /shopping).
-// SPEC:      specs/features/shopping.yaml (screens.ShoppingScreen)
+// SPEC:      specs/features/groceries.yaml (screens.GroceriesScreen)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,17 +17,17 @@ import '../../../core/widgets/masthead.dart';
 import '../../../core/widgets/pitada_button.dart';
 import '../../../core/widgets/pitada_scaffold.dart';
 import '../../../core/widgets/pitada_tabs.dart';
-import 'shopping_add_sheet.dart';
+import 'add_sheet.dart';
 import 'widgets/pantry_view.dart';
-import 'widgets/shopping_list_view.dart';
+import 'widgets/grocery_list_view.dart';
 
 /// Aba selecionada em Ingredientes (0 = Lista, 1 = Despensa). Estado só da tela.
-/// Usada por: ShoppingScreen (PitadaTabs). Fica aqui pois é estado de apresentação.
+/// Usada por: GroceriesScreen (PitadaTabs). Fica aqui pois é estado de apresentação.
 final shoppingTabProvider = StateProvider<int>((ref) => 0);
 
 /// Tela principal de Ingredientes: alterna Lista/Despensa por PitadaTabs. Usada por: router.
-class ShoppingScreen extends ConsumerWidget {
-  const ShoppingScreen({super.key});
+class GroceriesScreen extends ConsumerWidget {
+  const GroceriesScreen({super.key});
 
   /// Monta Masthead + título + abas e escolhe o corpo conforme a aba ativa.
   /// Usada por: router (/shopping).
@@ -61,7 +61,7 @@ class ShoppingScreen extends ConsumerWidget {
                   icon: AppIcons.add,
                   filled: true,
                   size: AppSpacing.iconButtonSm,
-                  onPressed: () => showShoppingAddSheet(context, ref),
+                  onPressed: () => showGroceriesAddSheet(context, ref),
                 ),
               ],
             ),
@@ -75,7 +75,7 @@ class ShoppingScreen extends ConsumerWidget {
             ),
           ),
           Expanded(
-            child: tab == 0 ? const ShoppingListView() : const PantryView(),
+            child: tab == 0 ? const GroceryListView() : const PantryView(),
           ),
         ],
       ),

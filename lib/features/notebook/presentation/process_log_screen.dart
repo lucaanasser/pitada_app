@@ -1,10 +1,10 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/learning/presentation/process_log_screen.dart
+// lib/features/notebook/presentation/process_log_screen.dart
 // O QUÊ:     Detalhe de um log de processo: tipo, título, data, parâmetros,
 //            linha do tempo de eventos e nota final.
 // USA:       learning_providers, core/widgets, widgets locais, theme/*, format.
 // USADO POR: core/router (/log/:id).
-// SPEC:      specs/features/learning.yaml (screens.ProcessLogScreen — view-log)
+// SPEC:      specs/features/notebook.yaml (screens.ProcessLogScreen — view-log)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,7 +16,7 @@ import '../../../core/theme/typography.dart';
 import '../../../core/widgets/section_header.dart';
 import '../../../core/widgets/why_callout.dart';
 import '../../../core/utils/format.dart';
-import '../application/learning_providers.dart';
+import '../application/providers.dart';
 import '../data/process_log.dart';
 import 'widgets/detail_header.dart';
 import 'widgets/log_param.dart';

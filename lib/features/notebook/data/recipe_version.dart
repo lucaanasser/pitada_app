@@ -1,9 +1,9 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/learning/data/recipe_version.dart
+// lib/features/notebook/data/recipe_version.dart
 // O QUÊ:     Histórico de versões de uma receita (linha do tempo v1 -> v2 -> …).
 // USA:       nada (modelos imutáveis puros).
 // USADO POR: learning_seed, learning_repository, VersionsScreen, VersionHistory.
-// SPEC:      specs/features/learning.yaml (data.models.RecipeVersion)
+// SPEC:      specs/features/notebook.yaml (data.models.RecipeVersion)
 // ─────────────────────────────────────────────────────────────────────────────
 
 /// Um ponto na linha do tempo de versões: rótulo (ex.: 'v2') + o que mudou.

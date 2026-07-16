@@ -1,10 +1,10 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/learning/presentation/pairing_detail_screen.dart
+// lib/features/notebook/presentation/pairing_detail_screen.dart
 // O QUÊ:     Detalhe de uma harmonização: ingrediente, legenda de níveis, nuvem de
 //            combinações coloridas por nível e "Aplica em" (receita ligada).
 // USA:       learning_providers, core/widgets, widgets locais, go_router, theme/*.
 // USADO POR: core/router (/pairing/:id).
-// SPEC:      specs/features/learning.yaml (screens.PairingDetailScreen — view-harm-item)
+// SPEC:      specs/features/notebook.yaml (screens.PairingDetailScreen — view-harm-item)
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +16,7 @@ import '../../../core/theme/pitada_colors.dart';
 import '../../../core/theme/spacing.dart';
 import '../../../core/theme/typography.dart';
 import '../../../core/widgets/section_header.dart';
-import '../application/learning_providers.dart';
+import '../application/providers.dart';
 import '../data/repertoire.dart';
 import 'widgets/detail_header.dart';
 import 'widgets/pairing_legend.dart';

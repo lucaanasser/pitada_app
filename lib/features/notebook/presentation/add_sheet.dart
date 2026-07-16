@@ -1,11 +1,11 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/learning/presentation/caderno_add_sheet.dart
+// lib/features/notebook/presentation/add_sheet.dart
 // O QUÊ:     Sheet "Adicionar ao Caderno" — escolhe o que criar (ficha/nota/
 //            diário/log). Só define as 4 opções; o visual é o AddOptionsSheet.
 // USA:       core/widgets/add_options_sheet, theme/app_icons, go_router,
 //            diary_quick_sheet, note_quick_sheet.
-// USADO POR: LearningScreen (botão '+' do hub do Caderno).
-// SPEC:      specs/features/learning.yaml (sheets.showCadernoAddSheet)
+// USADO POR: NotebookScreen (botão '+' do hub do Caderno).
+// SPEC:      specs/features/notebook.yaml (sheets.showNotebookAddSheet)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -17,8 +17,8 @@ import 'note_quick_sheet.dart';
 
 /// Abre o bottom sheet "Adicionar ao Caderno" com as 4 opções de criação.
 /// As ações rodam com o contexto EXTERNO (o do hub), que sobrevive ao pop.
-/// Usada por: LearningScreen (ação '+' do cabeçalho).
-void showCadernoAddSheet(BuildContext context) {
+/// Usada por: NotebookScreen (ação '+' do cabeçalho).
+void showNotebookAddSheet(BuildContext context) {
   showAddOptionsSheet(
     context,
     title: 'Adicionar ao Caderno',

@@ -1,10 +1,10 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/learning/presentation/repertoire_screen.dart
+// lib/features/notebook/presentation/repertoire_screen.dart
 // O QUÊ:     Lista do Repertório parametrizada por kind: rácios, substituições ou
 //            harmonizações. Harmonização navega para o detalhe (/pairing/:id).
 // USA:       learning_providers, core/widgets, widgets locais, go_router, theme/*.
 // USADO POR: core/router (/learning/repertoire/:kind).
-// SPEC:      specs/features/learning.yaml (screens.RepertoireScreen — view-racios/subs/harm)
+// SPEC:      specs/features/notebook.yaml (screens.RepertoireScreen — view-racios/subs/harm)
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +18,7 @@ import '../../../core/theme/typography.dart';
 import '../../../core/widgets/hairline_row.dart';
 import '../../../core/widgets/pitada_scaffold.dart';
 import '../../../core/widgets/recipe_thumb.dart';
-import '../application/learning_providers.dart';
+import '../application/providers.dart';
 import '../data/repertoire.dart';
 import 'widgets/detail_header.dart';
 import 'widgets/repertoire_row.dart';

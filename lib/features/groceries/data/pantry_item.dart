@@ -1,9 +1,9 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/shopping/data/pantry_item.dart
+// lib/features/groceries/data/pantry_item.dart
 // O QUÊ:     Modelo de um item que já tenho na despensa (com validade opcional).
 // USA:       nada (modelo imutável puro, const constructor).
 // USADO POR: shopping_seed, shopping_repository, shopping_providers e a tela Compras.
-// SPEC:      specs/features/shopping.yaml (data.models.PantryItem)
+// SPEC:      specs/features/groceries.yaml (data.models.PantryItem)
 // ─────────────────────────────────────────────────────────────────────────────
 
 /// Um item da despensa: o que já tenho, com quantidade e validade opcional.

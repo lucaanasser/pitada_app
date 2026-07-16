@@ -1,9 +1,9 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/learning/presentation/widgets/note_row.dart
+// lib/features/notebook/presentation/widgets/note_row.dart
 // O QUÊ:     Linha de nota de fonte na lista (miniatura + título + "tipo · autor").
 // USA:       core/widgets (HairlineRow, RecipeThumb), theme/*, SourceNote.
 // USADO POR: NotesScreen.
-// SPEC:      specs/features/learning.yaml (NotesScreen: HairlineRow livro/vídeo/chef)
+// SPEC:      specs/features/notebook.yaml (NotesScreen: HairlineRow livro/vídeo/chef)
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';

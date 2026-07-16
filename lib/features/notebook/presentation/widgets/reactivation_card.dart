@@ -1,10 +1,10 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/learning/presentation/widgets/reactivation_card.dart
+// lib/features/notebook/presentation/widgets/reactivation_card.dart
 // O QUÊ:     Card pastel de reativação ("Para hoje") do hub do Caderno: kicker,
 //            título, corpo curto, botão-selo de ação e dispensa ("depois").
 // USA:       core/theme (pit.*, AppColors, AppType, AppSpacing), go_router,
 //            caderno_providers (dismiss), reactivation_item, diary_quick_sheet.
-// USADO POR: LearningScreen (seção "Para hoje" do hub).
+// USADO POR: NotebookScreen (seção "Para hoje" do hub).
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,13 +14,13 @@ import '../../../../core/theme/colors.dart';
 import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
 import '../../../../core/theme/typography.dart';
-import '../../application/caderno_providers.dart';
+import '../../application/hub_providers.dart';
 import '../../data/reactivation_item.dart';
 import '../diary_quick_sheet.dart';
 
 /// Card de reativação: pastel do hero + borda tinta, ação primária em
 /// botão-selo e "depois" que dispensa o card na sessão.
-/// Usada por: LearningScreen (hub do Caderno).
+/// Usada por: NotebookScreen (hub do Caderno).
 class ReactivationCard extends ConsumerWidget {
   const ReactivationCard({super.key, required this.item});
 

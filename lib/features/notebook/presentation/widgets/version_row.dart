@@ -1,9 +1,9 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/learning/presentation/widgets/version_row.dart
+// lib/features/notebook/presentation/widgets/version_row.dart
 // O QUÊ:     Linha de "Versões de receita" (miniatura + receita + "N versões · def. vX").
 // USA:       core/widgets (HairlineRow, RecipeThumb), theme/*, RecipeVersion.
 // USADO POR: VersionsScreen.
-// SPEC:      specs/features/learning.yaml (VersionsScreen: HairlineRow "N versões · def.")
+// SPEC:      specs/features/notebook.yaml (VersionsScreen: HairlineRow "N versões · def.")
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';

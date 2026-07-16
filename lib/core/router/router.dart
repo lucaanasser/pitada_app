@@ -13,11 +13,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../features/auth/application/auth_providers.dart';
-import '../../features/learning/presentation/learning_screen.dart';
+import '../../features/notebook/presentation/notebook_screen.dart';
 import '../../features/plans/presentation/plans_screen.dart';
 import '../../features/profile/presentation/profile_screen.dart';
 import '../../features/recipes/presentation/recipes_screen.dart';
-import '../../features/shopping/presentation/shopping_screen.dart';
+import '../../features/groceries/presentation/groceries_screen.dart';
 import '../config/env.dart';
 import 'app_shell.dart';
 import 'routes.dart';
@@ -70,9 +70,9 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state, shell) => AppShell(shell: shell),
         branches: [
           _branch('/recipes', const RecipesScreen()),
-          _branch('/learning', const LearningScreen()),
+          _branch('/learning', const NotebookScreen()),
           _branch('/plans', const PlansScreen()),
-          _branch('/shopping', const ShoppingScreen()),
+          _branch('/shopping', const GroceriesScreen()),
           _branch('/profile', const ProfileScreen()),
         ],
       ),

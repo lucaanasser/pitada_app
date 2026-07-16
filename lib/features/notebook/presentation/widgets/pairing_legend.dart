@@ -1,10 +1,10 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/learning/presentation/widgets/pairing_legend.dart
+// lib/features/notebook/presentation/widgets/pairing_legend.dart
 // O QUÊ:     Legenda de níveis de harmonização (adoro/testei/clássico) e o mapa
 //            de cor por nível usado pelos chips do detalhe.
 // USA:       theme/colors, theme/spacing, theme/typography, PairingRating.
 // USADO POR: PairingDetailScreen.
-// SPEC:      specs/features/learning.yaml (PairingDetailScreen "legenda"/chips por nível)
+// SPEC:      specs/features/notebook.yaml (PairingDetailScreen "legenda"/chips por nível)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 

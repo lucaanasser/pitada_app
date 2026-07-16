@@ -1,9 +1,9 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/learning/presentation/widgets/recipe_link_row.dart
+// lib/features/notebook/presentation/widgets/recipe_link_row.dart
 // O QUÊ:     Linha "abrir receita" — resolve o título por id e navega p/ /recipe/<id>.
 // USA:       recipes_providers (recipeByIdProvider), core/widgets, theme/*, go_router.
 // USADO POR: NoteDetailScreen, DiaryEntryScreen, VersionHistoryScreen ("Aplica/Ligado a").
-// SPEC:      specs/features/learning.yaml (applies -> RecipeDetailScreen)
+// SPEC:      specs/features/notebook.yaml (applies -> RecipeDetailScreen)
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';

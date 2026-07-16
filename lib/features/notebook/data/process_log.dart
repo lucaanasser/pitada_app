@@ -1,9 +1,9 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/learning/data/process_log.dart
+// lib/features/notebook/data/process_log.dart
 // O QUÊ:     Log de processo avançado (fermentação, sous-vide, cura…) e seus eventos.
 // USA:       nada (modelos imutáveis puros).
 // USADO POR: learning_seed, learning_repository, ProcessLogsScreen, ProcessLogScreen.
-// SPEC:      specs/features/learning.yaml (data.models.ProcessLog)
+// SPEC:      specs/features/notebook.yaml (data.models.ProcessLog)
 // ─────────────────────────────────────────────────────────────────────────────
 
 /// Um evento na linha do tempo de um log de processo: quando + o que aconteceu.

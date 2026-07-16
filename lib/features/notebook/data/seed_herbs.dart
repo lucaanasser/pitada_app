@@ -1,9 +1,9 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/learning/data/learning_seed_herbs.dart
+// lib/features/notebook/data/seed_herbs.dart
 // O QUÊ:     Guias de Ervas & especiarias do Caderno (fichas de exemplo).
 // USA:       lesson.dart, lesson_section.dart (composição das fichas).
-// USADO POR: learning_seed.dart (agrega com técnicas, frameworks, ingredientes, sabores).
-// SPEC:      specs/features/learning.yaml (data.seed — guias ervas)
+// USADO POR: seed.dart (agrega com técnicas, frameworks, ingredientes, sabores).
+// SPEC:      specs/features/notebook.yaml (data.seed — guias ervas)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'lesson.dart';
 import 'lesson_section.dart';

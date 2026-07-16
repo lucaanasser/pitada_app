@@ -20,8 +20,8 @@ import '../../../core/utils/app_log.dart';
 import '../../../core/widgets/pitada_chip.dart';
 import '../../../core/widgets/pitada_sheet.dart';
 import '../../../core/widgets/sheet_grip.dart';
-import '../../learning/application/learning_providers.dart';
-import '../../learning/data/recipe_version.dart';
+import '../../notebook/application/providers.dart';
+import '../../notebook/data/recipe_version.dart';
 import '../application/recipes_providers.dart';
 
 /// Abre o seletor de versões da receita. [definitivaId] busca a nota "o que mudou"

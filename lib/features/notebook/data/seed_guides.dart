@@ -1,9 +1,9 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/learning/data/learning_seed_guides.dart
+// lib/features/notebook/data/seed_guides.dart
 // O QUÊ:     Guias de Ingredientes do Caderno (fichas de exemplo).
 // USA:       lesson.dart, lesson_section.dart (composição das fichas).
-// USADO POR: learning_seed.dart (agrega com técnicas, frameworks, sabores e ervas).
-// SPEC:      specs/features/learning.yaml (data.seed — guias ingredientes)
+// USADO POR: seed.dart (agrega com técnicas, frameworks, sabores e ervas).
+// SPEC:      specs/features/notebook.yaml (data.seed — guias ingredientes)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'lesson.dart';
 import 'lesson_section.dart';

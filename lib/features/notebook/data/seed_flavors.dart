@@ -1,9 +1,9 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/learning/data/learning_seed_flavors.dart
+// lib/features/notebook/data/seed_flavors.dart
 // O QUÊ:     Guias de Sabores do Caderno (fichas de exemplo).
 // USA:       lesson.dart, lesson_section.dart (composição das fichas).
-// USADO POR: learning_seed.dart (agrega com técnicas, frameworks, ingredientes, ervas).
-// SPEC:      specs/features/learning.yaml (data.seed — guias sabores)
+// USADO POR: seed.dart (agrega com técnicas, frameworks, ingredientes, ervas).
+// SPEC:      specs/features/notebook.yaml (data.seed — guias sabores)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'lesson.dart';
 import 'lesson_section.dart';

@@ -1,19 +1,19 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/learning/data/learning_seed.dart
+// lib/features/notebook/data/seed.dart
 // O QUÊ:     Dados de exemplo do Caderno: agrega as fichas + repertório e
 //            re-exporta os seeds de atividade (notas/diário/versões/logs).
 // USA:       modelos do Caderno + seeds de fichas e de atividade.
 // USADO POR: learning_repository (fonte em memória enquanto não há Supabase).
-// SPEC:      specs/features/learning.yaml (data.seed)
+// SPEC:      specs/features/notebook.yaml (data.seed)
 // ─────────────────────────────────────────────────────────────────────────────
-import 'learning_seed_flavors.dart';
-import 'learning_seed_guides.dart';
-import 'learning_seed_herbs.dart';
-import 'learning_seed_lessons.dart';
+import 'seed_flavors.dart';
+import 'seed_guides.dart';
+import 'seed_herbs.dart';
+import 'seed_lessons.dart';
 import 'lesson.dart';
 import 'repertoire.dart';
 
-export 'learning_seed_activity.dart'
+export 'seed_activity.dart'
     show kSeedNotes, kSeedDiary, kSeedVersions, kSeedLogs, kSeedPendingCook;
 
 /// Todas as fichas do Caderno (técnicas + frameworks + guias). Usada por: repository.

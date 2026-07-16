@@ -1,12 +1,12 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/shopping/presentation/lists_sheet.dart
+// lib/features/groceries/presentation/lists_sheet.dart
 // O QUÊ:     Sheet "Minhas listas": troca a lista ativa e dá acesso a criar uma
 //            nova. Devolve true quando a pessoa pediu lista nova (o chamador
 //            dispara createAndSelectList — o sheet já fechou).
 // USA:       theme/*, core/widgets (HairlineRow, SheetGrip, pitada_sheet),
 //            shopping_providers (listas + ativa).
 // USADO POR: ListHeaderRow (título com caret da aba Lista).
-// SPEC:      specs/features/shopping.yaml (sheets.showListsSheet)
+// SPEC:      specs/features/groceries.yaml (sheets.showListsSheet)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -19,8 +19,8 @@ import '../../../core/theme/typography.dart';
 import '../../../core/widgets/hairline_row.dart';
 import '../../../core/widgets/pitada_sheet.dart';
 import '../../../core/widgets/sheet_grip.dart';
-import '../application/shopping_providers.dart';
-import '../data/shopping_list.dart';
+import '../application/providers.dart';
+import '../data/grocery_list.dart';
 
 /// Abre o sheet de listas. true = pediu nova lista (chamador cria).
 /// Usada por: ListHeaderRow.
@@ -39,7 +39,7 @@ class _ListsSheet extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final pit = context.pit;
-    final lists = ref.watch(shoppingListsProvider);
+    final lists = ref.watch(groceryListsProvider);
     final activeId = ref.watch(activeListIdProvider);
     return Padding(
       padding: EdgeInsets.only(
@@ -74,7 +74,7 @@ class _ListsSheet extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
     PitadaColors pit,
-    ShoppingList list,
+    GroceryList list,
     bool active,
   ) {
     final n = list.items.length;

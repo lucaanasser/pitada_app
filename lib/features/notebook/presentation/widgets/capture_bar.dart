@@ -1,11 +1,11 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/learning/presentation/widgets/capture_bar.dart
+// lib/features/notebook/presentation/widgets/capture_bar.dart
 // O QUÊ:     Barra de captura do hub do Caderno: convite permanente de escrita
 //            ("O que ficou de hoje?") + 3 chips de captura de 1 toque.
 // USA:       core/theme (pit, ícones, tipos, espaçamento), core/widgets
 //            (PitadaTag), caderno_providers (cozinha pendente), sheets rápidos
 //            (diário/nota/add), go_router (rota da ficha).
-// USADO POR: LearningScreen (topo do hub do Caderno).
+// USADO POR: NotebookScreen (topo do hub do Caderno).
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,15 +16,15 @@ import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
 import '../../../../core/theme/typography.dart';
 import '../../../../core/widgets/pitada_tag.dart';
-import '../../application/caderno_providers.dart';
-import '../caderno_add_sheet.dart';
+import '../../application/hub_providers.dart';
+import '../add_sheet.dart';
 import '../diary_quick_sheet.dart';
 import '../note_quick_sheet.dart';
 
 /// Barra de captura do Caderno: card com borda tinta, linha de escrita livre
 /// (abre o sheet de adicionar) e três chips de registro rápido — Cozinhei
 /// (diário, pré-preenchido se houver cozinha pendente), Anotei (nota) e Ficha.
-/// Usada por: LearningScreen.
+/// Usada por: NotebookScreen.
 class CaptureBar extends ConsumerWidget {
   const CaptureBar({super.key});
 
@@ -44,7 +44,7 @@ class CaptureBar extends ConsumerWidget {
         children: [
           GestureDetector(
             behavior: HitTestBehavior.opaque,
-            onTap: () => showCadernoAddSheet(context),
+            onTap: () => showNotebookAddSheet(context),
             child: Padding(
               padding: const EdgeInsets.all(AppSpacing.lg),
               child: Row(

@@ -1,9 +1,9 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/learning/presentation/diary_screen.dart
+// lib/features/notebook/presentation/diary_screen.dart
 // O QUÊ:     Tela "Diário de cozinha": dica no topo + lista de entradas (DiaryEntry).
 // USA:       learning_providers (diaryProvider), DiaryRow, HintCard, DetailHeader.
 // USADO POR: core/router/router.dart (/learning/diary).
-// SPEC:      specs/features/learning.yaml (screens.DiaryScreen)
+// SPEC:      specs/features/notebook.yaml (screens.DiaryScreen)
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +16,7 @@ import '../../../core/theme/spacing.dart';
 import '../../../core/theme/typography.dart';
 import '../../../core/widgets/empty_state.dart';
 import '../../../core/widgets/pitada_scaffold.dart';
-import '../application/learning_providers.dart';
+import '../application/providers.dart';
 import '../data/diary_entry.dart';
 import 'widgets/detail_header.dart';
 import 'widgets/diary_row.dart';

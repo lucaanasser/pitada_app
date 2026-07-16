@@ -1,9 +1,9 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/learning/presentation/process_logs_screen.dart
+// lib/features/notebook/presentation/process_logs_screen.dart
 // O QUÊ:     Lista de logs de processo (avançado): dica + linhas de ProcessLog.
 // USA:       learning_providers, core/widgets, widgets locais, go_router, theme/*.
 // USADO POR: core/router (/learning/logs).
-// SPEC:      specs/features/learning.yaml (screens.ProcessLogsScreen — view-logs)
+// SPEC:      specs/features/notebook.yaml (screens.ProcessLogsScreen — view-logs)
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +19,7 @@ import '../../../core/widgets/hairline_row.dart';
 import '../../../core/widgets/pitada_scaffold.dart';
 import '../../../core/widgets/recipe_thumb.dart';
 import '../../../core/utils/format.dart';
-import '../application/learning_providers.dart';
+import '../application/providers.dart';
 import '../data/process_log.dart';
 import 'widgets/detail_header.dart';
 import 'widgets/hint_card.dart';

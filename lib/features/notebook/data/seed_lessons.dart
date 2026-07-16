@@ -1,9 +1,9 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/learning/data/learning_seed_lessons.dart
+// lib/features/notebook/data/seed_lessons.dart
 // O QUÊ:     Fichas de Técnicas e Frameworks do Caderno (dados de exemplo).
 // USA:       lesson.dart, lesson_section.dart (composição das fichas).
-// USADO POR: learning_seed.dart (agrega com os guias).
-// SPEC:      specs/features/learning.yaml (data.seed — técnicas e frameworks)
+// USADO POR: seed.dart (agrega com os guias).
+// SPEC:      specs/features/notebook.yaml (data.seed — técnicas e frameworks)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'lesson.dart';
 import 'lesson_section.dart';
