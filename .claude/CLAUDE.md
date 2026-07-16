@@ -1,45 +1,35 @@
-# Pitada — guia do projeto (leia antes de codar)
+# Pitada — Project Guide (read before coding)
 
-App pessoal de receitas, caderno de cozinha, planos alimentares e despensa.
-**Flutter + Riverpod + go_router**, backend **Supabase**, IA via **Gemini** (Edge Functions).
-Estética **soft neo-brutalismo pastel**. UI e conteúdo em **pt-BR**; código em inglês.
-Referências visuais vivas: `pitada-estilo.html`, `pitada-guia-de-construcao.html`.
+Personal app for recipes, a cooking notebook, meal plans, and a pantry.
+**Flutter + Riverpod + go_router**, **Supabase** backend, AI via **Gemini** (Edge Functions).
+Aesthetic: **soft pastel neo-brutalism**. Code identifiers, file names, and these docs are in English; in-code comments and product UI/content are in pt-BR.
+Living visual references: `pitada-estilo.html`, `pitada-guia-de-construcao.html`.
 
-## Regras de ouro (inegociáveis) — cada uma tem um arquivo em `rules/`
+## Golden rules (non-negotiable) — one file each in `rules/`
 
-1. **Spec antes de código.** Nada nasce sem uma spec `.yaml` em `specs/`. Ordem
-   spec → código, nunca o contrário. → `specs-primeiro.md`
-2. **≤ 200 linhas por arquivo.** Passou, quebre. → `arquitetura.md`
-3. **Zero valor visual chumbado.** Cor, fonte, espaço, ícone, widget vêm sempre dos
-   tokens / `core/widgets`. → `design-system.md`
-4. **Comentário só no cabeçalho e antes de declaração**, dizendo o QUÊ (nunca o COMO).
-   → `comentarios-e-logs.md`
-5. **Nome espelha a realidade + regra dos 7.** snake_case inglês, sufixo de papel
-   (`_screen`, `_sheet`, `_repository`…), a pasta nomeia a feature uma vez, máx. 7
-   arquivos soltos por pasta. → `nomenclatura-e-pastas.md`
-6. **Versione sempre.** Terminou algo, commit local (autor único, sem push).
-   → `versionamento.md`
+1. **Spec before code.** Nothing is built without a `.yaml` spec in `specs/`. The order is spec → code, never the reverse. → `specs-first.md`
+2. **Architecture and naming.** Feature-first layers, ≤ 200 lines per file, English snake_case with a role suffix, max 7 loose files per folder. → `architecture.md`
+3. **No hard-coded visuals.** Every color, font, spacing, icon, and reused widget comes from the design tokens / `core/widgets`. → `design-system.md`
+4. **Comments only in the header and above declarations**, stating WHAT, never HOW. → `comments-and-logs.md`
+5. **Always version.** Finished something that works? Local commit, sole author, no push. → `versioning.md`
 
-## Estrutura (detalhe e regra dos 7 em `nomenclatura-e-pastas.md`)
+## Structure (details and the rule of 7 in `architecture.md`)
 
 ```
-specs/            # specs .yaml — sempre primeiro; ESPELHA o caminho do código
-lib/core/         # theme (tokens) · widgets (reuso) · router · config · supabase · utils
-lib/features/<f>/ # data (modelos + repositório) · application (providers) · presentation (telas + widgets)
+specs/            # .yaml specs — always first; MIRRORS the code path
+lib/core/         # theme (tokens) · widgets (reuse) · router · config · supabase · utils
+lib/features/<f>/ # data (models + repository) · application (providers) · presentation (screens + widgets)
 ```
 
-Fluxo de dados (a seta nunca volta): `presentation → application → data → Supabase`.
-A UI nunca chama Supabase direto e só importa modelos de `data/`.
+Data flow (the arrow never reverses): `presentation → application → data → Supabase`.
+The UI never calls Supabase directly and only imports models from `data/`.
 
-## Convenções
+## Conventions
 
-- Nome de arquivo/pasta/feature em inglês; rótulo de aba em pt-BR (`Caderno`→`notebook`,
-  `Ingredientes`→`groceries`). Nome nunca legado (ver regra 5).
-- Dois temas (claro/escuro): cor por tema via `context.pit.*`, marca em `AppColors`;
-  toda tela funciona nos dois.
-- Hardware (scanner/câmera/share) atrás de service abstrato (real + mock) p/ rodar no PC.
-- Proibido no visual: sombra, degradê/gradiente, fonte cursiva. Sim: bordas, pastel,
-  Space Grotesk, tags coloridas, cards com borda.
-- Usabilidade > design: muito respiro, nunca sobrecarregar a tela.
+- File/folder/feature names in English; tab labels in pt-BR (`Caderno` → `notebook`, `Ingredientes` → `groceries`). Never keep a legacy name (see `architecture.md`).
+- Two themes (light/dark): per-theme color via `context.pit.*`, brand in `AppColors`; every screen works in both.
+- Hardware (scanner/camera/share) sits behind an abstract service (real + mock) so the app runs on desktop.
+- Forbidden visuals: shadow, gradient, cursive font. Allowed: borders, pastels, Space Grotesk, colored tags, bordered cards.
+- Usability over decoration: generous breathing room, never crowd the screen.
 
-Plano vivo da migração p/ o padrão de nomes: `.claude/reestruturacao.md`.
+Living migration plan toward the naming standard: `.claude/reestruturacao.md`.

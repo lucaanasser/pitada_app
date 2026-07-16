@@ -1,64 +1,52 @@
-# Regra: Design system & reuso visual
+# Design System and Visual Reuse
 
-Toda decisão visual vem de um token. Prestes a escrever um hex, um tamanho de fonte ou um
-número de espaçamento numa tela? Pare — use um token.
+**Principle:** every visual decision comes from a token; about to type a hex, a font size, or a spacing number in a screen? Stop and use a token.
 
-Estética: **soft neo-brutalismo pastel** — superfícies pastéis, **bordas** (não filete
-fino), **Space Grotesk** em títulos/números, **tags coloridas**, tudo flat.
+Aesthetic: **soft pastel neo-brutalism** — pastel surfaces, **borders** (not hairlines), **Space Grotesk** for titles and numbers, **colored tags**, everything flat.
 
-## Fonte única de verdade
+## Single source of truth
 
-| O quê | Arquivo (API) |
+| What | File (API) |
 |---|---|
-| Cores cruas dos 2 temas | `core/theme/colors.dart` (`AppColors`) |
-| Cores por tema | `core/theme/pitada_colors.dart` (`context.pit.*`) |
-| Tipografia | `core/theme/typography.dart` (`AppType`) |
-| Espaço / raio / borda | `core/theme/spacing.dart` (`AppSpacing`) |
-| Ícones (Phosphor) | `core/theme/app_icons.dart` (`AppIcons`) |
-| Tema Material | `core/theme/app_theme.dart` (`light` + `dark`) |
+| Raw colors for both themes | `core/theme/colors.dart` (`AppColors`) |
+| Per-theme colors | `core/theme/pitada_colors.dart` (`context.pit.*`) |
+| Typography | `core/theme/typography.dart` (`AppType`) |
+| Spacing / radius / border | `core/theme/spacing.dart` (`AppSpacing`) |
+| Icons (Phosphor) | `core/theme/app_icons.dart` (`AppIcons`) |
+| Material theme | `core/theme/app_theme.dart` (`light` + `dark`) |
 
-**Nunca fora desses arquivos:** `Color(0xFF…)`, `TextStyle(fontFamily:…)`, número mágico
-de layout, `Icons.*` (Material).
+**Never outside these files:** `Color(0xFF…)`, `TextStyle(fontFamily: …)`, a magic layout number, `Icons.*` (Material).
 
-## Dois temas — obrigatório em toda UI
+## Two themes (mandatory in all UI)
+Colors that change per theme live in `PitadaColors` and are read via **`context.pit.*`**: `bg surf surf2 line line2 border text text2 muted faint`, plus `pit.card('moss')` (photo block) and `pit.tabBg(i)` (per-tab background). Brand (`accent`/`sage`) and heroes stay in `AppColors` (identical in both themes). Exact values live in `colors.dart` — the source of truth, not duplicated here.
 
-Cores que mudam por tema vivem em `PitadaColors`, lidas via **`context.pit.*`**:
-`bg surf surf2 line line2 border text text2 muted faint` + `pit.card('moss')` (bloco de
-foto) e `pit.tabBg(i)` (fundo por aba). Marca (`accent`/`sage`) e heros ficam em
-`AppColors` (iguais nos 2 temas). Os valores exatos moram em `colors.dart` — fonte de
-verdade, não duplicar aqui.
+**Never use directly** the raw dark tokens (`AppColors.text/text2/muted/faint/line/line2/surf/surf2/bg`) — they are unreadable in light mode. Replace 1:1 with the same-named `context.pit.*`. `AppType.*` carries a dark fallback color; always override it with `AppType.on(AppType.<style>, context.pit.<token>)`. Migrate a whole screen as a unit (background + text + borders), never half.
 
-**Proibido usar direto** os tokens crus do escuro (`AppColors.text/text2/muted/faint/
-line/line2/surf/surf2/bg`) — ficam ilegíveis no claro. Troque 1:1 pelo `context.pit.*` de
-mesmo nome. `AppType.*` traz uma cor-fallback do escuro; sempre sobrescreva com
-`AppType.on(AppType.<estilo>, context.pit.<token>)`. Migre a tela inteira como unidade
-(fundo + texto + bordas), nunca metade.
+## Typography
+- **Space Grotesk** (`_disp`): titles, numbers (kcal, grams, "Opção N"), buttons.
+- **Inter** (`_ui`): body, labels, running text.
+- Bundled in `assets/fonts/`, declared in `pubspec.yaml`. Never load over the network.
 
-## Tipografia
-- **Space Grotesk** (`_disp`): títulos, números (kcal, gramas, "Opção N"), botões.
-- **Inter** (`_ui`): corpo, rótulos, texto corrido.
-- Empacotadas em `assets/fonts/`, declaradas no `pubspec.yaml`. Nunca via rede.
+## Components (reuse is mandatory)
+A repeated visual piece becomes a widget in `core/widgets/` (or `presentation/widgets/` if feature-specific). Search for an existing one before creating a new one. Main widgets:
 
-## Componentes (reuso obrigatório)
-
-Peça visual repetida vira widget em `core/widgets/` (ou `presentation/widgets/` se for
-exclusiva da feature). Antes de criar, procure o que já existe. Principais:
-
-| Widget | O que é |
+| Widget | What it is |
 |---|---|
-| Masthead · SectionHeader | marca no topo · rótulo de seção |
-| PitadaTabs · PitadaTabBar | abas de conteúdo · dock das 5 abas |
-| HairlineRow | linha de lista com filete (listas densas) |
-| PitadaButton · PitadaChip | botão · chip de contorno (técnicas/harmonizações) |
-| PitadaTag | pílula colorida — **só para tag** |
-| ExpiryTag · NutritionCard · OptionCard · WhyCallout | validade · macros · refeição · callout "Por quê" |
+| Masthead · SectionHeader | brand at the top · section label |
+| PitadaTabs · PitadaTabBar | content tabs · the 5-tab dock |
+| HairlineRow | list row with a hairline (dense lists) |
+| PitadaButton · PitadaChip | button · outline chip (techniques/pairings) |
+| PitadaTag | colored pill — **tags only** |
+| ExpiryTag · NutritionCard · OptionCard · WhyCallout | expiry · macros · meal · "why" callout |
 
-**Cápsula é só para TAG** (classificação: técnica, tipo, veredito, categoria). **Nunca**
-para métrica (kcal, tempo, gramas → texto sóbrio em `pit.text2`/`pit.muted`) nem para
-seletor/controle (use `PitadaTabs` ou título com caret que abre sheet). Ver a spec do
-`PitadaTag`.
+**A pill is for a TAG only** (classification: technique, type, verdict, category). **Never** for a metric (kcal, time, grams → sober text in `pit.text2`/`pit.muted`) nor for a selector/control (use `PitadaTabs` or a title-with-caret that opens a sheet). See the `PitadaTag` spec.
 
-## Proibido / permitido
-Proibido: qualquer **sombra** (nem "dura"/offset), degradê/gradiente, fonte cursiva.
-Permitido: bordas (`AppSpacing.borderStrong`, cor `pit.border`), pastel, cards com borda,
-filete só em listas densas. Usabilidade > design: respiro, nunca sobrecarregar.
+## Forbidden / allowed
+Forbidden: any **shadow** (including "hard"/offset), gradient, cursive font.
+Allowed: borders (`AppSpacing.borderStrong`, color `pit.border`), pastels, bordered cards, hairlines only in dense lists. Usability over decoration: breathing room, never crowd.
+
+## Checklist
+1. Color/font/spacing/icon come from a token, not a literal.
+2. Per-theme colors via `context.pit.*` plus `AppType.on(...)`; the screen works in light and dark.
+3. Reused a shared widget instead of duplicating the visual.
+4. No shadow, gradient, or cursive font.
