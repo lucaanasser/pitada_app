@@ -73,7 +73,7 @@ class _LessonEditScreenState extends State<LessonEditScreen> {
   /// Usada por: cabeçalho "Salvar".
   void _save() {
     AppLog.i(
-      'learning',
+      'notebook',
       'salvar ficha: ${_name.text} (cat ${_kCategories[_category]})',
     );
     context.pop();

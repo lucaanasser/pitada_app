@@ -189,7 +189,7 @@ class _AddPantrySheetState extends ConsumerState<_AddPantrySheet> {
           label: 'Adicionar à despensa',
           onPressed: () {
             AppLog.i(
-              'shopping',
+              'groceries',
               'preview confirmado: ${kRecognizedPreview.length} itens',
             );
             Navigator.of(context).pop();
