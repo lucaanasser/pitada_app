@@ -79,31 +79,78 @@ Pendências que a Fase 2 destapou (não são dela — anotar e seguir):
   Renome coordenado no corpus inteiro — decisão do dono, não dá p/ fazer arquivo a arquivo.
 - [ ] Números mágicos de layout em `core/widgets/` (`empty_state` `size: 34`, `fuel_bar` `height: 6`,
   `pitada_search_field` `size: 18`) e `Colors.white` cru em `recipe_thumb` — violam `design-system.md`.
-- [ ] `specs/features/app_shell.yaml` não parseia como YAML (linha 18, `/recipe/:id` sem aspas em flow map).
+- [ ] **15 das 48 specs não parseiam como YAML** (medido na Fase 3, e já era assim antes dela —
+  conferido no commit `5891015`). A anotação original culpava só o `app_shell.yaml`, que hoje
+  parseia; os 15 são outros: `backend/{auth,database,edge_functions}`, `components/cards/option_card`,
+  `components/controls/{pitada_button,pitada_toggle}`, `components/recipe_card`,
+  `components/tags/{expiry_tag,pitada_tag}`, `design-system/typography`,
+  `features/{auth,bancada,groceries,plans_progress,recipes}`. Causa recorrente: `:` sem aspas em
+  flow map/seq. Enquanto não parseiam, nenhum portão automático lê spec — só `grep`.
 
-## Fase 3 — Compartimentalizar features (por PAPEL, depois SUB-DOMÍNIO)
+## Fase 3 — Compartimentalizar features (por PAPEL, depois SUB-DOMÍNIO) — FEITO
+
+146 moves em 4 commits (um por feature). **Decisão do dono, 16/jul/2026: a Fase 3 mexe em
+CAMINHO, não em identificador.** Renomeia o arquivo onde o nome repete a feature no plural
+(o exemplo LITERAL de errado em `architecture.md`), mas tipo e provider ficam — é o precedente
+que a Fase 1 fixou: `GroceriesRepository` mora em `repository.dart`. Isso mantém o diff inteiro
+dentro do que o script garante e o `analyze` prova.
 
 `recipes/`
-- [ ] `data/` (20) → `models/` (folder, ingredient, recipe, recipe_step, recipe_draft + gerados) · `repositories/` (recipe/seed/supabase/photos + row_mapper) · `seed/` (recipe_seed, recipe_versions_seed)
-- [ ] `presentation/` (10) → `screens/` (recipes, recipe_detail, recipe_edit, cook_mode, folder) · `sheets/` (import, cook_chat, recipe_version) · edits (`recipe_item_edit`, `recipe_quick_edit`) por papel real
-- [ ] `presentation/widgets/` (25) → `cook/ edit/ folder/ import/ detail/ card/` (detail/ divide em `detail/ + blocks/` se passar de 7)
+- [x] `data/` (20) → `models/` (5 + gerados) · `repositories/` (5) · `seed/` (2)
+  - renomes: `recipes_repository`→`recipe_repository`, `seed_recipes_repository`→`seed_recipe_repository`,
+    `supabase_recipes_repository`→`supabase_recipe_repository`, `recipes_seed`→`recipe_seed`,
+    `recipes_seed_versions`→`recipe_versions_seed` (o `_seed` tem que fechar o nome)
+  - `recipe_row_mapper` foi p/ `repositories/`: `mappers/` seria pasta de UM arquivo (proibido)
+- [x] `presentation/` (10) → `screens/` (5) · `sheets/` (4) · 2 soltos
+- [x] `presentation/widgets/` (25) → `cook/ edit/ folder/ import/ detail/ list/` — `card/` do hint
+  virou `list/`: dos 4 membros só `recipe_card` é card (os outros são row/toggle/meta_text)
 
 `notebook/` (ex-learning)
-- [ ] `data/` (17) → `models/` (subagrupa: `lesson/ diary/ log/ repertoire/ …`, pois > 7) · `notebook_repository.dart` (solto) · `seed/` (6)
-- [ ] `presentation/` (17) → `screens/` (14 → subagrupa `lesson/ diary/ note/ version/ log/`) · `sheets/` (add, diary_quick, note_quick)
-- [ ] `presentation/widgets/` (21) → subgrupos por sub-domínio (`lesson/ diary/ version/ log/ repertoire/ shared/`)
+- [x] `data/` (17) → `models/{knowledge,activity,hub}/` · `repository.dart` (solto) · `seed/` (6)
+  - o hint dizia `models/{lesson,diary,log,repertoire}/`, mas `diary/` e `log/` dariam pasta de
+    UM arquivo; a costura que sobrevive é conhecimento × registro do usuário × view-model do hub
+  - o hint dizia `notebook_repository.dart`; ficou `repository.dart` — `notebook_` repete a feature
+- [x] `presentation/` (17) → `screens/` (3 + `lesson/ diary/ note/ version/ log/`) · `sheets/` (3)
+- [x] `presentation/widgets/` (21) → `lesson/ hub/ note/ version/ repertoire/ shared/` + 2 soltos
 
 `plans/`
-- [ ] `data/` (11) → `models/ repositories/ seed/`
-- [ ] `presentation/` (9) → `screens/` (plans) · `sheets/` (8 → subagrupa `log/ food/ plan/` se > 7)
-- [ ] `presentation/widgets/` (12) → `day_log/ progress/ weight/ meal/`
-- [ ] `application/` (6) — ok, mantém flat
+- [x] `data/` (11) → `models/` (6) · `repositories/` (2) · `seed/` (3); `plans_repository`→`plan_repository`, `plans_seed`→`plan_seed`
+- [x] `presentation/` (9) → `sheets/{plan,log,food}/` · `plans_screen.dart` solto — `screens/` seria
+  pasta de UM arquivo; arquivo solto ao lado de subpasta ≠ pasta de um arquivo
+- [x] `presentation/widgets/` (12) → `day_log/ progress/ weight/ meal/`
+- [x] `application/` (6) — mantido flat, como o plano manda
 
 `profile/`
-- [ ] `data/` (9) → `models/` (+ repository/seed soltos ou em pastas)
-- [ ] `presentation/widgets/` (8) → `activity/ settings/ header/`
+- [x] `data/` (9) → `models/` (6) + `repository`/`seed`/`activity_builder` soltos
+- [x] `presentation/widgets/` (8) → `activity/ settings/` + 4 soltos — `header/` do hint daria pasta
+  de UM arquivo (`profile_header`)
 
-`groceries/` (ex-shopping) e `auth/` — ≤ 7 por camada; só o renome da Fase 1, sem quebrar.
+`groceries/` (ex-shopping) e `auth/` — ≤ 7 por camada; intocadas, como o plano manda.
+
+Achados ao mover:
+- **`recipe_item_edit.dart` é `part of` `recipe_quick_edit.dart`** — o único `part` escrito à mão do
+  repo (o resto é freezed/`.g`). São UMA biblioteca: não separam, e `part` é string de nome de
+  arquivo, que import nenhum reescreve. Ficaram os dois soltos em `presentation/`.
+- **`RecipeQuickEdit` não é sheet.** É fachada (classe com `BuildContext`+`ref`, um método por campo);
+  não declara widget nem `show*`. Chamar de `_sheet` seria sufixo mentindo — e o sheet DE VERDADE
+  (`quick_edit_sheet.dart`, tem `showQuickEditSheet`) estava em `widgets/`. Foi ele que subiu p/
+  `sheets/`; a fachada ficou com o nome que tem. Nenhum sufixo de presentation descreve fachada.
+- 3 imports davam a volta (`../../../features/recipes/…` sobe até `lib/` e desce de novo). Resolvem
+  no mesmo alvo; a aritmética de caminho normalizou.
+
+Pendências que a Fase 3 destapou (anotadas, não feitas — nenhuma é de estrutura):
+- [ ] `<feature>_providers.dart` repete a feature no plural em `recipes` e `plans` (o exemplo literal
+  de errado). Os dois estão igualmente errados: consertar um só deixa o corpus MENOS consistente.
+  Sweep coordenado, ~30 importadores — decisão do dono.
+- [ ] Identificadores pt-BR vivos: `CardapioView`/`cardapio_view.dart` e `fio_entry`/`FioEntry`/`fio_tile`.
+  `language.md` chama isso de bug. São irmãos: ou os dois, ou nenhum.
+- [ ] ~35 widgets sem sufixo do vocabulário obrigatório (`recipe_meta`, `lesson_body`, `import_preview`,
+  `paper_fly`, `day_summary`, `kitchen_radar`, …). A Fase 2 já tinha deixado `editable.dart`,
+  `check_item.dart`, `sheet_grip.dart` de fora — o vocabulário é mais estreito que o corpus real.
+  Ou ratifica (e passa o sweep), ou `architecture.md` admite que a lista é indicativa.
+- [ ] Os 5 seeds do notebook (`seed_activity`, …) têm o `seed_` na frente, invisível p/
+  `find -name '*_seed.dart'`. Inverter reverte uma decisão da Fase 1 ([x], linha 47) e o agregado
+  `seed.dart` não tem entidade p/ virar `<x>_seed.dart` — sinal de que é decisão de corpus, não daqui.
 
 ## Fase 4 — Sweep de cabeçalhos & comentários (o QUÊ, não o COMO)
 
@@ -118,17 +165,35 @@ Sobras **legítimas** (não são bug — não tente "consertar"):
 `AppIcons.learning`/`learningFill` e as rotas `/learning`, `/shopping` (decisão pendente do dono,
 acima); `PhosphorIconsRegular.shoppingCartSimple` (nome de pacote de terceiro); "Caderno" na prosa/UI.
 
-- [ ] Repetir o sweep depois da Fase 3 (mover arquivo mexe em `USA`/`USADO POR`/`SPEC` de novo).
+- [x] Repetir o sweep depois da Fase 3 (mover arquivo mexe em `USA`/`USADO POR`/`SPEC` de novo).
+  230 arquivos conferidos, 24 campos corrigidos, diff **100% linha de comentário** (0 linha de código).
+  Portão: `grep` dos 7 nomes mortos em `lib specs` → zero.
+
+  **O cabeçalho é metade do comentário.** O sweep foi tocado como "só o bloco de cabeçalho" e
+  deixou 7 linhas `///` contradizendo o cabeçalho do MESMO arquivo (`recipe_seed.dart` linha 6 já
+  dizia `seed_recipe_repository`, e a linha 14 ainda dizia `recipes_repository`). `comments-and-logs.md`
+  manda `///` em toda declaração pública — então `///` mente igual. Varra os dois.
+
+  **E o `USADO POR` é semântico, não textual.** `recipe_seed.dart` dizia "Usada por: recipes_repository";
+  o sed óbvio (`recipes_repository`→`recipe_repository`) escreveria uma falsidade NOVA — quem importa
+  o seed é o `seed_recipe_repository`, não o contrato. Confira o importador real com `grep` antes de
+  reescrever a linha. Fora de `lib/`, a prosa das specs (`seed: recipes_seed.dart`, comentário
+  `# data/supabase_recipes_repository.dart`) também escapa: não é `file:`, nenhum script pega.
 
 ## Fase 5 — Verificação
 
-- [x] `flutter analyze` — 0 erros (0 warnings, 19 infos pré-existentes de vírgula)
+Refeita ao fim da Fase 3 (números medidos agora, não herdados):
+
+- [x] `flutter analyze` — 0 erros (0 warnings, 19 infos pré-existentes de vírgula — as MESMAS 19 de antes da fase)
 - [x] `grep -rn "features/shopping\|features/learning" lib specs` — zero resultados
-- [x] Todo `file:` de spec aponta p/ `.dart` existente — 72/72
-- [x] `git status` revisado; commit por fase (não um commitão)
+- [x] Todo `file:` de spec aponta p/ `.dart` existente — **78/78**
+- [x] `grep` dos 7 nomes de arquivo mortos da Fase 3 em `lib specs` — zero
+- [x] Cabeçalho `// <caminho>` bate com o caminho real — 0 mentindo (conferido por script, 239 arquivos)
+- [x] `git status` revisado; **commit por feature** (5 commits, não um commitão)
 - [x] `flutter build web --release` → `✓ Built build/web` (o `analyze` sozinho não prova que compila)
-- [ ] Smoke das 5 abas no browser (ver memória `verificacao-web-headless`) — **não rodado**; o build
-  passa, mas ninguém abriu o app pra ver as abas de pé.
+- [ ] Smoke das 5 abas no browser (ver memória `verificacao-web-headless`) — **continua não rodado**;
+  o build passa, mas ninguém abriu o app pra ver as abas de pé. A Fase 3 mexeu em caminho, não em
+  comportamento, e `analyze`+`build` cobrem caminho — mas isso é argumento, não é ter olhado.
 
 ## Receita de rename (reusável em QUALQUER troca futura)
 
@@ -155,10 +220,44 @@ grep -rn "Shopping\|'shopping'" lib
 flutter analyze          # tem que dar 0 erros antes de marcar a caixa / commitar
 ```
 
+## Mover pasta ≠ renomear arquivo — use aritmética de caminho, não `sed` (lição da Fase 3)
+
+`sed` casa TEXTO; move de pasta é ARITMÉTICA. O import é 100% relativo neste repo (1033 imports,
+zero `package:pitada`), então mover um arquivo quebra os dois lados: os `../` de dentro dele **e**
+o caminho que todo importador usa p/ chegar nele. Os dois dependem de ONDE cada ponta parou —
+`sed` não sabe disso. Na Fase 3 foram 146 moves e **862 imports** reescritos; à mão ou por sed,
+não fecha.
+
+O algoritmo (vale p/ qualquer move futuro):
+```
+p/ cada .dart, com o par (caminho ANTIGO, caminho NOVO) fixado ANTES de mover:
+  p/ cada import relativo:
+    alvo   = normpath(dirname(ANTIGO) + '/' + import)   # resolve de onde ele resolvia
+    alvo'  = mapa.get(alvo, alvo)                       # o alvo também pode ter andado
+    import'= relpath(alvo', dirname(NOVO))              # recalcula de onde ele vai resolver
+```
+Duas coisas que isso dá de graça e o sed não dá: pega import que não contém o caminho trocado
+(`'../widgets/x.dart'`), e não toca no import de quem se mudou JUNTO com o alvo.
+
+**Valide o script com o mapa IDENTIDADE antes de confiar nele**: todo arquivo mapeado p/ ele
+mesmo tem que dar **zero** reescrita. Se der qualquer coisa, a aritmética está errada e você
+descobre isso de graça, não em cima de 146 moves. (Aqui deu 3 — e eram reais: imports que davam
+a volta por `lib/` e voltavam.)
+
+E **`--dry` tem que simular o move**, senão ele mente: a primeira versão listava os arquivos
+andando em `lib/` DEPOIS do move — em dry nada tinha movido, então ela calculava tudo como se o
+arquivo tivesse ficado parado. Mostrou 331 reescritas; o certo era 862. Fixe o par
+(antigo, novo) ANTES de mover e os dois modos usam a mesma conta.
+
 Armadilhas que já morderam:
 - **`for x in $var` não separa palavras no zsh.** Loop de sed some sem erro nenhum. Rode
   script de migração com `bash script.sh`, nunca colado no shell interativo.
 - **Import relativo quebra ao descer um nível**: mover p/ subpasta exige `../theme` → `../../theme`.
+- **`part` é string de nome de arquivo, não import.** Renomear um arquivo `part` exige trocar as
+  DUAS pontas (`part 'x.dart'` e `part of 'y.dart'`) — nenhuma reescrita de import pega isso.
+- **Pasta de camada ≠ pasta de split.** `auth/data/` com 1 arquivo é o esqueleto, não violação;
+  "nunca pasta de um arquivo" fala de quebrar demais. Arquivo solto ao lado de subpasta também
+  é legítimo (`plans/presentation/plans_screen.dart` + `sheets/`).
 - **Nem todo import casa com o caminho novo**: `core/router/app_shell.dart` importava
   `'../widgets/pitada_tab_bar.dart'` — não contém `core/widgets/`, então escapou do sweep.
   Confira também com `grep -rn "import '\.\./widgets/" lib/core/`.
