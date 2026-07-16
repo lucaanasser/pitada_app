@@ -16,31 +16,48 @@ import '../../../../../core/widgets/cards/recipe_thumb.dart';
 import '../../../data/models/recipe.dart';
 import 'recipe_meta_text.dart';
 
-/// Uma receita como linha de lista. Usada por: recipes_screen.
+/// Uma receita como linha de lista. [ownership] é a linha de posse opcional
+/// ("v3 sua · feita 2×"). Usada por: recipes_screen.
 class RecipeRow extends StatelessWidget {
   const RecipeRow({
     super.key,
     required this.recipe,
     this.onTap,
     this.showDivider = true,
+    this.ownership,
   });
 
   final Recipe recipe;
   final VoidCallback? onTap;
   final bool showDivider;
+  final String? ownership;
 
-  /// Monta a linha (miniatura + título + meta + seta). Usada por: framework.
+  /// Monta a linha (miniatura + título + meta + posse + seta). Usada por: framework.
   @override
   Widget build(BuildContext context) {
     final pit = context.pit;
+    final has = ownership != null && ownership!.isNotEmpty;
     return HairlineRow(
       onTap: onTap,
       showDivider: showDivider,
       leading: RecipeThumb(color: pit.card(recipe.heroColor), outlined: true),
       title: Text(recipe.title, style: AppType.on(AppType.titleSm, pit.text)),
-      subtitle: Text(
-        recipeMetaText(recipe),
-        style: AppType.on(AppType.caption, pit.muted),
+      subtitle: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            recipeMetaText(recipe),
+            style: AppType.on(AppType.caption, pit.muted),
+          ),
+          if (has)
+            Padding(
+              padding: const EdgeInsets.only(top: 2),
+              child: Text(
+                ownership!,
+                style: AppType.on(AppType.captionSm, pit.text2),
+              ),
+            ),
+        ],
       ),
       trailing: Icon(AppIcons.chevron, size: 16, color: pit.faint),
     );

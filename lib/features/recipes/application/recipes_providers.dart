@@ -29,25 +29,6 @@ final foldersProvider = FutureProvider<List<Folder>>((ref) {
   return ref.watch(recipesRepositoryProvider).fetchFolders();
 });
 
-/// As 2 abas fixas da tela de Receitas. Usada por: recipes_screen (PitadaTabs).
-/// "Salvas" foi removida: manuais e importadas convivem em "Minhas Receitas".
-/// "Favoritas" foi removida: a 3ª aba será a Bancada (ver specs/features/bancada.yaml).
-enum RecipesTab { mine, folders }
-
-/// Aba selecionada em Receitas (0 = Minhas Receitas). Usada por: recipes_screen.
-final selectedRecipesTabProvider = StateProvider<int>((ref) => 0);
-
-/// Receitas da aba atual. Pastas (aba 1) não filtra receitas — mostra FolderCards.
-/// "Minhas Receitas" reúne todas (manuais + importadas). Usada por: recipes_screen.
-final recipesForTabProvider = Provider<List<Recipe>>((ref) {
-  final recipes = ref.watch(recipesProvider).valueOrNull ?? const [];
-  final tab = RecipesTab.values[ref.watch(selectedRecipesTabProvider)];
-  return switch (tab) {
-    RecipesTab.mine => recipes,
-    RecipesTab.folders => recipes,
-  };
-});
-
 /// Uma receita por id, para a tela de detalhe. Usada por: recipe_detail_screen.
 final recipeByIdProvider = FutureProvider.family<Recipe?, String>((ref, id) {
   return ref.watch(recipesRepositoryProvider).fetchById(id);

@@ -124,16 +124,20 @@ const kSeedLists = <GroceryList>[
   ),
 ];
 
+/// Devolve a data de hoje + [days] dias (demo sempre "viva", sem datas fixas).
+/// Usada por: _pantryDates.
+DateTime _inDays(int days) => DateTime.now().add(Duration(days: days));
+
 final _pantryDates = <String, DateTime>{
-  'tomate': DateTime(2026, 7, 1),
-  'cebola': DateTime(2026, 7, 14),
-  'frango': DateTime(2026, 7, 3),
-  'iogurte': DateTime(2026, 7, 2),
-  'ovos': DateTime(2026, 7, 9),
+  'tomate': _inDays(1),
+  'cebola': _inDays(14),
+  'frango': _inDays(3),
+  'iogurte': _inDays(2),
+  'ovos': _inDays(9),
 };
 
 /// Despensa de exemplo (o que já tenho, com validade). Usada por: repository.
-/// `final` (não const) porque usa DateTime fixas relativas a 2026-06-30.
+/// `final` (não const) porque as validades são relativas a hoje.
 final kSeedPantry = <PantryItem>[
   PantryItem(
     id: 'pt-tomate',

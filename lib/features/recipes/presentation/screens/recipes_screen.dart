@@ -1,12 +1,12 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/recipes/presentation/screens/recipes_screen.dart
-// O QUÊ:     Aba Receitas: marca, busca, 2 abas fixas (Minhas / Pastas),
-//            alternador de layout e lista (card / 2 colunas / filete).
-// USA:       core/theme (AppIcons, PitadaColors), core/widgets, recipes_providers,
-//            recipe_view_provider, RecipeCard/RecipeRow/RecipeViewToggle,
-//            FoldersGrid (aba Pastas), go_router.
+// O QUÊ:     Aba Receitas em lista ÚNICA: contexto vivo no topo, busca real
+//            (título/ingrediente), capas de pasta, lentes, lista com linha de
+//            posse e o repertório de técnicas no rodapé.
+// USA:       core/theme, core/widgets, recipes_providers, recipe_list_providers,
+//            recipe_view_provider, ContextStrip, FolderCoverRow, LensChipRow,
+//            RecipeListView, go_router.
 // USADO POR: core/router/router.dart (branch /recipes).
-// SPEC:      specs/features/recipes.yaml
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,35 +16,33 @@ import '../../../../core/theme/app_icons.dart';
 import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
 import '../../../../core/theme/typography.dart';
-import '../../../../core/widgets/tabs/pitada_tabs.dart';
 import '../../../../core/widgets/layout/empty_state.dart';
 import '../../../../core/widgets/layout/masthead.dart';
-import '../../../../core/widgets/controls/pitada_button.dart';
 import '../../../../core/widgets/layout/pitada_scaffold.dart';
+import '../../../../core/widgets/layout/section_header.dart';
+import '../../../../core/widgets/controls/pitada_button.dart';
 import '../../../../core/widgets/controls/pitada_search_field.dart';
+import '../../application/recipe_list_providers.dart';
 import '../../application/recipe_view_provider.dart';
 import '../../application/recipes_providers.dart';
 import '../../data/models/recipe.dart';
 import '../sheets/import_sheet.dart';
-import '../widgets/folder/folders_grid.dart';
-import '../widgets/list/recipe_card.dart';
-import '../widgets/list/recipe_row.dart';
+import '../widgets/folder/folder_cover_row.dart';
+import '../widgets/home/context_strip.dart';
+import '../widgets/list/lens_chip_row.dart';
+import '../widgets/list/recipe_list_view.dart';
 import '../widgets/list/recipe_view_toggle.dart';
 
-/// Rótulos das 2 abas fixas (índice casa com RecipesTab). Usada por: [RecipesScreen].
-const _kTabs = ['Minhas Receitas', 'Pastas'];
-
-/// Tela principal da aba Receitas. Usada por: router (/recipes).
+/// Tela principal da aba Receitas (lista única). Usada por: router (/recipes).
 class RecipesScreen extends ConsumerWidget {
   const RecipesScreen({super.key});
 
-  /// Observa aba/receitas/modo e monta marca + busca + abas + conteúdo.
-  /// Usada por: framework.
+  /// Observa busca/lente/receitas e monta o corpo da aba. Usada por: framework.
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final pit = context.pit;
-    final tab = ref.watch(selectedRecipesTabProvider);
-    final recipes = ref.watch(recipesForTabProvider);
+    final all = ref.watch(recipesProvider).valueOrNull ?? const <Recipe>[];
+    final recipes = ref.watch(filteredRecipesProvider);
     final view = ref.watch(recipeViewProvider);
 
     return PitadaScaffold(
@@ -54,131 +52,112 @@ class RecipesScreen extends ConsumerWidget {
         padding: tabListPadding(context),
         children: [
           _header(context, pit),
+          const Padding(padding: AppSpacing.screenH, child: ContextStrip()),
+          Padding(
+            padding: AppSpacing.screenH,
+            child: PitadaSearchField(
+              hint: 'Buscar receita ou ingrediente',
+              onChanged: (q) =>
+                  ref.read(recipeSearchQueryProvider.notifier).state = q,
+            ),
+          ),
           const Padding(
             padding: AppSpacing.screenH,
-            child: PitadaSearchField(hint: 'Buscar receita ou ingrediente'),
+            child: SectionHeader(label: 'Pastas', topGap: AppSpacing.xl),
           ),
+          const FolderCoverRow(),
           const SizedBox(height: AppSpacing.xl),
-          PitadaTabs(
-            tabs: _kTabs,
-            selected: tab,
-            onSelect: (i) =>
-                ref.read(selectedRecipesTabProvider.notifier).state = i,
-          ),
-          if (tab == RecipesTab.folders.index) ...[
-            const SizedBox(height: AppSpacing.lg),
-            const Padding(padding: AppSpacing.screenH, child: FoldersGrid()),
-          ] else if (recipes.isEmpty)
-            Padding(
-              padding: const EdgeInsets.only(top: AppSpacing.xxxl),
-              child: _empty(tab),
+          const LensChipRow(),
+          const SizedBox(height: AppSpacing.lg),
+          if (all.isEmpty)
+            const Padding(
+              padding: EdgeInsets.only(top: AppSpacing.xxl),
+              child: EmptyState(
+                title: 'Nenhuma receita ainda',
+                message: 'Crie ou importe uma receita no botão +',
+                icon: AppIcons.notebook,
+              ),
+            )
+          else if (recipes.isEmpty)
+            const Padding(
+              padding: EdgeInsets.only(top: AppSpacing.xxl),
+              child: EmptyState(
+                title: 'Nada por aqui',
+                message: 'Tente outra busca ou troque a lente',
+                icon: AppIcons.search,
+              ),
             )
           else ...[
-            const SizedBox(height: AppSpacing.lg),
             Padding(
               padding: AppSpacing.screenH,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      '${recipes.length} ${recipes.length == 1 ? 'receita' : 'receitas'}',
-                      style: AppType.on(AppType.caption, pit.muted),
-                    ),
-                  ),
-                  RecipeViewToggle(
-                    value: view,
-                    onSelect: (v) =>
-                        ref.read(recipeViewProvider.notifier).state = v,
-                  ),
-                ],
-              ),
+              child: _countRow(ref, pit, recipes.length, view),
             ),
             const SizedBox(height: AppSpacing.md),
             Padding(
               padding: AppSpacing.screenH,
-              child: _list(context, recipes, view),
+              child: RecipeListView(recipes: recipes, view: view),
             ),
           ],
+          _repertoire(context, ref, pit),
         ],
       ),
     );
   }
 
-  /// EmptyState da aba "Minhas Receitas" (a aba Pastas tem grade própria).
-  /// Usada por: [build].
-  Widget _empty(int tab) {
-    return const EmptyState(
-      title: 'Nenhuma receita ainda',
-      message: 'Crie ou importe uma receita no botão +',
-      icon: AppIcons.notebook,
+  /// Linha "N receitas" + alternador de layout. Usada por: [build].
+  Widget _countRow(
+    WidgetRef ref,
+    PitadaColors pit,
+    int count,
+    RecipeView view,
+  ) {
+    return Row(
+      children: [
+        Expanded(
+          child: Text(
+            '$count ${count == 1 ? 'receita' : 'receitas'}',
+            style: AppType.on(AppType.caption, pit.muted),
+          ),
+        ),
+        RecipeViewToggle(
+          value: view,
+          onSelect: (v) => ref.read(recipeViewProvider.notifier).state = v,
+        ),
+      ],
     );
   }
 
-  /// Renderiza a lista conforme o modo escolhido. Usada por: [build].
-  Widget _list(BuildContext context, List<Recipe> recipes, RecipeView view) {
-    switch (view) {
-      case RecipeView.list:
-        return Column(
+  /// Rodapé discreto do repertório: técnicas usadas de verdade — número sem
+  /// teto, que só sobe. Toca e abre as Fichas. Usada por: [build].
+  Widget _repertoire(BuildContext context, WidgetRef ref, PitadaColors pit) {
+    final count = ref.watch(techniqueRepertoireProvider);
+    if (count == 0) return const SizedBox.shrink();
+    final label = count == 1
+        ? '1 técnica no seu repertório'
+        : '$count técnicas no seu repertório';
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(
+        AppSpacing.gutter,
+        AppSpacing.xl,
+        AppSpacing.gutter,
+        0,
+      ),
+      child: GestureDetector(
+        onTap: () => context.push('/learning/cards'),
+        behavior: HitTestBehavior.opaque,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            for (var i = 0; i < recipes.length; i++)
-              RecipeRow(
-                recipe: recipes[i],
-                showDivider: i != recipes.length - 1,
-                onTap: () => context.push('/recipe/${recipes[i].id}'),
-              ),
+            Icon(AppIcons.technique, size: 14, color: pit.muted),
+            const SizedBox(width: AppSpacing.sm),
+            Text(label, style: AppType.on(AppType.caption, pit.muted)),
           ],
-        );
-      case RecipeView.single:
-        return Column(
-          children: [
-            for (final r in recipes)
-              Padding(
-                padding: const EdgeInsets.only(bottom: AppSpacing.lg),
-                child: RecipeCard(
-                  recipe: r,
-                  onTap: () => context.push('/recipe/${r.id}'),
-                ),
-              ),
-          ],
-        );
-      case RecipeView.grid:
-        final rows = <Widget>[];
-        for (var i = 0; i < recipes.length; i += 2) {
-          rows.add(
-            Padding(
-              padding: const EdgeInsets.only(bottom: AppSpacing.md),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: RecipeCard(
-                      recipe: recipes[i],
-                      compact: true,
-                      onTap: () => context.push('/recipe/${recipes[i].id}'),
-                    ),
-                  ),
-                  const SizedBox(width: AppSpacing.md),
-                  Expanded(
-                    child: i + 1 < recipes.length
-                        ? RecipeCard(
-                            recipe: recipes[i + 1],
-                            compact: true,
-                            onTap: () =>
-                                context.push('/recipe/${recipes[i + 1].id}'),
-                          )
-                        : const SizedBox(),
-                  ),
-                ],
-              ),
-            ),
-          );
-        }
-        return Column(children: rows);
-    }
+        ),
+      ),
+    );
   }
 
-  /// Cabeçalho da aba: título grande + botão de importar. (O perfil saiu daqui:
-  /// agora é aba própria na barra.) Usada por: [build].
+  /// Cabeçalho da aba: título grande + botão de importar. Usada por: [build].
   Widget _header(BuildContext context, PitadaColors pit) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(

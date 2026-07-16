@@ -5,7 +5,7 @@
 //            Toque encolhe o card e "levanta" os papéis.
 // USA:       core/theme (PitadaColors, AppColors, AppSpacing, AppType),
 //            folder_painter (pintura), data/folder (Folder).
-// USADO POR: folders_grid (aba Pastas de recipes_screen).
+// USADO POR: folder_cover_row (linha de capas de recipes_screen).
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 
@@ -16,7 +16,7 @@ import '../../../../../core/theme/typography.dart';
 import '../../../data/models/folder.dart';
 import 'folder_painter.dart';
 
-/// Card de pasta com papéis animados no press. Usada por: folders_grid.
+/// Card de pasta com papéis animados no press. Usada por: folder_cover_row.
 class FolderCard extends StatefulWidget {
   const FolderCard({
     super.key,

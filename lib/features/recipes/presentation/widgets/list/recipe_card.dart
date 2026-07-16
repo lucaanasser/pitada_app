@@ -17,6 +17,7 @@ import '../../../data/models/recipe.dart';
 import 'recipe_meta_text.dart';
 
 /// Card de receita com foto (placeholder colorido) e meta em texto sóbrio.
+/// [ownership] é a linha de posse opcional ("v3 sua · feita 2×").
 /// Usada por: recipes_screen, folder_screen.
 class RecipeCard extends StatelessWidget {
   const RecipeCard({
@@ -24,11 +25,13 @@ class RecipeCard extends StatelessWidget {
     required this.recipe,
     this.onTap,
     this.compact = false,
+    this.ownership,
   });
 
   final Recipe recipe;
   final VoidCallback? onTap;
   final bool compact;
+  final String? ownership;
 
   /// Monta a caixa (borda tinta) com foto, título e meta. Usada por: framework.
   @override
@@ -69,6 +72,16 @@ class RecipeCard extends StatelessWidget {
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
+                  if (ownership != null && ownership!.isNotEmpty)
+                    Padding(
+                      padding: const EdgeInsets.only(top: AppSpacing.xs),
+                      child: Text(
+                        ownership!,
+                        style: AppType.on(AppType.captionSm, pit.muted),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
                 ],
               ),
             ),
