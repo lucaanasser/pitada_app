@@ -86,8 +86,8 @@ class SupabaseRecipesRepository implements RecipesRepository {
   }
 
   /// "Trocar tudo" online: arquiva a definitiva atual como LINHA NOVA (uuid do
-  /// banco, fora de pastas/favoritas) e promove [edited] no id canônico com
-  /// version = max+1, herdando pasta/favorito. Mesma semântica do seed.
+  /// banco, fora de pastas) e promove [edited] no id canônico com
+  /// version = max+1, herdando as pastas. Mesma semântica do seed.
   /// Usada por: RecipeEditController.save (asNewVersion).
   @override
   Future<void> saveAsNewVersion(Recipe edited) async {
@@ -101,7 +101,6 @@ class SupabaseRecipesRepository implements RecipesRepository {
         id: prev.id, // descartado no insert (withId: false) — banco gera outro
         version: prev.version,
         versionGroupId: groupId,
-        favorite: false,
         folderIds: const [],
       );
       final inserted = await _db
@@ -116,7 +115,6 @@ class SupabaseRecipesRepository implements RecipesRepository {
         id: groupId,
         version: maxV + 1,
         versionGroupId: groupId,
-        favorite: prev?.favorite ?? edited.favorite,
         folderIds: prev?.folderIds ?? edited.folderIds,
       ),
     );

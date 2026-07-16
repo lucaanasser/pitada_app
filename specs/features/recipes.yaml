@@ -39,12 +39,12 @@ data:
       quando_ligado: >
         saveAsNewVersion(edited) versiona "trocar tudo": (1) o id do GRUPO é o id canônico
         da definitiva (sem grupo ainda, o próprio id vira o grupo); (2) arquiva a definitiva
-        ATUAL sob id derivado '{canonical}-v{n}' (mesma versão, sem folderIds/favorite);
+        ATUAL sob id derivado '{canonical}-v{n}' (mesma versão, sem folderIds);
         (3) promove a edição a nova definitiva no id canônico, com version = maxVersion+1,
-        herdando folderIds/favorite. A tela então passa a ter grupo (2+) e mostra a
+        herdando folderIds. A tela então passa a ter grupo (2+) e mostra a
         RecipeVersionTag + seletor. A NOTA "o que mudou" não é criada aqui (mora no Caderno,
         fonte única) — sem nota, o seletor mostra só os rótulos das versões.
-      helper_modelo: Recipe.withVersionIdentity({id, version, versionGroupId, favorite, folderIds})
+      helper_modelo: Recipe.withVersionIdentity({id, version, versionGroupId, folderIds})
   seed: recipes_seed.dart          # DEFINITIVAS: Frango xadrez(v3), Bowl, Strogonoff(v2), Panqueca
   seed_versions: recipes_seed_versions.dart   # snapshots ANTIGOS (Frango v1/v2, Strogonoff v1)
   versoes:                        # "trocar tudo" — cada versão é um Recipe COMPLETO
@@ -55,8 +55,8 @@ data:
       Cada versão é um Recipe INTEIRO (ingredientes/passos/macros próprios) e todos os
       snapshots do mesmo prato compartilham o versionGroupId. A DEFINITIVA (maior version)
       mantém o id canônico (ex.: 'frango-xadrez') p/ não quebrar links; as antigas usam
-      ids derivados ('frango-xadrez-v1'). Só a definitiva carrega folderIds/favorite —
-      versões antigas ficam fora de listas/pastas/favoritas.
+      ids derivados ('frango-xadrez-v1'). Só a definitiva carrega folderIds —
+      versões antigas ficam fora de listas/pastas.
     repository:
       - fetchRecipes()      -> só DEFINITIVAS (uma por grupo)  # listas não duplicam
       - fetchById(id)       -> qualquer versão (inclui antigas) # /recipe/frango-xadrez-v1
@@ -101,8 +101,14 @@ routes:                             # eu ligo no router depois; garanta nome/ass
 screens:
   - RecipesScreen:
       layout: [Masthead, thead("Receitas" + '+'), PitadaSearchField,
-               PitadaTabs([Minhas Receitas, Pastas, Favoritas]), lista de RecipeRow]
+               PitadaTabs([Minhas Receitas, Pastas]), lista de RecipeRow]
       # "Receitas Salvas" removida: manuais + importadas convivem em "Minhas Receitas".
+      abas: >
+        Hoje 2 abas fixas: RecipesTab {mine, folders}. A antiga "Favoritas" foi REMOVIDA
+        (feature legada apagada: bool recipe.favorite, filtro, EmptyState e botão de coração
+        na galeria). "Favoritar de verdade" vira uma PASTA comum criada pelo usuário. A 3ª
+        aba passa a ser a BANCADA (fila "quero cozinhar em breve") — desenho em
+        specs/features/bancada.yaml; entra quando a Bancada for implementada.
       recipe_row: >
         Linha da lista densa: RecipeThumb PASTEL (context.pit.card(hero)) com
         outlined=true (borda tinta) — a cor cheia legada (AppColors.heroOf) saiu

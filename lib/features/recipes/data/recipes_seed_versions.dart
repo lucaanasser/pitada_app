@@ -11,11 +11,10 @@ import 'recipe.dart';
 import 'recipe_step.dart';
 
 /// Versões antigas (não-definitivas). Compartilham versionGroupId com a definitiva,
-/// mas ficam FORA de listas/pastas/favoritas (folderIds vazio, favorite false).
+/// mas ficam FORA de listas/pastas (folderIds vazio).
 /// As notas "o que mudou" moram no Caderno (learning: kSeedVersions) — fonte única.
 /// Usada por: recipes_repository (fetchById, fetchVersionGroup).
 const kSeedOldVersions = <Recipe>[
-  // —— Frango xadrez · v1 (original, tudo na panela de uma vez) ——
   Recipe(
     id: 'frango-xadrez-v1',
     title: 'Frango xadrez',
@@ -66,7 +65,6 @@ const kSeedOldVersions = <Recipe>[
     ],
   ),
 
-  // —— Frango xadrez · v2 (selei o frango em levas — crosta muito melhor) ——
   Recipe(
     id: 'frango-xadrez-v2',
     title: 'Frango xadrez',
@@ -121,7 +119,6 @@ const kSeedOldVersions = <Recipe>[
     ],
   ),
 
-  // —— Strogonoff · v1 (base clássica com creme de leite de lata) ——
   Recipe(
     id: 'strogonoff-v1',
     title: 'Strogonoff de carne',

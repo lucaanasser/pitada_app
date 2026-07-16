@@ -12,7 +12,7 @@ import '../../../../core/theme/app_icons.dart';
 import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
 
-/// Topo do detalhe: bloco colorido grande (placeholder de foto) + voltar/editar/favoritar.
+/// Topo do detalhe: bloco colorido grande (placeholder de foto) + voltar/editar.
 /// Usada por: recipe_detail_screen.
 class RecipeGallery extends StatelessWidget {
   const RecipeGallery({
@@ -20,13 +20,11 @@ class RecipeGallery extends StatelessWidget {
     required this.color,
     required this.onBack,
     this.onEdit,
-    this.onFavorite,
   });
 
-  final Color color; // cor pastel do bloco (context.pit.card(heroColor))
+  final Color color;
   final VoidCallback onBack;
   final VoidCallback? onEdit;
-  final VoidCallback? onFavorite;
 
   /// Monta o bloco colorido grande + botões flutuantes de ação. Usada por: framework.
   @override
@@ -63,12 +61,6 @@ class RecipeGallery extends StatelessWidget {
                   _RoundBtn(icon: AppIcons.back, onTap: onBack, pit: pit),
                   const Spacer(),
                   _RoundBtn(icon: AppIcons.edit, onTap: onEdit, pit: pit),
-                  const SizedBox(width: AppSpacing.sm),
-                  _RoundBtn(
-                    icon: AppIcons.favorite,
-                    onTap: onFavorite,
-                    pit: pit,
-                  ),
                 ],
               ),
             ),
@@ -79,7 +71,7 @@ class RecipeGallery extends StatelessWidget {
   }
 }
 
-/// Botão redondo com borda sobre o bloco (voltar/editar/favoritar). Usada por: [RecipeGallery].
+/// Botão redondo com borda sobre o bloco (voltar/editar). Usada por: [RecipeGallery].
 class _RoundBtn extends StatelessWidget {
   const _RoundBtn({required this.icon, this.onTap, required this.pit});
   final IconData icon;

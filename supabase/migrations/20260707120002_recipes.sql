@@ -48,7 +48,6 @@ create table public.recipes (
   carb             numeric not null default 0,
   fat              numeric not null default 0,
   difficulty       text,
-  favorite         boolean not null default false,
   hero_color       text not null default 'clay',
   photo_count      int  not null default 0,
   notes            text,

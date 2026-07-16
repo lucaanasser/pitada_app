@@ -1,115 +1,64 @@
 # Regra: Design system & reuso visual
 
-Este é o coração do projeto. **Toda decisão visual vem de um só lugar** e é fácil de
-reutilizar. Se você está prestes a escrever um hex, um tamanho de fonte ou um número
-de espaçamento dentro de uma tela, PARE — use um token.
+Toda decisão visual vem de um token. Prestes a escrever um hex, um tamanho de fonte ou um
+número de espaçamento numa tela? Pare — use um token.
 
-> **Estética atual: soft neo-brutalismo pastel.** Superfícies **pastéis**, **bordas**
-> (não filete fino), **Space Grotesk** nos títulos/números, **tags coloridas**, tudo
-> **flat** (cor chapada, sem sombra/degradê). Mistura a base editorial quente do Pitada
-> com as referências — sem abandonar a identidade. **Usabilidade > design: muito respiro,
-> nunca sobrecarregar a tela.**
+Estética: **soft neo-brutalismo pastel** — superfícies pastéis, **bordas** (não filete
+fino), **Space Grotesk** em títulos/números, **tags coloridas**, tudo flat.
 
 ## Fonte única de verdade
 
-| Token            | Arquivo                         | Observação |
-|------------------|---------------------------------|--------------------------------|
-| Cores            | `core/theme/colors.dart`        | tokens crus dos 2 temas |
-| Cores por tema   | `core/theme/pitada_colors.dart` | `ThemeExtension` lido via `context.pit.*` |
-| Tipografia       | `core/theme/typography.dart`    | `_disp` (Space Grotesk), `_ui` (Inter) |
-| Espaçamento/raio | `core/theme/spacing.dart`       | paddings, border-radius, larguras de borda |
-| Tema Material    | `core/theme/app_theme.dart`     | junta tudo em `light` + `dark` |
+| O quê | Arquivo (API) |
+|---|---|
+| Cores cruas dos 2 temas | `core/theme/colors.dart` (`AppColors`) |
+| Cores por tema | `core/theme/pitada_colors.dart` (`context.pit.*`) |
+| Tipografia | `core/theme/typography.dart` (`AppType`) |
+| Espaço / raio / borda | `core/theme/spacing.dart` (`AppSpacing`) |
+| Ícones (Phosphor) | `core/theme/app_icons.dart` (`AppIcons`) |
+| Tema Material | `core/theme/app_theme.dart` (`light` + `dark`) |
 
-### Regras rígidas
-- **Cores:** só `AppColors.*` (marca/heros, iguais nos 2 temas) ou `context.pit.*`
-  (superfícies/texto que mudam por tema). Nunca `Color(0xFF...)` fora de `colors.dart`.
-- **Texto:** só `AppType.*`. Nunca `TextStyle(fontFamily: ...)` fora de `typography.dart`.
-- **Espaço/raio/borda:** só `AppSpacing.*`. Nunca número mágico de layout na tela.
-- **Ícones:** só `AppIcons.*` (Phosphor). Nunca `Icons.*` (Material) fora de `app_icons.dart`.
+**Nunca fora desses arquivos:** `Color(0xFF…)`, `TextStyle(fontFamily:…)`, número mágico
+de layout, `Icons.*` (Material).
 
-## Dois temas (claro + escuro) — OBRIGATÓRIO em todo o app
+## Dois temas — obrigatório em toda UI
 
-O app tem **tema claro (base creme)** e **tema escuro** (base histórica), e **todo**
-arquivo de UI precisa funcionar nos dois — não existe mais "ainda não migrado". As
-cores que **mudam** entre temas vivem no `ThemeExtension` `PitadaColors` e são lidas
-nos widgets via **`context.pit.*`**: `bg`, `surf`, `surf2`, `line`, `line2`, `border`,
-`text`, `text2`, `muted`, `faint`, mais os helpers `pit.card('moss')` (cor do bloco de
-foto) e `pit.tabBg(i)` (fundo tingido por aba). Marca (`accent`/`sage`) e heros
-continuam em `AppColors` (iguais nos 2 temas).
+Cores que mudam por tema vivem em `PitadaColors`, lidas via **`context.pit.*`**:
+`bg surf surf2 line line2 border text text2 muted faint` + `pit.card('moss')` (bloco de
+foto) e `pit.tabBg(i)` (fundo por aba). Marca (`accent`/`sage`) e heros ficam em
+`AppColors` (iguais nos 2 temas). Os valores exatos moram em `colors.dart` — fonte de
+verdade, não duplicar aqui.
 
-**Proibido usar direto** (fora de `colors.dart`/`pitada_colors.dart`/`typography.dart`):
-`AppColors.text`, `.text2`, `.muted`, `.faint`, `.line`, `.line2`, `.surf`, `.surf2`,
-`.bg` — são tokens **crus do tema escuro**; usados direto, ficam ilegíveis no claro
-(texto cor de creme sobre fundo creme). Troque sempre pelo equivalente em
-`context.pit.*` (mapa 1:1: `text→pit.text`, `text2→pit.text2`, `muted→pit.muted`,
-`faint→pit.faint`, `line→pit.line`, `line2→pit.line2`, `surf→pit.surf`,
-`surf2→pit.surf2`, `bg→pit.bg`).
-
-`AppType.*` (typography.dart) tem uma cor padrão **embutida e fixa** (tokens do tema
-escuro) — é só um fallback de conveniência. Todo uso real deve sobrescrever com
-`AppType.on(AppType.<estilo>, context.pit.<token>)`. Migre a tela inteira como
-unidade (fundo + todo texto + toda borda) — nunca deixe metade migrada.
-
-## Tokens de cor (tema escuro — base)
-
-```
-bg    #15130E   surf   #1D1A13   surf2  #242017   line  #29251A   line2 #383223
-text  #F2EDE1   text2  #C5BEAD   muted  #8E8674   faint #605948
-accent#C2703F   accent2#D98C5A   sage   #A9B26C   ink(escuro) #3A3324
-```
-
-## Tokens de cor (tema claro — creme)
-
-```
-bgLight #F5EFE3  surfLight #FBF7EE  surf2Light #F1EADE  lineLight #E8DFCF  line2Light #D9CFBB
-textLight #221E17  text2Light #6A6252  mutedLight #938A78  faintLight #B4AB98  ink(claro) #221E17
-```
-
-Pastéis por aba e cor de card (por hero, em cada tema) ficam em `colors.dart`
-(`tabBgLight/Dark`, `cardLight/Dark`).
+**Proibido usar direto** os tokens crus do escuro (`AppColors.text/text2/muted/faint/
+line/line2/surf/surf2/bg`) — ficam ilegíveis no claro. Troque 1:1 pelo `context.pit.*` de
+mesmo nome. `AppType.*` traz uma cor-fallback do escuro; sempre sobrescreva com
+`AppType.on(AppType.<estilo>, context.pit.<token>)`. Migre a tela inteira como unidade
+(fundo + texto + bordas), nunca metade.
 
 ## Tipografia
-- **Space Grotesk** (500/600/700): títulos, números (kcal, gramas, "Opção N"), botões.
-  Geométrica/chunky — a "voz" neo-brutalista. Família: `_disp`.
-- **Inter** (400/500/600): corpo, rótulos, texto corrido. Família: `_ui`.
-- Empacotadas em `assets/fonts/` e declaradas no `pubspec.yaml`. Nunca dependa de rede.
-  (Cormorant Garamond segue nos assets, mas não é mais usada.)
+- **Space Grotesk** (`_disp`): títulos, números (kcal, gramas, "Opção N"), botões.
+- **Inter** (`_ui`): corpo, rótulos, texto corrido.
+- Empacotadas em `assets/fonts/`, declaradas no `pubspec.yaml`. Nunca via rede.
 
-## Componentes compartilhados (reuso obrigatório)
+## Componentes (reuso obrigatório)
 
-Toda peça visual repetida vira um widget em `core/widgets/` (ou `presentation/widgets/`
-se for exclusiva da feature).
+Peça visual repetida vira widget em `core/widgets/` (ou `presentation/widgets/` se for
+exclusiva da feature). Antes de criar, procure o que já existe. Principais:
 
-| Widget           | O que é |
-|------------------|---------|
-| `Masthead`       | Marca centralizada no topo das abas |
-| `SectionHeader`  | Rótulo em versalete + filete fino |
-| `ChapterTabs`    | Abas de capítulo, ativo com filete terracota |
-| `SegTabs`        | Abas simples (Aprendizado) |
-| `HairlineRow`    | Linha de lista separada por filete (listas densas) |
-| `ExpiryTag`      | Tag de validade em contorno, sem ícone |
-| `PitadaChip`     | Chip/tag de **contorno** (harmonizações, técnicas) |
-| `PitadaTag`      | Pílula **colorida** (fundo pastel + borda) — **SÓ para tags** |
-| `NutritionCard`  | Caixa de macros com borda (Proteína · Gordura · Carbo) |
-| `OptionCard`     | Opção de refeição (escolher + pratos linkáveis) |
-| `WhyCallout`     | Callout "Por quê" de técnica num passo |
-| `PitadaButton`   | Botão padrão (primário / contorno) |
+| Widget | O que é |
+|---|---|
+| Masthead · SectionHeader | marca no topo · rótulo de seção |
+| PitadaTabs · PitadaTabBar | abas de conteúdo · dock das 5 abas |
+| HairlineRow | linha de lista com filete (listas densas) |
+| PitadaButton · PitadaChip | botão · chip de contorno (técnicas/harmonizações) |
+| PitadaTag | pílula colorida — **só para tag** |
+| ExpiryTag · NutritionCard · OptionCard · WhyCallout | validade · macros · refeição · callout "Por quê" |
 
-Antes de criar um widget novo, procure um existente que sirva. Antes de duplicar
-estilo, extraia para um token ou um widget.
+**Cápsula é só para TAG** (classificação: técnica, tipo, veredito, categoria). **Nunca**
+para métrica (kcal, tempo, gramas → texto sóbrio em `pit.text2`/`pit.muted`) nem para
+seletor/controle (use `PitadaTabs` ou título com caret que abre sheet). Ver a spec do
+`PitadaTag`.
 
-**Cápsula é só para TAG.** `PitadaTag`/`PitadaChip` marcam **classificações**
-(técnica, tipo, veredito, categoria) — nunca **métricas** e nunca **seletores/
-controles** (trocar de lista, alternar visão, navegar). kcal, tempo, porções,
-gramas e contagens vão em **texto sóbrio** (`bodySm`/`caption` em `pit.text2`/
-`pit.muted`); seletor de escopo é `PitadaTabs` ou **título com caret** que abre
-sheet (regra do dono, ver `specs/components/pitada_tag.yaml`).
-
-## Estética & proibições
-**Soft neo-brutalismo pastel:** superfícies pastéis + **bordas** (grossas, cor
-`pit.border`, largura `AppSpacing.borderStrong`) + Space Grotesk + tags coloridas.
-Cards são permitidos (com borda). Filete ainda vale para **listas densas**.
-
-Proibido: degradê, gradiente, **qualquer sombra** (nem "dura"/offset), fonte cursiva.
-**Usabilidade > design:** muito respiro, nunca sobrecarregar a tela de informação.
-Space Grotesk nos títulos e números.
+## Proibido / permitido
+Proibido: qualquer **sombra** (nem "dura"/offset), degradê/gradiente, fonte cursiva.
+Permitido: bordas (`AppSpacing.borderStrong`, cor `pit.border`), pastel, cards com borda,
+filete só em listas densas. Usabilidade > design: respiro, nunca sobrecarregar.

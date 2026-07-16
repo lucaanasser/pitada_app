@@ -9,8 +9,10 @@ descricao: >
   go_router. Alvo visual = pitada.html. Regras em .claude/rules/.
 
 convencao_de_nomes: >
-  O caminho da spec espelha o arquivo gerado.
-  Ex.: specs/components/pitada_button.yaml -> lib/core/widgets/pitada_button.dart
+  O caminho da spec ESPELHA o do código (lib/ <-> specs/, .dart <-> .yaml), com a mesma
+  compartimentalização (máx. 7 soltos por pasta; quebra por papel, depois sub-domínio).
+  Ex.: lib/core/widgets/tags/pitada_tag.dart -> specs/components/tags/pitada_tag.yaml
+  Ver .claude/rules/nomenclatura-e-pastas.md e .claude/reestruturacao.md (migração viva).
 
 design_system:
   - specs/design-system/colors.yaml        # tokens de cor  -> core/theme/colors.dart
@@ -39,6 +41,7 @@ components:                                 # -> lib/core/widgets/
 
 features:                                   # -> lib/features/<f>/presentation/
   - specs/features/recipes.yaml
+  - specs/features/bancada.yaml             # fila "quero cozinhar em breve" (ex-aba "Favoritas")
   - specs/features/learning.yaml
   - specs/features/plans.yaml
   - specs/features/plans_progress.yaml    # sub-aba "Progresso": peso + aderência (log rápido do dia)
@@ -60,6 +63,7 @@ dev:                                        # ferramentas de desenvolvimento (n�
 
 regras:
   - .claude/rules/arquitetura.md
+  - .claude/rules/nomenclatura-e-pastas.md   # sufixos de papel, regra dos 7, specs espelham código
   - .claude/rules/specs-primeiro.md
   - .claude/rules/design-system.md
   - .claude/rules/comentarios-e-logs.md

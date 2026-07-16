@@ -29,25 +29,23 @@ abstract class Recipe with _$Recipe {
     required String id,
     required String title,
     @Default(RecipeSource.manual) RecipeSource source,
-    String? sourceUrl, // preenchido quando salva por link
+    String? sourceUrl,
     @Default(2) int servings,
     int? timeMinutes,
-    required int kcal, // por porção
+    required int kcal,
     @Default(0) num protein,
     @Default(0) num carb,
     @Default(0) num fat,
     String? difficulty,
-    @Default(false) bool favorite, // marcada como favorita (aba Favoritas)
-    @Default('clay') String heroColor, // nome em AppColors.hero
-    @Default(0) int photoCount, // fotos na galeria (0 = placeholder)
-    String? notes, // "Anotações & ajustes"
-    @Default([]) List<String> folderIds, // pastas a que pertence
-    @Default([]) List<String> techniques, // "Técnicas desta receita"
+    @Default('clay') String heroColor,
+    @Default(0) int photoCount,
+    String? notes,
+    @Default([]) List<String> folderIds,
+    @Default([]) List<String> techniques,
     @Default([]) List<Ingredient> ingredients,
     @Default([]) List<RecipeStep> steps,
-    // —— Versões ("trocar tudo": cada versão é um Recipe COMPLETO) ——
-    @Default(1) int version, // número da versão (1,2,3…) — vira o rótulo "V3"
-    String? versionGroupId, // null = sem versões; senão, id do grupo
+    @Default(1) int version,
+    String? versionGroupId,
   }) = _Recipe;
 
   /// Monta a partir do JSON do banco (snake_case; aninhados já mapeados pelo
@@ -58,20 +56,18 @@ abstract class Recipe with _$Recipe {
   bool get hasVersions => versionGroupId != null;
 
   /// Deriva um snapshot com a IDENTIDADE de versão trocada (id, número, grupo e,
-  /// opcionalmente, folder/favorite) — o conteúdo permanece. Usada por:
+  /// opcionalmente, as pastas) — o conteúdo permanece. Usada por:
   /// repositórios (saveAsNewVersion: arquivar definitiva / promover edição).
   Recipe withVersionIdentity({
     required String id,
     required int version,
     required String versionGroupId,
-    bool? favorite,
     List<String>? folderIds,
   }) =>
       copyWith(
         id: id,
         version: version,
         versionGroupId: versionGroupId,
-        favorite: favorite ?? this.favorite,
         folderIds: folderIds ?? this.folderIds,
       );
 }

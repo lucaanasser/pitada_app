@@ -34,7 +34,7 @@ abstract class RecipesRepository {
 
   /// Salva [edited] como NOVA versão: arquiva a definitiva atual como snapshot
   /// próprio (fora de listas/pastas) e promove [edited] no id canônico com
-  /// version = max+1, herdando pasta/favorito. Sem grupo ainda, o próprio id
+  /// version = max+1, herdando as pastas. Sem grupo ainda, o próprio id
   /// vira o grupo. Usada por: RecipeEditController.save (asNewVersion).
   Future<void> saveAsNewVersion(Recipe edited);
 }

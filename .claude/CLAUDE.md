@@ -1,69 +1,45 @@
 # Pitada — guia do projeto (leia antes de codar)
 
-App pessoal de receitas, aprendizado de cozinha, planos alimentares e despensa.
-**Flutter + Riverpod + go_router**, backend Supabase, IA via Gemini (Edge Functions).
-Estética: **soft neo-brutalismo pastel** (ver `rules/design-system.md`) — evolução do
-protótipo `pitada.html`. Estudo de estilo vivo: `pitada-estilo.html`. Guia completo:
-`pitada-guia-de-construcao.html`. Interface e conteúdo em **português do Brasil**.
+App pessoal de receitas, caderno de cozinha, planos alimentares e despensa.
+**Flutter + Riverpod + go_router**, backend **Supabase**, IA via **Gemini** (Edge Functions).
+Estética **soft neo-brutalismo pastel**. UI e conteúdo em **pt-BR**; código em inglês.
+Referências visuais vivas: `pitada-estilo.html`, `pitada-guia-de-construcao.html`.
 
-## Regras de ouro (não negociáveis)
+## Regras de ouro (inegociáveis) — cada uma tem um arquivo em `rules/`
 
-1. **Spec antes de código — sempre.** A ordem é **spec → código**, NUNCA código → spec.
-   Nada é implementado sem antes existir uma spec `.yaml` em `specs/` descrevendo o
-   quê/como. Escreveu ou mudou código? A spec correspondente já tinha que existir e
-   estar de acordo. Veja `rules/specs-primeiro.md`.
-2. **Máx. 200 linhas de código por arquivo.** Se passar, quebre em pedaços menores.
-   Veja `rules/arquitetura.md`.
-3. **Reutilize tudo, principalmente o visual.** Cor, fonte, espaçamento, botão, tag,
-   cabeçalho — vêm SEMPRE dos tokens/widgets compartilhados. Zero valor "chumbado"
-   (hex, tamanho de fonte, px) fora do design system. Veja `rules/design-system.md`.
-4. **Todo arquivo tem cabeçalho padronizado** (o quê / usa / usado por) e **toda
-   função tem comentário** (o quê / quem usa). Logs seguem um único padrão.
-   Veja `rules/comentarios-e-logs.md`.
+1. **Spec antes de código.** Nada nasce sem uma spec `.yaml` em `specs/`. Ordem
+   spec → código, nunca o contrário. → `specs-primeiro.md`
+2. **≤ 200 linhas por arquivo.** Passou, quebre. → `arquitetura.md`
+3. **Zero valor visual chumbado.** Cor, fonte, espaço, ícone, widget vêm sempre dos
+   tokens / `core/widgets`. → `design-system.md`
+4. **Comentário só no cabeçalho e antes de declaração**, dizendo o QUÊ (nunca o COMO).
+   → `comentarios-e-logs.md`
+5. **Nome espelha a realidade + regra dos 7.** snake_case inglês, sufixo de papel
+   (`_screen`, `_sheet`, `_repository`…), a pasta nomeia a feature uma vez, máx. 7
+   arquivos soltos por pasta. → `nomenclatura-e-pastas.md`
+6. **Versione sempre.** Terminou algo, commit local (autor único, sem push).
+   → `versionamento.md`
 
-## Onde as coisas ficam
+## Estrutura (detalhe e regra dos 7 em `nomenclatura-e-pastas.md`)
 
 ```
-specs/                 # SPECS .yaml — sempre primeiro
-  design-system/       # tokens (cores, tipografia, espaçamento)
-  components/          # widgets compartilhados
-  features/           # telas por feature
-lib/
-  core/
-    config/           # env / constantes
-    supabase/         # cliente + helpers
-    theme/            # AppColors, PitadaColors(context.pit), AppType, AppSpacing, AppTheme
-    router/           # shell das 4 abas + rotas
-    widgets/          # widgets compartilhados (reuso visual)
-    utils/            # AppLog, formatação, unidades
-  features/
-    <feature>/data/          # modelos + repositório (fala com Supabase)
-    <feature>/application/    # controllers/providers Riverpod
-    <feature>/presentation/   # telas + widgets da feature
-assets/fonts|brand/    # Space Grotesk + Inter, marca
-.claude/rules/         # as regras detalhadas deste projeto
+specs/            # specs .yaml — sempre primeiro; ESPELHA o caminho do código
+lib/core/         # theme (tokens) · widgets (reuso) · router · config · supabase · utils
+lib/features/<f>/ # data (modelos + repositório) · application (providers) · presentation (telas + widgets)
 ```
 
-## Fluxo de trabalho para qualquer tarefa
+Fluxo de dados (a seta nunca volta): `presentation → application → data → Supabase`.
+A UI nunca chama Supabase direto e só importa modelos de `data/`.
 
-1. Ler a spec relevante em `specs/` (ou escrevê-la, se não existir).
-2. Implementar seguindo a spec, os tokens do design system e os templates de comentário.
-3. Garantir < 200 linhas por arquivo e reuso máximo.
-4. Conferir contra o estudo de estilo `pitada-estilo.html`.
+## Convenções
 
-## Regras detalhadas
+- Nome de arquivo/pasta/feature em inglês; rótulo de aba em pt-BR (`Caderno`→`notebook`,
+  `Ingredientes`→`pantry`). Nome nunca legado (ver regra 5).
+- Dois temas (claro/escuro): cor por tema via `context.pit.*`, marca em `AppColors`;
+  toda tela funciona nos dois.
+- Hardware (scanner/câmera/share) atrás de service abstrato (real + mock) p/ rodar no PC.
+- Proibido no visual: sombra, degradê/gradiente, fonte cursiva. Sim: bordas, pastel,
+  Space Grotesk, tags coloridas, cards com borda.
+- Usabilidade > design: muito respiro, nunca sobrecarregar a tela.
 
-- `rules/arquitetura.md` — camadas, feature-first, limite de 200 linhas, como quebrar.
-- `rules/specs-primeiro.md` — como escrever e usar as specs `.yaml`.
-- `rules/design-system.md` — tokens, catálogo de componentes, mandato de reuso.
-- `rules/comentarios-e-logs.md` — templates de cabeçalho/função e padrão de log.
-
-## Convenções rápidas
-
-- Identificadores de código em **inglês**; comentários e textos de UI em **pt-BR**.
-- UI nunca chama Supabase direto — só via `provider → repository`.
-- Hardware (scanner, share, câmera) sempre atrás de um service abstrato (real + mock).
-- **Dois temas** (claro + escuro): cores por tema via `context.pit.*`; marca em `AppColors`.
-- Proibido no visual: degradê, gradiente, **qualquer sombra** (nem "dura"), fonte cursiva.
-- **Bordas** (não filete fino) + pastel + Space Grotesk + tags coloridas. Cards permitidos.
-- **Usabilidade > design:** muito respiro, nunca sobrecarregar a tela de informação.
+Plano vivo da migração p/ o padrão de nomes: `.claude/reestruturacao.md`.

@@ -33,7 +33,7 @@ migrations:
                   source_url text, servings int default 2, time_minutes int,
                   kcal int not null default 0, protein numeric default 0,
                   carb numeric default 0, fat numeric default 0, difficulty text,
-                  favorite boolean default false, hero_color text default 'clay',
+                  hero_color text default 'clay',
                   photo_count int default 0, notes text, techniques text[] default '{}',
                   version int default 1, version_group_id uuid,
                   created_at, updated_at]
@@ -41,7 +41,7 @@ migrations:
         nota_versoes: >
           Cada versão é uma LINHA completa (mesmo modelo "trocar tudo" do app).
           A definitiva mantém o id canônico; antigas são linhas próprias no mesmo
-          version_group_id. Só a definitiva carrega favorite/pastas.
+          version_group_id. Só a definitiva carrega as pastas.
       recipe_ingredients:            # grama é a base; unidade humana é referência
         colunas: [id, recipe_id fk->recipes on delete cascade, position int,
                   name text not null, grams numeric, human_qty numeric, human_unit text]

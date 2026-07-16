@@ -33,10 +33,9 @@ const kSeedRecipes = <Recipe>[
     carb: 38,
     fat: 18,
     difficulty: 'Intermediário',
-    favorite: true,
     heroColor: 'terra',
     folderIds: ['rapidos'],
-    version: 3, // definitiva; snapshots antigos em recipes_seed_versions.dart
+    version: 3,
     versionGroupId: 'frango-xadrez',
     techniques: ['Selar a carne', 'Emulsionar um molho'],
     ingredients: [
@@ -126,7 +125,7 @@ const kSeedRecipes = <Recipe>[
     difficulty: 'Intermediário',
     heroColor: 'rust',
     folderIds: ['rapidos'],
-    version: 2, // definitiva; a v1 fica em recipes_seed_versions.dart
+    version: 2,
     versionGroupId: 'strogonoff',
     ingredients: [
       Ingredient(name: 'Alcatra', grams: 500, humanQty: 500, humanUnit: 'g'),
@@ -155,7 +154,6 @@ const kSeedRecipes = <Recipe>[
     carb: 44,
     fat: 7,
     difficulty: 'Fácil',
-    favorite: true,
     heroColor: 'ochre',
     folderIds: ['doces', 'fit'],
     ingredients: [

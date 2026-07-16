@@ -31,6 +31,10 @@ politicas:
     all: >
       exists(... recipes r where r.id = recipe_id and r.user_id = auth.uid())
       and exists(... folders f where f.id = folder_id and f.user_id = auth.uid())
+  bancada_items:                            # fila "quero cozinhar em breve" (migration 0010)
+    all (select/insert/update/delete): auth.uid() = user_id
+    nota_insert: with check (auth.uid() = user_id) — user_id tem default auth.uid()
+    grants: select/insert/update/delete ao role authenticated (anon = zero)
   storage.objects (bucket recipe-photos):   # ver storage.yaml
     all: bucket_id = 'recipe-photos' and (storage.foldername(name))[1] = auth.uid()::text
 

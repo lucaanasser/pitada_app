@@ -17,24 +17,22 @@ mixin _$Recipe {
   String get id;
   String get title;
   RecipeSource get source;
-  String? get sourceUrl; // preenchido quando salva por link
+  String? get sourceUrl;
   int get servings;
   int? get timeMinutes;
-  int get kcal; // por porção
+  int get kcal;
   num get protein;
   num get carb;
   num get fat;
   String? get difficulty;
-  bool get favorite; // marcada como favorita (aba Favoritas)
-  String get heroColor; // nome em AppColors.hero
-  int get photoCount; // fotos na galeria (0 = placeholder)
-  String? get notes; // "Anotações & ajustes"
-  List<String> get folderIds; // pastas a que pertence
-  List<String> get techniques; // "Técnicas desta receita"
+  String get heroColor;
+  int get photoCount;
+  String? get notes;
+  List<String> get folderIds;
+  List<String> get techniques;
   List<Ingredient> get ingredients;
-  List<RecipeStep>
-      get steps; // —— Versões ("trocar tudo": cada versão é um Recipe COMPLETO) ——
-  int get version; // número da versão (1,2,3…) — vira o rótulo "V3"
+  List<RecipeStep> get steps;
+  int get version;
   String? get versionGroupId;
 
   /// Create a copy of Recipe
@@ -67,8 +65,6 @@ mixin _$Recipe {
             (identical(other.fat, fat) || other.fat == fat) &&
             (identical(other.difficulty, difficulty) ||
                 other.difficulty == difficulty) &&
-            (identical(other.favorite, favorite) ||
-                other.favorite == favorite) &&
             (identical(other.heroColor, heroColor) ||
                 other.heroColor == heroColor) &&
             (identical(other.photoCount, photoCount) ||
@@ -100,7 +96,6 @@ mixin _$Recipe {
         carb,
         fat,
         difficulty,
-        favorite,
         heroColor,
         photoCount,
         notes,
@@ -114,7 +109,7 @@ mixin _$Recipe {
 
   @override
   String toString() {
-    return 'Recipe(id: $id, title: $title, source: $source, sourceUrl: $sourceUrl, servings: $servings, timeMinutes: $timeMinutes, kcal: $kcal, protein: $protein, carb: $carb, fat: $fat, difficulty: $difficulty, favorite: $favorite, heroColor: $heroColor, photoCount: $photoCount, notes: $notes, folderIds: $folderIds, techniques: $techniques, ingredients: $ingredients, steps: $steps, version: $version, versionGroupId: $versionGroupId)';
+    return 'Recipe(id: $id, title: $title, source: $source, sourceUrl: $sourceUrl, servings: $servings, timeMinutes: $timeMinutes, kcal: $kcal, protein: $protein, carb: $carb, fat: $fat, difficulty: $difficulty, heroColor: $heroColor, photoCount: $photoCount, notes: $notes, folderIds: $folderIds, techniques: $techniques, ingredients: $ingredients, steps: $steps, version: $version, versionGroupId: $versionGroupId)';
   }
 }
 
@@ -135,7 +130,6 @@ abstract mixin class $RecipeCopyWith<$Res> {
       num carb,
       num fat,
       String? difficulty,
-      bool favorite,
       String heroColor,
       int photoCount,
       String? notes,
@@ -170,7 +164,6 @@ class _$RecipeCopyWithImpl<$Res> implements $RecipeCopyWith<$Res> {
     Object? carb = null,
     Object? fat = null,
     Object? difficulty = freezed,
-    Object? favorite = null,
     Object? heroColor = null,
     Object? photoCount = null,
     Object? notes = freezed,
@@ -226,10 +219,6 @@ class _$RecipeCopyWithImpl<$Res> implements $RecipeCopyWith<$Res> {
           ? _self.difficulty
           : difficulty // ignore: cast_nullable_to_non_nullable
               as String?,
-      favorite: null == favorite
-          ? _self.favorite
-          : favorite // ignore: cast_nullable_to_non_nullable
-              as bool,
       heroColor: null == heroColor
           ? _self.heroColor
           : heroColor // ignore: cast_nullable_to_non_nullable
@@ -375,7 +364,6 @@ extension RecipePatterns on Recipe {
             num carb,
             num fat,
             String? difficulty,
-            bool favorite,
             String heroColor,
             int photoCount,
             String? notes,
@@ -403,7 +391,6 @@ extension RecipePatterns on Recipe {
             _that.carb,
             _that.fat,
             _that.difficulty,
-            _that.favorite,
             _that.heroColor,
             _that.photoCount,
             _that.notes,
@@ -445,7 +432,6 @@ extension RecipePatterns on Recipe {
             num carb,
             num fat,
             String? difficulty,
-            bool favorite,
             String heroColor,
             int photoCount,
             String? notes,
@@ -472,7 +458,6 @@ extension RecipePatterns on Recipe {
             _that.carb,
             _that.fat,
             _that.difficulty,
-            _that.favorite,
             _that.heroColor,
             _that.photoCount,
             _that.notes,
@@ -513,7 +498,6 @@ extension RecipePatterns on Recipe {
             num carb,
             num fat,
             String? difficulty,
-            bool favorite,
             String heroColor,
             int photoCount,
             String? notes,
@@ -540,7 +524,6 @@ extension RecipePatterns on Recipe {
             _that.carb,
             _that.fat,
             _that.difficulty,
-            _that.favorite,
             _that.heroColor,
             _that.photoCount,
             _that.notes,
@@ -571,7 +554,6 @@ class _Recipe extends Recipe {
       this.carb = 0,
       this.fat = 0,
       this.difficulty,
-      this.favorite = false,
       this.heroColor = 'clay',
       this.photoCount = 0,
       this.notes,
@@ -597,7 +579,6 @@ class _Recipe extends Recipe {
   final RecipeSource source;
   @override
   final String? sourceUrl;
-// preenchido quando salva por link
   @override
   @JsonKey()
   final int servings;
@@ -605,7 +586,6 @@ class _Recipe extends Recipe {
   final int? timeMinutes;
   @override
   final int kcal;
-// por porção
   @override
   @JsonKey()
   final num protein;
@@ -619,21 +599,13 @@ class _Recipe extends Recipe {
   final String? difficulty;
   @override
   @JsonKey()
-  final bool favorite;
-// marcada como favorita (aba Favoritas)
-  @override
-  @JsonKey()
   final String heroColor;
-// nome em AppColors.hero
   @override
   @JsonKey()
   final int photoCount;
-// fotos na galeria (0 = placeholder)
   @override
   final String? notes;
-// "Anotações & ajustes"
   final List<String> _folderIds;
-// "Anotações & ajustes"
   @override
   @JsonKey()
   List<String> get folderIds {
@@ -642,9 +614,7 @@ class _Recipe extends Recipe {
     return EqualUnmodifiableListView(_folderIds);
   }
 
-// pastas a que pertence
   final List<String> _techniques;
-// pastas a que pertence
   @override
   @JsonKey()
   List<String> get techniques {
@@ -653,9 +623,7 @@ class _Recipe extends Recipe {
     return EqualUnmodifiableListView(_techniques);
   }
 
-// "Técnicas desta receita"
   final List<Ingredient> _ingredients;
-// "Técnicas desta receita"
   @override
   @JsonKey()
   List<Ingredient> get ingredients {
@@ -673,11 +641,9 @@ class _Recipe extends Recipe {
     return EqualUnmodifiableListView(_steps);
   }
 
-// —— Versões ("trocar tudo": cada versão é um Recipe COMPLETO) ——
   @override
   @JsonKey()
   final int version;
-// número da versão (1,2,3…) — vira o rótulo "V3"
   @override
   final String? versionGroupId;
 
@@ -716,8 +682,6 @@ class _Recipe extends Recipe {
             (identical(other.fat, fat) || other.fat == fat) &&
             (identical(other.difficulty, difficulty) ||
                 other.difficulty == difficulty) &&
-            (identical(other.favorite, favorite) ||
-                other.favorite == favorite) &&
             (identical(other.heroColor, heroColor) ||
                 other.heroColor == heroColor) &&
             (identical(other.photoCount, photoCount) ||
@@ -750,7 +714,6 @@ class _Recipe extends Recipe {
         carb,
         fat,
         difficulty,
-        favorite,
         heroColor,
         photoCount,
         notes,
@@ -764,7 +727,7 @@ class _Recipe extends Recipe {
 
   @override
   String toString() {
-    return 'Recipe(id: $id, title: $title, source: $source, sourceUrl: $sourceUrl, servings: $servings, timeMinutes: $timeMinutes, kcal: $kcal, protein: $protein, carb: $carb, fat: $fat, difficulty: $difficulty, favorite: $favorite, heroColor: $heroColor, photoCount: $photoCount, notes: $notes, folderIds: $folderIds, techniques: $techniques, ingredients: $ingredients, steps: $steps, version: $version, versionGroupId: $versionGroupId)';
+    return 'Recipe(id: $id, title: $title, source: $source, sourceUrl: $sourceUrl, servings: $servings, timeMinutes: $timeMinutes, kcal: $kcal, protein: $protein, carb: $carb, fat: $fat, difficulty: $difficulty, heroColor: $heroColor, photoCount: $photoCount, notes: $notes, folderIds: $folderIds, techniques: $techniques, ingredients: $ingredients, steps: $steps, version: $version, versionGroupId: $versionGroupId)';
   }
 }
 
@@ -786,7 +749,6 @@ abstract mixin class _$RecipeCopyWith<$Res> implements $RecipeCopyWith<$Res> {
       num carb,
       num fat,
       String? difficulty,
-      bool favorite,
       String heroColor,
       int photoCount,
       String? notes,
@@ -821,7 +783,6 @@ class __$RecipeCopyWithImpl<$Res> implements _$RecipeCopyWith<$Res> {
     Object? carb = null,
     Object? fat = null,
     Object? difficulty = freezed,
-    Object? favorite = null,
     Object? heroColor = null,
     Object? photoCount = null,
     Object? notes = freezed,
@@ -877,10 +838,6 @@ class __$RecipeCopyWithImpl<$Res> implements _$RecipeCopyWith<$Res> {
           ? _self.difficulty
           : difficulty // ignore: cast_nullable_to_non_nullable
               as String?,
-      favorite: null == favorite
-          ? _self.favorite
-          : favorite // ignore: cast_nullable_to_non_nullable
-              as bool,
       heroColor: null == heroColor
           ? _self.heroColor
           : heroColor // ignore: cast_nullable_to_non_nullable

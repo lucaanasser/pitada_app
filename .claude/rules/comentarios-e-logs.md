@@ -1,69 +1,54 @@
-# Regra: Comentários & logs padronizados
+# Regra: Comentários & logs
 
-Comentários e textos de doc em **pt-BR**; identificadores de código em inglês.
+Comentários em pt-BR; identificadores em inglês.
 
-## 1. Cabeçalho obrigatório em TODO arquivo `.dart`
+## Onde um comentário pode existir (só aqui)
+1. **Cabeçalho do arquivo** (topo, uma vez).
+2. **Doc `///` antes de uma declaração** (função, método, construtor, classe, enum,
+   mixin, extension, getter/setter).
 
-Todo arquivo começa com este bloco. Preencha os quatro campos sem exceção:
+**Nada no meio do código:** sem comentário no corpo de função, entre statements, no fim
+da linha (inline/trailing), rótulo de campo (`final String title; // nome`), nem marcador
+de seção (`// —— … ——`). Código difícil se resolve com nome melhor / função extraída — não
+com comentário.
 
+Exceções (diretivas, não documentação): `// ignore:` / `// ignore_for_file:` e
+`// TODO(pitada): …` (com dono).
+
+**Exceção de inline — só em token visual** (`colors.dart`, `spacing.dart`,
+`typography.dart`): rótulo do valor cru é permitido (`static const bg = Color(0xFF15130E);
+// fundo geral`). Não vale em função, estrutura/modelo ou widget; e nunca para porquê/
+histórico.
+
+## O QUÊ, nunca o COMO
+O comentário diz o que a coisa faz (contrato visto de fora), nunca como foi feita.
+- ❌ "ordeno com quicksort e removo os repetidos no laço"
+- ✅ "recebe o vetor X e devolve o vetor Y ordenado e sem repetidos"
+
+## Cabeçalho de arquivo (obrigatório em todo `.dart`)
 ```dart
 // ─────────────────────────────────────────────────────────────────────────────
-// <caminho/relativo/do/arquivo.dart>
-// O QUÊ:     <o que este arquivo faz, 1-2 linhas>
-// USA:       <arquivos/pacotes que importa e por quê>
-// USADO POR: <quem importa/usa este arquivo>
+// <caminho/do/arquivo.dart>
+// O QUÊ:     <o que o arquivo faz, 1-2 linhas>
+// USA:       <o que importa e por quê>
+// USADO POR: <quem usa>
+// SPEC:      <specs/…, se houver>
 // ─────────────────────────────────────────────────────────────────────────────
 ```
 
-Exemplo:
-
+## Doc de declaração (obrigatório)
+`///` dizendo **o que faz** e **quem usa**. `build`/override trivial: uma linha basta.
 ```dart
-// ─────────────────────────────────────────────────────────────────────────────
-// lib/core/widgets/pitada_button.dart
-// O QUÊ:     Botão padrão do app (primário e de ícone), reutilizável em telas.
-// USA:       core/theme (AppColors, AppType, AppSpacing) para estilo padronizado.
-// USADO POR: recipe_detail_screen, import_sheet, shopping_screen (ações principais).
-// ─────────────────────────────────────────────────────────────────────────────
+/// Formata gramas p/ exibição (100 -> "100 g"). Usada por: RecipeDetailScreen.
+String formatGrams(num grams) => …
 ```
 
-## 2. Comentário obrigatório em TODA função / método público
-
-Use doc comment `///` acima da declaração. Diga **o que faz** e **quem usa**:
-
+## Logs — só via `AppLog` (nunca `print`)
+Saída: `[Pitada][<feature>] <mensagem>`.
 ```dart
-/// Formata gramas para exibição (ex.: 100 -> "100 g").
-/// Usada por: RecipeDetailScreen, IngredientRow.
-String formatGrams(num grams) => ...
+AppLog.d('recipes', 'import iniciado: $url');          // debug (some em release)
+AppLog.w('shopping', 'código não encontrado: $code');  // warn (sempre aparece)
+AppLog.e('recipes', 'falha ao salvar', error, stack);
 ```
-
-Para `build`/overrides triviais, um `///` de uma linha basta. Para lógica não óbvia,
-comente também o **porquê** dentro do corpo — nunca o óbvio.
-
-## 3. Logs — um único padrão via `AppLog`
-
-Nunca use `print`. Use o helper `core/utils/app_log.dart`. Formato de saída:
-
-```
-[Pitada][<feature>] <mensagem>
-```
-
-API:
-
-```dart
-AppLog.d('recipes', 'import iniciado: $url');   // debug
-AppLog.i('plans',   'opção escolhida: $optionId'); // info
-AppLog.w('shopping','código de barras não encontrado: $code'); // warn
-AppLog.e('recipes', 'falha ao salvar', error, stack); // erro
-```
-
-Regras:
-- Primeiro argumento é sempre a **tag da feature** (`recipes`, `plans`, `shopping`,
-  `learning`, `core`).
-- Mensagem curta, em pt-BR, sem ponto final, com contexto útil (ids, urls).
-- `debug` some em release; `warn`/`error` sempre aparecem.
-- Nunca logue segredos (chaves, tokens).
-
-## 4. Estilo geral
-- Comentário explica **porquê**, não reescreve o código.
-- Sem código morto ou comentários de "TODO" sem dono. Use `// TODO(pitada): ...`.
-- Seções longas dentro de um `build` podem levar um `// —— nome da seção ——`.
+1º arg = tag da feature (`recipes|plans|shopping|learning|core`). Mensagem curta, pt-BR,
+sem ponto final, com contexto (ids/urls). Nunca logar segredo.

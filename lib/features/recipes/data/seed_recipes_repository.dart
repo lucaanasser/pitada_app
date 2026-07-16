@@ -77,8 +77,8 @@ class SeedRecipesRepository implements RecipesRepository {
   }
 
   /// Versão em memória do "trocar tudo": arquiva a definitiva sob id derivado
-  /// '{canonical}-v{n}' (sem pasta/favorito) e promove [edited] no id canônico,
-  /// com version = max+1, herdando pasta/favorito. Usada por: RecipeEditController.
+  /// '{canonical}-v{n}' (sem pasta) e promove [edited] no id canônico,
+  /// com version = max+1, herdando as pastas. Usada por: RecipeEditController.
   @override
   Future<void> saveAsNewVersion(Recipe edited) async {
     // O id do grupo é o id canônico da definitiva; sem grupo, o próprio id o inicia.
@@ -94,7 +94,6 @@ class SeedRecipesRepository implements RecipesRepository {
         id: archivedId,
         version: prev.version,
         versionGroupId: groupId,
-        favorite: false,
         folderIds: const [],
       );
     }
@@ -102,7 +101,6 @@ class SeedRecipesRepository implements RecipesRepository {
       id: groupId,
       version: maxV + 1,
       versionGroupId: groupId,
-      favorite: prev?.favorite ?? edited.favorite,
       folderIds: prev?.folderIds ?? edited.folderIds,
     );
     AppLog.i('recipes', 'nova versão (seed): $groupId v${maxV + 1}');

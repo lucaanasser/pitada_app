@@ -1,0 +1,163 @@
+# specs/features/bancada.yaml -> lib/features/bancada/
+feature: Bancada
+prototype: >
+  Sem protótipo em pitada.html — nova superfície que SUBSTITUI a ex-aba "Favoritas".
+  Alvo visual = design system (soft neo-brutalismo pastel): RecipeThumb pastel +
+  bordas, Space Grotesk nos números/datas, texto sóbrio pra métrica (nunca cápsula).
+purpose: >
+  Combater o "cemitério de salvos": a pessoa salva receita do TikTok/Instagram e
+  nunca faz. A Bancada NÃO é lista de favoritas — é a fila de rotatividade das
+  receitas que a pessoa QUER COZINHAR EM BREVE. Toda entrada tem uma DATA-ALVO
+  ("pretendo fazer em"); depois de cozinhar, o item SAI (mas pode voltar se ela
+  quiser repetir). O app usa prazo + escassez + fechamento de ciclo pra empurrar
+  pra cozinha, em vez de virar outra lista esquecida.
+
+principios:              # o "porquê" — orienta cada decisão de UX abaixo
+  - Compromisso datado: dizer QUANDO vai fazer aumenta muito a chance de fazer.
+    Por isso a data-alvo é obrigatória (mas é 1 toque, nunca formulário).
+  - Escassez: teto de vagas (kBancadaMaxSlots). Lista infinita vira aterro;
+    lista com teto fica viva. Cheia => "cozinhe ou tire algo".
+  - Fricção na SAÍDA, não na entrada: entrar é fácil; nada some em silêncio —
+    itens atrasados sobem e cutucam, e passado o prazo forçam uma decisão.
+  - Fechar o ciclo dá a recompensa: cozinhou => item sai + contador do mês sobe.
+  - A tela RESPONDE "o que cozinho hoje?" (herói com 1 sugestão), não é catálogo.
+
+# ── "Favoritar de verdade" NÃO mora aqui ──────────────────────────────────────
+# Quem quer guardar as receitas que mais gosta cria uma PASTA "Favoritas" (pasta
+# comum). O bool recipes.favorite e a antiga aba "Favoritas" foram REMOVIDOS
+# (feature legada apagada) — ver database.yaml e recipes.yaml.
+
+constantes:              # tokens de lógica (não chumbar nas telas)
+  kBancadaMaxSlots: 6            # vagas ativas simultâneas (~5–7); ajustável
+  kBancadaOverdueGraceDays: 2    # dias após a data-alvo até o item FORÇAR decisão
+
+data:
+  models:
+    - BancadaItem:        # 1 receita marcada pra cozinhar; classe pura imutável (como Plan)
+        campos:
+          - id: String
+          - recipeId: String
+          - targetDate: DateTime      # só a data (pretendo cozinhar em)
+          - createdAt: DateTime
+          - cookedAt: DateTime?       # null = ATIVO na bancada; preenchido = já cozinhou
+          - note: String?             # contexto opcional ("café da manhã", "levar pro trabalho")
+        derivados:
+          - active: cookedAt == null
+          - bucket: BancadaBucket     # overdue | today | thisWeek | later (a partir de targetDate vs hoje)
+          - isForcingDecision: bucket == overdue && (hoje - targetDate) > kBancadaOverdueGraceDays
+    - enum BancadaBucket: [overdue, today, thisWeek, later]   # proximidade -> ordem + cor
+  regras:
+    - "Modelos: classes puras imutáveis, const constructor, copyWith manual (padrão Plan). Sem freezed/json."
+    - "A Recipe do item vem por lookup (recipeByIdProvider) — BancadaItem só guarda recipeId."
+    - "Máx. 1 item ATIVO por receita (garantido no banco por unique parcial; ver database.yaml)."
+  repository: >
+    BancadaRepository (ABSTRATO) + 2 impls: SeedBancadaRepository (em memória, preview
+    PC — começa VAZIA, sem seed) e SupabaseBancadaRepository (online, tabela bancada_items
+    com RLS). main.dart escolhe via override de bancadaRepositoryProvider quando
+    SupabaseService.initIfConfigured() == true (mesmo padrão de RecipesRepository).
+  repository_api:
+    - fetchActive(): List<BancadaItem>          # cookedAt null, ordenado por targetDate asc
+    - add(recipeId, targetDate, {note}): BancadaAddResult   # ok | full (respeita kBancadaMaxSlots)
+    - reschedule(itemId, newDate)               # remarcar
+    - remove(itemId)                            # "tirar sem cozinhar" -> DELETA a linha (sem valor histórico)
+    - markCooked(recipeId)                      # seta cookedAt no item ativo da receita (fecha o ciclo)
+    - cookedCountThisMonth(): int               # contador "N cozinhadas este mês"
+    - isActive(recipeId): bool                  # p/ o toggle no detalhe da receita
+  repository_supabase:      # data/supabase_bancada_repository.dart
+    leitura: from('bancada_items').select() com filtros por cooked_at; ordena por target_date asc
+    escrita: insert/update/delete diretos (RLS filtra por user_id); markCooked = update cooked_at = now()
+
+application:
+  providers:
+    - bancadaRepositoryProvider (Provider<BancadaRepository>)   # override no main.dart quando online
+    - bancadaProvider (FutureProvider<List<BancadaItem>>)       # itens ativos, ordenados por targetDate asc
+    - bancadaHeroProvider (Provider<BancadaItem?>)              # derivado: o TOPO da lista (mais urgente) p/ o herói
+    - bancadaCookedThisMonthProvider (FutureProvider<int>)      # contador do mês (rodapé)
+    - bancadaStatusProvider (FutureProvider.family<bool, String recipeId>)  # isActive -> estado do toggle no detalhe
+  controllers:
+    - BancadaController:
+        add(recipeId, targetDate): >
+          chama repository.add; se retornar full, NÃO adiciona e devolve o sinal p/ a UI
+          mostrar "Bancada cheia". Sucesso: invalida bancadaProvider, bancadaStatusProvider(recipeId).
+          AppLog.i('bancada', 'adicionada: <recipeId> alvo <data>').
+        reschedule / remove: invalidam bancadaProvider (e status). AppLog.i.
+        markCooked(recipeId): >
+          seta cookedAt; invalida bancadaProvider, bancadaCookedThisMonthProvider,
+          bancadaStatusProvider(recipeId). AppLog.i('bancada', 'cozinhada: <recipeId>').
+          Chamado ao concluir o CookMode (ver integracoes) — some da bancada, entra no contador.
+
+integracoes:              # a Bancada só é útil se plugada no fluxo — estes são os ganchos
+  entrada (pôr na bancada):
+    - RecipeDetailScreen barra inferior ganha o ícone-toggle AppIcons.bookmark (ativo:
+      bookmarkFill). Desligado + toque -> showBancadaDateSheet (escolhe data e adiciona).
+      Ligado -> abre a mesma sheet em modo "remarcar / tirar da bancada". Estado vem de
+      bancadaStatusProvider(recipeId). (Ver ajuste em specs/features/recipes.yaml.)
+    - Bancada cheia ao tentar adicionar: a sheet mostra "Bancada cheia (6/6) — cozinhe
+      ou tire algo" e não adiciona.
+  cozinhar (fechar o ciclo):
+    - Ao CONCLUIR o CookModeScreen de uma receita ATIVA na bancada, o controller chama
+      markCooked(recipeId) — o item sai da bancada e entra no contador do mês.
+    - A CookChatSheet (feedback pós-cozimento) ganha uma seção "Voltar pra bancada?"
+      SÓ quando a receita estava na bancada: chips de data (recria um BancadaItem novo =
+      repetir em breve) + "Não, tá feito". (Ver ajuste na CookChatSheet em recipes.yaml.)
+  plano (ponte, fatia futura):
+    - Um item com data próxima pode oferecer "adicionar ao plano de <dia>" (usa a aba
+      Plano). Fica como GANCHO documentado; v1 não implementa — evita duas listas brigando.
+
+screens_e_widgets:        # a Bancada é uma ABA-DE-CAPÍTULO dentro da RecipesScreen
+  - BancadaView:          # presentation/bancada_view.dart — conteúdo da aba "Bancada"
+      classe: BancadaView extends ConsumerWidget
+      usada_por: RecipesScreen (3ª aba do PitadaTabs, no lugar de "Favoritas")
+      layout (de cima pra baixo):
+        - BancadaHeroCard          # "Cozinhar hoje?" — 1 sugestão (bancadaHeroProvider)
+        - lista de BancadaItemRow  # itens ativos, ordenados por proximidade
+        - rodapé: contador sóbrio "N cozinhadas este mês" (bodySm, pit.muted) — SEM cápsula
+      vazia: EmptyState(title "Bancada vazia", icon AppIcons.cook,
+             message "Escolha uma receita e marque quando vai fazer. A bancada te
+             lembra de cozinhar — sem virar mais uma lista esquecida.")
+  - BancadaHeroCard:      # presentation/widgets/bancada_hero_card.dart
+      o_que: >
+        Herói no topo que RESPONDE "o que cozinho hoje?". Mostra a receita mais urgente
+        (bancadaHeroProvider = topo da lista). Card com borda (AppSpacing.borderStrong,
+        pit.border), RecipeThumb pastel, título (Space Grotesk) + PitadaButton "Cozinhar"
+        -> /recipe/:id/cook.
+      rotulo_adaptativo:
+        - overdue/today: "Cozinhar hoje?" (chamada de ação)
+        - later (nada vencido): "Próxima: <título> · <data relativa>" (tom mais leve)
+        - bancada vazia: o card não aparece (só o EmptyState)
+  - BancadaItemRow:       # presentation/widgets/bancada_item_row.dart
+      o_que: linha densa de um item — RecipeThumb pastel outlined + título + data + estado
+      data_relativa (Space Grotesk, texto sóbrio — nunca cápsula):
+        - overdue: "atrasada · N dias" em AppColors.accent (terracota, cutuca)
+        - today:   "hoje" em realce (accent)
+        - thisWeek: dia da semana curto ("sáb") em pit.text2
+        - later:   data curta ("12 jul") em pit.muted
+      forcar_decisao: >
+        quando isForcingDecision (atrasada além de kBancadaOverdueGraceDays), a linha
+        expande uma faixa inline "Ainda quer fazer? [Remarcar] [Tirar]" — nunca apodrece
+        em silêncio. Remarcar -> showBancadaDateSheet(reschedule); Tirar -> remove(itemId).
+      toque: abre /recipe/:id (detalhe). Segurar/ícone -> remarcar/tirar.
+  - showBancadaDateSheet: # presentation/bancada_date_sheet.dart (showPitadaSheet + SheetGrip)
+      assinatura: showBancadaDateSheet(BuildContext, {required String recipeId, DateTime? current})
+      o_que: escolher/editar a data-alvo em 1 toque (fricção mínima na entrada)
+      layout:
+        - grip + título ("Quando você vai fazer?" | "Remarcar")
+        - chips de default (PitadaChip): [Hoje, Amanhã, Fim de semana, Semana que vem, Escolher data]
+              "Fim de semana" = próximo sábado; "Semana que vem" = +7 dias; "Escolher data" -> showDatePicker
+        - quando current != null (item já na bancada): rodapé com PitadaButton(outline) "Tirar da bancada"
+        - se a bancada estiver CHEIA ao adicionar: mostra "Bancada cheia (N/N) — cozinhe ou
+              tire algo" e desabilita a confirmação
+      acao: chama BancadaController.add/reschedule/remove e fecha; AppLog.i('bancada', ...)
+
+feature_widgets_reutilizados: [RecipeThumb, PitadaButton, PitadaChip, EmptyState,
+  HairlineRow, PitadaSheet, SheetGrip, SectionHeader]
+
+icones:                   # spec-first: garantir em specs/design-system/icons.yaml + app_icons.dart
+  - AppIcons.bookmark (existe) — ação "pôr na bancada" (estado desligado)
+  - AppIcons.bookmarkFill (ADICIONAR) — estado ligado (na bancada)
+  - AppIcons.cook (fire, existe) — ícone do EmptyState (incentivo a cozinhar)
+
+fora_de_escopo_v1:        # declarado pra não fingir que cobre
+  - Notificações/lembretes por push perto da data (exige hardware/service — fatia futura).
+  - Seletor de receitas dentro da própria aba (entrada é pelo detalhe da receita por ora).
+  - Ponte automática com o Plano (só gancho documentado).

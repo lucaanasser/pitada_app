@@ -1,7 +1,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/recipes/presentation/recipes_screen.dart
-// O QUÊ:     Aba Receitas: marca, busca, 4 abas fixas (Minhas / Salvas / Pastas /
-//            Favoritas), alternador de layout e lista (card / 2 colunas / filete).
+// O QUÊ:     Aba Receitas: marca, busca, 2 abas fixas (Minhas / Pastas),
+//            alternador de layout e lista (card / 2 colunas / filete).
 // USA:       core/theme (AppIcons, PitadaColors), core/widgets, recipes_providers,
 //            recipe_view_provider, RecipeCard/RecipeRow/RecipeViewToggle,
 //            FoldersGrid (aba Pastas), go_router.
@@ -31,8 +31,8 @@ import 'widgets/recipe_card.dart';
 import 'widgets/recipe_row.dart';
 import 'widgets/recipe_view_toggle.dart';
 
-/// Rótulos das 3 abas fixas (índice casa com RecipesTab). Usada por: [RecipesScreen].
-const _kTabs = ['Minhas Receitas', 'Pastas', 'Favoritas'];
+/// Rótulos das 2 abas fixas (índice casa com RecipesTab). Usada por: [RecipesScreen].
+const _kTabs = ['Minhas Receitas', 'Pastas'];
 
 /// Tela principal da aba Receitas. Usada por: router (/recipes).
 class RecipesScreen extends ConsumerWidget {
@@ -65,7 +65,6 @@ class RecipesScreen extends ConsumerWidget {
             onSelect: (i) =>
                 ref.read(selectedRecipesTabProvider.notifier).state = i,
           ),
-          // —— Aba Pastas: grade de FolderCards, sem contagem/alternador ——
           if (tab == RecipesTab.folders.index) ...[
             const SizedBox(height: AppSpacing.lg),
             const Padding(padding: AppSpacing.screenH, child: FoldersGrid()),
@@ -105,21 +104,14 @@ class RecipesScreen extends ConsumerWidget {
     );
   }
 
-  /// EmptyState específico de cada aba (Minhas / Favoritas).
+  /// EmptyState da aba "Minhas Receitas" (a aba Pastas tem grade própria).
   /// Usada por: [build].
   Widget _empty(int tab) {
-    return switch (RecipesTab.values[tab]) {
-      RecipesTab.mine => const EmptyState(
-          title: 'Nenhuma receita ainda',
-          message: 'Crie ou importe uma receita no botão +',
-          icon: AppIcons.notebook,
-        ),
-      _ => const EmptyState(
-          title: 'Nada favoritado',
-          message: 'Toque no coração de uma receita para guardá-la aqui',
-          icon: AppIcons.favorite,
-        ),
-    };
+    return const EmptyState(
+      title: 'Nenhuma receita ainda',
+      message: 'Crie ou importe uma receita no botão +',
+      icon: AppIcons.notebook,
+    );
   }
 
   /// Renderiza a lista conforme o modo escolhido. Usada por: [build].
@@ -189,7 +181,6 @@ class RecipesScreen extends ConsumerWidget {
   /// agora é aba própria na barra.) Usada por: [build].
   Widget _header(BuildContext context, PitadaColors pit) {
     return Padding(
-      // bottom titleGap: respiro padrão entre o título da aba e o 1º conteúdo.
       padding: const EdgeInsets.fromLTRB(
         AppSpacing.gutter,
         AppSpacing.md,

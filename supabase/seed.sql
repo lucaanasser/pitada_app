@@ -41,35 +41,35 @@ insert into public.folders (id, user_id, name, hero_color, position) values
 -- (id = version_group_id); v1/v2 são linhas próprias no mesmo grupo.
 insert into public.recipes (
   id, user_id, title, source, source_url, servings, time_minutes,
-  kcal, protein, carb, fat, difficulty, favorite, hero_color, techniques,
+  kcal, protein, carb, fat, difficulty, hero_color, techniques,
   version, version_group_id
 ) values
   ('bbbbbbbb-0000-0000-0000-000000000001', '11111111-1111-1111-1111-111111111111',
    'Frango xadrez', 'instagram', 'https://instagram.com/reel/frango-xadrez', 4, 25,
-   512, 42, 38, 18, 'Intermediário', true, 'terra',
+   512, 42, 38, 18, 'Intermediário', 'terra',
    array['Selar a carne','Emulsionar um molho'], 3, 'bbbbbbbb-0000-0000-0000-000000000001'),
   ('bbbbbbbb-0000-0000-0000-000000000011', '11111111-1111-1111-1111-111111111111',
    'Frango xadrez', 'instagram', 'https://instagram.com/reel/frango-xadrez', 4, 20,
-   498, 40, 41, 16, 'Fácil', false, 'terra',
+   498, 40, 41, 16, 'Fácil', 'terra',
    array['Emulsionar um molho'], 1, 'bbbbbbbb-0000-0000-0000-000000000001'),
   ('bbbbbbbb-0000-0000-0000-000000000012', '11111111-1111-1111-1111-111111111111',
    'Frango xadrez', 'instagram', 'https://instagram.com/reel/frango-xadrez', 4, 25,
-   520, 41, 40, 19, 'Intermediário', false, 'terra',
+   520, 41, 40, 19, 'Intermediário', 'terra',
    array['Selar a carne','Emulsionar um molho'], 2, 'bbbbbbbb-0000-0000-0000-000000000001'),
   ('bbbbbbbb-0000-0000-0000-000000000002', '11111111-1111-1111-1111-111111111111',
    'Bowl de quinoa', 'manual', null, 2, 15,
-   438, 22, 54, 14, 'Fácil', false, 'moss', '{}', 1, null),
+   438, 22, 54, 14, 'Fácil', 'moss', '{}', 1, null),
   ('bbbbbbbb-0000-0000-0000-000000000003', '11111111-1111-1111-1111-111111111111',
    'Strogonoff de carne', 'site', null, 4, 30,
-   680, 38, 40, 34, 'Intermediário', false, 'rust', '{}',
+   680, 38, 40, 34, 'Intermediário', 'rust', '{}',
    2, 'bbbbbbbb-0000-0000-0000-000000000003'),
   ('bbbbbbbb-0000-0000-0000-000000000031', '11111111-1111-1111-1111-111111111111',
    'Strogonoff de carne', 'site', null, 4, 25,
-   700, 37, 42, 36, 'Fácil', false, 'rust', '{}',
+   700, 37, 42, 36, 'Fácil', 'rust', '{}',
    1, 'bbbbbbbb-0000-0000-0000-000000000003'),
   ('bbbbbbbb-0000-0000-0000-000000000004', '11111111-1111-1111-1111-111111111111',
    'Panqueca de banana', 'manual', null, 1, 10,
-   286, 12, 44, 7, 'Fácil', true, 'ochre', '{}', 1, null);
+   286, 12, 44, 7, 'Fácil', 'ochre', '{}', 1, null);
 
 -- ── Receita <-> pasta (só definitivas aparecem em pastas) ────────────────────
 insert into public.recipe_folders (recipe_id, folder_id) values

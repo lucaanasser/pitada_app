@@ -19,8 +19,8 @@ navegacao:      # regular (inativo) + *Fill (ativo) — ordem da barra
 acoes:
   back:      arrowLeft
   edit:      pencilSimple
-  favorite:  heart          # + favoriteFill
-  cook:      fire
+  cook:      fire           # favorite/heart REMOVIDO com a feature de favoritos
+  bookmark:  bookmarkSimple  # "pôr na bancada" — ADICIONAR bookmarkFill (ativo) na impl. da Bancada
   addToList: shoppingCartSimple
   addToPlan: calendarPlus
   add:       plus
