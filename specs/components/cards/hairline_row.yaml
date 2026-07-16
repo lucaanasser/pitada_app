@@ -1,4 +1,4 @@
-# specs/components/hairline_row.yaml -> lib/core/widgets/cards/hairline_row.dart
+# specs/components/cards/hairline_row.yaml -> lib/core/widgets/cards/hairline_row.dart
 component: HairlineRow
 prototype: ".rrow / .frow / .lrow / .srcrow (linha de lista separada por filete)"
 purpose: Linha de lista genérica separada por filete inferior (sem card). Reuso central.

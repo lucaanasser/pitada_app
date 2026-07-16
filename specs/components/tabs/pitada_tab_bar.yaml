@@ -1,0 +1,54 @@
+# specs/components/tabs/pitada_tab_bar.yaml -> lib/core/widgets/tabs/pitada_tab_bar.dart
+component: PitadaTabBar
+file: lib/core/widgets/tabs/pitada_tab_bar.dart
+purpose: >
+  "Pílula fantasma": o dock das abas do app — flutuante, minimalista, compacto e
+  centralizado, só ícones. Fundo surf + filete fino; o único ponto de cor é o
+  ícone ativo em accent, para a barra não competir com o conteúdo. Flat: sem
+  sombra, sem degradê.
+uses:
+  - context.pit.surf     # fundo da pílula
+  - context.pit.line2    # filete
+  - context.pit.muted    # ícone inativo
+  - AppColors.accent     # ícone ativo
+  - AppSpacing.radiusPill
+  - AppSpacing.hair      # largura do filete
+  - AppSpacing.md        # margem do fundo + área de toque do item
+  - AppSpacing.xs        # padding horizontal da pílula
+api:
+  - tabs: List<PitadaTab>       # abas, na ordem da barra
+  - currentIndex: int           # índice ativo
+  - onSelect: ValueChanged<int> # callback de toque
+helpers:
+  - PitadaTab: {icon: IconData, activeIcon: IconData, label: String}  # rótulo só p/ Semantics
+icones: [forkKnife, chefHat, clipboardText, carrot, user]  # AppIcons.* (+ *Fill ativo)
+historico: >
+  Iterações com o dono (jul/2026): dock flutuante com cápsula -> células
+  ancoradas -> células suavizadas -> DE VOLTA à pílula flutuante, agora
+  minimalista. Pedido literal: "clean, sem pesar visualmente, a navbar não
+  pode competir com nada da página".
+forma: >
+  Pílula compacta CENTRALIZADA (largura intrínseca, não borda a borda)
+  flutuando com margem md do fundo, sobre a SafeArea. Fundo pit.surf e
+  filete pit.line2 em AppSpacing.hair — exceção consciente à regra de borda
+  grossa, a pedido do dono (minimalismo > peso neo-brutalista aqui).
+  Flat: sem sombra, sem degradê. Raio AppSpacing.radiusPill.
+item: >
+  Só o ícone, sem rótulo nenhum (Semantics(label) preserva acessibilidade).
+  Área de toque generosa via padding md em volta do ícone de 22.
+item_ativo: >
+  Ícone *Fill em AppColors.accent — o único ponto de cor da barra; nada de
+  cápsula, bloco ou pastel para não competir com o conteúdo.
+item_inativo: ícone regular em pit.muted.
+animacao: >
+  Troca de aba com crossfade (AnimatedSwitcher ~160ms easeOut) entre o ícone
+  regular/muted e o *Fill/accent — a cor "acende" suave em vez de pular.
+layout_nota: >
+  A pílula centraliza dentro de um Row(mainAxisAlignment: center) — NUNCA
+  via Center/Container(alignment) direto no bottomNavigationBar, que recebem
+  altura livre e esticariam a barra pela tela inteira. Altura da pílula é
+  intrínseca (~46dp + filetes).
+proibido: [sombra, degradê, rótulos visíveis, cápsula/bloco no ativo,
+           Container(alignment)/Center soltos no bottomNavigationBar]
+used_by:
+  - app_shell (dock das 5 abas — a ordem vive em specs/features/app_shell.yaml)

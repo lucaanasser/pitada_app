@@ -5,7 +5,7 @@
 // USA:       theme/*, pitada_button (PitadaIconButton) para o stepper.
 // USADO POR: recipe_edit_screen, import_preview, quick_edit_sheet (Receitas) e
 //            sign_in_screen (Auth). Promovido de features/recipes p/ reuso.
-// SPEC:      specs/components/edit_field.yaml
+// SPEC:      specs/components/controls/edit_field.yaml
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 

@@ -1,0 +1,24 @@
+# specs/components/layout/empty_state.yaml -> lib/core/widgets/layout/empty_state.dart
+component: EmptyState
+file: lib/core/widgets/layout/empty_state.dart
+prototype: "estados vazios/carregando (regra de qualidade do guia)"
+purpose: Estado vazio/carregando com texto que orienta a ação.
+uses: [context.pit.text, context.pit.muted, context.pit.faint, AppType.title, AppType.bodySm, AppSpacing]
+api:
+  - title: String       # título do estado vazio, em AppType.title sobre pit.text
+  - message: String?    # mensagem de apoio opcional, em AppType.bodySm sobre pit.muted
+  - icon: IconData?     # ícone opcional acima do título, cor pit.faint
+layout: "Center > Padding(xxxl) > Column min: [icon? + lg] [title] [sm + message?] — tudo centralizado"
+used_by:
+  - recipes_screen
+  - folder_screen
+  - add_option_sheet
+  - pantry_view
+  - grocery_list_view
+  - notebook_screen
+  - notes_screen
+  - diary_screen
+  - versions_screen
+  - lesson_cards_screen
+  - process_logs_screen
+  - profile_screen

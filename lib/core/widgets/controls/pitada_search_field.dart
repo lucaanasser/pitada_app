@@ -1,9 +1,9 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/core/widgets/controls/pitada_search_field.dart
 // O QUÊ:     Campo de busca padrão (.search) — lupa + texto sobre superfície.
-// USA:       theme/colors, theme/spacing, theme/typography.
-// USADO POR: recipes_screen (buscar receita/ingrediente).
-// SPEC:      specs/components/atoms.yaml (PitadaSearchField)
+// USA:       theme/colors, theme/pitada_colors, theme/spacing, theme/typography, theme/app_icons.
+// USADO POR: recipes_screen, food_search_sheet (planos), import_source_grid (receitas).
+// SPEC:      specs/components/controls/pitada_search_field.yaml
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../theme/app_icons.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +13,7 @@ import '../../theme/spacing.dart';
 import '../../theme/typography.dart';
 
 /// Campo de busca com aparência do protótipo. Chama [onChanged] a cada tecla.
-/// Usada por: recipes_screen.
+/// Usada por: recipes_screen, food_search_sheet, import_source_grid.
 class PitadaSearchField extends StatelessWidget {
   const PitadaSearchField({
     super.key,

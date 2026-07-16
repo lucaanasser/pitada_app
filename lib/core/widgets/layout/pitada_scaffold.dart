@@ -5,7 +5,7 @@
 //            Inclui tabListPadding — padding inferior padrão das listas de aba.
 // USA:       theme/colors (fundo bg padrão), theme/spacing (respiro do padding).
 // USADO POR: todas as telas de aba (recipes/learning/plans/shopping/home).
-// SPEC:      specs/components/atoms.yaml (PitadaScaffold)
+// SPEC:      specs/components/layout/pitada_scaffold.yaml
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import '../../theme/pitada_colors.dart';

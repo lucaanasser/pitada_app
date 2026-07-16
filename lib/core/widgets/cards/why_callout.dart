@@ -3,7 +3,7 @@
 // O QUÊ:     Callout 'Por quê' de técnica dentro de um passo (borda-esquerda accent).
 // USA:       theme/colors, theme/pitada_colors, theme/spacing, theme/typography.
 // USADO POR: recipe_detail (passos) e cook_mode.
-// SPEC:      specs/components/why_callout.yaml
+// SPEC:      specs/components/cards/why_callout.yaml
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import '../../theme/colors.dart';

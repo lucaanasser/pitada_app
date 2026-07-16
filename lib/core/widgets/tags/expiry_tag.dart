@@ -3,7 +3,7 @@
 // O QUÊ:     Tag de validade em contorno, sem ícone (discreta). Avisa perto de vencer.
 // USA:       theme/colors, theme/spacing, theme/typography.
 // USADO POR: shopping (despensa) — status de validade de cada item.
-// SPEC:      specs/components/expiry_tag.yaml
+// SPEC:      specs/components/tags/expiry_tag.yaml
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import '../../theme/colors.dart';

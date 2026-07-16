@@ -1,0 +1,24 @@
+# specs/components/layout/pitada_scaffold.yaml -> lib/core/widgets/layout/pitada_scaffold.dart
+component: PitadaScaffold
+file: lib/core/widgets/layout/pitada_scaffold.dart
+prototype: ".tab .scroll (estrutura de aba com masthead + conteúdo rolável)"
+purpose: Casca padrão de uma aba — fundo bg + coluna com topo fixo e conteúdo rolável.
+uses: [context.pit.bg, AppSpacing.xxl]
+api:
+  - child: Widget      # conteúdo rolável, ocupa o resto da tela
+  - top: Widget?       # topo fixo (masthead/thead)
+  - background: Color? # tinge a aba (ex.: context.pit.tabBg(1) no Caderno); default context.pit.bg
+layout: "ColoredBox(background ?? pit.bg) > SafeArea(bottom: false) > Column: [top?, Expanded(child)]"
+helpers:
+  tabListPadding: >
+    tabListPadding(context, {respiro = AppSpacing.xxl}) — padding inferior
+    padrão das listas de aba: respiro + MediaQuery.padding.bottom. Com o
+    shell em extendBody, o inset inferior inclui a altura da pílula
+    flutuante; sem ele o fim da lista ficaria escondido sob a barra.
+    Toda lista de aba usa este helper no lugar de EdgeInsets.only(bottom).
+used_by:
+  scaffold: [recipes_screen, recipe_edit_screen, notebook_screen, notes_screen,
+             diary_screen, process_logs_screen, versions_screen, repertoire_screen,
+             plans_screen, groceries_screen, profile_screen, settings_screen]
+  tab_list_padding: [recipes_screen, notebook_screen, progress_view, cardapio_view,
+                     grocery_list_view, pantry_view, profile_screen, settings_screen]

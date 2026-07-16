@@ -7,7 +7,7 @@
 // USA:       theme/colors (accent), theme/pitada_colors (context.pit),
 //            theme/spacing, theme/typography.
 // USADO POR: recipes_screen, shopping_screen, lesson_cards_screen.
-// SPEC:      specs/components/pitada_tabs.yaml
+// SPEC:      specs/components/tabs/pitada_tabs.yaml
 // ─────────────────────────────────────────────────────────────────────────────
 import 'dart:math' as math;
 

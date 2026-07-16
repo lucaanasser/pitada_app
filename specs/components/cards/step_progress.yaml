@@ -1,0 +1,14 @@
+# specs/components/cards/step_progress.yaml -> lib/core/widgets/cards/step_progress.dart
+component: StepProgress
+file: lib/core/widgets/cards/step_progress.dart
+prototype: ".lsteps / .lstep (passos do carregamento de importação)"
+purpose: Lista de passos com bolinha marcada — feedback de processamento da IA.
+uses: [AppColors.sage, AppColors.onAccent, context.pit.line2/text2/faint, AppType.bodySm/on, AppSpacing.sm/md, AppIcons.check]
+api:
+  - steps: List<String>
+  - activeIndex: int
+detalhes: >
+  Coluna de linhas: bolinha de 17px + texto. Os índices <= activeIndex aparecem
+  concluídos — bolinha preenchida em sage com ícone de check (onAccent) e texto
+  em pit.text2; os pendentes ficam com borda pit.line2 e texto em pit.faint.
+used_by: [import_sheet (recipes), cook_mode_screen (recipes), add_pantry_sheet (groceries)]

@@ -80,7 +80,7 @@ screens:
         - "VISUAL do MealCard (soft neo-brutalismo, igual ao RecipeCard/NutritionCard):
            fundo pit.surf + borda TINTA (pit.border, AppSpacing.borderStrong) + raio
            AppSpacing.radiusCard. Nada de filete fino (pit.line) como borda de caixa.
-           As opções dentro são blocos flat surf2 (ver specs/components/option_card.yaml)."
+           As opções dentro são blocos flat surf2 (ver specs/components/cards/option_card.yaml)."
         - "PitadaButton(outline) 'Adicionar refeição' -> showMealSheet(novo)"
       widgets_da_feature:   # em presentation/widgets/ (tela > 200 linhas => quebrar)
         - DaySummary          # total + status + FuelBar + legenda de macros (sem caixa)

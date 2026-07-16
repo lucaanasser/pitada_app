@@ -1,4 +1,4 @@
-# specs/components/why_callout.yaml -> lib/core/widgets/cards/why_callout.dart
+# specs/components/cards/why_callout.yaml -> lib/core/widgets/cards/why_callout.dart
 component: WhyCallout
 prototype: ".tip (rótulo 'POR QUÊ' + texto em itálico serifa)"
 purpose: Callout de técnica dentro de um passo — explica o porquê.

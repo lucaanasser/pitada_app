@@ -3,7 +3,7 @@
 // O QUÊ:     Rótulo de seção em versalete + filete fino (.shead), com ação opcional.
 // USA:       theme/colors, theme/spacing, theme/typography.
 // USADO POR: recipe_detail, learning, shopping, plans — em toda seção de conteúdo.
-// SPEC:      specs/components/section_header.yaml
+// SPEC:      specs/components/layout/section_header.yaml
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import '../../theme/colors.dart';

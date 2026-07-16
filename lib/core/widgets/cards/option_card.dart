@@ -4,7 +4,7 @@
 //            com cabeçalho escolhível + pratos linkáveis.
 // USA:       theme/*, utils/format (formatKcal).
 // USADO POR: plans (MealCard, na sub-aba Cardápio).
-// SPEC:      specs/components/option_card.yaml
+// SPEC:      specs/components/cards/option_card.yaml
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../theme/app_icons.dart';
 import 'package:flutter/material.dart';

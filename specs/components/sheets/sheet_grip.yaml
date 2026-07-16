@@ -1,0 +1,18 @@
+# specs/components/sheets/sheet_grip.yaml -> lib/core/widgets/sheets/sheet_grip.dart
+component: SheetGrip
+file: lib/core/widgets/sheets/sheet_grip.dart
+prototype: "barrinha central no topo dos bottom sheets"
+purpose: Grip de arraste padrão (36x5, line2) antes do título de todo sheet.
+uses:
+  - context.pit.line2            # cor da barrinha (theme-aware, 2 temas)
+  - AppSpacing.md                # margem vertical
+  - AppSpacing.br(3)             # raio das pontas
+api: []
+detalhes: >
+  Promovido de plans/ e recipes/ (existiam DUAS cópias iguais) para
+  core/widgets — todo sheet do app usa o mesmo grip.
+used_by:
+  - "core/widgets: add_options_sheet"
+  - "plans: meal/log_day/log_weight/food_search/add_option/estimate_food/free_item"
+  - "recipes: import/cook_chat/recipe_version/quick_edit"
+  - "groceries: lists/new_list"

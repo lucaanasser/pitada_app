@@ -5,7 +5,7 @@
 // USA:       flutter/services (HapticFeedback) para o retorno tátil do toque longo.
 // USADO POR: recipe_detail_screen, recipe_meta, nutrition_card, ingredient_row,
 //            step_tile (edição inline de cada campo da receita).
-// SPEC:      specs/components/editable.yaml
+// SPEC:      specs/components/controls/editable.yaml
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

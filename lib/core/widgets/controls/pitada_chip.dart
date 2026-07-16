@@ -3,7 +3,7 @@
 // O QUÊ:     Chip arredondado para harmonizações ('combina com') e técnicas linkáveis.
 // USA:       theme/colors, theme/spacing, theme/typography.
 // USADO POR: recipe_detail (técnicas), lesson_detail (harmonizações), perfil.
-// SPEC:      specs/components/pitada_chip.yaml
+// SPEC:      specs/components/controls/pitada_chip.yaml
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import '../../theme/colors.dart';

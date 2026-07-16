@@ -1,4 +1,4 @@
-# specs/components/pitada_tabs.yaml -> lib/core/widgets/tabs/pitada_tabs.dart
+# specs/components/tabs/pitada_tabs.yaml -> lib/core/widgets/tabs/pitada_tabs.dart
 component: PitadaTabs
 prototype: ".ftabs / .seg em pitada.html (unificados)"
 purpose: >

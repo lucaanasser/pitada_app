@@ -1,4 +1,4 @@
-# specs/components/check_item.yaml -> lib/core/widgets/controls/check_item.dart
+# specs/components/controls/check_item.yaml -> lib/core/widgets/controls/check_item.dart
 component: CheckItem (checkbox reutilizável)
 prototype: ".lbox (círculo, lista de compras) e .cbox (quadrado)"
 purpose: Caixa de seleção do app, com o 'check' desenhado no estilo do protótipo.

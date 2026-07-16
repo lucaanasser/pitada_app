@@ -1,0 +1,27 @@
+# specs/components/cards/recipe_thumb.yaml -> lib/core/widgets/cards/recipe_thumb.dart
+component: RecipeThumb
+file: lib/core/widgets/cards/recipe_thumb.dart
+prototype: ".rrow .th (miniatura colorida com ícone)"
+purpose: Quadrado colorido (hero_color) com ícone de prato — placeholder de foto.
+uses: [AppIcons.dish (ícone padrão), context.pit.border/text/isDark,
+  AppSpacing.radiusMd/br/borderStrong]
+api:
+  - color: Color                        # obrigatório; a cor vem de quem chama
+  - size: double = 54
+  - icon: IconData = AppIcons.dish
+  - radius: double = AppSpacing.radiusMd
+  - outlined: bool = false
+detalhes: >
+  outlined=true é o modo soft neo-brutalista: para cores PASTÉIS
+  (context.pit.card(hero)) — ganha borda tinta (pit.border, borderStrong) e o
+  ícone passa a usar tinta do tema (o branco fixo some no pastel claro).
+  outlined=false mantém o visual legado (cor cheia + ícone branco) usado nas
+  listas do Caderno.
+  O widget não escolhe a cor: quem chama passa pit.card(hero) no modo outlined
+  ou AppColors.heroOf(hero) no legado.
+used_by:
+  - recipes (RecipeRow, outlined; PhotoGrid, legado com radiusLg + AppIcons.photo)
+  - plans (add_option_sheet, outlined)
+  - core (add_options_sheet, legado size 44)
+  - notebook (repertoire_screen, process_logs_screen, diary_row, version_row,
+    note_row, recipe_link_row — todos legado)

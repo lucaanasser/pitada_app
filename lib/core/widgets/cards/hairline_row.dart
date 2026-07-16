@@ -3,7 +3,7 @@
 // O QUÊ:     Linha de lista genérica separada por filete inferior (sem card).
 // USA:       theme/colors, theme/spacing. É a base de quase toda lista do app.
 // USADO POR: recipes, learning, shopping, plans, home (listas em geral).
-// SPEC:      specs/components/hairline_row.yaml
+// SPEC:      specs/components/cards/hairline_row.yaml
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import '../../theme/pitada_colors.dart';

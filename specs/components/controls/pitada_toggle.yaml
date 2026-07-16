@@ -1,4 +1,4 @@
-# specs/components/pitada_toggle.yaml -> lib/core/widgets/controls/pitada_toggle.dart
+# specs/components/controls/pitada_toggle.yaml -> lib/core/widgets/controls/pitada_toggle.dart
 component: PitadaToggle
 file: lib/core/widgets/controls/pitada_toggle.dart
 prototype: "toggle flat das configurações (SettingsSwitchRow) — promovido a átomo"

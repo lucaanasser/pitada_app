@@ -3,7 +3,7 @@
 // O QUÊ:     Estado vazio/carregando com texto que orienta a próxima ação.
 // USA:       theme/colors, theme/spacing, theme/typography.
 // USADO POR: qualquer lista quando não há itens (regra de qualidade do guia).
-// SPEC:      specs/components/atoms.yaml (EmptyState)
+// SPEC:      specs/components/layout/empty_state.yaml
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import '../../theme/pitada_colors.dart';

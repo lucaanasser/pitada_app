@@ -1,4 +1,4 @@
-# specs/features/app_shell.yaml -> lib/core/router/* + lib/core/widgets/tabs/pitada_tab_bar.dart
+# specs/features/app_shell.yaml -> lib/core/router/*
 feature: AppShell
 purpose: >
   Casca de navegação com 5 abas persistentes + rotas full-screen. A aba Home
@@ -32,41 +32,13 @@ shell:
     Com extendBody, o conteúdo rola por baixo da pílula — flutuação de verdade,
     sem "moldura"/faixa atrás dela (feedback do dono). O Scaffold publica a
     altura da barra como MediaQuery.padding.bottom; as listas de aba somam esse
-    inset via tabListPadding (ver specs/components/atoms.yaml) para o fim da
+    inset via tabListPadding (ver specs/components/layout/pitada_scaffold.yaml) para o fim da
     lista não ficar escondido. Toda tela de aba usa
     PitadaScaffold(background: pit.tabBg(índice)).
 
-tab_bar:                                   # "pílula fantasma" — flutuante e minimalista
+tab_bar:                                   # "pílula fantasma" — spec própria (widget de core/)
+  spec: specs/components/tabs/pitada_tab_bar.yaml
   file: lib/core/widgets/tabs/pitada_tab_bar.dart
-  ordem: [Receitas, Caderno, Plano, Ingredientes, Perfil]
-  icones: [forkKnife, chefHat, clipboardText, carrot, user]  # AppIcons.* (+ *Fill ativo)
-  historico: >
-    Iterações com o dono (jul/2026): dock flutuante com cápsula -> células
-    ancoradas -> células suavizadas -> DE VOLTA à pílula flutuante, agora
-    minimalista. Pedido literal: "clean, sem pesar visualmente, a navbar não
-    pode competir com nada da página".
-  forma: >
-    Pílula compacta CENTRALIZADA (largura intrínseca, não borda a borda)
-    flutuando com margem md do fundo, sobre a SafeArea. Fundo pit.surf e
-    filete pit.line2 em AppSpacing.hair — exceção consciente à regra de borda
-    grossa, a pedido do dono (minimalismo > peso neo-brutalista aqui).
-    Flat: sem sombra, sem degradê. Raio AppSpacing.radiusPill.
-  item: >
-    Só o ícone, sem rótulo nenhum (Semantics(label) preserva acessibilidade).
-    Área de toque generosa via padding md em volta do ícone de 22.
-  item_ativo: >
-    Ícone *Fill em AppColors.accent — o único ponto de cor da barra; nada de
-    cápsula, bloco ou pastel para não competir com o conteúdo.
-  item_inativo: ícone regular em pit.muted.
-  animacao: >
-    Troca de aba com crossfade (AnimatedSwitcher ~160ms easeOut) entre o ícone
-    regular/muted e o *Fill/accent — a cor "acende" suave em vez de pular.
-  layout_nota: >
-    A pílula centraliza dentro de um Row(mainAxisAlignment: center) — NUNCA
-    via Center/Container(alignment) direto no bottomNavigationBar, que recebem
-    altura livre e esticariam a barra pela tela inteira. Altura da pílula é
-    intrínseca (~46dp + filetes).
-  proibido: [sombra, degradê, rótulos visíveis, cápsula/bloco no ativo,
-             Container(alignment)/Center soltos no bottomNavigationBar]
+  ordem: [Receitas, Caderno, Plano, Ingredientes, Perfil]   # a ordem = índice do branch/pit.tabBg
 
 used_by: [app.dart]

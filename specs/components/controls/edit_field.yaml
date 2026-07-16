@@ -1,4 +1,4 @@
-# specs/components/edit_field.yaml -> lib/core/widgets/controls/edit_field.dart
+# specs/components/controls/edit_field.yaml -> lib/core/widgets/controls/edit_field.dart
 component: EditTextField / EditStepperField / EditFieldShell
 file: lib/core/widgets/controls/edit_field.dart
 prototype: "campos do VIEW-EDIT em pitada.html"

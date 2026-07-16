@@ -4,7 +4,7 @@
 //            (círculo). Contorno de TINTA (pit.border), não cinza; sem sombra.
 // USA:       theme/colors, theme/pitada_colors, theme/spacing, theme/typography.
 // USADO POR: recipe_detail (barra), sheets, shopping, headers — ações do app inteiro.
-// SPEC:      specs/components/pitada_button.yaml
+// SPEC:      specs/components/controls/pitada_button.yaml
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import '../../theme/colors.dart';

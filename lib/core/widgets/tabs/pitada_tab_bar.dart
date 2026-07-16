@@ -6,7 +6,7 @@
 //            conteúdo. Flat: sem sombra, sem degradê.
 // USA:       core/theme (AppColors, PitadaColors via context.pit, spacing).
 // USADO POR: core/router/app_shell.dart.
-// SPEC:      specs/features/app_shell.yaml (tab_bar)
+// SPEC:      specs/components/tabs/pitada_tab_bar.yaml
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import '../../theme/colors.dart';

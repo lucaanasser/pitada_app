@@ -1,4 +1,4 @@
-# specs/components/section_header.yaml -> lib/core/widgets/layout/section_header.dart
+# specs/components/layout/section_header.yaml -> lib/core/widgets/layout/section_header.dart
 component: SectionHeader
 prototype: ".shead (.l rótulo + .r filete + .x ação opcional)"
 purpose: Rótulo de seção em versalete + filete fino. Onipresente no app.

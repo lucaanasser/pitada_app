@@ -6,7 +6,7 @@
 //            theme/spacing (raio/borda).
 // USADO POR: recipes_screen (RecipeRow), plans (add_option_sheet), meal pickers,
 //            listas do Caderno (modo legado, cor cheia).
-// SPEC:      specs/components/atoms.yaml (RecipeThumb)
+// SPEC:      specs/components/cards/recipe_thumb.yaml
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import '../../theme/app_icons.dart';

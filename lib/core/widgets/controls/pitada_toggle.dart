@@ -4,7 +4,7 @@
 //            accent quando ligado. Átomo visual único (promovido do profile).
 // USA:       theme/colors (AppColors.accent), theme/pitada_colors, theme/spacing.
 // USADO POR: SettingsSwitchRow (profile) e QuickEditSheet (recipes: "nova versão").
-// SPEC:      specs/components/pitada_toggle.yaml
+// SPEC:      specs/components/controls/pitada_toggle.yaml
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 

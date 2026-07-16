@@ -1,0 +1,23 @@
+# specs/components/controls/pitada_search_field.yaml -> lib/core/widgets/controls/pitada_search_field.dart
+component: PitadaSearchField
+file: lib/core/widgets/controls/pitada_search_field.dart
+prototype: ".search (campo de busca com lupa)"
+purpose: >
+  Campo de busca padrão (visual .search): uma cápsula com fundo único + borda.
+  Reage ao tema via context.pit. O TextField interno leva filled:false para
+  ANULAR o fillColor herdado do inputDecorationTheme global — sem isso ele
+  pinta um 2º retângulo (surf2) dentro da cápsula.
+uses:
+  - context.pit.* (surf, border, muted, text, faint)
+  - AppColors.accent (cursor/marca)
+  - AppType.body via AppType.on (texto digitado + hint)
+  - AppSpacing (searchBar, radiusMd, borderStrong, lg, md)
+  - AppIcons.search (lupa)
+api:
+  - hint: String
+  - controller: TextEditingController?
+  - onChanged: ValueChanged<String>?
+used_by:
+  - recipes_screen (buscar receita/ingrediente — estático por ora, sem onChanged)
+  - food_search_sheet (Planos: buscar comida, filtra por onChanged)
+  - import_source_grid (Receitas: colar link do Instagram/site, via controller)

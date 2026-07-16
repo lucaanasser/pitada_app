@@ -1,4 +1,4 @@
-# specs/components/editable.yaml -> lib/core/widgets/controls/editable.dart
+# specs/components/controls/editable.yaml -> lib/core/widgets/controls/editable.dart
 component: Editable
 file: lib/core/widgets/controls/editable.dart
 prototype: "gesto de edição inline no detalhe da receita (VIEW-RECIPE)"

@@ -4,7 +4,7 @@
 //            Inspirada na caixa quadrada da referência. kcal fica no título da tela.
 // USA:       theme/pitada_colors, theme/spacing, theme/typography, utils/format.
 // USADO POR: recipe_detail_screen.
-// SPEC:      specs/components/nutrition_card.yaml
+// SPEC:      specs/components/cards/nutrition_card.yaml
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import '../../theme/pitada_colors.dart';

@@ -4,7 +4,7 @@
 //            Promovido de plans/ e recipes/ (havia duas cópias iguais).
 // USA:       theme/pitada_colors, theme/spacing.
 // USADO POR: sheets de plans, recipes (import/cook_chat) e shopping (nova lista).
-// SPEC:      specs/components/atoms.yaml (SheetGrip)
+// SPEC:      specs/components/sheets/sheet_grip.yaml
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 

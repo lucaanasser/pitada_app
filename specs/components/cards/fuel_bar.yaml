@@ -1,0 +1,18 @@
+# specs/components/cards/fuel_bar.yaml -> lib/core/widgets/cards/fuel_bar.dart
+component: FuelBar
+file: lib/core/widgets/cards/fuel_bar.dart
+prototype: ".fuel (barra de combustível do dia)"
+purpose: Barra de progresso fina (verde sage) — quanto da meta foi atingido.
+uses:
+  - context.pit.surf2    # trilho (fundo da barra)
+  - AppColors.sage       # preenchimento dentro da meta
+  - AppColors.accent2    # preenchimento quando estourou a meta (over)
+  - AppSpacing.br        # raio 4 do trilho e do preenchimento
+api:
+  - progress: double     # 0..1, clampado no build
+  - over: bool = false   # over -> cor accent2
+detalhes: >
+  Trilho de 6px de altura (pit.surf2, raio 4) com FractionallySizedBox alinhado à
+  esquerda; widthFactor = progress clampado em 0..1. O preenchimento é sage por
+  padrão e accent2 quando over=true. Flat, sem sombra.
+used_by: [plans (DaySummary)]

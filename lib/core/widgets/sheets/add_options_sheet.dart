@@ -5,7 +5,7 @@
 //            header de cada aba. Promovido do caderno_add_sheet (reuso).
 // USA:       pitada_sheet, sheet_grip, hairline_row, recipe_thumb, theme/*.
 // USADO POR: caderno_add_sheet, plan_add_sheet, shopping_add_sheet.
-// SPEC:      specs/components/add_options_sheet.yaml
+// SPEC:      specs/components/sheets/add_options_sheet.yaml
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 

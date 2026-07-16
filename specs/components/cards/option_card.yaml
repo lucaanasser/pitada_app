@@ -1,4 +1,4 @@
-# specs/components/option_card.yaml -> lib/core/widgets/cards/option_card.dart
+# specs/components/cards/option_card.yaml -> lib/core/widgets/cards/option_card.dart
 component: OptionCard
 prototype: ".opt / .ohead / .odish em pitada.html, revisado p/ soft neo-brutalismo"
 purpose: Opção de refeição (Planos): cabeçalho clicável (radio + nome + selo) + pratos linkáveis.

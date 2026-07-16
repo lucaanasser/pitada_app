@@ -5,49 +5,67 @@
 # ─────────────────────────────────────────────────────────────────────────────
 project: Pitada
 descricao: >
-  App pessoal de receitas, aprendizado, planos e compras. Flutter + Riverpod +
-  go_router. Alvo visual = pitada.html. Regras em .claude/rules/.
+  App pessoal de receitas, caderno de cozinha, planos e ingredientes. Flutter +
+  Riverpod + go_router. Alvo visual = pitada-estilo.html. Regras em .claude/rules/.
 
 convencao_de_nomes: >
   O caminho da spec ESPELHA o do código (lib/ <-> specs/, .dart <-> .yaml), com a mesma
   compartimentalização (máx. 7 soltos por pasta; quebra por papel, depois sub-domínio).
   Ex.: lib/core/widgets/tags/pitada_tag.dart -> specs/components/tags/pitada_tag.yaml
-  Ver .claude/rules/nomenclatura-e-pastas.md e .claude/reestruturacao.md (migração viva).
+  Ver .claude/rules/architecture.md e .claude/reestruturacao.md (migração viva).
 
 design_system:
-  - specs/design-system/colors.yaml        # tokens de cor  -> core/theme/colors.dart
-  - specs/design-system/typography.yaml     # tipografia     -> core/theme/typography.dart
-  - specs/design-system/spacing.yaml        # espaço/raio    -> core/theme/spacing.dart
+  - specs/design-system/colors.yaml         # tokens de cor   -> core/theme/colors.dart
+  - specs/design-system/typography.yaml     # tipografia      -> core/theme/typography.dart
+  - specs/design-system/spacing.yaml        # espaço/raio     -> core/theme/spacing.dart
   - specs/design-system/icons.yaml          # ícones Phosphor -> core/theme/app_icons.dart
 
-components:                                 # -> lib/core/widgets/
-  - specs/components/masthead.yaml
-  - specs/components/section_header.yaml
-  - specs/components/pitada_tabs.yaml   # abas de texto unificadas (ex-ChapterTabs/SegTabs)
-  - specs/components/hairline_row.yaml
-  - specs/components/pitada_button.yaml
-  - specs/components/pitada_chip.yaml
-  - specs/components/pitada_tag.yaml   # pílula colorida (tags coloridas)
-  - specs/components/expiry_tag.yaml
-  - specs/components/why_callout.yaml
-  - specs/components/nutrition_card.yaml
-  - specs/components/option_card.yaml
-  - specs/components/check_item.yaml
-  - specs/components/pitada_toggle.yaml   # toggle flat liga/desliga (átomo reusado)
-  - specs/components/editable.yaml   # wrapper de gesto: segurar/duplo-clique -> edita 1 campo
-  - specs/components/quick_edit_sheet.yaml   # sheet genérica de edição rápida (edição inline)
-  - specs/components/edit_field.yaml   # campos de formulário (texto/stepper/casca) — promovidos p/ core
-  - specs/components/atoms.yaml   # RecipeThumb, PitadaSearchField, FuelBar, StepProgress, EmptyState, PitadaScaffold
+components:                                 # -> lib/core/widgets/<grupo>/ (espelho 1:1)
+  controls:                                 # entrada e ação do usuário
+    - specs/components/controls/check_item.yaml        # caixa de seleção (círculo/quadrado)
+    - specs/components/controls/edit_field.yaml        # campos de formulário (texto/stepper/casca)
+    - specs/components/controls/editable.yaml          # wrapper de gesto: segurar/duplo-clique -> edita
+    - specs/components/controls/pitada_button.yaml
+    - specs/components/controls/pitada_chip.yaml       # chip de harmonização/técnica
+    - specs/components/controls/pitada_search_field.yaml
+    - specs/components/controls/pitada_toggle.yaml     # toggle flat liga/desliga
+  sheets:                                   # bottom sheets
+    - specs/components/sheets/add_options_sheet.yaml   # "escolher o que adicionar"
+    - specs/components/sheets/pitada_sheet.yaml        # helper único p/ abrir sheets
+    - specs/components/sheets/sheet_grip.yaml          # grip no topo de todo sheet
+  tabs:                                     # navegação por abas
+    - specs/components/tabs/pitada_tabs.yaml           # abas de texto (ex-ChapterTabs/SegTabs)
+    - specs/components/tabs/pitada_tab_bar.yaml        # "pílula fantasma": o dock das 5 abas
+  tags:                                     # pílulas coloridas — SÓ classificação
+    - specs/components/tags/pitada_tag.yaml
+    - specs/components/tags/expiry_tag.yaml
+  layout:                                   # estrutura de tela
+    - specs/components/layout/masthead.yaml
+    - specs/components/layout/section_header.yaml
+    - specs/components/layout/pitada_scaffold.yaml     # casca de aba (+ tabListPadding)
+    - specs/components/layout/empty_state.yaml
+  cards:                                    # blocos de conteúdo
+    - specs/components/cards/hairline_row.yaml         # linha de lista com filete
+    - specs/components/cards/recipe_thumb.yaml         # miniatura de receita
+    - specs/components/cards/nutrition_card.yaml       # macros
+    - specs/components/cards/option_card.yaml          # opção de refeição
+    - specs/components/cards/why_callout.yaml          # callout "Por quê"
+    - specs/components/cards/fuel_bar.yaml             # barra de combustível do dia
+    - specs/components/cards/step_progress.yaml        # passos do processamento da IA
+
+componentes_de_feature:                     # widgets de feature, não de core/ — movem na Fase 3
+  - specs/components/recipe_card.yaml       # -> lib/features/recipes/presentation/widgets/recipe_card.dart
+  - specs/components/quick_edit_sheet.yaml  # -> lib/features/recipes/presentation/widgets/quick_edit_sheet.dart
 
 features:                                   # -> lib/features/<f>/presentation/
   - specs/features/recipes.yaml
   - specs/features/bancada.yaml             # fila "quero cozinhar em breve" (ex-aba "Favoritas")
-  - specs/features/learning.yaml
+  - specs/features/notebook.yaml            # aba 'Caderno'
   - specs/features/plans.yaml
-  - specs/features/plans_progress.yaml    # sub-aba "Progresso": peso + aderência (log rápido do dia)
-  - specs/features/shopping.yaml
+  - specs/features/plans_progress.yaml      # sub-aba "Progresso": peso + aderência (log rápido do dia)
+  - specs/features/groceries.yaml           # aba 'Ingredientes'
   - specs/features/profile.yaml             # aba Perfil (ex-feature Home, feed abandonado)
-  - specs/features/app_shell.yaml           # shell das 5 abas + dock flutuante
+  - specs/features/app_shell.yaml           # shell das 5 abas + rotas (o dock tem spec própria)
   - specs/features/auth.yaml                # entrar por e-mail + código (OTP) + gate no router
 
 backend:                                    # -> supabase/ (migrations, config) — spec antes do SQL
@@ -62,8 +80,10 @@ dev:                                        # ferramentas de desenvolvimento (n�
   - specs/dev/device_preview.yaml
 
 regras:
-  - .claude/rules/arquitetura.md
-  - .claude/rules/nomenclatura-e-pastas.md   # sufixos de papel, regra dos 7, specs espelham código
-  - .claude/rules/specs-primeiro.md
+  - .claude/rules/specs-first.md
+  - .claude/rules/architecture.md           # camadas, sufixos de papel, regra dos 7, specs espelham código
+  - .claude/rules/data-model.md
+  - .claude/rules/language.md
   - .claude/rules/design-system.md
-  - .claude/rules/comentarios-e-logs.md
+  - .claude/rules/comments-and-logs.md
+  - .claude/rules/versioning.md

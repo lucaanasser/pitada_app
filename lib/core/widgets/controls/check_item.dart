@@ -3,7 +3,7 @@
 // O QUÊ:     Caixa de seleção do app (círculo terracota ou quadrado verde).
 // USA:       theme/colors, theme/spacing.
 // USADO POR: shopping (lista de compras = círculo; checklists = quadrado).
-// SPEC:      specs/components/check_item.yaml
+// SPEC:      specs/components/controls/check_item.yaml
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../theme/app_icons.dart';
 import 'package:flutter/material.dart';

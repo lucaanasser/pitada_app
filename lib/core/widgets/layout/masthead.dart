@@ -3,7 +3,7 @@
 // O QUÊ:     Marca 'pitada' centralizada no topo das abas (três pontos + serifa).
 // USA:       theme/colors, theme/spacing, theme/typography (tokens do design system).
 // USADO POR: recipes/learning/plans/shopping/home screens (topo de cada aba).
-// SPEC:      specs/components/masthead.yaml
+// SPEC:      specs/components/layout/masthead.yaml
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import '../../theme/colors.dart';

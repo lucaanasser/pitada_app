@@ -6,7 +6,7 @@ purpose: Guardar, ver, editar, cozinhar e importar receitas. Grama é a base.
 data:
   models: [Recipe, Ingredient, RecipeStep, Folder]
   models_impl: >
-    freezed + json_serializable (regra de arquitetura.md). fromJson/toJson com
+    freezed + json_serializable (regra de architecture.md). fromJson/toJson com
     field_rename snake (camelCase Dart <-> snake_case Postgres, ver
     specs/backend/database.yaml). Recipe.fromJson aceita o embedding do
     PostgREST (recipe_ingredients/recipe_steps/recipe_folders aninhados).
@@ -133,7 +133,7 @@ screens:
 
   - RecipeDetailScreen:
       # meta = TEXTO sóbrio "N porções · tempo · dificuldade" (bodySm, pit.text2) —
-      # métrica nunca vira cápsula (ver specs/components/pitada_tag.yaml: regra_de_uso);
+      # métrica nunca vira cápsula (ver specs/components/tags/pitada_tag.yaml: regra_de_uso);
       # cápsulas no detalhe só nas TAGS de técnicas.
       titulo_com_versao: >
         A linha do título é [título + RecipeVersionTag] quando a receita tem grupo de
@@ -152,7 +152,7 @@ screens:
       # (ver specs/features/bancada.yaml: integracoes.entrada).
       navega: CookModeScreen (/recipe/:id/cook via "Cozinhar"), RecipeEditScreen (/recipe/:id/edit via ícone lápis),
               showRecipeVersionSheet (tocar na RecipeVersionTag)
-      edicao_inline:   # "tudo é editável" — dois caminhos, ver specs/components/editable.yaml
+      edicao_inline:   # "tudo é editável" — dois caminhos, ver specs/components/controls/editable.yaml
         principio: >
           O ícone LÁPIS (galeria) abre o editor INTEIRO (RecipeEditScreen). SEGURAR ou
           CLICAR DUAS VEZES em um elemento abre a edição só DAQUELE campo (Editable +

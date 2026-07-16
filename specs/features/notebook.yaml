@@ -202,7 +202,7 @@ screens:
 
 sheets:
   - showCadernoAddSheet(BuildContext):   # sheet-cad-add
-      # Delega ao AddOptionsSheet compartilhado (specs/components/add_options_sheet.yaml);
+      # Delega ao AddOptionsSheet compartilhado (specs/components/sheets/add_options_sheet.yaml);
       # este arquivo só define as 4 opções.
       grip + título "Adicionar ao Caderno" + lista de SourceRow (HairlineRow):
         - Ficha            -> LessonEditScreen (novo)

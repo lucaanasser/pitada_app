@@ -6,7 +6,7 @@
 //            (que, como bottomNavigationBar, ficaria na frente de um sheet do branch).
 // USA:       theme/pitada_colors (context.pit.surf), theme/spacing (radiusXxl).
 // USADO POR: todos os show*Sheet do app (plans, learning, recipes, shopping).
-// SPEC:      specs/components/pitada_sheet.yaml
+// SPEC:      specs/components/sheets/pitada_sheet.yaml
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 

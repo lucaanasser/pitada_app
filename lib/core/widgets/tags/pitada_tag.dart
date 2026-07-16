@@ -4,7 +4,7 @@
 //            É a "tag coloridinha" das referências. Reage ao tema (claro/escuro).
 // USA:       theme/pitada_colors (borda/texto do tema), theme/spacing, theme/typography.
 // USADO POR: card de receita, meta do detalhe (porções/tempo/nível), técnicas.
-// SPEC:      specs/components/pitada_tag.yaml
+// SPEC:      specs/components/tags/pitada_tag.yaml
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import '../../theme/pitada_colors.dart';

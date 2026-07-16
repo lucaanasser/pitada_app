@@ -3,7 +3,7 @@
 // O QUÊ:     Barra de progresso fina (combustível do dia) — % da meta atingida.
 // USA:       theme/colors, theme/spacing.
 // USADO POR: plans_screen (resumo do dia).
-// SPEC:      specs/components/atoms.yaml (FuelBar)
+// SPEC:      specs/components/cards/fuel_bar.yaml
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import '../../theme/colors.dart';

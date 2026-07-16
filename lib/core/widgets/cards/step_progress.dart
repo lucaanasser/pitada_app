@@ -1,9 +1,10 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/core/widgets/cards/step_progress.dart
 // O QUÊ:     Lista de passos com bolinha marcada — feedback de processamento da IA.
-// USA:       theme/colors, theme/spacing, theme/typography.
-// USADO POR: import_sheet (receitas) e add_pantry_sheet (compras).
-// SPEC:      specs/components/atoms.yaml (StepProgress)
+// USA:       theme/app_icons, theme/colors, theme/pitada_colors, theme/spacing,
+//            theme/typography.
+// USADO POR: import_sheet e cook_mode_screen (recipes), add_pantry_sheet (groceries).
+// SPEC:      specs/components/cards/step_progress.yaml
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../theme/app_icons.dart';
 import 'package:flutter/material.dart';
