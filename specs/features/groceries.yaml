@@ -1,6 +1,7 @@
-# specs/features/shopping.yaml -> lib/features/shopping/
+# specs/features/groceries.yaml -> lib/features/groceries/
 feature: Ingredientes    # rótulo da aba (antes "Compras"); reúne Lista + Despensa
 prototype: "TAB-COMPRAS (Lista / Despensa), SHEET-ADD-PANTRY"
+route: /shopping         # rota legada mantida de propósito (decisão pendente do dono)
 purpose: >
   Listas de compras (a pessoa pode ter VÁRIAS: 'Semana', 'Praia'...) e a
   despensa (o que já tenho, com validade). Cada lista escolhe se DESCONTA a
@@ -11,101 +12,130 @@ purpose: >
 
 data:
   models:
-    - ShoppingList:            # uma lista de compras nomeada
-        file: lib/features/shopping/data/shopping_list.dart
-        fields: "id, name, usePantry, items: List<ShoppingItem>"
+    - GroceryList:             # uma lista de compras nomeada
+        file: lib/features/groceries/data/grocery_list.dart
+        fields: "id, name, usePantry, items: List<GroceryItem>"
         obs: >
           usePantry = true -> a exibição desconta a despensa; false -> mostra
           as quantidades cruas (caso praia). items SEMPRE crus (somados, sem
           subtrair) — o desconto nunca é gravado, só derivado. Classe pura
           imutável, const constructor; copyWith(name, usePantry, items).
-    - ShoppingItem:            # um item de uma lista (quantidade CRUA)
+    - GroceryItem:             # um item de uma lista (quantidade CRUA)
+        file: lib/features/groceries/data/grocery_item.dart
         fields: "id, name, category, humanQty, humanUnit, grams?, checked"
         obs: >
           category ∈ {Hortifrúti, Açougue, Laticínios & ovos, Mercearia}.
-          qty/unit na unidade humana (2 un, 500 g); grams só referência.
-          Classe pura imutável, const constructor (como Recipe); sem freezed/json.
+          humanQty/humanUnit na unidade humana (2 un, 500 g); grams só
+          referência. Classe pura imutável, const constructor (como Recipe);
+          sem freezed/json. copyWith só troca checked.
     - PantryItem:              # um item que já tenho na despensa
-        fields: "id, name, category, qty, unit, grams?, expires?"
+        file: lib/features/groceries/data/pantry_item.dart
+        fields: "id, name, category, quantity, unit, grams?, expiresOn?, low"
         obs: >
-          expires: DateTime? (validade). Sem checked — CheckItem não é usado na
-          Despensa. Classe pura imutável, const constructor; sem freezed/json.
-  repository: ShoppingRepository    # em memória (seed) hoje; Supabase depois
-  seed: >
-    shopping_seed.dart — kSeedLists: 'Semana' (usePantry=true; cruas desenhadas
-    p/ o desconto reproduzir a lista clássica: cebola 6un-4un=2un etc.) e
-    'Praia' (usePantry=false; churrasco de praia: tilápia, limão, queijo
-    coalho, pão de alho). kSeedPantry inalterada.
+          expiresOn: DateTime? (validade); low sinaliza "acabando". Sem checked
+          — CheckItem não é usado na Despensa. Classe pura imutável, const
+          constructor; sem freezed/json.
+  repository:
+    - GroceriesRepository:     # em memória (seed) hoje; Supabase depois
+        file: lib/features/groceries/data/repository.dart
+        api: "List<GroceryList> fetchLists() ; Future<List<PantryItem>> fetchPantry()"
+  seed:
+    file: lib/features/groceries/data/seed.dart
+    obs: >
+      kGroceryCategories (ordem canônica das 4 categorias) + kSeedLists:
+      'Semana' (usePantry=true; cruas desenhadas p/ o desconto reproduzir a
+      lista clássica: cebola 6un-4un=2un etc.) e 'Praia' (usePantry=false;
+      churrasco de praia: tilápia, limão, queijo coalho, pão de alho).
+      kSeedPantry é `final` (DateTime de validade).
 
-  regra_de_soma:              # core/utils/units.dart — NÃO reimplementar a soma
+  regra_de_soma:              # a regra canônica vive em core/utils/units.dart
     - "monta HumanQty de cada ingrediente das receitas do plano"
-    - "sumByHumanUnit(...)  -> agrega por (nome, unidade): 2x '2 ovos' = '4 un'"
+    - "sumByHumanUnit(...) -> agrega por (nome, unidade): 2x '2 ovos' = '4 un'.
+       Mora em core/utils/units.dart — NÃO reimplementar. Ainda não é chamada
+       pela feature: o seed já chega somado."
     - "desconto da despensa NA EXIBIÇÃO: discountPantry(items, pantry) em
-       data/shopping_list.dart — mesma regra de units.subtractPantry (casa por
+       data/grocery_list.dart — mesma regra de units.subtractPantry (casa por
        nome+unidade, nunca negativa, zerado some), mas preserva id/categoria/
        checked do item e escala grams proporcionalmente (é só referência)"
-    - "resultado vira List<ShoppingItem> agrupada por category"
+    - "resultado vira List<GroceryItem> agrupada por category"
 
 services:
   - ScannerService:           # hardware atrás de service abstrato (real + mock)
-      file: lib/features/shopping/data/scanner_service.dart
-      abstract: >
-        scanBarcode() -> Future<PantryItem?> ; scanQrReceipt() ->
-        Future<List<PantryItem>> ; fromPhoto() -> Future<List<PantryItem>>.
-      mock: MockScannerService   # retorna itens de exemplo; injetado via override
+      file: lib/features/groceries/application/scanner_service.dart
+      abstract: "Future<String?> scanBarcode() — devolve o código lido ou null."
+      mock: MockScannerService   # devolve um EAN de exemplo; injetado via override
+      provider: scannerProvider (Provider<ScannerService>)  # definido no mesmo arquivo
       obs: destrava rodar no desktop/Chrome sem câmera (regra de arquitetura).
 
 application:
+  file: lib/features/groceries/application/providers.dart
   providers:
-    - shoppingListsProvider (StateNotifier<List<ShoppingList>>)
+    - groceriesRepositoryProvider (Provider<GroceriesRepository>)
+    - groceryListsProvider (StateNotifierProvider<GroceryListsNotifier, List<GroceryList>>)
         acoes: ["toggleItem(listId, itemId)", "checkAll(listId)",
                 "addList(name) -> id", "togglePantry(listId)"]
-    - activeListIdProvider (StateProvider<String>)   # lista selecionada nos chips
-    - activeListProvider (Provider<ShoppingList>)    # a lista ativa (fallback: primeira)
-    - activeListItemsProvider (Provider<List<ShoppingItem>>)
+    - activeListIdProvider (StateProvider<String>)   # lista selecionada no sheet de listas
+    - activeListProvider (Provider<GroceryList>)     # a lista ativa (fallback: primeira)
+    - activeListItemsProvider (Provider<List<GroceryItem>>)
         obs: "itens crus da ativa; se usePantry, aplica discountPantry(despensa)"
     - pantryProvider (FutureProvider<List<PantryItem>>)
-    - shoppingTabProvider (StateProvider<int>)   # 0 = Lista, 1 = Despensa
-    - listByCategoryProvider     # agrupa activeListItems por category
-    - pantryByCategoryProvider   # agrupa PantryItem por category
-    - scannerServiceProvider (Provider<ScannerService>)  # override -> mock no preview
+    - listByCategoryProvider (Provider<Map<String, List<GroceryItem>>>)   # agrupa por category
+    - pantryByCategoryProvider (Provider<Map<String, List<PantryItem>>>)  # idem p/ a despensa
+  fora_deste_arquivo:
+    - scannerProvider          # application/scanner_service.dart
+    - groceriesTabProvider      # presentation/groceries_screen.dart — estado de apresentação
+                               # (aba ativa: Lista | Despensa)
 
 screens:
-  - ShoppingScreen:
-      file: lib/features/shopping/presentation/shopping_screen.dart
+  - GroceriesScreen:
+      file: lib/features/groceries/presentation/groceries_screen.dart
       tipo: ConsumerWidget
       fundo: pit.tabBg(3)   # pastel da aba — casa com a faixa do shell atrás do dock
       layout: >
-        Masthead, título 'Ingredientes' + PitadaIconButton '+' (filled,
-        iconButtonSm) à direita -> showShoppingAddSheet (mesmo padrão de
-        Receitas/Caderno), PitadaTabs([Lista, Despensa]) alinhadas à ESQUERDA
-        (Align centerLeft — a Column centraliza filhos que encolhem), corpo
-        conforme aba.
+        PitadaScaffold com Masthead, título 'Ingredientes' + PitadaIconButton
+        '+' (filled, iconButtonSm) à direita -> showGroceriesAddSheet (mesmo
+        padrão de Receitas/Caderno), PitadaTabs([Lista, Despensa]) alinhadas à
+        ESQUERDA (Align centerLeft — a Column centraliza filhos que encolhem),
+        corpo conforme aba (GroceryListView / PantryView).
       lista:                 # aba 0 — SEM chips: cápsula é só para tag (regra do dono)
-        - "ListHeaderRow (widgets/list_header.dart): nome da lista ativa em
-           Space Grotesk (titleSm) + caret (AppIcons.expand) — tocar abre
-           showListsSheet; à direita, contagem sóbria 'N itens' (caption, muted)"
-        - "toggle como HairlineRow: title 'Descontar a despensa' + trailing
-           CheckItem(square); subtitle explica o estado ('O que já está na
-           despensa sai da conta' / 'Mostrando tudo, sem descontar') — substitui
-           a legenda solta. Desligado = caso praia."
-        - "SectionHeader por categoria (Hortifrúti, Açougue, Laticínios & ovos, Mercearia)"
-        - "ShoppingListRow (HairlineRow): leading CheckItem(shape circle) marca comprado; title nome; trailing quantidade somada (formatHuman qty+unit)"
-        - "EmptyState quando a lista ativa está vazia (chips/toggle continuam visíveis)"
-        - "barra: PitadaButton('Comprei tudo') marca todos da lista ativa"
+        file: lib/features/groceries/presentation/widgets/grocery_list_view.dart
+        itens:
+          - "ListHeaderRow (widgets/list_header.dart): nome da lista ativa em
+             Space Grotesk (titleSm) + caret (AppIcons.expand) — tocar abre
+             showListsSheet; à direita, contagem sóbria 'N itens' (caption, muted)"
+          - "toggle como HairlineRow: title 'Descontar a despensa' + trailing
+             CheckItem(square); subtitle explica o estado ('O que já está na
+             despensa sai da conta' / 'Mostrando tudo, sem descontar') — substitui
+             a legenda solta. Desligado = caso praia."
+          - "CategoryGroup por categoria (Hortifrúti, Açougue, Laticínios & ovos,
+             Mercearia) — SectionHeader + linhas"
+          - "_GroceryRow (privado, HairlineRow): leading CheckItem(shape circle)
+             marca comprado (nome riscado); title nome; trailing quantidade somada
+             (formatHuman) e, abaixo, a grama de referência (formatGrams) quando a
+             unidade não é 'g'"
+          - "EmptyState quando não há nada a exibir: 'Lista vazia' (sem itens) ou
+             'Nada a comprar' (a despensa cobriu tudo); cabeçalho/toggle continuam visíveis"
+          - "barra: PitadaButton('Comprei tudo') marca todos da lista ativa (SnackBar
+             'Guardado na despensa')"
       despensa:              # aba 1
-        - "SectionHeader por categoria"
-        - "PantryRow (HairlineRow): title nome; subtitle validade (formatDayMonth(expires));
-           trailing estoque em AppType.numeral (MESMO tamanho da Lista — pedido do dono)
-           + ExpiryTag.fromDate(expires) urgent/soon (some se sem data); SEM CheckItem"
-        - "EmptyState quando a despensa está vazia"
-        - "barra: PitadaButton('Adicionar à despensa') -> showAddPantrySheet"
-      navega: showAddPantrySheet(context), showNewListSheet(context)
+        file: lib/features/groceries/presentation/widgets/pantry_view.dart
+        itens:
+          - "legenda sóbria: 'Adicione por código de barras ou foto da nota — a
+             validade entra junto' (caption, muted)"
+          - "CategoryGroup por categoria"
+          - "_PantryRow (privado, HairlineRow): title nome; subtitle validade
+             ('Validade ' + formatDayMonth(expiresOn)); trailing estoque em
+             AppType.numeral (MESMO tamanho da Lista — pedido do dono; formatGrams
+             quando unit == 'g', senão formatHuman) + ExpiryTag.fromDate(expiresOn)
+             urgent/soon, ou ExpiryTag('acabando') quando low; SEM CheckItem"
+          - "EmptyState 'Despensa vazia' + PitadaButton('Adicionar à despensa')"
+          - "barra: PitadaButton('Adicionar à despensa') -> showAddPantrySheet"
+      navega: showGroceriesAddSheet('+'), showListsSheet, showNewListSheet, showAddPantrySheet
 
 sheets:
-  - showShoppingAddSheet:
-      file: lib/features/shopping/presentation/shopping_add_sheet.dart
-      api: "void showShoppingAddSheet(BuildContext, WidgetRef)"
+  - showGroceriesAddSheet:
+      file: lib/features/groceries/presentation/add_sheet.dart
+      api: "void showGroceriesAddSheet(BuildContext, WidgetRef)"
       proposito: >
         Atalho do '+' do cabeçalho. NÃO substitui os fluxos existentes — só os
         reúne num lugar. Usa o AddOptionsSheet compartilhado.
@@ -114,64 +144,72 @@ sheets:
         - "Nova lista (moss, AppIcons.addToList) -> createAndSelectList (mesmo fluxo do ListsSheet)"
         - "Adicionar à despensa (ochre, AppIcons.basket) -> showAddPantrySheet (mesmo da Despensa)"
   - showListsSheet:
-      file: lib/features/shopping/presentation/lists_sheet.dart
+      file: lib/features/groceries/presentation/lists_sheet.dart
       api: >
         Future<bool?> showListsSheet(BuildContext) — true = pediu nova lista
         (o chamador dispara createAndSelectList); null/false = só trocou/fechou.
       conteudo:
-        - grip + "título 'Minhas listas'"
+        - SheetGrip + "título 'Minhas listas'"
         - "HairlineRow por lista: nome (body; ativa com check accent no trailing) +
-           subtitle 'N itens · desconta a despensa / não desconta' (captionSm, muted);
-           tocar seleciona (activeListIdProvider) e fecha"
+           subtitle 'N itens · desconta a despensa / não desconta a despensa'
+           (captionSm, muted); tocar seleciona (activeListIdProvider) e fecha"
         - "última linha: '+ Nova lista' (accent) -> pop(true)"
   - showNewListSheet:
-      file: lib/features/shopping/presentation/new_list_sheet.dart
+      file: lib/features/groceries/presentation/new_list_sheet.dart
       api: >
         Future<String?> showNewListSheet(BuildContext) — devolve o nome ou null.
         createAndSelectList(BuildContext, WidgetRef) — fluxo completo (sheet ->
-        addList -> ativa a nova lista); usado pelo chip '+ Nova' do ListSwitcher
-        e pelo showShoppingAddSheet, para o atalho cair no MESMO fluxo.
+        addList -> ativa a nova lista); usado pelo ListHeaderRow (via ListsSheet)
+        e pelo showGroceriesAddSheet, para o atalho cair no MESMO fluxo.
       conteudo:
-        - grip + "título 'Nova lista'"
-        - "campo de nome (ex.: 'Praia', 'Churrasco') — padrão do free_item_sheet"
+        - SheetGrip + "título 'Nova lista'"
+        - "campo de nome (hint 'Ex.: Praia, Churrasco, Mês')"
         - "PitadaButton 'Criar lista' -> pop(nome). Quem cria/seleciona é
            createAndSelectList (addList + activeListId). Nasce com usePantry=true."
       futuro: "renomear/excluir lista — fora do escopo desta rodada"
   - showAddPantrySheet:
-      file: lib/features/shopping/presentation/widgets/add_pantry_sheet.dart
-      api: showAddPantrySheet(BuildContext) -> showModalBottomSheet
+      file: lib/features/groceries/presentation/add_pantry_sheet.dart
+      api: void showAddPantrySheet(BuildContext)
       estilo: >
-        backgroundColor AppColors.surf, isScrollControlled, radius topo
-        AppSpacing.radiusXxl, grip 36x5 (line2, radius 3) centralizado no topo.
+        abre via showPitadaSheet (fundo pit.surf, isScrollControlled, radius topo
+        AppSpacing.radiusXxl, root navigator); grip 36x5 (line2, radius 3) próprio.
+      dados: lib/features/groceries/presentation/widgets/add_pantry_data.dart
       passos:
-        - "escolher origem (PitadaChip/HairlineRow): Código de barras, Cupom QR, Foto, Manual"
+        - "escolher origem (HairlineRow, de kPantrySources): Código de barras,
+           Cupom fiscal QR, Foto do cupom, À mão"
         - 'StepProgress(["Escanear", "Ler", "Conferir"], activeIndex) — loading do scan'
-        - "preview editável: PantryItem(s) reconhecidos (nome/categoria/qtd/validade)"
-        - "PitadaButton('Adicionar') -> grava na despensa e fecha"
-      manual: pula scan; vai direto ao preview com item em branco
-      usa_service: scannerServiceProvider (barcode / qr / foto)
+        - "conferência: itens de kRecognizedPreview (PantryItem: nome, validade,
+           quantidade) — somente leitura hoje; edição fica p/ quando houver service real"
+        - "PitadaButton('Adicionar à despensa') -> fecha e mostra SnackBar
+           'Adicionado à despensa'"
+      manual: "origem 'À mão' (scan: false) pula o scan e vai direto à conferência"
+      usa_service: scannerProvider (scanBarcode)
 
-components_reutilizados: [Masthead, PitadaTabs, SectionHeader, HairlineRow, CheckItem,
-  ExpiryTag, PitadaButton, PitadaChip, PitadaIconButton, StepProgress, EmptyState]
+components_reutilizados: [Masthead, PitadaScaffold, PitadaTabs, SectionHeader, HairlineRow,
+  CheckItem, ExpiryTag, PitadaButton, PitadaIconButton, StepProgress, EmptyState,
+  AddOptionsSheet, showPitadaSheet, SheetGrip]
 
-utils_reutilizados: [units.dart (sumByHumanUnit, HumanQty),
-  format.dart (formatHuman, formatDayMonth), app_log.dart (AppLog tag 'shopping')]
+utils_reutilizados: [format.dart (formatHuman, formatGrams, formatDayMonth),
+  app_log.dart (AppLog — tag 'groceries' em toda a feature)]
 
 arquivos:                    # cada .dart < 200 linhas; quebre em widgets se passar
   data:
-    - shopping_list.dart          # model ShoppingList + discountPantry
-    - shopping_item.dart          # model ShoppingItem
+    - grocery_list.dart           # model GroceryList + discountPantry
+    - grocery_item.dart           # model GroceryItem
     - pantry_item.dart            # model PantryItem
-    - shopping_repository.dart    # listas + despensa (seed)
-    - scanner_service.dart        # ScannerService abstrato + MockScannerService
-    - shopping_seed.dart
+    - repository.dart             # GroceriesRepository: listas + despensa (seed)
+    - seed.dart                   # kGroceryCategories, kSeedLists, kSeedPantry
   application:
-    - shopping_providers.dart
+    - providers.dart
+    - scanner_service.dart        # ScannerService abstrato + MockScannerService + scannerProvider
   presentation:
-    - shopping_screen.dart
+    - groceries_screen.dart
+    - add_sheet.dart
     - new_list_sheet.dart
     - lists_sheet.dart
+    - add_pantry_sheet.dart
     - widgets/list_header.dart
-    - widgets/shopping_list_view.dart
+    - widgets/grocery_list_view.dart
     - widgets/pantry_view.dart
-    - widgets/add_pantry_sheet.dart
+    - widgets/category_group.dart
+    - widgets/add_pantry_data.dart

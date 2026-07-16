@@ -10,9 +10,9 @@ router:
   type: StatefulShellRoute.indexedStack   # cada aba mantém sua pilha
   branches:                               # ordem = índice da barra = índice de pit.tabBg
     - {path: /recipes,  screen: RecipesScreen}
-    - {path: /learning, screen: LearningScreen}   # aba 'Caderno'
+    - {path: /learning, screen: NotebookScreen}   # aba 'Caderno'
     - {path: /plans,    screen: PlansScreen}
-    - {path: /shopping, screen: ShoppingScreen}
+    - {path: /shopping, screen: GroceriesScreen}  # aba 'Ingredientes'
     - {path: /profile,  screen: ProfileScreen}    # aba 'Perfil' (ex-full-screen)
   fullscreen:                              # cobrem a barra (rootNavigator)
     - {path: /recipe/:id, screen: RecipeDetailScreen}
