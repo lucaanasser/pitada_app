@@ -1,6 +1,6 @@
 # Plano de reestruturação — nomenclatura & pastas
 
-Migração única para o padrão de `rules/nomenclatura-e-pastas.md`. Guia vivo: marque
+Migração única para o padrão de `rules/architecture.md`. Guia vivo: marque
 `[x]` conforme avança. Decisões travadas: **nomes em inglês uniforme**, **regra dos 7**,
 **specs espelham o código**.
 
@@ -14,29 +14,32 @@ Migração única para o padrão de `rules/nomenclatura-e-pastas.md`. Guia vivo:
 
 ## Fase 0 — Regras (FEITO)
 
-- [x] `rules/nomenclatura-e-pastas.md` (a regra)
+- [x] `rules/architecture.md` (a regra — nomenclatura + pastas + camadas)
 - [x] `CLAUDE.md` (regra de ouro 5 + árvore-alvo + lista de regras)
 - [x] Memória `estrutura-nomenclatura.md`
 - [x] `specs/README.yaml` (convenção de nomes + espelho)
 
 ## Fase 1 — Renomes legados (semântico, maior valor)
 
-Nome da feature só na pasta + tela-raiz + tipos de nível-feature. Entidades de domínio
-(`ShoppingList`, `PantryItem`) NÃO mudam.
+Feature = **plural** (pasta/tela-raiz/tipos de feature); entidade = **singular**. Já
+de-prefixamos os arquivos de papel (não repetem a pasta); a subpasta é a Fase 3.
+Route strings (`/learning/*`, `/shopping`) e `AppIcons.learning` ficam por ora.
 
-- [ ] `features/shopping/` → `features/pantry/`  ·  `specs/features/shopping.yaml` → `specs/features/pantry/`
-  - `shopping_screen.dart` → `pantry_screen.dart` (tela-raiz); `ShoppingScreen` → `PantryScreen`
-  - `shopping_providers.dart` → `application/providers.dart`; `shopping_repository.dart` → `data/pantry_repository.dart`; `shopping_seed.dart` → `data/pantry_seed.dart`; `shopping_add_sheet.dart` → `presentation/add_sheet.dart`
-  - entidades `shopping_list.dart` / `shopping_item.dart` / `pantry_item.dart` ficam
-  - `AppLog` tag `'shopping'` → `'pantry'`
-- [ ] `features/learning/` → `features/notebook/`  ·  `specs/features/learning.yaml` → `specs/features/notebook/`
-  - `learning_screen.dart` → `notebook_screen.dart`; `LearningScreen` → `NotebookScreen`
-  - `learning_providers.dart` + `caderno_providers.dart` → `application/providers.dart` (+ split se > 7)
-  - `caderno_add_sheet.dart` → `presentation/sheets/add_sheet.dart`
-  - `learning_repository.dart` → `data/notebook_repository.dart`; `learning_seed*.dart` → `data/seed/*`
-  - `AppLog` tag `'learning'` → `'notebook'`
-- [ ] Atualizar `core/router/routes.dart` (imports + paths de rota `/learning/*` se quiser trocar para `/notebook/*`), `app_shell.dart` e qualquer `import` cruzado.
-- [ ] `flutter analyze` limpo antes de seguir.
+- [x] `features/shopping/` → `features/groceries/`  ·  `specs/features/shopping.yaml` → `specs/features/groceries.yaml`
+  - `shopping_screen.dart` → `groceries_screen.dart` (tela-raiz); `ShoppingScreen` → `GroceriesScreen`
+  - `shopping_providers.dart` → `providers.dart`; `shopping_repository.dart` → `repository.dart` (`ShoppingRepository`→`GroceriesRepository`); `shopping_seed.dart` → `seed.dart`; `shopping_add_sheet.dart` → `add_sheet.dart` (`showShoppingAddSheet`→`showGroceriesAddSheet`)
+  - entidades → singular: `shopping_list.dart`→`grocery_list.dart` (`ShoppingList`→`GroceryList`), `shopping_item.dart`→`grocery_item.dart` (`ShoppingItem`→`GroceryItem`), `shopping_list_view.dart`→`grocery_list_view.dart`
+  - **despensa FICA `pantry`** (`pantry_item.dart`, `add_pantry_sheet.dart`, `pantry_view.dart`, `PantryItem`, `pantryProvider`)
+  - `AppLog` tag `'shopping'` → `'groceries'`
+- [x] `features/learning/` → `features/notebook/`  ·  `specs/features/learning.yaml` → `specs/features/notebook.yaml`
+  - `learning_screen.dart` → `notebook_screen.dart` (`LearningScreen`→`NotebookScreen`)
+  - `learning_providers.dart` → `providers.dart`; `caderno_providers.dart` → `hub_providers.dart` (hub do Caderno: fio/reativação)
+  - `caderno_add_sheet.dart` → `add_sheet.dart` (`showCadernoAddSheet`→`showNotebookAddSheet`)
+  - `learning_repository.dart` → `repository.dart` (`LearningRepository`→`NotebookRepository`); `learning_seed*.dart` → `seed*.dart`
+  - "Caderno" (palavra pt-BR na UI/prosa) e `AppIcons.learning` FICAM; `AppLog` tag `'learning'` → `'notebook'`
+- [x] Cross-imports: `core/router/routes.dart`, `core/router/router.dart`, `profile/application/overview_providers.dart`.
+- [x] `flutter analyze` limpo (19 infos pré-existentes de vírgula, 0 erros).
+- [ ] PENDENTE (decisão do dono): trocar route strings `/learning`→`/notebook`, `/shopping`→`/groceries` (produtores + consumidores + comentários). Mantidas por ora.
 
 ## Fase 2 — Core + specs de componentes (regra dos 7)
 
@@ -67,7 +70,7 @@ Nome da feature só na pasta + tela-raiz + tipos de nível-feature. Entidades de
 - [ ] `data/` (9) → `models/` (+ repository/seed soltos ou em pastas)
 - [ ] `presentation/widgets/` (8) → `activity/ settings/ header/`
 
-`pantry/` (ex-shopping) e `auth/` — ≤ 7 por camada; só o renome da Fase 1, sem quebrar.
+`groceries/` (ex-shopping) e `auth/` — ≤ 7 por camada; só o renome da Fase 1, sem quebrar.
 
 ## Fase 4 — Sweep de cabeçalhos & comentários (o QUÊ, não o COMO)
 
@@ -90,7 +93,7 @@ Como o nome da feature só vive na pasta/tela-raiz/tipos, renomear é mecânico.
 cego — **revise o diff antes de aplicar**.
 
 ```bash
-OLD=shopping; NEW=pantry                       # da raiz do repo
+OLD=shopping; NEW=groceries                    # da raiz do repo
 git mv lib/features/$OLD lib/features/$NEW
 git mv lib/features/$NEW/presentation/${OLD}_screen.dart \
        lib/features/$NEW/presentation/${NEW}_screen.dart
