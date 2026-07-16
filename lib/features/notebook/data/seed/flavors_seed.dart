@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/notebook/data/seed/seed_flavors.dart
+// lib/features/notebook/data/seed/flavors_seed.dart
 // O QUÊ:     Guias de Sabores do Caderno (fichas de exemplo).
 // USA:       lesson.dart, lesson_section.dart (composição das fichas).
 // USADO POR: seed.dart (agrega com técnicas, frameworks, ingredientes, ervas).

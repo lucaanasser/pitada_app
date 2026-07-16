@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/notebook/data/seed/seed_lessons.dart
+// lib/features/notebook/data/seed/lessons_seed.dart
 // O QUÊ:     Fichas de Técnicas e Frameworks do Caderno (dados de exemplo).
 // USA:       lesson.dart, lesson_section.dart (composição das fichas).
 // USADO POR: seed.dart (agrega com os guias).

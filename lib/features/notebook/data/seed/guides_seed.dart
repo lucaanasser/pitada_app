@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/notebook/data/seed/seed_guides.dart
+// lib/features/notebook/data/seed/guides_seed.dart
 // O QUÊ:     Guias de Ingredientes do Caderno (fichas de exemplo).
 // USA:       lesson.dart, lesson_section.dart (composição das fichas).
 // USADO POR: seed.dart (agrega com técnicas, frameworks, sabores e ervas).

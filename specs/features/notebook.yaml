@@ -106,15 +106,15 @@ data:
       exports: [kSeedLessons, kSeedGuideIngredients, kSeedRatios, kSeedSubstitutions,
                 kSeedPairings]
       notes: "agrega fichas + repertório e re-exporta os seeds de atividade."
-    - file: lib/features/notebook/data/seed/seed_lessons.dart
+    - file: lib/features/notebook/data/seed/lessons_seed.dart
       exports: [kSeedTechniques, kSeedFrameworks]
-    - file: lib/features/notebook/data/seed/seed_guides.dart
+    - file: lib/features/notebook/data/seed/guides_seed.dart
       exports: [kSeedGuideIngredients]        # guias de Ingredientes
-    - file: lib/features/notebook/data/seed/seed_flavors.dart
+    - file: lib/features/notebook/data/seed/flavors_seed.dart
       exports: [kSeedGuideFlavors]            # guias de Sabores
-    - file: lib/features/notebook/data/seed/seed_herbs.dart
+    - file: lib/features/notebook/data/seed/herbs_seed.dart
       exports: [kSeedGuideHerbs]              # guias de Ervas & especiarias
-    - file: lib/features/notebook/data/seed/seed_activity.dart
+    - file: lib/features/notebook/data/seed/activity_seed.dart
       exports: [kSeedNotes, kSeedDiary, kSeedVersions, kSeedLogs, kSeedPendingCook]
       notes: "datas relativas a hoje para o fio ficar vivo."
 

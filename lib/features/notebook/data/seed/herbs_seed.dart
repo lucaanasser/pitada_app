@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/notebook/data/seed/seed_herbs.dart
+// lib/features/notebook/data/seed/herbs_seed.dart
 // O QUÊ:     Guias de Ervas & especiarias do Caderno (fichas de exemplo).
 // USA:       lesson.dart, lesson_section.dart (composição das fichas).
 // USADO POR: seed.dart (agrega com técnicas, frameworks, ingredientes, sabores).

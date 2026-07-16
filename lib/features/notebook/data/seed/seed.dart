@@ -6,14 +6,14 @@
 // USADO POR: repository (fonte em memória enquanto não há Supabase).
 // SPEC:      specs/features/notebook.yaml (data.seed)
 // ─────────────────────────────────────────────────────────────────────────────
-import 'seed_flavors.dart';
-import 'seed_guides.dart';
-import 'seed_herbs.dart';
-import 'seed_lessons.dart';
+import 'flavors_seed.dart';
+import 'guides_seed.dart';
+import 'herbs_seed.dart';
+import 'lessons_seed.dart';
 import '../models/knowledge/lesson.dart';
 import '../models/knowledge/repertoire.dart';
 
-export 'seed_activity.dart'
+export 'activity_seed.dart'
     show kSeedNotes, kSeedDiary, kSeedVersions, kSeedLogs, kSeedPendingCook;
 
 /// Todas as fichas do Caderno (técnicas + frameworks + guias). Usada por: repository.

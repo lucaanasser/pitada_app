@@ -2,7 +2,7 @@
 // lib/features/notebook/data/models/activity/recipe_version.dart
 // O QUÊ:     Histórico de versões de uma receita (linha do tempo v1 -> v2 -> …).
 // USA:       nada (modelos imutáveis puros).
-// USADO POR: seed_activity, repository, providers, VersionsScreen,
+// USADO POR: activity_seed, repository, providers, VersionsScreen,
 //            VersionHistoryScreen e RecipeVersionSheet (receitas).
 // SPEC:      specs/features/notebook.yaml (data.models.RecipeVersion)
 // ─────────────────────────────────────────────────────────────────────────────

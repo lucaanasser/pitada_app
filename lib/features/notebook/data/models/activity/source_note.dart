@@ -2,7 +2,7 @@
 // lib/features/notebook/data/models/activity/source_note.dart
 // O QUÊ:     Nota de fonte (livro/vídeo/curso/chef) — o que ficou de uma fonte.
 // USA:       nada (modelo imutável puro).
-// USADO POR: seed_activity, repository, providers, NotesScreen, NoteDetailScreen,
+// USADO POR: activity_seed, repository, providers, NotesScreen, NoteDetailScreen,
 //            NoteRow.
 // SPEC:      specs/features/notebook.yaml (data.models.SourceNote)
 // ─────────────────────────────────────────────────────────────────────────────
