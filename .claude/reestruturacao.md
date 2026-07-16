@@ -127,6 +127,21 @@ dentro do que o script garante e o `analyze` prova.
 
 `groceries/` (ex-shopping) e `auth/` — ≤ 7 por camada; intocadas, como o plano manda.
 
+### Adendo (16/jul/2026) — sufixo `_seed` no fim, nos seeds do Caderno
+
+Decisão do dono depois da Fase 3: os 5 `seed_*` do notebook tinham o papel na FRENTE, invisíveis p/
+`find lib -name '*_seed.dart'` — que é justamente o teste que `architecture.md` usa p/ justificar o
+sufixo. Corrigido: `seed_activity`→`activity_seed`, `seed_flavors`→`flavors_seed`,
+`seed_guides`→`guides_seed`, `seed_herbs`→`herbs_seed`, `seed_lessons`→`lessons_seed`.
+Reverte a metade errada da Fase 1 (linha 47), que de-prefixou `learning_seed*`→`seed*` e no caminho
+jogou o papel p/ a frente. Os demais já estavam certos (`recipe_seed`, `plan_seed`, `foods_seed`,
+`progress_seed`, `profile_seed`).
+
+**O agregado `seed.dart` FICA `seed.dart`** — não `notebook_seed.dart`. Tentei e reverti: a pasta já
+diz `notebook`, então `notebook_seed` é o "arquivo repete a feature" da linha 25-26. E é o irmão
+exato de `groceries/data/seed.dart` — mesmo papel (o agregado que o `repository` importa; os 5
+`*_seed` só o agregado importa). Sem entidade p/ nomear, o papel sozinho é o nome certo.
+
 Achados ao mover:
 - **`recipe_item_edit.dart` é `part of` `recipe_quick_edit.dart`** — o único `part` escrito à mão do
   repo (o resto é freezed/`.g`). São UMA biblioteca: não separam, e `part` é string de nome de
@@ -144,13 +159,18 @@ Pendências que a Fase 3 destapou (anotadas, não feitas — nenhuma é de estru
   Sweep coordenado, ~30 importadores — decisão do dono.
 - [ ] Identificadores pt-BR vivos: `CardapioView`/`cardapio_view.dart` e `fio_entry`/`FioEntry`/`fio_tile`.
   `language.md` chama isso de bug. São irmãos: ou os dois, ou nenhum.
-- [ ] ~35 widgets sem sufixo do vocabulário obrigatório (`recipe_meta`, `lesson_body`, `import_preview`,
-  `paper_fly`, `day_summary`, `kitchen_radar`, …). A Fase 2 já tinha deixado `editable.dart`,
-  `check_item.dart`, `sheet_grip.dart` de fora — o vocabulário é mais estreito que o corpus real.
-  Ou ratifica (e passa o sweep), ou `architecture.md` admite que a lista é indicativa.
-- [ ] Os 5 seeds do notebook (`seed_activity`, …) têm o `seed_` na frente, invisível p/
-  `find -name '*_seed.dart'`. Inverter reverte uma decisão da Fase 1 ([x], linha 47) e o agregado
-  `seed.dart` não tem entidade p/ virar `<x>_seed.dart` — sinal de que é decisão de corpus, não daqui.
+- [ ] **52 arquivos de `presentation/`+`core/widgets/` sem sufixo do vocabulário** — contado
+  16/jul/2026 (a anotação anterior dizia "~35", número repassado sem ninguém contar). Distribuição:
+  `core/widgets` 17 · recipes 12 · notebook 8 · plans 7 · profile 6 · groceries 2.
+  **Não é lapso dos arquivos, é a regra que não fecha.** O vocabulário (`_screen _sheet _card _row
+  _tile _view _bar _header _grid _chart _painter`) não tem palavra p/ botão, tag, campo editável,
+  empty state ou animação — e é isso que são `pitada_button`, `pitada_tag`, `editable`, `empty_state`,
+  `paper_fly`, `principle_quote`, `key_point`. A Fase 2 revisou `core/widgets` inteiro (agrupou os 25,
+  espelho exato 25 `.dart` ↔ 25 `.yaml`) e **não renomeou nenhum** — não por esquecimento, por não
+  haver sufixo verdadeiro p/ dar. Renomear aqui seria inventar sufixo p/ encaixar (`pitada_button_view`),
+  o que piora o nome. Decisão do dono sobre a REGRA, não sweep: ou `architecture.md` assume que a
+  lista é indicativa p/ widget folha (obrigatória só p/ screen/sheet/repository/providers/seed), ou
+  amplia o vocabulário com o que falta (`_button _field _panel _section _quote _anim`…).
 
 ## Fase 4 — Sweep de cabeçalhos & comentários (o QUÊ, não o COMO)
 
