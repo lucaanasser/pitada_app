@@ -31,7 +31,7 @@ data:
           - kcal: int
           - recipeId: String?       # preenchido => prato linkado (abrível)
   repository: PlansRepository        # em memória (seed) hoje; Supabase depois
-  seed: plans_seed.dart              # "Meu plano" 1900; Café/Almoço/Jantar/Lanche (ver PLAN no protótipo)
+  seed: plan_seed.dart               # "Meu plano" 1900; Café/Almoço/Jantar/Lanche (ver PLAN no protótipo)
   regras:
     - "Modelos: classes puras imutáveis, const constructor (como Recipe). Sem freezed/json."
     - "MealOptionItem.recipeId != null => item linkado (OptionDish.linked = true)."

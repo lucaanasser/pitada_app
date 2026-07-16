@@ -2,7 +2,7 @@
 // lib/features/recipes/data/models/recipe.dart
 // O QUÊ:     Modelo principal de receita (agrega ingredientes, passos, metadados).
 // USA:       freezed + json_serializable (codegen), ingredient.dart, recipe_step.dart.
-// USADO POR: recipes_seed, repositórios (seed/Supabase), providers e telas de Receitas.
+// USADO POR: recipe_seed, repositórios (seed/Supabase), providers e telas de Receitas.
 // SPEC:      specs/features/recipes.yaml (data.models, data.versoes)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:freezed_annotation/freezed_annotation.dart';

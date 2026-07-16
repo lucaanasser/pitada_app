@@ -2,7 +2,7 @@
 // lib/features/recipes/data/repositories/supabase_recipe_repository.dart
 // O QUÊ:     Implementação ONLINE do RecipesRepository: Postgres via PostgREST
 //            (leitura com embedding numa query; escrita = linha + filhas).
-// USA:       recipes_repository (contrato), recipe_row_mapper (linha<->modelo),
+// USA:       recipe_repository (contrato), recipe_row_mapper (linha<->modelo),
 //            core/supabase (cliente), core/utils/app_log.
 // USADO POR: main.dart (override do recipesRepositoryProvider quando online).
 // SPEC:      specs/features/recipes.yaml (data.repository_supabase) +

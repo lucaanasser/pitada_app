@@ -2,14 +2,14 @@
 // lib/features/plans/data/seed/plan_seed.dart
 // O QUÊ:     Plano de exemplo do protótipo ("Meu plano" 1900) para preview sem backend.
 // USA:       plan.dart, meal.dart, meal_option.dart.
-// USADO POR: plans_repository (fonte em memória enquanto não há Supabase).
+// USADO POR: plan_repository (fonte em memória enquanto não há Supabase).
 // SPEC:      specs/features/plans.yaml (seed: "Meu plano" 1900; Café/Almoço/Jantar/Lanche)
 // ─────────────────────────────────────────────────────────────────────────────
 import '../models/meal.dart';
 import '../models/meal_option.dart';
 import '../models/plan.dart';
 
-/// Plano ativo de exemplo. Usada por: plans_repository (preview no PC).
+/// Plano ativo de exemplo. Usada por: plan_repository (preview no PC).
 /// Macros são estimativas do protótipo; kcal é a base do encaixe na meta.
 const kSeedPlan = Plan(
   id: 'cutting',

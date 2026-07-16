@@ -2,14 +2,14 @@
 // lib/features/plans/data/models/meal.dart
 // O QUÊ:     Modelo de refeição do dia (Café, Almoço, Jantar, Lanche) e suas opções.
 // USA:       meal_option.dart (composição).
-// USADO POR: plan.dart, plans_seed, plans_repository, plans_providers, MealCard.
+// USADO POR: plan.dart, plan_seed, plan_repository, plans_providers, MealCard.
 // SPEC:      specs/features/plans.yaml (data.models: Meal)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'meal_option.dart';
 
 /// Uma refeição do plano: nome, meta de kcal e opções de cardápio.
 /// A opção escolhida é a que tem `chosen == true` (ou nenhuma, se vazia/sem escolha).
-/// Usada por: Plan, plans_seed, PlanController, MealCard.
+/// Usada por: Plan, plan_seed, PlanController, MealCard.
 class Meal {
   final String id;
   final String name;

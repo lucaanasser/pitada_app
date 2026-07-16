@@ -2,14 +2,14 @@
 // lib/features/plans/data/models/meal_option.dart
 // O QUÊ:     Modelos de opção de cardápio de uma refeição e seus pratos (itens).
 // USA:       nada (modelos imutáveis puros).
-// USADO POR: meal.dart, plans_seed, plans_repository, plans_providers, OptionCard.
+// USADO POR: meal.dart, plan_seed, plan_repository, plans_providers, OptionCard.
 // SPEC:      specs/features/plans.yaml (data.models: MealOption, MealOptionItem)
 // ─────────────────────────────────────────────────────────────────────────────
 
 /// Um prato dentro de uma opção de refeição.
 /// `recipeId != null` => prato linkado (abrível na tela de detalhe da receita).
 /// Macros (protein/carb/fat) alimentam o agregado do dia; kcal é a base do encaixe.
-/// Usada por: MealOption, plans_seed, OptionCard (mapeado p/ OptionDish).
+/// Usada por: MealOption, plan_seed, OptionCard (mapeado p/ OptionDish).
 class MealOptionItem {
   final String name;
   final int kcal;
@@ -33,7 +33,7 @@ class MealOptionItem {
 
 /// Uma alternativa de cardápio ("Opção N") para uma refeição.
 /// `chosen` marca a opção ativa; `fits`/`fitLabel` descrevem o encaixe na meta.
-/// Usada por: Meal, plans_seed, plans_repository, OptionCard.
+/// Usada por: Meal, plan_seed, plan_repository, OptionCard.
 class MealOption {
   final String id;
   final bool fits;

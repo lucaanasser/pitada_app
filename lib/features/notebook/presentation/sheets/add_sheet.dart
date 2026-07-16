@@ -2,7 +2,7 @@
 // lib/features/notebook/presentation/sheets/add_sheet.dart
 // O QUÊ:     Sheet "Adicionar ao Caderno" — escolhe o que criar (ficha/nota/
 //            diário/log). Só define as 4 opções; o visual é o AddOptionsSheet.
-// USA:       core/widgets/add_options_sheet, theme/app_icons, go_router,
+// USA:       core/widgets/sheets/add_options_sheet, theme/app_icons, go_router,
 //            diary_quick_sheet, note_quick_sheet.
 // USADO POR: NotebookScreen (botão '+' do hub do Caderno).
 // SPEC:      specs/features/notebook.yaml (sheets.showNotebookAddSheet)

@@ -2,8 +2,8 @@
 // lib/features/recipes/data/repositories/seed_recipe_repository.dart
 // O QUÊ:     Implementação EM MEMÓRIA do RecipesRepository (preview no PC, sem
 //            chaves): serve o seed e guarda edições da sessão em overrides.
-// USA:       recipes_repository (contrato), recipe/folder, recipes_seed(_versions),
-//            core/utils/app_log.
+// USA:       recipe_repository (contrato), recipe/folder, recipe_seed,
+//            recipe_versions_seed, core/utils/app_log.
 // USADO POR: recipes_providers (default do provider, quando offline).
 // SPEC:      specs/features/recipes.yaml (data.edicao_inline, data.versoes)
 // ─────────────────────────────────────────────────────────────────────────────

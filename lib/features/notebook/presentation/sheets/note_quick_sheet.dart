@@ -3,8 +3,8 @@
 // O QUÊ:     Sheet de nota de fonte rápida: guarda "o que fica" de um livro,
 //            vídeo, curso ou chef com atrito mínimo.
 // USA:       theme/* (pit, AppType, AppSpacing, AppColors), core/widgets
-//            (PitadaTag, PitadaChip, PitadaButton), widgets/section_editor
-//            (EditField), core/utils/app_log.
+//            (PitadaTag, PitadaChip, PitadaButton), widgets/shared/
+//            section_editor (EditField), core/utils/app_log.
 // USADO POR: hub do Caderno (atalhos de captura) e sheet "Adicionar ao Caderno".
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';

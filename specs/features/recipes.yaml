@@ -18,7 +18,7 @@ data:
     preview PC — comportamento abaixo) e SupabaseRecipesRepository (online,
     Postgres com RLS). main.dart escolhe via override do recipesRepositoryProvider
     quando SupabaseService.initIfConfigured() == true.
-  repository_supabase:            # data/supabase_recipes_repository.dart
+  repository_supabase:            # data/repositories/supabase_recipe_repository.dart
     leitura: >
       1 query com embedding: from('recipes').select('*, recipe_ingredients(*),
       recipe_steps(*), recipe_folders(folder_id)'). fetchRecipes filtra as
@@ -45,8 +45,8 @@ data:
         RecipeVersionTag + seletor. A NOTA "o que mudou" não é criada aqui (mora no Caderno,
         fonte única) — sem nota, o seletor mostra só os rótulos das versões.
       helper_modelo: Recipe.withVersionIdentity({id, version, versionGroupId, folderIds})
-  seed: recipes_seed.dart          # DEFINITIVAS: Frango xadrez(v3), Bowl, Strogonoff(v2), Panqueca
-  seed_versions: recipes_seed_versions.dart   # snapshots ANTIGOS (Frango v1/v2, Strogonoff v1)
+  seed: recipe_seed.dart           # DEFINITIVAS: Frango xadrez(v3), Bowl, Strogonoff(v2), Panqueca
+  seed_versions: recipe_versions_seed.dart    # snapshots ANTIGOS (Frango v1/v2, Strogonoff v1)
   versoes:                        # "trocar tudo" — cada versão é um Recipe COMPLETO
     campos_recipe:                # Recipe ganha 2 campos p/ agrupar versões:
       - version: int (default 1)              # número da versão (1,2,3…) -> rótulo "V3"

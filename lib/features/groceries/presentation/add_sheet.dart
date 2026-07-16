@@ -2,8 +2,8 @@
 // lib/features/groceries/presentation/add_sheet.dart
 // O QUÊ:     Sheet "Adicionar" de Ingredientes — atalho do '+' do cabeçalho
 //            para os MESMOS fluxos das abas (não substitui os existentes).
-// USA:       core/widgets/add_options_sheet, theme/app_icons, new_list_sheet
-//            (createAndSelectList), add_pantry_sheet.
+// USA:       core/widgets/sheets/add_options_sheet, theme/app_icons,
+//            new_list_sheet (createAndSelectList), add_pantry_sheet.
 // USADO POR: GroceriesScreen (botão '+' do cabeçalho).
 // SPEC:      specs/features/groceries.yaml (sheets.showGroceriesAddSheet)
 // ─────────────────────────────────────────────────────────────────────────────

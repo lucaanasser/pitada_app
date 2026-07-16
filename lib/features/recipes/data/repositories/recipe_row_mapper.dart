@@ -4,7 +4,7 @@
 //            PostgREST (recipe_ingredients/recipe_steps/recipe_folders) vira o
 //            shape do Recipe.fromJson; toRow tira o que não é coluna de recipes.
 // USA:       recipe.dart (modelo).
-// USADO POR: supabase_recipes_repository (leitura e escrita).
+// USADO POR: supabase_recipe_repository (leitura e escrita).
 // SPEC:      specs/features/recipes.yaml (data.repository_supabase)
 // ─────────────────────────────────────────────────────────────────────────────
 import '../models/recipe.dart';

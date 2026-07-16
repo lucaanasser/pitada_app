@@ -1,9 +1,9 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/recipes/data/seed/recipe_seed.dart
 // O QUÊ:     Dados de exemplo (pastas + receitas DEFINITIVAS do protótipo) p/ preview.
-//            Snapshots de versões antigas ficam em recipes_seed_versions.dart.
+//            Snapshots de versões antigas ficam em recipe_versions_seed.dart.
 // USA:       recipe.dart, ingredient.dart, recipe_step.dart, folder.dart.
-// USADO POR: recipes_repository (fonte em memória enquanto não há Supabase).
+// USADO POR: seed_recipe_repository (fonte em memória enquanto não há Supabase).
 // SPEC:      specs/features/recipes.yaml (data.seed)
 // ─────────────────────────────────────────────────────────────────────────────
 import '../models/folder.dart';
@@ -11,7 +11,7 @@ import '../models/ingredient.dart';
 import '../models/recipe.dart';
 import '../models/recipe_step.dart';
 
-/// Pastas de exemplo (capítulos), cada uma com seu pastel. Usada por: recipes_repository.
+/// Pastas de exemplo (capítulos), cada uma com seu pastel. Usada por: seed_recipe_repository.
 const kSeedFolders = <Folder>[
   Folder(id: 'marinadas', name: 'Marinadas de frango', heroColor: 'terra'),
   Folder(id: 'rapidos', name: 'Jantares rápidos', heroColor: 'teal'),
@@ -19,7 +19,7 @@ const kSeedFolders = <Folder>[
   Folder(id: 'doces', name: 'Doces', heroColor: 'plum'),
 ];
 
-/// Receitas de exemplo. Usada por: recipes_repository (preview sem backend).
+/// Receitas de exemplo. Usada por: seed_recipe_repository (preview sem backend).
 const kSeedRecipes = <Recipe>[
   Recipe(
     id: 'frango-xadrez',

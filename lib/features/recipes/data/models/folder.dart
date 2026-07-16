@@ -2,7 +2,7 @@
 // lib/features/recipes/data/models/folder.dart
 // O QUÊ:     Modelo de pasta (capítulo) — agrupa receitas independentes.
 // USA:       freezed + json_serializable (codegen; JSON snake_case via build.yaml).
-// USADO POR: recipes_seed, recipes_providers (PitadaTabs), recipes_screen, repositórios.
+// USADO POR: recipe_seed, recipes_providers (PitadaTabs), recipes_screen, repositórios.
 // NOTA:      Pasta != sub-receita (esta agrupa; aquela soma macros num prato).
 // SPEC:      specs/features/recipes.yaml (data.models)
 // ─────────────────────────────────────────────────────────────────────────────

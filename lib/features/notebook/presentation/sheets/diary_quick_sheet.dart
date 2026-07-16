@@ -3,8 +3,8 @@
 // O QUÊ:     Sheet de diário rápido (20 segundos): as 3 perguntas pós-cozinha
 //            (o que mudei / o que aprendi / refazer assim?) com atrito mínimo.
 // USA:       theme/* (pit, AppType, AppSpacing, AppColors), core/widgets
-//            (PitadaTag, PitadaChip, PitadaButton), widgets/section_editor
-//            (EditField), core/utils/app_log.
+//            (PitadaTag, PitadaChip, PitadaButton), widgets/shared/
+//            section_editor (EditField), core/utils/app_log.
 // USADO POR: hub do Caderno (chamada de reativação) e fim do modo cozinhar.
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';

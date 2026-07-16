@@ -3,8 +3,8 @@
 // O QUÊ:     CONTRATO do repositório de receitas/pastas. Impls: seed (preview) e
 //            Supabase (online) — main.dart escolhe via override do provider.
 // USA:       recipe.dart, folder.dart (modelos).
-// USADO POR: recipes_providers (application), seed_recipes_repository,
-//            supabase_recipes_repository. A UI nunca chama isto direto.
+// USADO POR: recipes_providers (application), seed_recipe_repository,
+//            supabase_recipe_repository. A UI nunca chama isto direto.
 // SPEC:      specs/features/recipes.yaml (data.repository, data.versoes)
 // ─────────────────────────────────────────────────────────────────────────────
 import '../models/folder.dart';

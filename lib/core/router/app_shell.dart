@@ -5,7 +5,7 @@
 //            Ao trocar de aba, o conteúdo entra deslizando (direção conforme a
 //            posição relativa da aba) via _SlideTabView.
 // USA:       go_router (StatefulNavigationShell), core/theme/app_icons,
-//            core/theme/pitada_colors (pit.tabBg), core/widgets/pitada_tab_bar.
+//            core/theme/pitada_colors (pit.tabBg), core/widgets/tabs/pitada_tab_bar.
 // USADO POR: core/router/router.dart (StatefulShellRoute).
 // SPEC:      specs/features/app_shell.yaml
 // ─────────────────────────────────────────────────────────────────────────────

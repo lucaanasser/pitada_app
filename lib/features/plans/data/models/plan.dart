@@ -2,7 +2,7 @@
 // lib/features/plans/data/models/plan.dart
 // O QUÊ:     Modelo do plano alimentar ativo (nome interno + meta diária de kcal).
 // USA:       meal.dart (composição das refeições do dia).
-// USADO POR: plans_seed, plans_repository, plans_providers, PlansScreen.
+// USADO POR: plan_seed, plan_repository, plans_providers, PlansScreen.
 // SPEC:      specs/features/plans.yaml (data.models: Plan)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'meal.dart';

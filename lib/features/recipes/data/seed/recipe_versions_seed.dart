@@ -3,7 +3,7 @@
 // O QUÊ:     Snapshots ANTIGOS das receitas versionadas (Frango xadrez v1/v2,
 //            Strogonoff v1). Cada um é um Recipe COMPLETO — "trocar tudo" no seletor.
 // USA:       recipe.dart, ingredient.dart, recipe_step.dart.
-// USADO POR: seed_recipes_repository (compõe com kSeedRecipes p/ fetchById/
+// USADO POR: seed_recipe_repository (compõe com kSeedRecipes p/ fetchById/
 //            fetchVersionGroup).
 // SPEC:      specs/features/recipes.yaml (data.seed_versions, data.versoes)
 // ─────────────────────────────────────────────────────────────────────────────
@@ -14,7 +14,7 @@ import '../models/recipe_step.dart';
 /// Versões antigas (não-definitivas). Compartilham versionGroupId com a definitiva,
 /// mas ficam FORA de listas/pastas (folderIds vazio).
 /// As notas "o que mudou" moram no Caderno (notebook: kSeedVersions) — fonte única.
-/// Usada por: seed_recipes_repository (fetchById, fetchVersionGroup).
+/// Usada por: seed_recipe_repository (fetchById, fetchVersionGroup).
 const kSeedOldVersions = <Recipe>[
   Recipe(
     id: 'frango-xadrez-v1',
