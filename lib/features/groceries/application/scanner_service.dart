@@ -27,7 +27,7 @@ class MockScannerService implements ScannerService {
   @override
   Future<String?> scanBarcode() async {
     const code = '7891000100103';
-    AppLog.i('shopping', 'scan simulado: $code');
+    AppLog.i('groceries', 'scan simulado: $code');
     return code;
   }
 }

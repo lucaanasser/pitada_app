@@ -60,7 +60,7 @@ class _DiaryQuickSheetState extends State<_DiaryQuickSheet> {
   void _save() {
     final recipe = widget.recipeName ?? _recipeCtrl.text.trim();
     // TODO(pitada): persistir quando houver escrita no repositório
-    AppLog.i('learning', 'diário rápido salvo: $recipe · $_verdict');
+    AppLog.i('notebook', 'diário rápido salvo: $recipe · $_verdict');
     final messenger = ScaffoldMessenger.of(context);
     Navigator.of(context).pop();
     messenger.showSnackBar(

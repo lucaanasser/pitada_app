@@ -62,7 +62,7 @@ class GroceryListsNotifier extends StateNotifier<List<GroceryList>> {
   String addList(String name) {
     final id = 'list-${DateTime.now().millisecondsSinceEpoch}';
     state = [...state, GroceryList(id: id, name: name)];
-    AppLog.i('shopping', 'lista criada: $name ($id)');
+    AppLog.i('groceries', 'lista criada: $name ($id)');
     return id;
   }
 
@@ -73,7 +73,7 @@ class GroceryListsNotifier extends StateNotifier<List<GroceryList>> {
       for (final l in state)
         if (l.id != listId) l else l.copyWith(usePantry: !l.usePantry),
     ];
-    AppLog.i('shopping', 'toggle despensa: $listId');
+    AppLog.i('groceries', 'toggle despensa: $listId');
   }
 }
 

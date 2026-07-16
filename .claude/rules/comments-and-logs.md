@@ -43,11 +43,11 @@ String formatGrams(num grams) => …
 ## Logs — only via `AppLog` (never `print`)
 Output format: `[Pitada][<feature>] <message>`.
 ```dart
-AppLog.d('recipes', 'import iniciado: $url');          // debug (dropped in release)
-AppLog.w('shopping', 'código não encontrado: $code');  // warn (always shown)
+AppLog.d('recipes', 'import iniciado: $url');           // debug (dropped in release)
+AppLog.w('groceries', 'código não encontrado: $code');  // warn (always shown)
 AppLog.e('recipes', 'falha ao salvar', error, stack);
 ```
-First argument is the feature tag (`recipes | plans | shopping | learning | core`). Message short, pt-BR, no trailing period, with useful context (ids, urls). Never log secrets.
+First argument is the feature tag — it is the **feature folder name**, so it renames when the folder does: `recipes | notebook | plans | groceries | profile | auth | core`. Message short, pt-BR, no trailing period, with useful context (ids, urls). Never log secrets.
 
 ## Checklist
 1. Header present and filled.

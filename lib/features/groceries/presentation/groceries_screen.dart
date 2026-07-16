@@ -23,7 +23,7 @@ import 'widgets/grocery_list_view.dart';
 
 /// Aba selecionada em Ingredientes (0 = Lista, 1 = Despensa). Estado só da tela.
 /// Usada por: GroceriesScreen (PitadaTabs). Fica aqui pois é estado de apresentação.
-final shoppingTabProvider = StateProvider<int>((ref) => 0);
+final groceriesTabProvider = StateProvider<int>((ref) => 0);
 
 /// Tela principal de Ingredientes: alterna Lista/Despensa por PitadaTabs. Usada por: router.
 class GroceriesScreen extends ConsumerWidget {
@@ -34,7 +34,7 @@ class GroceriesScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final pit = context.pit;
-    final tab = ref.watch(shoppingTabProvider);
+    final tab = ref.watch(groceriesTabProvider);
 
     return PitadaScaffold(
       background: pit.tabBg(3),
@@ -71,7 +71,7 @@ class GroceriesScreen extends ConsumerWidget {
             child: PitadaTabs(
               tabs: const ['Lista', 'Despensa'],
               selected: tab,
-              onSelect: (i) => ref.read(shoppingTabProvider.notifier).state = i,
+              onSelect: (i) => ref.read(groceriesTabProvider.notifier).state = i,
             ),
           ),
           Expanded(

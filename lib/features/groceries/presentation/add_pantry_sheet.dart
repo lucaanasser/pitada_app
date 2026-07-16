@@ -55,7 +55,7 @@ class _AddPantrySheetState extends ConsumerState<_AddPantrySheet> {
       _progress = 0;
     });
     final code = await ref.read(scannerProvider).scanBarcode();
-    AppLog.i('shopping', 'origem "${source.label}" lida: ${code ?? "-"}');
+    AppLog.i('groceries', 'origem "${source.label}" lida: ${code ?? "-"}');
     for (var i = 1; i <= 2; i++) {
       await Future<void>.delayed(const Duration(milliseconds: 450));
       if (!mounted) return;
