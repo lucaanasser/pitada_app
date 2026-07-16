@@ -9,8 +9,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/utils/app_log.dart';
-import '../data/recipe.dart';
-import '../data/recipe_draft.dart';
+import '../data/models/recipe.dart';
+import '../data/models/recipe_draft.dart';
 import 'recipe_import_service.dart';
 
 /// Fase do fluxo de importação. Espelha os estágios da SHEET-IMPORT.

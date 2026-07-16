@@ -11,10 +11,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../application/recipes_providers.dart';
-import '../data/ingredient.dart';
-import '../data/recipe.dart';
-import '../data/recipe_step.dart';
-import 'widgets/quick_edit_sheet.dart';
+import '../data/models/ingredient.dart';
+import '../data/models/recipe.dart';
+import '../data/models/recipe_step.dart';
+import 'sheets/quick_edit_sheet.dart';
 
 part 'recipe_item_edit.dart';
 

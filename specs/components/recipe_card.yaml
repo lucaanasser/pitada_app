@@ -1,4 +1,4 @@
-# specs/components/recipe_card.yaml -> lib/features/recipes/presentation/widgets/recipe_card.dart
+# specs/components/recipe_card.yaml -> lib/features/recipes/presentation/widgets/list/recipe_card.dart
 component: RecipeCard
 prototype: "card do estudo pitada-estilo.html: foto + título + subtítulo sóbrio (.rsub)"
 purpose: >

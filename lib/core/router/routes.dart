@@ -23,10 +23,10 @@ import '../../features/notebook/presentation/repertoire_screen.dart';
 import '../../features/notebook/presentation/version_history_screen.dart';
 import '../../features/notebook/presentation/versions_screen.dart';
 import '../../features/profile/presentation/settings_screen.dart';
-import '../../features/recipes/presentation/cook_mode_screen.dart';
-import '../../features/recipes/presentation/folder_screen.dart';
-import '../../features/recipes/presentation/recipe_detail_screen.dart';
-import '../../features/recipes/presentation/recipe_edit_screen.dart';
+import '../../features/recipes/presentation/screens/cook_mode_screen.dart';
+import '../../features/recipes/presentation/screens/folder_screen.dart';
+import '../../features/recipes/presentation/screens/recipe_detail_screen.dart';
+import '../../features/recipes/presentation/screens/recipe_edit_screen.dart';
 
 /// Constrói as rotas full-screen (pushadas sobre o shell, escondendo a barra).
 /// [rootKey] é o Navigator raiz — garante que estas telas cubram as abas.

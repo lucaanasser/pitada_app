@@ -16,7 +16,7 @@ import '../../features/auth/application/auth_providers.dart';
 import '../../features/notebook/presentation/notebook_screen.dart';
 import '../../features/plans/presentation/plans_screen.dart';
 import '../../features/profile/presentation/profile_screen.dart';
-import '../../features/recipes/presentation/recipes_screen.dart';
+import '../../features/recipes/presentation/screens/recipes_screen.dart';
 import '../../features/groceries/presentation/groceries_screen.dart';
 import '../config/env.dart';
 import 'app_shell.dart';

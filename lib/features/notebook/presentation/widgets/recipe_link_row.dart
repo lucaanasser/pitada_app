@@ -15,7 +15,7 @@ import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/typography.dart';
 import '../../../../core/widgets/cards/hairline_row.dart';
 import '../../../../core/widgets/cards/recipe_thumb.dart';
-import '../../../../features/recipes/application/recipes_providers.dart';
+import '../../../recipes/application/recipes_providers.dart';
 
 /// Linha que liga a uma receita: mostra o título (ou o id como fallback) e
 /// navega para /recipe/<id> ao tocar. Usada por: detalhes do Caderno.

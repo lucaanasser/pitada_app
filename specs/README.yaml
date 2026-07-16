@@ -54,8 +54,8 @@ components:                                 # -> lib/core/widgets/<grupo>/ (espe
     - specs/components/cards/step_progress.yaml        # passos do processamento da IA
 
 componentes_de_feature:                     # widgets de feature, não de core/ — movem na Fase 3
-  - specs/components/recipe_card.yaml       # -> lib/features/recipes/presentation/widgets/recipe_card.dart
-  - specs/components/quick_edit_sheet.yaml  # -> lib/features/recipes/presentation/widgets/quick_edit_sheet.dart
+  - specs/components/recipe_card.yaml       # -> lib/features/recipes/presentation/widgets/list/recipe_card.dart
+  - specs/components/quick_edit_sheet.yaml  # -> lib/features/recipes/presentation/sheets/quick_edit_sheet.dart
 
 features:                                   # -> lib/features/<f>/presentation/
   - specs/features/recipes.yaml

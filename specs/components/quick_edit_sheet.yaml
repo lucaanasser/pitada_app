@@ -1,6 +1,6 @@
-# specs/components/quick_edit_sheet.yaml -> lib/features/recipes/presentation/widgets/quick_edit_sheet.dart
+# specs/components/quick_edit_sheet.yaml -> lib/features/recipes/presentation/sheets/quick_edit_sheet.dart
 component: QuickEditSheet
-file: lib/features/recipes/presentation/widgets/quick_edit_sheet.dart
+file: lib/features/recipes/presentation/sheets/quick_edit_sheet.dart
 prototype: "sheet de edição de campo único/curto disparada por gesto (VIEW-RECIPE)"
 purpose: >
   Bottom sheet genérica de edição rápida: mostra 1+ campos rotulados (um QuickEditField

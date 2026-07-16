@@ -8,10 +8,10 @@
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../data/folder.dart';
-import '../data/recipe.dart';
-import '../data/recipes_repository.dart';
-import '../data/seed_recipes_repository.dart';
+import '../data/models/folder.dart';
+import '../data/models/recipe.dart';
+import '../data/repositories/recipe_repository.dart';
+import '../data/repositories/seed_recipe_repository.dart';
 
 /// Instância do repositório. Default = seed em memória (preview no PC);
 /// main.dart sobrescreve com SupabaseRecipesRepository quando há chaves.

@@ -22,7 +22,7 @@ import 'features/plans/application/gemini_food_estimate_service.dart';
 import 'features/recipes/application/gemini_recipe_import_service.dart';
 import 'features/recipes/application/recipe_import_service.dart';
 import 'features/recipes/application/recipes_providers.dart';
-import 'features/recipes/data/supabase_recipes_repository.dart';
+import 'features/recipes/data/repositories/supabase_recipe_repository.dart';
 
 /// Sobe o Pitada. Inicializa o backend quando configurado e injeta os providers:
 /// online -> implementações Supabase; offline (preview PC) -> mocks/seed padrão.
