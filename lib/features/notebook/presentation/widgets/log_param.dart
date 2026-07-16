@@ -13,7 +13,7 @@ import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
 import '../../../../core/theme/typography.dart';
 import '../../../../core/widgets/cards/hairline_row.dart';
-import '../../data/process_log.dart';
+import '../../data/models/activity/process_log.dart';
 
 /// Um parâmetro do processo: valor em serifa grande sobre o rótulo em versalete.
 /// Usada por: ProcessLogScreen (grade de parâmetros).

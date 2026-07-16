@@ -9,9 +9,9 @@
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../data/fio_entry.dart';
-import '../data/pending_cook.dart';
-import '../data/reactivation_item.dart';
+import '../data/models/hub/fio_entry.dart';
+import '../data/models/activity/pending_cook.dart';
+import '../data/models/hub/reactivation_item.dart';
 import 'providers.dart';
 
 /// Cozinha ainda sem registro no diário. Usada por: reactivationItemsProvider.

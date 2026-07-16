@@ -6,14 +6,14 @@
 // SPEC:      specs/features/notebook.yaml (data.repository)
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../../core/utils/app_log.dart';
-import 'diary_entry.dart';
-import 'seed.dart';
-import 'lesson.dart';
-import 'pending_cook.dart';
-import 'process_log.dart';
-import 'recipe_version.dart';
-import 'repertoire.dart';
-import 'source_note.dart';
+import 'models/activity/diary_entry.dart';
+import 'seed/seed.dart';
+import 'models/knowledge/lesson.dart';
+import 'models/activity/pending_cook.dart';
+import 'models/activity/process_log.dart';
+import 'models/activity/recipe_version.dart';
+import 'models/knowledge/repertoire.dart';
+import 'models/activity/source_note.dart';
 
 /// Repositório do Caderno. Hoje serve os dados de exemplo (seed); trocar por
 /// versão Supabase mantém a mesma API. Usada por: providers.

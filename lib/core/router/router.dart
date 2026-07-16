@@ -13,7 +13,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../features/auth/application/auth_providers.dart';
-import '../../features/notebook/presentation/notebook_screen.dart';
+import '../../features/notebook/presentation/screens/notebook_screen.dart';
 import '../../features/plans/presentation/plans_screen.dart';
 import '../../features/profile/presentation/profile_screen.dart';
 import '../../features/recipes/presentation/screens/recipes_screen.dart';

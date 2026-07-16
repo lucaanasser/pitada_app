@@ -24,7 +24,7 @@ data:
   # Modelos: classes puras imutáveis, const constructor (como Recipe). Sem freezed/json.
   models:
     - Lesson:            # ficha de conhecimento (unifica técnica/framework/guia)
-        file: lib/features/notebook/data/lesson.dart
+        file: lib/features/notebook/data/models/knowledge/lesson.dart
         fields: "id, category(LessonKind), title, summary, lead(String?),
                  sections(List<LessonSection>)"
         category: "enum LessonKind { technique, framework, ingredient, flavor, herb }"
@@ -33,7 +33,7 @@ data:
           os guias. summary é o princípio (técnica) ou a descrição (framework);
           lead abre os guias; sections traz o conteúdo detalhado.
     - LessonSection:     # bloco de conteúdo de uma Lesson, renderizado por kind
-        file: lib/features/notebook/data/lesson_section.dart
+        file: lib/features/notebook/data/models/knowledge/lesson_section.dart
         fields: [label, kind(SectionKind), body(List<String>)]
         kind: "enum SectionKind { text, pairs, keys, tip }"
         render:
@@ -42,52 +42,52 @@ data:
           keys:  "lista numerada (KeyPoint: numeralSm + texto)"
           tip:   "WhyCallout(label:'Dica')"
     - SourceNote:        # nota de fonte (livro/vídeo/curso/chef)
-        file: lib/features/notebook/data/source_note.dart
+        file: lib/features/notebook/data/models/activity/source_note.dart
         fields: "id, title, kind(String), meta(String), takeaways(List<String>),
                  recipeIds(List<String>), date(DateTime?)"
         notes: "kind é texto livre (ex.: 'Livro'/'Vídeo'); meta é o autor/origem."
     - DiaryEntry:        # entrada do diário: registro após cozinhar
-        file: lib/features/notebook/data/diary_entry.dart
+        file: lib/features/notebook/data/models/activity/diary_entry.dart
         fields: "id, recipeName, date(DateTime), label, body, recipeIds(List<String>)"
         notes: "label é o veredito curto ('Refazer'/'Ajustar'); body é a reflexão."
     - VersionStep:       # 1 nó da linha do tempo de versões
-        file: lib/features/notebook/data/recipe_version.dart
+        file: lib/features/notebook/data/models/activity/recipe_version.dart
         fields: [label(String v1/v2), change]
     - RecipeVersion:     # o histórico de versões de UMA receita
-        file: lib/features/notebook/data/recipe_version.dart
+        file: lib/features/notebook/data/models/activity/recipe_version.dart
         fields: "id, recipeName, recipeId, timeline(List<VersionStep>), date(DateTime?)"
     - LogEvent:          # 1 evento da linha do tempo de um log
-        file: lib/features/notebook/data/process_log.dart
+        file: lib/features/notebook/data/models/activity/process_log.dart
         fields: [date(String), text]
     - ProcessLog:        # log de processo avançado (fermentação, sous-vide, cura…)
-        file: lib/features/notebook/data/process_log.dart
+        file: lib/features/notebook/data/models/activity/process_log.dart
         fields: "id, type, title, date(DateTime), params(Map<String,String>),
                  timeline(List<LogEvent>), note"
         notes: "params guarda medidas — ex.: {'Hidratação': '75%'}."
     - Ratio:             # rácio: proporção de confiança
-        file: lib/features/notebook/data/repertoire.dart
+        file: lib/features/notebook/data/models/knowledge/repertoire.dart
         fields: [name, ratio, note]      # ex.: 'Vinagrete', '3 : 1', 'óleo : ácido'
     - Substitution:      # substituição testada
-        file: lib/features/notebook/data/repertoire.dart
+        file: lib/features/notebook/data/models/knowledge/repertoire.dart
         fields: [missing, use, note]     # 'Sem shoyu' -> 'molho inglês…'
     - PairingItem:       # uma combinação dentro de uma harmonização
-        file: lib/features/notebook/data/repertoire.dart
+        file: lib/features/notebook/data/models/knowledge/repertoire.dart
         fields: [name, rating(PairingRating)]
         rating: "enum PairingRating { adoro, testei, classico } -> cor do chip"
     - Pairing:           # harmonização de um ingrediente
-        file: lib/features/notebook/data/repertoire.dart
+        file: lib/features/notebook/data/models/knowledge/repertoire.dart
         fields: "id, ingredient, items(List<PairingItem>), recipeIds(List<String>)"
     - FioEntry:          # item do fio: visão unificada e cronológica das capturas
-        file: lib/features/notebook/data/fio_entry.dart
+        file: lib/features/notebook/data/models/hub/fio_entry.dart
         fields: "id, kind(FioKind), date(DateTime), title, excerpt, route, tag(String?)"
         kind: "enum FioKind { diary, note, version, log } -> cor e rótulo da tag"
         notes: "derivado dos outros modelos em fioProvider; nunca persistido."
     - PendingCook:       # cozinha feita sem registro no diário
-        file: lib/features/notebook/data/pending_cook.dart
+        file: lib/features/notebook/data/models/activity/pending_cook.dart
         fields: [recipeId, recipeName, when(DateTime)]
         notes: "alimenta o card de reativação que abre o diário rápido."
     - ReactivationItem:  # card "Para hoje" do hub
-        file: lib/features/notebook/data/reactivation_item.dart
+        file: lib/features/notebook/data/models/hub/reactivation_item.dart
         fields: "id, kind(ReactivationKind), kicker, title, body, hero, actionLabel,
                  actionRoute(String?), trailing(String?)"
         kind: "enum ReactivationKind { cook, redo, review }"
@@ -102,19 +102,19 @@ data:
       fetchSubstitutions, fetchPairings/pairingById, fetchPendingCook.
 
   seed:
-    - file: lib/features/notebook/data/seed.dart
+    - file: lib/features/notebook/data/seed/seed.dart
       exports: [kSeedLessons, kSeedGuideIngredients, kSeedRatios, kSeedSubstitutions,
                 kSeedPairings]
       notes: "agrega fichas + repertório e re-exporta os seeds de atividade."
-    - file: lib/features/notebook/data/seed_lessons.dart
+    - file: lib/features/notebook/data/seed/seed_lessons.dart
       exports: [kSeedTechniques, kSeedFrameworks]
-    - file: lib/features/notebook/data/seed_guides.dart
+    - file: lib/features/notebook/data/seed/seed_guides.dart
       exports: [kSeedGuideIngredients]        # guias de Ingredientes
-    - file: lib/features/notebook/data/seed_flavors.dart
+    - file: lib/features/notebook/data/seed/seed_flavors.dart
       exports: [kSeedGuideFlavors]            # guias de Sabores
-    - file: lib/features/notebook/data/seed_herbs.dart
+    - file: lib/features/notebook/data/seed/seed_herbs.dart
       exports: [kSeedGuideHerbs]              # guias de Ervas & especiarias
-    - file: lib/features/notebook/data/seed_activity.dart
+    - file: lib/features/notebook/data/seed/seed_activity.dart
       exports: [kSeedNotes, kSeedDiary, kSeedVersions, kSeedLogs, kSeedPendingCook]
       notes: "datas relativas a hoje para o fio ficar vivo."
 
@@ -152,7 +152,7 @@ application:
 screens:
   # ---- HUB (aba raiz) ----
   - NotebookScreen:
-      file: lib/features/notebook/presentation/notebook_screen.dart
+      file: lib/features/notebook/presentation/screens/notebook_screen.dart
       route: /learning
       layout: >
         Masthead, cabeçalho (título "Caderno" + PitadaIconButton '+' ->
@@ -167,7 +167,7 @@ screens:
 
   # ---- CONHECIMENTO ----
   - LessonCardsScreen:   # enciclopédia pessoal
-      file: lib/features/notebook/presentation/lesson_cards_screen.dart
+      file: lib/features/notebook/presentation/screens/lesson/lesson_cards_screen.dart
       route: /learning/cards
       layout: >
         DetailHeader(kicker "Conhecimento", título "Fichas", lead, ação '+'),
@@ -176,7 +176,7 @@ screens:
       providers: [lessonsProvider, selectedLessonCategoryProvider]
       navigates_to: [LessonDetailScreen, LessonEditScreen]
   - LessonDetailScreen:  # renderiza por category
-      file: lib/features/notebook/presentation/lesson_detail_screen.dart
+      file: lib/features/notebook/presentation/screens/lesson/lesson_detail_screen.dart
       route: /lesson/:id
       layout: >
         barra (voltar + PitadaIconButton editar), corpo montado por lessonBody()
@@ -185,13 +185,13 @@ screens:
       providers: [lessonByIdProvider]
       navigates_to: [LessonEditScreen]
   - NotesScreen:
-      file: lib/features/notebook/presentation/notes_screen.dart
+      file: lib/features/notebook/presentation/screens/note/notes_screen.dart
       route: /learning/notes
       layout: "DetailHeader(kicker + 'Notas de fonte' + lead), lista de NoteRow"
       providers: [notesProvider]
       navigates_to: [NoteDetailScreen]
   - NoteDetailScreen:
-      file: lib/features/notebook/presentation/note_detail_screen.dart
+      file: lib/features/notebook/presentation/screens/note/note_detail_screen.dart
       route: /note/:id
       layout: >
         DetailHeader(kicker do kind, título, meta),
@@ -202,7 +202,7 @@ screens:
 
   # ---- PRÁTICA ----
   - DiaryScreen:
-      file: lib/features/notebook/presentation/diary_screen.dart
+      file: lib/features/notebook/presentation/screens/diary/diary_screen.dart
       route: /learning/diary
       layout: >
         DetailHeader(kicker "Prática" + "Diário de cozinha" + lead),
@@ -210,7 +210,7 @@ screens:
       providers: [diaryProvider]
       navigates_to: [DiaryEntryScreen]
   - DiaryEntryScreen:
-      file: lib/features/notebook/presentation/diary_entry_screen.dart
+      file: lib/features/notebook/presentation/screens/diary/diary_entry_screen.dart
       route: /diary/:id
       layout: >
         DetailHeader(label + receita + data), PitadaChip(veredito),
@@ -218,7 +218,7 @@ screens:
       providers: [diaryByIdProvider]
       navigates_to: [RecipeDetailScreen]
   - VersionsScreen:
-      file: lib/features/notebook/presentation/versions_screen.dart
+      file: lib/features/notebook/presentation/screens/version/versions_screen.dart
       route: /learning/versions
       layout: >
         DetailHeader(kicker "Prática" + "Versões de receita" + lead),
@@ -226,7 +226,7 @@ screens:
       providers: [versionsProvider]
       navigates_to: [VersionHistoryScreen]
   - VersionHistoryScreen:  # linha do tempo v1 -> v2 -> v3
-      file: lib/features/notebook/presentation/version_history_screen.dart
+      file: lib/features/notebook/presentation/screens/version/version_history_screen.dart
       route: /versions/:id
       layout: >
         DetailHeader(título = receita), RecipeLinkRow "abrir receita",
@@ -234,7 +234,7 @@ screens:
       providers: [versionByIdProvider]
       navigates_to: [RecipeDetailScreen]
   - ProcessLogsScreen:   # avançado
-      file: lib/features/notebook/presentation/process_logs_screen.dart
+      file: lib/features/notebook/presentation/screens/log/process_logs_screen.dart
       route: /learning/logs
       layout: >
         DetailHeader(kicker "Prática · avançado" + "Logs de processo" + lead),
@@ -242,7 +242,7 @@ screens:
       providers: [logsProvider]
       navigates_to: [ProcessLogScreen]
   - ProcessLogScreen:
-      file: lib/features/notebook/presentation/process_log_screen.dart
+      file: lib/features/notebook/presentation/screens/log/process_log_screen.dart
       route: /log/:id
       layout: >
         DetailHeader(kicker = type, título, data),
@@ -252,7 +252,7 @@ screens:
 
   # ---- REPERTÓRIO ----
   - RepertoireScreen:    # UMA tela para os 3 tipos de repertório
-      file: lib/features/notebook/presentation/repertoire_screen.dart
+      file: lib/features/notebook/presentation/screens/repertoire_screen.dart
       route: /learning/repertoire/:kind
       api: {kind: "String — 'ratios' | 'subs' | 'pairings'"}
       layout: >
@@ -263,7 +263,7 @@ screens:
       navigates_to: [PairingDetailScreen]
       notes: "não existe HarmScreen — harmonizações são o kind 'pairings' desta tela."
   - PairingDetailScreen:
-      file: lib/features/notebook/presentation/pairing_detail_screen.dart
+      file: lib/features/notebook/presentation/screens/pairing_detail_screen.dart
       route: /pairing/:id
       layout: >
         DetailHeader(kicker "Harmonização", título = ingrediente),
@@ -275,7 +275,7 @@ screens:
 
   # ---- EDITOR ----
   - LessonEditScreen:    # criar/editar ficha
-      file: lib/features/notebook/presentation/lesson_edit_screen.dart
+      file: lib/features/notebook/presentation/screens/lesson/lesson_edit_screen.dart
       route: /lesson-edit
       layout: >
         cabeçalho (Cancelar / título / Salvar), chips de categoria,
@@ -285,7 +285,7 @@ screens:
 
 sheets:
   - showNotebookAddSheet:
-      file: lib/features/notebook/presentation/add_sheet.dart
+      file: lib/features/notebook/presentation/sheets/add_sheet.dart
       api: {context: BuildContext}
       notes: >
         Delega ao AddOptionsSheet compartilhado
@@ -298,12 +298,12 @@ sheets:
         - "Log de processo   -> /learning/logs"
       used_by: [NotebookScreen, CaptureBar]
   - showDiaryQuickSheet:
-      file: lib/features/notebook/presentation/diary_quick_sheet.dart
+      file: lib/features/notebook/presentation/sheets/diary_quick_sheet.dart
       api: {context: BuildContext, recipeName: "String?"}
       notes: "diário rápido (20 s): as 3 perguntas pós-cozinha, atrito mínimo."
       used_by: [CaptureBar, ReactivationCard, showNotebookAddSheet]
   - showNoteQuickSheet:
-      file: lib/features/notebook/presentation/note_quick_sheet.dart
+      file: lib/features/notebook/presentation/sheets/note_quick_sheet.dart
       api: {context: BuildContext}
       notes: "guarda 'o que fica' de um livro, vídeo, curso ou chef."
       used_by: [CaptureBar, showNotebookAddSheet]

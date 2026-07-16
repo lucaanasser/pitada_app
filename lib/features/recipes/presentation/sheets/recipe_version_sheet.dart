@@ -23,7 +23,7 @@ import '../../../../core/widgets/controls/pitada_chip.dart';
 import '../../../../core/widgets/sheets/pitada_sheet.dart';
 import '../../../../core/widgets/sheets/sheet_grip.dart';
 import '../../../notebook/application/providers.dart';
-import '../../../notebook/data/recipe_version.dart';
+import '../../../notebook/data/models/activity/recipe_version.dart';
 import '../../application/recipes_providers.dart';
 
 /// Abre o seletor de versões da receita. [definitivaId] busca a nota "o que mudou"

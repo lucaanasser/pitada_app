@@ -15,7 +15,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../notebook/application/hub_providers.dart';
 import '../../notebook/application/providers.dart';
-import '../../notebook/data/fio_entry.dart';
+import '../../notebook/data/models/hub/fio_entry.dart';
 import '../../recipes/application/recipes_providers.dart';
 import '../../groceries/application/providers.dart';
 import '../data/activity_builder.dart';

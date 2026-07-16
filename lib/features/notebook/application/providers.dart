@@ -8,13 +8,13 @@
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../data/diary_entry.dart';
+import '../data/models/activity/diary_entry.dart';
 import '../data/repository.dart';
-import '../data/lesson.dart';
-import '../data/process_log.dart';
-import '../data/recipe_version.dart';
-import '../data/repertoire.dart';
-import '../data/source_note.dart';
+import '../data/models/knowledge/lesson.dart';
+import '../data/models/activity/process_log.dart';
+import '../data/models/activity/recipe_version.dart';
+import '../data/models/knowledge/repertoire.dart';
+import '../data/models/activity/source_note.dart';
 
 /// Instância do repositório do Caderno. Usada por: os providers abaixo.
 final notebookRepositoryProvider =
