@@ -8,10 +8,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/utils/app_log.dart';
-import '../data/meal.dart';
-import '../data/meal_option.dart';
-import '../data/plan.dart';
-import '../data/plans_repository.dart';
+import '../data/models/meal.dart';
+import '../data/models/meal_option.dart';
+import '../data/models/plan.dart';
+import '../data/repositories/plan_repository.dart';
 
 /// Totais nutricionais agregados de um dia (opções escolhidas). Imutável.
 /// Usada por: dayTotalsProvider, DaySummary (legenda de macros).

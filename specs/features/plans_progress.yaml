@@ -31,11 +31,11 @@ navegacao:
 
 data:
   models:
-    - WeightEntry:                    # lib/features/plans/data/weight_entry.dart
+    - WeightEntry:                    # lib/features/plans/data/models/weight_entry.dart
         campos:
           - date: DateTime            # dia da pesagem (manhã, ~mesmo horário)
           - kg: double                # peso em kg (ex.: 78.4)
-    - FoodItem:                       # lib/features/plans/data/food_item.dart
+    - FoodItem:                       # lib/features/plans/data/models/food_item.dart
         proposito: "Item do dataset curado de comidas comuns (aproximação por porção)."
         campos:
           - id: String
@@ -46,7 +46,7 @@ data:
           - carb: num
           - fat: num
           - category: String          # doce|salgado|bebida|alcool|fastfood|fruta|lanche|prato
-    - DayLog:                         # lib/features/plans/data/day_log.dart
+    - DayLog:                         # lib/features/plans/data/models/day_log.dart
         proposito: "O registro aproximado de um dia (feito no fim do dia)."
         campos:
           - date: DateTime

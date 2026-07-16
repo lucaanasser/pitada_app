@@ -10,7 +10,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../../core/supabase/supabase.dart';
 import '../../../core/utils/app_log.dart';
-import '../data/day_log.dart';
+import '../data/models/day_log.dart';
 import 'food_estimate_service.dart';
 
 /// Estimativa via Gemini na Edge Function `estimate-food`. Contrato esperado:

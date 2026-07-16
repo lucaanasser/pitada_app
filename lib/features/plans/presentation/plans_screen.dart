@@ -21,10 +21,10 @@ import '../../../core/widgets/controls/pitada_button.dart';
 import '../../../core/widgets/layout/pitada_scaffold.dart';
 import '../../../core/widgets/tabs/pitada_tabs.dart';
 import '../application/plans_providers.dart';
-import 'plan_add_sheet.dart';
-import 'widgets/cardapio_view.dart';
-import 'widgets/day_summary.dart';
-import 'widgets/progress_view.dart';
+import 'sheets/plan/plan_add_sheet.dart';
+import 'widgets/meal/cardapio_view.dart';
+import 'widgets/meal/day_summary.dart';
+import 'widgets/progress/progress_view.dart';
 
 /// Tela principal de Plano com cabeçalho compartilhado + sub-abas. Usada por: router (/plans).
 class PlansScreen extends ConsumerStatefulWidget {

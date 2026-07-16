@@ -90,7 +90,7 @@ screens:
 
 sheets:
   - showPlanAddSheet:
-      file: lib/features/plans/presentation/plan_add_sheet.dart
+      file: lib/features/plans/presentation/sheets/plan/plan_add_sheet.dart
       assinatura: "void showPlanAddSheet(BuildContext context)"
       proposito: >
         Atalho do '+' do cabeçalho. NÃO substitui os botões existentes — só
@@ -101,7 +101,7 @@ sheets:
         - "Registrar refeição (ochre, AppIcons.logDay) -> showLogDaySheet (mesmo da TodaySection)"
         - "Registrar peso (teal, AppIcons.weight) -> showLogWeightSheet (mesmo do Progresso)"
   - showMealSheet:
-      file: lib/features/plans/presentation/meal_sheet.dart
+      file: lib/features/plans/presentation/sheets/plan/meal_sheet.dart
       assinatura: "void showMealSheet(BuildContext context, {Meal? meal})"
       prototype: ".sheet#sheet-meal"
       proposito: "Nova refeição ou editar existente."
@@ -113,7 +113,7 @@ sheets:
         - "PitadaButton(primary) 'Salvar'"
         - "se editando: ação 'Remover refeição' (texto, cor accent2) -> exclui"
   - showAddOptionSheet:
-      file: lib/features/plans/presentation/add_option_sheet.dart
+      file: lib/features/plans/presentation/sheets/plan/add_option_sheet.dart
       assinatura: "void showAddOptionSheet(BuildContext context, {required Meal meal})"
       prototype: ".sheet#sheet-addmeal (openAddOption/pickOption)"
       proposito: "Escolher uma receita salva como nova opção da refeição."

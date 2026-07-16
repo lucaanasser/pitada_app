@@ -11,8 +11,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/utils/app_log.dart';
-import '../data/day_log.dart';
-import '../data/progress_repository.dart';
+import '../data/models/day_log.dart';
+import '../data/repositories/progress_repository.dart';
 import 'plans_providers.dart';
 import 'progress_providers.dart';
 

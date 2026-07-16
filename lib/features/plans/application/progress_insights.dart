@@ -11,8 +11,8 @@
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../data/day_log.dart';
-import '../data/food_item.dart';
+import '../data/models/day_log.dart';
+import '../data/models/food_item.dart';
 import 'day_log_providers.dart';
 import 'plans_providers.dart';
 import 'progress_providers.dart';

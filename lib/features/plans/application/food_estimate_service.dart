@@ -11,9 +11,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/utils/app_log.dart';
-import '../data/day_log.dart';
-import '../data/food_item.dart';
-import '../data/foods_seed.dart';
+import '../data/models/day_log.dart';
+import '../data/models/food_item.dart';
+import '../data/seed/foods_seed.dart';
 
 /// Estima calorias/macros a partir de um texto livre ("2 latas de cerveja").
 /// Interface única: no preview usa o mock; com Supabase, a impl. Gemini.

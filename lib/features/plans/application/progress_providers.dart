@@ -9,9 +9,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/utils/app_log.dart';
-import '../data/food_item.dart';
-import '../data/progress_repository.dart';
-import '../data/weight_entry.dart';
+import '../data/models/food_item.dart';
+import '../data/repositories/progress_repository.dart';
+import '../data/models/weight_entry.dart';
 
 /// Instância do repositório de Progresso. Usada por: controllers e foodsProvider.
 final progressRepositoryProvider =
