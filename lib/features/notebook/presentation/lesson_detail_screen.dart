@@ -16,7 +16,7 @@ import '../../../core/theme/colors.dart';
 import '../../../core/theme/pitada_colors.dart';
 import '../../../core/theme/spacing.dart';
 import '../../../core/theme/typography.dart';
-import '../../../core/widgets/pitada_button.dart';
+import '../../../core/widgets/controls/pitada_button.dart';
 import '../application/providers.dart';
 import '../data/lesson.dart';
 import 'widgets/lesson_body.dart';

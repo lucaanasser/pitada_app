@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
-import '../../../../core/widgets/pitada_button.dart';
+import '../../../../core/widgets/controls/pitada_button.dart';
 
 /// Barra de navegação entre passos. [isFirst] desabilita Voltar; [isLast] troca
 /// o botão principal para "Concluir". Usada por: cook_mode_screen.

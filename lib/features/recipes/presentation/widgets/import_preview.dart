@@ -11,10 +11,10 @@ import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/spacing.dart';
-import '../../../../core/widgets/pitada_button.dart';
-import '../../../../core/widgets/section_header.dart';
+import '../../../../core/widgets/controls/pitada_button.dart';
+import '../../../../core/widgets/layout/section_header.dart';
 import '../../data/recipe_draft.dart';
-import '../../../../core/widgets/edit_field.dart';
+import '../../../../core/widgets/controls/edit_field.dart';
 import 'recipe_editors.dart';
 
 /// Rascunho editável da importação. Muta [draft] em memória e chama [onSave]

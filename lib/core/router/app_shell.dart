@@ -14,7 +14,7 @@ import 'package:go_router/go_router.dart';
 
 import '../theme/app_icons.dart';
 import '../theme/pitada_colors.dart';
-import '../widgets/pitada_tab_bar.dart';
+import '../widgets/tabs/pitada_tab_bar.dart';
 
 /// As 5 abas do app, na ordem da barra inferior. Ícone regular (inativo) + fill
 /// (ativo). Perfil substitui a antiga aba Home (comunidade, abandonada).

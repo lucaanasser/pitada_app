@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/theme/colors.dart';
 import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/typography.dart';
-import '../../../../core/widgets/hairline_row.dart';
+import '../../../../core/widgets/cards/hairline_row.dart';
 
 /// Uma proporção/substituição como linha de lista: nome forte + [detail] discreto
 /// à esquerda e [value] em serifa (destaque) à direita.

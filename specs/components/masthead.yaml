@@ -1,4 +1,4 @@
-# specs/components/masthead.yaml -> lib/core/widgets/masthead.dart
+# specs/components/masthead.yaml -> lib/core/widgets/layout/masthead.dart
 component: Masthead
 prototype: ".masthead + .pinch/.pn em pitada.html"
 purpose: Marca 'pitada' centralizada no topo das abas (três pontos + palavra em serifa).

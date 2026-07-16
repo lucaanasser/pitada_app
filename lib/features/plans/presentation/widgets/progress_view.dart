@@ -14,9 +14,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/theme/app_icons.dart';
 import '../../../../core/theme/spacing.dart';
-import '../../../../core/widgets/pitada_button.dart';
-import '../../../../core/widgets/pitada_scaffold.dart';
-import '../../../../core/widgets/section_header.dart';
+import '../../../../core/widgets/controls/pitada_button.dart';
+import '../../../../core/widgets/layout/pitada_scaffold.dart';
+import '../../../../core/widgets/layout/section_header.dart';
 import '../../application/progress_insights.dart';
 import '../log_weight_sheet.dart';
 import 'adherence_section.dart';

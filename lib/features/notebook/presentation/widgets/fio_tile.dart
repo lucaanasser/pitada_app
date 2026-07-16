@@ -13,8 +13,8 @@ import '../../../../core/theme/colors.dart';
 import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
 import '../../../../core/theme/typography.dart';
-import '../../../../core/widgets/pitada_chip.dart';
-import '../../../../core/widgets/pitada_tag.dart';
+import '../../../../core/widgets/controls/pitada_chip.dart';
+import '../../../../core/widgets/tags/pitada_tag.dart';
 import '../../data/fio_entry.dart';
 
 /// Meses pt-BR abreviados para a coluna de data do fio.

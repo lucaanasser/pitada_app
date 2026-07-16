@@ -1,6 +1,6 @@
-# specs/components/editable.yaml -> lib/core/widgets/editable.dart
+# specs/components/editable.yaml -> lib/core/widgets/controls/editable.dart
 component: Editable
-file: lib/core/widgets/editable.dart
+file: lib/core/widgets/controls/editable.dart
 prototype: "gesto de edição inline no detalhe da receita (VIEW-RECIPE)"
 purpose: >
   Envolve qualquer conteúdo tornando-o editável por GESTO: segurar (long-press)

@@ -1,15 +1,15 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/core/widgets/section_header.dart
+// lib/core/widgets/layout/section_header.dart
 // O QUÊ:     Rótulo de seção em versalete + filete fino (.shead), com ação opcional.
 // USA:       theme/colors, theme/spacing, theme/typography.
 // USADO POR: recipe_detail, learning, shopping, plans — em toda seção de conteúdo.
 // SPEC:      specs/components/section_header.yaml
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
-import '../theme/colors.dart';
-import '../theme/pitada_colors.dart';
-import '../theme/spacing.dart';
-import '../theme/typography.dart';
+import '../../theme/colors.dart';
+import '../../theme/pitada_colors.dart';
+import '../../theme/spacing.dart';
+import '../../theme/typography.dart';
 
 /// Cabeçalho de seção: [label] em versalete + filete que preenche a largura,
 /// com [action] opcional à direita. Usada por: telas de detalhe e listas.

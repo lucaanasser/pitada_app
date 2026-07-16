@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/app_icons.dart';
-import '../../../core/widgets/add_options_sheet.dart';
+import '../../../core/widgets/sheets/add_options_sheet.dart';
 import 'add_pantry_sheet.dart';
 import 'new_list_sheet.dart';
 

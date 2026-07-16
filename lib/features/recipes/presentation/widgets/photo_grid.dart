@@ -12,7 +12,7 @@ import '../../../../core/theme/colors.dart';
 import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
 import '../../../../core/theme/typography.dart';
-import '../../../../core/widgets/recipe_thumb.dart';
+import '../../../../core/widgets/cards/recipe_thumb.dart';
 
 /// Grade horizontal de fotos (mock): [count] placeholders coloridos com [heroColor]
 /// + um tile "＋ Adicionar" que chama [onAdd]. Usada por: recipe_edit_screen.

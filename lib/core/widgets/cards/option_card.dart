@@ -1,18 +1,18 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/core/widgets/option_card.dart
+// lib/core/widgets/cards/option_card.dart
 // O QUÊ:     Opção de refeição (Planos): bloco flat (surf2; accent se escolhida)
 //            com cabeçalho escolhível + pratos linkáveis.
 // USA:       theme/*, utils/format (formatKcal).
 // USADO POR: plans (MealCard, na sub-aba Cardápio).
 // SPEC:      specs/components/option_card.yaml
 // ─────────────────────────────────────────────────────────────────────────────
-import '../theme/app_icons.dart';
+import '../../theme/app_icons.dart';
 import 'package:flutter/material.dart';
-import '../theme/colors.dart';
-import '../theme/pitada_colors.dart';
-import '../theme/spacing.dart';
-import '../theme/typography.dart';
-import '../utils/format.dart';
+import '../../theme/colors.dart';
+import '../../theme/pitada_colors.dart';
+import '../../theme/spacing.dart';
+import '../../theme/typography.dart';
+import '../../utils/format.dart';
 
 /// Prato dentro de uma opção. [linked] indica que é uma receita salva (abrível).
 class OptionDish {

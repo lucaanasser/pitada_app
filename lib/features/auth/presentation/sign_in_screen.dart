@@ -15,9 +15,9 @@ import '../../../core/theme/pitada_colors.dart';
 import '../../../core/theme/spacing.dart';
 import '../../../core/theme/typography.dart';
 import '../../../core/utils/app_log.dart';
-import '../../../core/widgets/edit_field.dart';
-import '../../../core/widgets/masthead.dart';
-import '../../../core/widgets/pitada_button.dart';
+import '../../../core/widgets/controls/edit_field.dart';
+import '../../../core/widgets/layout/masthead.dart';
+import '../../../core/widgets/controls/pitada_button.dart';
 import '../application/auth_providers.dart';
 
 /// Estágio do fluxo: digitar o e-mail ou digitar o código recebido.

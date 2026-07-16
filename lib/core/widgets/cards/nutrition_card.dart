@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/core/widgets/nutrition_card.dart
+// lib/core/widgets/cards/nutrition_card.dart
 // O QUÊ:     Caixa de macros com borda (proteína · gordura · carbo) em 3 células.
 //            Inspirada na caixa quadrada da referência. kcal fica no título da tela.
 // USA:       theme/pitada_colors, theme/spacing, theme/typography, utils/format.
@@ -7,11 +7,11 @@
 // SPEC:      specs/components/nutrition_card.yaml
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
-import '../theme/pitada_colors.dart';
-import '../theme/spacing.dart';
-import '../theme/typography.dart';
-import '../utils/format.dart';
-import 'editable.dart';
+import '../../theme/pitada_colors.dart';
+import '../../theme/spacing.dart';
+import '../../theme/typography.dart';
+import '../../utils/format.dart';
+import '../controls/editable.dart';
 
 /// Caixa com borda dividida em três células de macro. Cada célula pode ser
 /// editável por gesto (onEdit*): segurar/duplo-clique abre a edição do macro.

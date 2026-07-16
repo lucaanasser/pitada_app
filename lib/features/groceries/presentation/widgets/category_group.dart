@@ -8,7 +8,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/spacing.dart';
-import '../../../../core/widgets/section_header.dart';
+import '../../../../core/widgets/layout/section_header.dart';
 
 /// Bloco de uma categoria: [label] como SectionHeader + [children] em coluna.
 /// Reutilizado entre a Lista de compras e a Despensa (evita duplicar o layout).

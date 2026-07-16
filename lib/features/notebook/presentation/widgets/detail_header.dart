@@ -13,7 +13,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
 import '../../../../core/theme/typography.dart';
-import '../../../../core/widgets/pitada_button.dart';
+import '../../../../core/widgets/controls/pitada_button.dart';
 
 /// Cabeçalho editorial de uma tela do Caderno: linha de botões (voltar + ação),
 /// [kicker] em versalete, [title] em serifa e [lead] opcional de apoio.

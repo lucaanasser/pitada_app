@@ -11,8 +11,8 @@ import 'package:flutter/material.dart';
 import '../../../../core/theme/app_icons.dart';
 import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/typography.dart';
-import '../../../../core/widgets/hairline_row.dart';
-import '../../../../core/widgets/recipe_thumb.dart';
+import '../../../../core/widgets/cards/hairline_row.dart';
+import '../../../../core/widgets/cards/recipe_thumb.dart';
 import '../../data/recipe.dart';
 import 'recipe_meta_text.dart';
 

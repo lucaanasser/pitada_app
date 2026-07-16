@@ -19,8 +19,8 @@ import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
 import '../../../../core/theme/typography.dart';
 import '../../../../core/utils/app_log.dart';
-import '../../../../core/widgets/expiry_tag.dart';
-import '../../../../core/widgets/hairline_row.dart';
+import '../../../../core/widgets/tags/expiry_tag.dart';
+import '../../../../core/widgets/cards/hairline_row.dart';
 import '../../application/overview_providers.dart';
 import '../../data/radar_item.dart';
 

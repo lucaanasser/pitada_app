@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/core/widgets/pitada_sheet.dart
+// lib/core/widgets/sheets/pitada_sheet.dart
 // O QUÊ:     Helper único p/ abrir bottom sheets no padrão do app (fundo surf, topo
 //            arredondado, isScrollControlled) e SEMPRE no root navigator — assim o
 //            sheet e seu scrim cobrem o shell inteiro, escondendo a navbar flutuante
@@ -10,8 +10,8 @@
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 
-import '../theme/pitada_colors.dart';
-import '../theme/spacing.dart';
+import '../../theme/pitada_colors.dart';
+import '../../theme/spacing.dart';
 
 /// Abre um bottom sheet padrão do app no root navigator (esconde a navbar).
 /// [builder] monta o conteúdo; [background] sobrescreve o fundo (default surf).

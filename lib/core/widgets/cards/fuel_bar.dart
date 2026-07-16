@@ -1,14 +1,14 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/core/widgets/fuel_bar.dart
+// lib/core/widgets/cards/fuel_bar.dart
 // O QUÊ:     Barra de progresso fina (combustível do dia) — % da meta atingida.
 // USA:       theme/colors, theme/spacing.
 // USADO POR: plans_screen (resumo do dia).
 // SPEC:      specs/components/atoms.yaml (FuelBar)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
-import '../theme/colors.dart';
-import '../theme/pitada_colors.dart';
-import '../theme/spacing.dart';
+import '../../theme/colors.dart';
+import '../../theme/pitada_colors.dart';
+import '../../theme/spacing.dart';
 
 /// Barra de combustível: preenche [progress] (0..1). [over] pinta de terracota.
 /// Usada por: plans_screen.

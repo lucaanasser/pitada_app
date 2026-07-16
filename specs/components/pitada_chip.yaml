@@ -1,4 +1,4 @@
-# specs/components/pitada_chip.yaml -> lib/core/widgets/pitada_chip.dart
+# specs/components/pitada_chip.yaml -> lib/core/widgets/controls/pitada_chip.dart
 component: PitadaChip
 prototype: ".pair / .teclink em pitada.html"
 purpose: Chip arredondado para harmonizações ('combina com') e técnicas linkáveis.

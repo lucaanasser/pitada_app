@@ -1,15 +1,15 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/core/widgets/why_callout.dart
+// lib/core/widgets/cards/why_callout.dart
 // O QUÊ:     Callout 'Por quê' de técnica dentro de um passo (borda-esquerda accent).
 // USA:       theme/colors, theme/pitada_colors, theme/spacing, theme/typography.
 // USADO POR: recipe_detail (passos) e cook_mode.
 // SPEC:      specs/components/why_callout.yaml
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
-import '../theme/colors.dart';
-import '../theme/pitada_colors.dart';
-import '../theme/spacing.dart';
-import '../theme/typography.dart';
+import '../../theme/colors.dart';
+import '../../theme/pitada_colors.dart';
+import '../../theme/spacing.dart';
+import '../../theme/typography.dart';
 
 /// Bloco de explicação de técnica: rótulo em versalete + texto em itálico.
 /// Usada por: passos da receita que têm uma dica de técnica.

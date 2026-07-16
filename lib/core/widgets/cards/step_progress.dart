@@ -1,16 +1,16 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/core/widgets/step_progress.dart
+// lib/core/widgets/cards/step_progress.dart
 // O QUÊ:     Lista de passos com bolinha marcada — feedback de processamento da IA.
 // USA:       theme/colors, theme/spacing, theme/typography.
 // USADO POR: import_sheet (receitas) e add_pantry_sheet (compras).
 // SPEC:      specs/components/atoms.yaml (StepProgress)
 // ─────────────────────────────────────────────────────────────────────────────
-import '../theme/app_icons.dart';
+import '../../theme/app_icons.dart';
 import 'package:flutter/material.dart';
-import '../theme/colors.dart';
-import '../theme/pitada_colors.dart';
-import '../theme/spacing.dart';
-import '../theme/typography.dart';
+import '../../theme/colors.dart';
+import '../../theme/pitada_colors.dart';
+import '../../theme/spacing.dart';
+import '../../theme/typography.dart';
 
 /// Passos de carregamento; os índices <= [activeIndex] aparecem concluídos.
 /// Usada por: fluxos de importação (receita e nota fiscal).

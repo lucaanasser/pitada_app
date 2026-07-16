@@ -10,7 +10,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/theme/app_icons.dart';
-import '../../../core/widgets/add_options_sheet.dart';
+import '../../../core/widgets/sheets/add_options_sheet.dart';
 import 'log_day_sheet.dart';
 import 'log_weight_sheet.dart';
 import 'meal_sheet.dart';

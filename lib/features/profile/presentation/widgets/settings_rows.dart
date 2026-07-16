@@ -14,8 +14,8 @@ import '../../../../core/theme/app_icons.dart';
 import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
 import '../../../../core/theme/typography.dart';
-import '../../../../core/widgets/hairline_row.dart';
-import '../../../../core/widgets/pitada_toggle.dart';
+import '../../../../core/widgets/cards/hairline_row.dart';
+import '../../../../core/widgets/controls/pitada_toggle.dart';
 
 /// Linha com toggle liga/desliga. A linha inteira é tocável.
 /// Usada por: SettingsScreen (dicas de técnica, notificações).

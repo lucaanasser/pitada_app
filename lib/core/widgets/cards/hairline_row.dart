@@ -1,13 +1,13 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/core/widgets/hairline_row.dart
+// lib/core/widgets/cards/hairline_row.dart
 // O QUÊ:     Linha de lista genérica separada por filete inferior (sem card).
 // USA:       theme/colors, theme/spacing. É a base de quase toda lista do app.
 // USADO POR: recipes, learning, shopping, plans, home (listas em geral).
 // SPEC:      specs/components/hairline_row.yaml
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
-import '../theme/pitada_colors.dart';
-import '../theme/spacing.dart';
+import '../../theme/pitada_colors.dart';
+import '../../theme/spacing.dart';
 
 /// Linha de lista com [leading]/[title]/[subtitle]/[trailing] e filete embaixo.
 /// [title] é obrigatório (Widget livre). Usada por: todas as listas do app.

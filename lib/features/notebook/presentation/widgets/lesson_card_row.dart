@@ -13,7 +13,7 @@ import '../../../../core/theme/colors.dart';
 import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
 import '../../../../core/theme/typography.dart';
-import '../../../../core/widgets/hairline_row.dart';
+import '../../../../core/widgets/cards/hairline_row.dart';
 import '../../data/lesson.dart';
 
 /// Uma linha de ficha (enciclopédia): [lesson.title] em serifa, resumo abaixo e,

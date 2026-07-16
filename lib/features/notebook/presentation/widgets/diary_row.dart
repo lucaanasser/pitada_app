@@ -12,8 +12,8 @@ import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
 import '../../../../core/theme/typography.dart';
 import '../../../../core/utils/format.dart';
-import '../../../../core/widgets/hairline_row.dart';
-import '../../../../core/widgets/recipe_thumb.dart';
+import '../../../../core/widgets/cards/hairline_row.dart';
+import '../../../../core/widgets/cards/recipe_thumb.dart';
 import '../../data/diary_entry.dart';
 
 /// Uma entrada de diário como linha de lista, com o veredito à direita.

@@ -1,4 +1,4 @@
-# specs/components/expiry_tag.yaml -> lib/core/widgets/expiry_tag.dart
+# specs/components/expiry_tag.yaml -> lib/core/widgets/tags/expiry_tag.dart
 component: ExpiryTag
 prototype: ".tag / .tag.urgent / .tag.soon"
 purpose: Tag de validade em contorno, sem ícone (discreta). Avisa quando perto de vencer.

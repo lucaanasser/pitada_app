@@ -12,9 +12,9 @@ import 'package:flutter/material.dart';
 import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
 import '../../../../core/theme/typography.dart';
-import '../../../../core/widgets/pitada_chip.dart';
-import '../../../../core/widgets/section_header.dart';
-import '../../../../core/widgets/why_callout.dart';
+import '../../../../core/widgets/controls/pitada_chip.dart';
+import '../../../../core/widgets/layout/section_header.dart';
+import '../../../../core/widgets/cards/why_callout.dart';
 import '../../data/lesson_section.dart';
 import 'key_point.dart';
 

@@ -10,8 +10,8 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/typography.dart';
-import '../../../../core/widgets/check_item.dart';
-import '../../../../core/widgets/hairline_row.dart';
+import '../../../../core/widgets/controls/check_item.dart';
+import '../../../../core/widgets/cards/hairline_row.dart';
 
 /// Lista de escolhas exclusivas de feedback. [selected] é o índice marcado (ou -1);
 /// [onSelect] devolve o índice tocado. Usada por: cook_chat_sheet.

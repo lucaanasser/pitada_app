@@ -2,7 +2,7 @@
 # Átomos reutilizáveis menores, agrupados numa spec só (cada um vira 1 arquivo .dart).
 atoms:
   - component: RecipeThumb
-    file: lib/core/widgets/recipe_thumb.dart
+    file: lib/core/widgets/cards/recipe_thumb.dart
     prototype: ".rrow .th (miniatura colorida com ícone)"
     purpose: Quadrado colorido (hero_color) com ícone de prato — placeholder de foto.
     uses: [AppColors.hero, context.pit.card/border/text, AppSpacing.radiusMd/borderStrong]
@@ -16,7 +16,7 @@ atoms:
     used_by: [recipes_screen (RecipeRow, outlined), plans (add option, outlined), meal pickers]
 
   - component: PitadaSearchField
-    file: lib/core/widgets/pitada_search_field.dart
+    file: lib/core/widgets/controls/pitada_search_field.dart
     prototype: ".search (campo de busca com lupa)"
     purpose: >
       Campo de busca padrão (visual .search): uma cápsula com fundo único + borda.
@@ -28,7 +28,7 @@ atoms:
     used_by: [recipes_screen]
 
   - component: FuelBar
-    file: lib/core/widgets/fuel_bar.dart
+    file: lib/core/widgets/cards/fuel_bar.dart
     prototype: ".fuel (barra de combustível do dia)"
     purpose: Barra de progresso fina (verde sage) — quanto da meta foi atingido.
     uses: [AppColors.surf2, AppColors.sage, AppColors.accent2, AppSpacing]
@@ -36,7 +36,7 @@ atoms:
     used_by: [plans_screen]
 
   - component: StepProgress
-    file: lib/core/widgets/step_progress.dart
+    file: lib/core/widgets/cards/step_progress.dart
     prototype: ".lsteps / .lstep (passos do carregamento de importação)"
     purpose: Lista de passos com bolinha marcada — feedback de processamento da IA.
     uses: [AppColors.line2, AppColors.sage, AppColors.faint, AppColors.text2, AppType.bodySm]
@@ -44,7 +44,7 @@ atoms:
     used_by: [import_sheet (receitas), add_pantry_sheet (compras)]
 
   - component: EmptyState
-    file: lib/core/widgets/empty_state.dart
+    file: lib/core/widgets/layout/empty_state.dart
     prototype: "estados vazios/carregando (regra de qualidade do guia)"
     purpose: Estado vazio/carregando com texto que orienta a ação.
     uses: [AppColors.muted, AppColors.faint, AppType.title, AppType.bodySm, AppSpacing]
@@ -52,7 +52,7 @@ atoms:
     used_by: [todas as listas quando vazias]
 
   - component: PitadaScaffold
-    file: lib/core/widgets/pitada_scaffold.dart
+    file: lib/core/widgets/layout/pitada_scaffold.dart
     prototype: ".tab .scroll (estrutura de aba com masthead + conteúdo rolável)"
     purpose: Casca padrão de uma aba — fundo bg + coluna com slivers/rolagem.
     uses: [AppColors.bg, AppSpacing]
@@ -67,7 +67,7 @@ atoms:
     used_by: [todas as telas de aba]
 
   - component: SheetGrip
-    file: lib/core/widgets/sheet_grip.dart
+    file: lib/core/widgets/sheets/sheet_grip.dart
     prototype: "barrinha central no topo dos bottom sheets"
     purpose: Grip de arraste padrão (36x5, line2) antes do título de todo sheet.
     uses: [context.pit.line2, AppSpacing.md]

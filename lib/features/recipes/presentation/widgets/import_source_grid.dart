@@ -13,8 +13,8 @@ import '../../../../core/theme/colors.dart';
 import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
 import '../../../../core/theme/typography.dart';
-import '../../../../core/widgets/pitada_button.dart';
-import '../../../../core/widgets/pitada_search_field.dart';
+import '../../../../core/widgets/controls/pitada_button.dart';
+import '../../../../core/widgets/controls/pitada_search_field.dart';
 
 /// Grade de origens de importação. Chama [onSubmitUrl] com um link, [onPickPdf]
 /// para escolher um PDF ou [onManual] para começar em branco. Usada por: import_sheet.

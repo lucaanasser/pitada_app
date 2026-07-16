@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/core/widgets/pitada_tab_bar.dart
+// lib/core/widgets/tabs/pitada_tab_bar.dart
 // O QUÊ:     "Pílula fantasma": dock flutuante minimalista, compacto e
 //            centralizado, só ícones. Fundo surf + filete fino; o único ponto
 //            de cor é o ícone ativo em accent — a barra não compete com o
@@ -9,9 +9,9 @@
 // SPEC:      specs/features/app_shell.yaml (tab_bar)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
-import '../theme/colors.dart';
-import '../theme/pitada_colors.dart';
-import '../theme/spacing.dart';
+import '../../theme/colors.dart';
+import '../../theme/pitada_colors.dart';
+import '../../theme/spacing.dart';
 
 /// Descreve uma aba: [icon] (inativo) + [activeIcon] (preenchido, ativo) + rótulo.
 /// Usada por: app_shell.dart (lista das 5 abas).

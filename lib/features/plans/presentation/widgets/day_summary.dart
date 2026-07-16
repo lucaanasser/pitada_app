@@ -12,7 +12,7 @@ import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
 import '../../../../core/theme/typography.dart';
 import '../../../../core/utils/format.dart';
-import '../../../../core/widgets/fuel_bar.dart';
+import '../../../../core/widgets/cards/fuel_bar.dart';
 import '../../application/plans_providers.dart';
 
 /// Resumo nutricional do plano: total/meta, status, barra e legenda de macros.

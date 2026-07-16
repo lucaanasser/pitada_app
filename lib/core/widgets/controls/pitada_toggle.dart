@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/core/widgets/pitada_toggle.dart
+// lib/core/widgets/controls/pitada_toggle.dart
 // O QUÊ:     Toggle liga/desliga flat do app: pílula com borda, botão que desliza,
 //            accent quando ligado. Átomo visual único (promovido do profile).
 // USA:       theme/colors (AppColors.accent), theme/pitada_colors, theme/spacing.
@@ -8,9 +8,9 @@
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 
-import '../theme/colors.dart';
-import '../theme/pitada_colors.dart';
-import '../theme/spacing.dart';
+import '../../theme/colors.dart';
+import '../../theme/pitada_colors.dart';
+import '../../theme/spacing.dart';
 
 /// Toggle flat liga/desliga. Com [onChanged] é tocável sozinho; sem ele fica
 /// só-visual (o widget em volta trata o toque). Usada por: settings, sheets.

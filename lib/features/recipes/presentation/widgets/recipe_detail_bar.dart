@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/theme/app_icons.dart';
 import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
-import '../../../../core/widgets/pitada_button.dart';
+import '../../../../core/widgets/controls/pitada_button.dart';
 
 /// Barra de ações do detalhe: botão principal Cozinhar + dois ícones.
 /// Usada por: recipe_detail_screen. Callbacks ainda são placeholders (próximo passo).

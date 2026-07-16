@@ -15,7 +15,7 @@ import '../../../../core/theme/app_icons.dart';
 import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
 import '../../../../core/theme/typography.dart';
-import '../../../../core/widgets/pitada_tag.dart';
+import '../../../../core/widgets/tags/pitada_tag.dart';
 import '../../application/hub_providers.dart';
 import '../add_sheet.dart';
 import '../diary_quick_sheet.dart';

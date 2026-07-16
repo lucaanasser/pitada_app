@@ -16,7 +16,7 @@ import '../../../core/theme/colors.dart';
 import '../../../core/theme/pitada_colors.dart';
 import '../../../core/theme/spacing.dart';
 import '../../../core/utils/app_log.dart';
-import '../../../core/widgets/step_progress.dart';
+import '../../../core/widgets/cards/step_progress.dart';
 import '../application/recipes_providers.dart';
 import '../data/recipe.dart';
 import 'cook_chat_sheet.dart';

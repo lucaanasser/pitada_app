@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/core/widgets/editable.dart
+// lib/core/widgets/controls/editable.dart
 // O QUÊ:     Envolve um conteúdo tornando-o editável por GESTO: segurar (long-press)
 //            ou clique duplo dispara onEdit — abre a edição só daquele campo.
 // USA:       flutter/services (HapticFeedback) para o retorno tátil do toque longo.

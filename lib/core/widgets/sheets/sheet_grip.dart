@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/core/widgets/sheet_grip.dart
+// lib/core/widgets/sheets/sheet_grip.dart
 // O QUÊ:     "Grip" padrão no topo de TODO bottom sheet (barrinha central).
 //            Promovido de plans/ e recipes/ (havia duas cópias iguais).
 // USA:       theme/pitada_colors, theme/spacing.
@@ -8,8 +8,8 @@
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 
-import '../theme/pitada_colors.dart';
-import '../theme/spacing.dart';
+import '../../theme/pitada_colors.dart';
+import '../../theme/spacing.dart';
 
 /// Barrinha de arraste centralizada no topo de um bottom sheet.
 /// Usada por: todos os sheets do app, logo antes do título.

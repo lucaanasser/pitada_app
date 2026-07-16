@@ -15,12 +15,12 @@ import '../../../core/theme/pitada_colors.dart';
 import '../../../core/theme/spacing.dart';
 import '../../../core/theme/typography.dart';
 import '../../../core/utils/app_log.dart';
-import '../../../core/widgets/pitada_scaffold.dart';
-import '../../../core/widgets/section_header.dart';
+import '../../../core/widgets/layout/pitada_scaffold.dart';
+import '../../../core/widgets/layout/section_header.dart';
 import '../application/recipes_providers.dart';
 import '../data/recipe.dart';
 import '../data/recipe_draft.dart';
-import '../../../core/widgets/edit_field.dart';
+import '../../../core/widgets/controls/edit_field.dart';
 import 'widgets/photo_grid.dart';
 import 'widgets/recipe_editors.dart';
 

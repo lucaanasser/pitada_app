@@ -18,7 +18,7 @@ import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
 import '../../../../core/theme/typography.dart';
 import '../../../../core/utils/format.dart';
-import '../../../../core/widgets/pitada_button.dart';
+import '../../../../core/widgets/controls/pitada_button.dart';
 import '../../application/day_log_providers.dart';
 import '../../application/plans_providers.dart';
 import '../../data/day_log.dart';

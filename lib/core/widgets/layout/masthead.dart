@@ -1,15 +1,15 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/core/widgets/masthead.dart
+// lib/core/widgets/layout/masthead.dart
 // O QUÊ:     Marca 'pitada' centralizada no topo das abas (três pontos + serifa).
 // USA:       theme/colors, theme/spacing, theme/typography (tokens do design system).
 // USADO POR: recipes/learning/plans/shopping/home screens (topo de cada aba).
 // SPEC:      specs/components/masthead.yaml
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
-import '../theme/colors.dart';
-import '../theme/pitada_colors.dart';
-import '../theme/spacing.dart';
-import '../theme/typography.dart';
+import '../../theme/colors.dart';
+import '../../theme/pitada_colors.dart';
+import '../../theme/spacing.dart';
+import '../../theme/typography.dart';
 
 /// Cabeçalho de marca do app. Visual fixo, sem parâmetros.
 /// Usada por: todas as telas de aba (topo).

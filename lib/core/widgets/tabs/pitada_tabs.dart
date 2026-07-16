@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/core/widgets/pitada_tabs.dart
+// lib/core/widgets/tabs/pitada_tabs.dart
 // O QUÊ:     Abas de texto reutilizáveis do app (fonte única). O sublinhado
 //            terracota desliza entre as abas, ajusta a largura à palavra ativa e
 //            estica bem de leve no meio do trajeto (molejo sutil). Substitui
@@ -12,10 +12,10 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import '../theme/colors.dart';
-import '../theme/pitada_colors.dart';
-import '../theme/spacing.dart';
-import '../theme/typography.dart';
+import '../../theme/colors.dart';
+import '../../theme/pitada_colors.dart';
+import '../../theme/spacing.dart';
+import '../../theme/typography.dart';
 
 /// Abas de texto roláveis: [selected] em cor text, demais em muted; um único
 /// sublinhado accent desliza (com molejo leve) e cobre exatamente a palavra ativa.

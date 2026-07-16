@@ -10,8 +10,8 @@ import 'package:flutter/material.dart';
 import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/typography.dart';
 import '../../../../core/utils/format.dart';
-import '../../../../core/widgets/editable.dart';
-import '../../../../core/widgets/hairline_row.dart';
+import '../../../../core/widgets/controls/editable.dart';
+import '../../../../core/widgets/cards/hairline_row.dart';
 import '../../data/ingredient.dart';
 
 /// Ingrediente como linha: grama grande (base) + unidade humana pequena (ref.).

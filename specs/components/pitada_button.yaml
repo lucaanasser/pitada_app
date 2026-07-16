@@ -1,4 +1,4 @@
-# specs/components/pitada_button.yaml -> lib/core/widgets/pitada_button.dart
+# specs/components/pitada_button.yaml -> lib/core/widgets/controls/pitada_button.dart
 component: PitadaButton (+ PitadaIconButton)
 prototype: ".btn / .btn-pri / .btn-ic / .iconbtn"
 purpose: Botões padrão do app. Primário terracota e botão de ícone com contorno.

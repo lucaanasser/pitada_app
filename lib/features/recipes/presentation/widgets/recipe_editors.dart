@@ -10,7 +10,7 @@ import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/spacing.dart';
-import '../../../../core/widgets/pitada_button.dart';
+import '../../../../core/widgets/controls/pitada_button.dart';
 import '../../data/ingredient.dart';
 import '../../data/recipe_step.dart';
 import 'edit_ingredient_row.dart';

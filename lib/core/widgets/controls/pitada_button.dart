@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/core/widgets/pitada_button.dart
+// lib/core/widgets/controls/pitada_button.dart
 // O QUÊ:     Botões padrão: PitadaButton (primário/contorno) e PitadaIconButton
 //            (círculo). Contorno de TINTA (pit.border), não cinza; sem sombra.
 // USA:       theme/colors, theme/pitada_colors, theme/spacing, theme/typography.
@@ -7,10 +7,10 @@
 // SPEC:      specs/components/pitada_button.yaml
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
-import '../theme/colors.dart';
-import '../theme/pitada_colors.dart';
-import '../theme/spacing.dart';
-import '../theme/typography.dart';
+import '../../theme/colors.dart';
+import '../../theme/pitada_colors.dart';
+import '../../theme/spacing.dart';
+import '../../theme/typography.dart';
 
 /// Variações visuais do botão. primary = terracota cheio; outline = só contorno.
 enum PitadaButtonVariant { primary, outline }

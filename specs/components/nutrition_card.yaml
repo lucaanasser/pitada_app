@@ -1,4 +1,4 @@
-# specs/components/nutrition_card.yaml -> lib/core/widgets/nutrition_card.dart
+# specs/components/nutrition_card.yaml -> lib/core/widgets/cards/nutrition_card.dart
 component: NutritionCard
 prototype: "caixa quadrada de macros da referência (bordered box)"
 purpose: >

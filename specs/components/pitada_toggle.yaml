@@ -1,6 +1,6 @@
-# specs/components/pitada_toggle.yaml -> lib/core/widgets/pitada_toggle.dart
+# specs/components/pitada_toggle.yaml -> lib/core/widgets/controls/pitada_toggle.dart
 component: PitadaToggle
-file: lib/core/widgets/pitada_toggle.dart
+file: lib/core/widgets/controls/pitada_toggle.dart
 prototype: "toggle flat das configurações (SettingsSwitchRow) — promovido a átomo"
 purpose: >
   Toggle liga/desliga flat do app: pílula com borda de tinta, botão que desliza,

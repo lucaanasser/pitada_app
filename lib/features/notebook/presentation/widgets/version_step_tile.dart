@@ -11,7 +11,7 @@ import '../../../../core/theme/colors.dart';
 import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
 import '../../../../core/theme/typography.dart';
-import '../../../../core/widgets/pitada_chip.dart';
+import '../../../../core/widgets/controls/pitada_chip.dart';
 import '../../data/recipe_version.dart';
 
 /// Um passo da linha do tempo: coluna com marcador + fio, e o texto da mudança.

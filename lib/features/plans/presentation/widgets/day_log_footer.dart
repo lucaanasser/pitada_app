@@ -12,7 +12,7 @@ import '../../../../core/theme/colors.dart';
 import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
 import '../../../../core/theme/typography.dart';
-import '../../../../core/widgets/pitada_button.dart';
+import '../../../../core/widgets/controls/pitada_button.dart';
 
 /// Rodapé do LogDaySheet: total vs meta + salvar. Usada por: LogDaySheet.
 class DayLogFooter extends StatelessWidget {

@@ -15,7 +15,7 @@ import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
 import '../../../../core/theme/typography.dart';
 import '../../../../core/utils/format.dart';
-import '../../../../core/widgets/option_card.dart';
+import '../../../../core/widgets/cards/option_card.dart';
 import '../../application/plans_providers.dart';
 import '../../data/meal.dart';
 import '../add_option_sheet.dart';

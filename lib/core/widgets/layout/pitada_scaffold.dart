@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/core/widgets/pitada_scaffold.dart
+// lib/core/widgets/layout/pitada_scaffold.dart
 // O QUÊ:     Casca padrão de uma aba: topo fixo (masthead/thead) + conteúdo rolável.
 //            Aceita fundo customizado (ex.: pastel da aba via pit.tabBg).
 //            Inclui tabListPadding — padding inferior padrão das listas de aba.
@@ -8,8 +8,8 @@
 // SPEC:      specs/components/atoms.yaml (PitadaScaffold)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
-import '../theme/pitada_colors.dart';
-import '../theme/spacing.dart';
+import '../../theme/pitada_colors.dart';
+import '../../theme/spacing.dart';
 
 /// Padding inferior padrão das listas de aba: [respiro] + inset do sistema.
 /// Com o shell em extendBody, o inset inclui a altura da pílula flutuante —

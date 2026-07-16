@@ -1,4 +1,4 @@
-# specs/components/add_options_sheet.yaml -> lib/core/widgets/add_options_sheet.dart
+# specs/components/add_options_sheet.yaml -> lib/core/widgets/sheets/add_options_sheet.dart
 component: AddOptionsSheet (showAddOptionsSheet + AddSheetOption)
 prototype: "sheet-cad-add em pitada.html (generalizado para todas as abas)"
 purpose: >

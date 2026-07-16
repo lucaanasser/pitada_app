@@ -1,4 +1,4 @@
-# specs/features/app_shell.yaml -> lib/core/router/* + lib/core/widgets/pitada_tab_bar.dart
+# specs/features/app_shell.yaml -> lib/core/router/* + lib/core/widgets/tabs/pitada_tab_bar.dart
 feature: AppShell
 purpose: >
   Casca de navegação com 5 abas persistentes + rotas full-screen. A aba Home
@@ -37,7 +37,7 @@ shell:
     PitadaScaffold(background: pit.tabBg(índice)).
 
 tab_bar:                                   # "pílula fantasma" — flutuante e minimalista
-  file: lib/core/widgets/pitada_tab_bar.dart
+  file: lib/core/widgets/tabs/pitada_tab_bar.dart
   ordem: [Receitas, Caderno, Plano, Ingredientes, Perfil]
   icones: [forkKnife, chefHat, clipboardText, carrot, user]  # AppIcons.* (+ *Fill ativo)
   historico: >

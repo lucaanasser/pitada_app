@@ -1,14 +1,14 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/core/widgets/empty_state.dart
+// lib/core/widgets/layout/empty_state.dart
 // O QUÊ:     Estado vazio/carregando com texto que orienta a próxima ação.
 // USA:       theme/colors, theme/spacing, theme/typography.
 // USADO POR: qualquer lista quando não há itens (regra de qualidade do guia).
 // SPEC:      specs/components/atoms.yaml (EmptyState)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
-import '../theme/pitada_colors.dart';
-import '../theme/spacing.dart';
-import '../theme/typography.dart';
+import '../../theme/pitada_colors.dart';
+import '../../theme/spacing.dart';
+import '../../theme/typography.dart';
 
 /// Bloco central com ícone opcional, título e mensagem de apoio.
 /// Usada por: listas vazias e telas ainda sem conteúdo.

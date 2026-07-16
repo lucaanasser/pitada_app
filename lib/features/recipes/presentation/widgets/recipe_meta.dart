@@ -14,7 +14,7 @@ import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
 import '../../../../core/theme/typography.dart';
 import '../../../../core/utils/format.dart';
-import '../../../../core/widgets/editable.dart';
+import '../../../../core/widgets/controls/editable.dart';
 import '../../data/recipe.dart';
 
 /// Bloco com o link de origem (quando houver) e a meta em texto sóbrio. Cada

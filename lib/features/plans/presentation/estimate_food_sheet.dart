@@ -9,7 +9,7 @@
 // SPEC:      specs/features/plans_progress.yaml (sheets: showEstimateFoodSheet)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
-import '../../../core/widgets/pitada_sheet.dart';
+import '../../../core/widgets/sheets/pitada_sheet.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -17,12 +17,12 @@ import '../../../core/theme/colors.dart';
 import '../../../core/theme/pitada_colors.dart';
 import '../../../core/theme/spacing.dart';
 import '../../../core/theme/typography.dart';
-import '../../../core/widgets/pitada_button.dart';
-import '../../../core/widgets/pitada_chip.dart';
+import '../../../core/widgets/controls/pitada_button.dart';
+import '../../../core/widgets/controls/pitada_chip.dart';
 import '../application/food_estimate_service.dart';
 import '../application/progress_providers.dart';
 import '../data/day_log.dart';
-import '../../../core/widgets/sheet_grip.dart';
+import '../../../core/widgets/sheets/sheet_grip.dart';
 
 /// Ids da base curada mostrados como chips de 1 toque (itens super comuns).
 /// Usada por: [_EstimateFoodSheet].

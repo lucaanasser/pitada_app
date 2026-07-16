@@ -8,21 +8,21 @@
 // SPEC:      specs/features/plans_progress.yaml (sheets: showFoodSearchSheet)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
-import '../../../core/widgets/pitada_sheet.dart';
+import '../../../core/widgets/sheets/pitada_sheet.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/colors.dart';
 import '../../../core/theme/pitada_colors.dart';
 import '../../../core/theme/spacing.dart';
 import '../../../core/theme/typography.dart';
-import '../../../core/widgets/hairline_row.dart';
-import '../../../core/widgets/pitada_chip.dart';
-import '../../../core/widgets/pitada_search_field.dart';
+import '../../../core/widgets/cards/hairline_row.dart';
+import '../../../core/widgets/controls/pitada_chip.dart';
+import '../../../core/widgets/controls/pitada_search_field.dart';
 import '../application/progress_providers.dart';
 import '../data/day_log.dart';
 import '../data/food_item.dart';
 import 'free_item_sheet.dart';
-import '../../../core/widgets/sheet_grip.dart';
+import '../../../core/widgets/sheets/sheet_grip.dart';
 
 /// Chips de atalho: rótulo pt-BR -> categoria do dataset. Usada por: [_FoodSearchSheet].
 const Map<String, String> _kCategories = {

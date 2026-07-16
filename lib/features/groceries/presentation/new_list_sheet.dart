@@ -14,9 +14,9 @@ import '../../../core/theme/colors.dart';
 import '../../../core/theme/pitada_colors.dart';
 import '../../../core/theme/spacing.dart';
 import '../../../core/theme/typography.dart';
-import '../../../core/widgets/pitada_button.dart';
-import '../../../core/widgets/pitada_sheet.dart';
-import '../../../core/widgets/sheet_grip.dart';
+import '../../../core/widgets/controls/pitada_button.dart';
+import '../../../core/widgets/sheets/pitada_sheet.dart';
+import '../../../core/widgets/sheets/sheet_grip.dart';
 import '../application/providers.dart';
 
 /// Abre o sheet de nova lista e devolve o nome digitado (ou null se cancelou).

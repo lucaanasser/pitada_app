@@ -11,7 +11,7 @@
 // SPEC:      specs/features/plans_progress.yaml (sheets: showLogDaySheet)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
-import '../../../core/widgets/pitada_sheet.dart';
+import '../../../core/widgets/sheets/pitada_sheet.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/pitada_colors.dart';
@@ -27,7 +27,7 @@ import 'estimate_food_sheet.dart';
 import 'widgets/day_log_extras.dart';
 import 'widgets/day_log_footer.dart';
 import 'widgets/day_log_meal_tile.dart';
-import '../../../core/widgets/sheet_grip.dart';
+import '../../../core/widgets/sheets/sheet_grip.dart';
 
 /// Abre o sheet de registrar/editar o dia. Usada por: TodaySection.
 void showLogDaySheet(BuildContext context) {

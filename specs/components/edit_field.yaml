@@ -1,6 +1,6 @@
-# specs/components/edit_field.yaml -> lib/core/widgets/edit_field.dart
+# specs/components/edit_field.yaml -> lib/core/widgets/controls/edit_field.dart
 component: EditTextField / EditStepperField / EditFieldShell
-file: lib/core/widgets/edit_field.dart
+file: lib/core/widgets/controls/edit_field.dart
 prototype: "campos do VIEW-EDIT em pitada.html"
 purpose: >
   Família de campos de formulário do app (rótulo em versalete + conteúdo sobre

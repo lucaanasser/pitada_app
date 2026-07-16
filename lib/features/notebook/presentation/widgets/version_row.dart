@@ -11,8 +11,8 @@ import 'package:flutter/material.dart';
 import '../../../../core/theme/colors.dart';
 import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/typography.dart';
-import '../../../../core/widgets/hairline_row.dart';
-import '../../../../core/widgets/recipe_thumb.dart';
+import '../../../../core/widgets/cards/hairline_row.dart';
+import '../../../../core/widgets/cards/recipe_thumb.dart';
 import '../../data/recipe_version.dart';
 
 /// Um histórico de versões como linha de lista. Usada por: VersionsScreen.

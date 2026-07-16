@@ -7,7 +7,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
-import '../../../core/widgets/pitada_sheet.dart';
+import '../../../core/widgets/sheets/pitada_sheet.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/colors.dart';
@@ -16,13 +16,13 @@ import '../../../core/theme/spacing.dart';
 import '../../../core/theme/typography.dart';
 import '../../../core/utils/app_log.dart';
 import '../../../core/utils/format.dart';
-import '../../../core/widgets/empty_state.dart';
-import '../../../core/widgets/hairline_row.dart';
-import '../../../core/widgets/recipe_thumb.dart';
+import '../../../core/widgets/layout/empty_state.dart';
+import '../../../core/widgets/cards/hairline_row.dart';
+import '../../../core/widgets/cards/recipe_thumb.dart';
 import '../../../features/recipes/application/recipes_providers.dart';
 import '../../../features/recipes/data/recipe.dart';
 import '../data/meal.dart';
-import '../../../core/widgets/sheet_grip.dart';
+import '../../../core/widgets/sheets/sheet_grip.dart';
 
 /// Abre o seletor de receitas para virar uma nova opção da refeição [meal].
 /// Usada por: MealCard. O selo mostra "cabe" (sage) ou "+N" (accent2) na meta.

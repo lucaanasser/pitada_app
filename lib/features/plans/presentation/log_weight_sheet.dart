@@ -7,7 +7,7 @@
 // SPEC:      specs/features/plans_progress.yaml (sheets: showLogWeightSheet)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
-import '../../../core/widgets/pitada_sheet.dart';
+import '../../../core/widgets/sheets/pitada_sheet.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -17,9 +17,9 @@ import '../../../core/theme/spacing.dart';
 import '../../../core/theme/typography.dart';
 import '../../../core/utils/app_log.dart';
 import '../../../core/utils/format.dart';
-import '../../../core/widgets/pitada_button.dart';
+import '../../../core/widgets/controls/pitada_button.dart';
 import '../application/progress_providers.dart';
-import '../../../core/widgets/sheet_grip.dart';
+import '../../../core/widgets/sheets/sheet_grip.dart';
 
 /// Abre o sheet de registrar peso. Usada por: ProgressView.
 void showLogWeightSheet(BuildContext context) {

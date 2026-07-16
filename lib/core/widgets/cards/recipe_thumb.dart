@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/core/widgets/recipe_thumb.dart
+// lib/core/widgets/cards/recipe_thumb.dart
 // O QUÊ:     Miniatura de receita — quadrado colorido com ícone. [outlined] é o
 //            modo pastel neo-brutalista (borda tinta + ícone na tinta do tema).
 // USA:       core/theme/app_icons (ícone padrão), theme/pitada_colors (tinta),
@@ -9,9 +9,9 @@
 // SPEC:      specs/components/atoms.yaml (RecipeThumb)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
-import '../theme/app_icons.dart';
-import '../theme/pitada_colors.dart';
-import '../theme/spacing.dart';
+import '../../theme/app_icons.dart';
+import '../../theme/pitada_colors.dart';
+import '../../theme/spacing.dart';
 
 /// Quadrado colorido (hero_color) com ícone no centro — placeholder de foto.
 /// [outlined] = pastel + borda tinta (soft neo-brutalismo); false = cor cheia legada.

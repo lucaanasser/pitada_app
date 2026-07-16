@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/core/widgets/add_options_sheet.dart
+// lib/core/widgets/sheets/add_options_sheet.dart
 // O QUÊ:     Bottom sheet padrão "escolher o que adicionar": grip + título +
 //            opções (miniatura hero + título + subtítulo). Destino do '+' do
 //            header de cada aba. Promovido do caderno_add_sheet (reuso).
@@ -9,14 +9,14 @@
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 
-import '../theme/app_icons.dart';
-import '../theme/colors.dart';
-import '../theme/pitada_colors.dart';
-import '../theme/spacing.dart';
-import '../theme/typography.dart';
-import 'hairline_row.dart';
+import '../../theme/app_icons.dart';
+import '../../theme/colors.dart';
+import '../../theme/pitada_colors.dart';
+import '../../theme/spacing.dart';
+import '../../theme/typography.dart';
+import '../cards/hairline_row.dart';
 import 'pitada_sheet.dart';
-import 'recipe_thumb.dart';
+import '../cards/recipe_thumb.dart';
 import 'sheet_grip.dart';
 
 /// Uma opção do sheet: dados visuais + ação executada DEPOIS do pop, com o

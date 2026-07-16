@@ -8,7 +8,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
-import '../../../core/widgets/pitada_sheet.dart';
+import '../../../core/widgets/sheets/pitada_sheet.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/colors.dart';
@@ -17,9 +17,9 @@ import '../../../core/theme/spacing.dart';
 import '../../../core/theme/typography.dart';
 import '../../../core/utils/app_log.dart';
 import '../../../core/utils/format.dart';
-import '../../../core/widgets/hairline_row.dart';
-import '../../../core/widgets/pitada_button.dart';
-import '../../../core/widgets/step_progress.dart';
+import '../../../core/widgets/cards/hairline_row.dart';
+import '../../../core/widgets/controls/pitada_button.dart';
+import '../../../core/widgets/cards/step_progress.dart';
 import '../application/scanner_service.dart';
 import 'widgets/add_pantry_data.dart';
 

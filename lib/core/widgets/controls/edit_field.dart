@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/core/widgets/edit_field.dart
+// lib/core/widgets/controls/edit_field.dart
 // O QUÊ:     Família de campos de formulário (rótulo em versalete + conteúdo
 //            sobre surf2): texto, stepper numérico ou trailing livre.
 // USA:       theme/*, pitada_button (PitadaIconButton) para o stepper.
@@ -9,11 +9,11 @@
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 
-import '../theme/app_icons.dart';
-import '../theme/colors.dart';
-import '../theme/pitada_colors.dart';
-import '../theme/spacing.dart';
-import '../theme/typography.dart';
+import '../../theme/app_icons.dart';
+import '../../theme/colors.dart';
+import '../../theme/pitada_colors.dart';
+import '../../theme/spacing.dart';
+import '../../theme/typography.dart';
 import 'pitada_button.dart';
 
 /// Campo de texto do editor: rótulo acima, TextField sobre surf2. [maxLines] nulo

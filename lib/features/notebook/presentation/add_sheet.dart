@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/app_icons.dart';
-import '../../../core/widgets/add_options_sheet.dart';
+import '../../../core/widgets/sheets/add_options_sheet.dart';
 import 'diary_quick_sheet.dart';
 import 'note_quick_sheet.dart';
 

@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/core/widgets/pitada_tag.dart
+// lib/core/widgets/tags/pitada_tag.dart
 // O QUÊ:     Tag/pill colorida (fundo pastel + borda tinta + texto), opcional ícone.
 //            É a "tag coloridinha" das referências. Reage ao tema (claro/escuro).
 // USA:       theme/pitada_colors (borda/texto do tema), theme/spacing, theme/typography.
@@ -7,9 +7,9 @@
 // SPEC:      specs/components/pitada_tag.yaml
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
-import '../theme/pitada_colors.dart';
-import '../theme/spacing.dart';
-import '../theme/typography.dart';
+import '../../theme/pitada_colors.dart';
+import '../../theme/spacing.dart';
+import '../../theme/typography.dart';
 
 /// Pílula colorida: [color] é o fundo pastel; borda e texto vêm do tema.
 /// Usada por: qualquer meta curta que mereça cor (nota, tempo, dificuldade...).

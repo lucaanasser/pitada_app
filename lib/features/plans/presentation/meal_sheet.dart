@@ -6,7 +6,7 @@
 // SPEC:      specs/features/plans.yaml (showMealSheet)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
-import '../../../core/widgets/pitada_sheet.dart';
+import '../../../core/widgets/sheets/pitada_sheet.dart';
 import 'package:flutter/services.dart';
 
 import '../../../core/theme/colors.dart';
@@ -14,9 +14,9 @@ import '../../../core/theme/pitada_colors.dart';
 import '../../../core/theme/spacing.dart';
 import '../../../core/theme/typography.dart';
 import '../../../core/utils/app_log.dart';
-import '../../../core/widgets/pitada_button.dart';
+import '../../../core/widgets/controls/pitada_button.dart';
 import '../data/meal.dart';
-import '../../../core/widgets/sheet_grip.dart';
+import '../../../core/widgets/sheets/sheet_grip.dart';
 
 /// Abre o sheet de refeição: novo (meal==null) ou editar (meal preenchido).
 /// Usada por: plans_screen (botão "Adicionar refeição") e MealHeaderRow (editar).

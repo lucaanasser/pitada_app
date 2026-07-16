@@ -11,8 +11,8 @@ import '../../../../core/theme/colors.dart';
 import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
 import '../../../../core/theme/typography.dart';
-import '../../../../core/widgets/editable.dart';
-import '../../../../core/widgets/why_callout.dart';
+import '../../../../core/widgets/controls/editable.dart';
+import '../../../../core/widgets/cards/why_callout.dart';
 import '../../data/recipe_step.dart';
 
 /// Um passo: bolinha numerada terracota + texto + dica de técnica (se houver).

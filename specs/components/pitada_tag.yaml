@@ -1,4 +1,4 @@
-# specs/components/pitada_tag.yaml -> lib/core/widgets/pitada_tag.dart
+# specs/components/pitada_tag.yaml -> lib/core/widgets/tags/pitada_tag.dart
 component: PitadaTag
 prototype: "tags coloridas das referências (pills sólidas com borda)"
 purpose: >

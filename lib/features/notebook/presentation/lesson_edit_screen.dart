@@ -15,8 +15,8 @@ import '../../../core/theme/colors.dart';
 import '../../../core/theme/pitada_colors.dart';
 import '../../../core/theme/spacing.dart';
 import '../../../core/theme/typography.dart';
-import '../../../core/widgets/pitada_button.dart';
-import '../../../core/widgets/pitada_chip.dart';
+import '../../../core/widgets/controls/pitada_button.dart';
+import '../../../core/widgets/controls/pitada_chip.dart';
 import '../../../core/utils/app_log.dart';
 import 'widgets/section_editor.dart';
 

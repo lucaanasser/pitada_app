@@ -15,7 +15,7 @@ import '../../../core/theme/colors.dart';
 import '../../../core/theme/pitada_colors.dart';
 import '../../../core/theme/spacing.dart';
 import '../../../core/theme/typography.dart';
-import '../../../core/widgets/section_header.dart';
+import '../../../core/widgets/layout/section_header.dart';
 import '../application/providers.dart';
 import '../data/repertoire.dart';
 import 'widgets/detail_header.dart';

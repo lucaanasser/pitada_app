@@ -1,15 +1,15 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/core/widgets/expiry_tag.dart
+// lib/core/widgets/tags/expiry_tag.dart
 // O QUÊ:     Tag de validade em contorno, sem ícone (discreta). Avisa perto de vencer.
 // USA:       theme/colors, theme/spacing, theme/typography.
 // USADO POR: shopping (despensa) — status de validade de cada item.
 // SPEC:      specs/components/expiry_tag.yaml
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
-import '../theme/colors.dart';
-import '../theme/pitada_colors.dart';
-import '../theme/spacing.dart';
-import '../theme/typography.dart';
+import '../../theme/colors.dart';
+import '../../theme/pitada_colors.dart';
+import '../../theme/spacing.dart';
+import '../../theme/typography.dart';
 
 /// Tag textual de validade. [urgent] = terracota; senão = neutra ('soon').
 /// Usada por: itens da despensa.

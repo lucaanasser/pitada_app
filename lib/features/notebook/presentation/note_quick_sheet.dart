@@ -8,16 +8,16 @@
 // USADO POR: hub do Caderno (atalhos de captura) e sheet "Adicionar ao Caderno".
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
-import '../../../core/widgets/pitada_sheet.dart';
+import '../../../core/widgets/sheets/pitada_sheet.dart';
 
 import '../../../core/theme/colors.dart';
 import '../../../core/theme/pitada_colors.dart';
 import '../../../core/theme/spacing.dart';
 import '../../../core/theme/typography.dart';
 import '../../../core/utils/app_log.dart';
-import '../../../core/widgets/pitada_button.dart';
-import '../../../core/widgets/pitada_chip.dart';
-import '../../../core/widgets/pitada_tag.dart';
+import '../../../core/widgets/controls/pitada_button.dart';
+import '../../../core/widgets/controls/pitada_chip.dart';
+import '../../../core/widgets/tags/pitada_tag.dart';
 import 'widgets/section_editor.dart';
 
 /// Abre o bottom sheet de nota de fonte rápida (tipo + título + o que fica).

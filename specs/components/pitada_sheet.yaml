@@ -1,5 +1,5 @@
 component: showPitadaSheet
-file: lib/core/widgets/pitada_sheet.dart
+file: lib/core/widgets/sheets/pitada_sheet.dart
 prototype: "todos os bottom sheets do app (meal/add_option/import/log_day/…)"
 purpose: >
   Helper único para abrir bottom sheets no padrão do app. Centraliza a config

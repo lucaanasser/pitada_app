@@ -1,15 +1,15 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/core/widgets/pitada_chip.dart
+// lib/core/widgets/controls/pitada_chip.dart
 // O QUÊ:     Chip arredondado para harmonizações ('combina com') e técnicas linkáveis.
 // USA:       theme/colors, theme/spacing, theme/typography.
 // USADO POR: recipe_detail (técnicas), lesson_detail (harmonizações), perfil.
 // SPEC:      specs/components/pitada_chip.yaml
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
-import '../theme/colors.dart';
-import '../theme/pitada_colors.dart';
-import '../theme/spacing.dart';
-import '../theme/typography.dart';
+import '../../theme/colors.dart';
+import '../../theme/pitada_colors.dart';
+import '../../theme/spacing.dart';
+import '../../theme/typography.dart';
 
 /// Variações do chip. plain = contorno neutro; accent = contorno/texto terracota.
 enum PitadaChipVariant { plain, accent }
