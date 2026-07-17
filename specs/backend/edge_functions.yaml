@@ -89,17 +89,30 @@ functions:
       pdf: content (base64) vai direto ao Gemini como inlineData application/pdf
     ia:
       modelo: gemini-flash-lite-latest (env GEMINI_MODEL) — mesmo de estimate-food
-      saida_estruturada: responseSchema (JSON forçado espelhando RecipeDraft)
+      saida_estruturada: responseSchema em schema.ts (JSON forçado espelhando RecipeDraft)
       idioma: prompt e conteúdo em pt-BR; converte medidas p/ grama quando dá
+      regra_da_ia: >
+        A IA só TRANSCREVE: separa componentes que a receita nomeia, marca a
+        técnica que o passo executa (com o trecho literal como anchor) e o eixo
+        de sabor que o ingrediente traz (limão=acid, shoyu=umami+salt). Na
+        dúvida, lista vazia. Ela nunca julga o prato nem decide nada.
     response:                       # espelha RecipeDraft do app
       title: string
       servings: int
       time_minutes: int?
-      difficulty: string?
-      techniques: [string]?
-      ingredients: [{name, grams?, human_qty?, human_unit?}]
-      steps: [{text, tip?}]
+      components:                   # 1+ por receita; sem partes = 1 sem name
+        - name: string?             # 'Massa', 'Cobertura' — como a receita chama
+          ingredients: [{name, grams?, human_qty?, human_unit?,
+                         flavors: [acid|umami|fat|sweet|bitter|salt|fresh]?}]
+          steps: [{text, tip?, techniques: [{name, anchor}]?}]
       kcal/protein/carb/fat: number?   # por porção, estimados quando possível
+    resolucao_de_tecnica: >         # string livre da IA -> entidade canônica
+      No APP (GeminiRecipeImportService): cada {name, anchor} vira StepTechnique
+      via TechniquesRepository — slug (unaccent+lower) deduplica; nome sem match
+      CRIA a técnica (notion vazia p/ a pessoa preencher). createTechnique online
+      consulta technique_aliases (termo -> slug canônico: 'dourar a carne' ->
+      'selar') antes de criar. Um caminho só de resolução, o mesmo da edição
+      manual do passo.
     erros: {400: source/url/content inválidos, 401: sem sessão,
             422: não achou receita no conteúdo, 502: falha/timeout da IA (app mostra retry)}
 

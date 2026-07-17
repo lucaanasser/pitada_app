@@ -42,10 +42,11 @@ class SupabaseTechniquesRepository implements TechniquesRepository {
   }
 
   /// Cria deduplicando pelo slug (upsert em user_id+slug) e devolve o id.
-  /// Usada por: autocomplete da edição de passo.
+  /// Antes de criar, consulta technique_aliases: 'dourar a carne' vira 'selar'.
+  /// Usada por: autocomplete da edição de passo e importação (Gemini).
   @override
   Future<String> createTechnique(Technique technique) async {
-    final slug = slugify(technique.name);
+    final slug = await _canonicalSlug(slugify(technique.name));
     final row = await _db
         .from('techniques')
         .upsert(
@@ -58,6 +59,21 @@ class SupabaseTechniquesRepository implements TechniquesRepository {
     final id = row['id'] as String;
     AppLog.i('recipes', 'técnica criada (supabase): $slug');
     return id;
+  }
+
+  /// Slug canônico via technique_aliases (o próprio [slug] se não houver alias).
+  /// Usada por: [createTechnique].
+  Future<String> _canonicalSlug(String slug) async {
+    try {
+      final row = await _db
+          .from('technique_aliases')
+          .select('canonical')
+          .eq('term', slug)
+          .maybeSingle();
+      return (row?['canonical'] as String?) ?? slug;
+    } on PostgrestException {
+      return slug;
+    }
   }
 
   /// Substitui a técnica de mesmo id. Usada por: página de técnica.

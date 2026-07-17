@@ -1,11 +1,14 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // supabase/functions/import-recipe/index.ts  (Edge Function — Deno/TypeScript)
-// O QUÊ:     Extrai uma receita estruturada de um site/Instagram/PDF via Gemini.
-//            Recebe { source, url?, content? }, devolve um rascunho espelhando RecipeDraft.
-// USA:       source.ts (coleta do conteúdo), Gemini REST (generateContent + responseSchema).
+// O QUÊ:     Extrai uma receita estruturada de um site/Instagram/PDF via Gemini:
+//            componentes (massa/cobertura), técnica por passo, sabor por
+//            ingrediente. Recebe { source, url?, content? }.
+// USA:       source.ts (coleta do conteúdo), schema.ts (prompt + responseSchema),
+//            Gemini REST (generateContent).
 // USADO POR: GeminiRecipeImportService (lib/features/recipes/application) via functions.invoke.
 // SPEC:      specs/backend/edge_functions.yaml (functions.import-recipe)
 // ─────────────────────────────────────────────────────────────────────────────
+import { PROMPT, RESPONSE_SCHEMA } from "./schema.ts";
 import { buildParts, type Part } from "./source.ts";
 
 const GEMINI_MODEL = Deno.env.get("GEMINI_MODEL") ?? "gemini-flash-lite-latest";
@@ -17,49 +20,6 @@ const CORS = {
     "authorization, x-client-info, apikey, content-type",
   "Access-Control-Allow-Methods": "POST, OPTIONS",
 };
-
-// Saída forçada: espelha RecipeDraft (só title/ingredients/steps são obrigatórios).
-const INGREDIENT = {
-  type: "object",
-  properties: {
-    name: { type: "string" },
-    grams: { type: "number" },
-    human_qty: { type: "number" },
-    human_unit: { type: "string" },
-  },
-  required: ["name"],
-};
-const STEP = {
-  type: "object",
-  properties: { text: { type: "string" }, tip: { type: "string" } },
-  required: ["text"],
-};
-const RESPONSE_SCHEMA = {
-  type: "object",
-  properties: {
-    title: { type: "string" },
-    servings: { type: "integer" },
-    time_minutes: { type: "integer" },
-    difficulty: { type: "string" },
-    techniques: { type: "array", items: { type: "string" } },
-    ingredients: { type: "array", items: INGREDIENT },
-    steps: { type: "array", items: STEP },
-    kcal: { type: "number" },
-    protein: { type: "number" },
-    carb: { type: "number" },
-    fat: { type: "number" },
-  },
-  required: ["title", "ingredients", "steps"],
-};
-
-const PROMPT = [
-  "Você recebe o conteúdo de uma receita (texto de site/Instagram ou um PDF).",
-  "Extraia a receita de forma estruturada, em português do Brasil.",
-  "Regras: grams = quantidade em gramas (base p/ macros); human_qty/human_unit =",
-  "a medida humana original (ex.: 2 / 'unidade', 3 / 'c. sopa'). kcal/protein/carb/fat",
-  "são POR PORÇÃO, estimados quando não vierem explícitos. time_minutes em minutos.",
-  "techniques = 1-4 técnicas-chave. Se o conteúdo NÃO for uma receita, devolva title vazio.",
-].join(" ");
 
 /// Resposta JSON com headers de CORS. Usada por: handler.
 function json(body: unknown, status = 200): Response {
