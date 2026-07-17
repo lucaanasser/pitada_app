@@ -31,7 +31,6 @@ const kSeedOldVersions = <Recipe>[
     heroColor: 'terra',
     version: 1,
     versionGroupId: 'frango-xadrez',
-    techniques: ['Emulsionar um molho'],
     components: [
       RecipeComponent(
         ingredients: [
@@ -86,7 +85,6 @@ const kSeedOldVersions = <Recipe>[
     heroColor: 'terra',
     version: 2,
     versionGroupId: 'frango-xadrez',
-    techniques: ['Selar a carne', 'Emulsionar um molho'],
     components: [
       RecipeComponent(
         ingredients: [

@@ -43,7 +43,6 @@ abstract class Recipe with _$Recipe {
     @Default(0) int photoCount,
     String? notes,
     @Default([]) List<String> folderIds,
-    @Default([]) List<String> techniques,
     @Default([]) List<RecipeComponent> components,
     @Default(1) int version,
     String? versionGroupId,

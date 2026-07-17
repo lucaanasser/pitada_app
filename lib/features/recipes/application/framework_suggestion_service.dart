@@ -3,18 +3,20 @@
 // O QUÊ:     Sugestão socrática da tab Frameworks: acha NO MÁXIMO um grupo de
 //            receitas parecidas e pergunta o que elas têm em comum — a IA
 //            aponta, o usuário nomeia. Heurística local, sem rede.
-// USA:       recipes_providers (acervo), framework_providers (instâncias já
-//            usadas), recipe.dart, riverpod.
+// USA:       recipes_providers (acervo), framework_providers, technique_providers
+//            (nomes das técnicas), recipe.dart, riverpod.
 // USADO POR: FrameworksTabView (via frameworkSuggestionProvider).
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../core/utils/slug.dart';
+
 
 import '../data/models/framework.dart';
+import '../data/models/technique.dart';
 import '../data/models/recipe/recipe.dart';
 import 'framework_providers.dart';
 import 'recipes_providers.dart';
+import 'technique_providers.dart';
 
 /// Um grupo de receitas parecidas + o traço que elas compartilham (a pista da
 /// pergunta socrática — nunca o nome do framework). Usada por: FrameworksTabView.
@@ -34,31 +36,35 @@ final frameworkSuggestionProvider = Provider<FrameworkSuggestion?>((ref) {
   final recipes = ref.watch(recipesProvider).valueOrNull ?? const <Recipe>[];
   final frameworks =
       ref.watch(frameworksProvider).valueOrNull ?? const <Framework>[];
+  final techniques =
+      ref.watch(techniquesProvider).valueOrNull ?? const <Technique>[];
   final taken = <String>{for (final f in frameworks) ...f.recipeIds};
   final free = [for (final r in recipes) if (!taken.contains(r.id)) r];
   if (free.length < 2) return null;
-  return _byTechnique(free) ?? _byIngredients(free);
+  return _byTechnique(free, techniques) ?? _byIngredients(free);
 });
 
-/// Maior grupo (2+) de receitas livres que usa a mesma técnica. Agrupa pelo
-/// SLUG canônico — "Selar a carne" e "selar" são o mesmo grupo.
+/// Maior grupo (2+) de receitas livres que executa a mesma técnica nos passos.
+/// Agrupa pelo ID canônico — "Selar a carne" e "selar" são o mesmo grupo.
 /// Usada por: [frameworkSuggestionProvider].
-FrameworkSuggestion? _byTechnique(List<Recipe> free) {
+FrameworkSuggestion? _byTechnique(List<Recipe> free, List<Technique> known) {
+  final names = {for (final t in known) t.id: t.name};
   final groups = <String, List<Recipe>>{};
-  final labels = <String, String>{};
   for (final r in free) {
-    for (final t in r.techniques) {
-      final slug = slugify(t);
-      labels.putIfAbsent(slug, () => t);
-      groups.putIfAbsent(slug, () => []).add(r);
+    final ids = <String>{
+      for (final s in r.allSteps)
+        for (final t in s.techniques) t.techniqueId,
+    };
+    for (final id in ids) {
+      groups.putIfAbsent(id, () => []).add(r);
     }
   }
   List<Recipe>? best;
   String? trait;
-  groups.forEach((slug, rs) {
+  groups.forEach((id, rs) {
     if (rs.length >= 2 && (best == null || rs.length > best!.length)) {
       best = rs;
-      trait = labels[slug];
+      trait = names[id] ?? 'a mesma técnica';
     }
   });
   if (best == null) return null;

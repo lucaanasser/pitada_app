@@ -69,7 +69,6 @@ class MockRecipeImportService implements RecipeImportService {
       carb: 38,
       fat: 18,
       heroColor: 'terra',
-      techniques: <String>['Selar a carne', 'Emulsionar um molho'],
       components: [
         DraftComponent(
           ingredients: const <Ingredient>[
@@ -104,6 +103,12 @@ class MockRecipeImportService implements RecipeImportService {
             RecipeStep(
               text: 'Sele os cubos em fogo alto, sem mexer demais, até dourar.',
               tip: 'Panela cheia demais esfria e cozinha; sele em levas.',
+              techniques: [
+                StepTechnique(
+                  techniqueId: 'tq-selar',
+                  anchor: 'Sele os cubos',
+                ),
+              ],
             ),
             RecipeStep(
                 text:

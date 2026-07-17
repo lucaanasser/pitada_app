@@ -28,7 +28,6 @@ mixin _$Recipe {
   int get photoCount;
   String? get notes;
   List<String> get folderIds;
-  List<String> get techniques;
   List<RecipeComponent> get components;
   int get version;
   String? get versionGroupId;
@@ -68,8 +67,6 @@ mixin _$Recipe {
             (identical(other.notes, notes) || other.notes == notes) &&
             const DeepCollectionEquality().equals(other.folderIds, folderIds) &&
             const DeepCollectionEquality()
-                .equals(other.techniques, techniques) &&
-            const DeepCollectionEquality()
                 .equals(other.components, components) &&
             (identical(other.version, version) || other.version == version) &&
             (identical(other.versionGroupId, versionGroupId) ||
@@ -94,14 +91,13 @@ mixin _$Recipe {
       photoCount,
       notes,
       const DeepCollectionEquality().hash(folderIds),
-      const DeepCollectionEquality().hash(techniques),
       const DeepCollectionEquality().hash(components),
       version,
       versionGroupId);
 
   @override
   String toString() {
-    return 'Recipe(id: $id, title: $title, source: $source, sourceUrl: $sourceUrl, servings: $servings, timeMinutes: $timeMinutes, kcal: $kcal, protein: $protein, carb: $carb, fat: $fat, heroColor: $heroColor, photoCount: $photoCount, notes: $notes, folderIds: $folderIds, techniques: $techniques, components: $components, version: $version, versionGroupId: $versionGroupId)';
+    return 'Recipe(id: $id, title: $title, source: $source, sourceUrl: $sourceUrl, servings: $servings, timeMinutes: $timeMinutes, kcal: $kcal, protein: $protein, carb: $carb, fat: $fat, heroColor: $heroColor, photoCount: $photoCount, notes: $notes, folderIds: $folderIds, components: $components, version: $version, versionGroupId: $versionGroupId)';
   }
 }
 
@@ -125,7 +121,6 @@ abstract mixin class $RecipeCopyWith<$Res> {
       int photoCount,
       String? notes,
       List<String> folderIds,
-      List<String> techniques,
       List<RecipeComponent> components,
       int version,
       String? versionGroupId});
@@ -157,7 +152,6 @@ class _$RecipeCopyWithImpl<$Res> implements $RecipeCopyWith<$Res> {
     Object? photoCount = null,
     Object? notes = freezed,
     Object? folderIds = null,
-    Object? techniques = null,
     Object? components = null,
     Object? version = null,
     Object? versionGroupId = freezed,
@@ -218,10 +212,6 @@ class _$RecipeCopyWithImpl<$Res> implements $RecipeCopyWith<$Res> {
       folderIds: null == folderIds
           ? _self.folderIds
           : folderIds // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      techniques: null == techniques
-          ? _self.techniques
-          : techniques // ignore: cast_nullable_to_non_nullable
               as List<String>,
       components: null == components
           ? _self.components
@@ -347,7 +337,6 @@ extension RecipePatterns on Recipe {
             int photoCount,
             String? notes,
             List<String> folderIds,
-            List<String> techniques,
             List<RecipeComponent> components,
             int version,
             String? versionGroupId)?
@@ -372,7 +361,6 @@ extension RecipePatterns on Recipe {
             _that.photoCount,
             _that.notes,
             _that.folderIds,
-            _that.techniques,
             _that.components,
             _that.version,
             _that.versionGroupId);
@@ -411,7 +399,6 @@ extension RecipePatterns on Recipe {
             int photoCount,
             String? notes,
             List<String> folderIds,
-            List<String> techniques,
             List<RecipeComponent> components,
             int version,
             String? versionGroupId)
@@ -435,7 +422,6 @@ extension RecipePatterns on Recipe {
             _that.photoCount,
             _that.notes,
             _that.folderIds,
-            _that.techniques,
             _that.components,
             _that.version,
             _that.versionGroupId);
@@ -473,7 +459,6 @@ extension RecipePatterns on Recipe {
             int photoCount,
             String? notes,
             List<String> folderIds,
-            List<String> techniques,
             List<RecipeComponent> components,
             int version,
             String? versionGroupId)?
@@ -497,7 +482,6 @@ extension RecipePatterns on Recipe {
             _that.photoCount,
             _that.notes,
             _that.folderIds,
-            _that.techniques,
             _that.components,
             _that.version,
             _that.versionGroupId);
@@ -525,12 +509,10 @@ class _Recipe extends Recipe {
       this.photoCount = 0,
       this.notes,
       final List<String> folderIds = const [],
-      final List<String> techniques = const [],
       final List<RecipeComponent> components = const [],
       this.version = 1,
       this.versionGroupId})
       : _folderIds = folderIds,
-        _techniques = techniques,
         _components = components,
         super._();
   factory _Recipe.fromJson(Map<String, dynamic> json) => _$RecipeFromJson(json);
@@ -575,15 +557,6 @@ class _Recipe extends Recipe {
     if (_folderIds is EqualUnmodifiableListView) return _folderIds;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_folderIds);
-  }
-
-  final List<String> _techniques;
-  @override
-  @JsonKey()
-  List<String> get techniques {
-    if (_techniques is EqualUnmodifiableListView) return _techniques;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_techniques);
   }
 
   final List<RecipeComponent> _components;
@@ -642,8 +615,6 @@ class _Recipe extends Recipe {
             const DeepCollectionEquality()
                 .equals(other._folderIds, _folderIds) &&
             const DeepCollectionEquality()
-                .equals(other._techniques, _techniques) &&
-            const DeepCollectionEquality()
                 .equals(other._components, _components) &&
             (identical(other.version, version) || other.version == version) &&
             (identical(other.versionGroupId, versionGroupId) ||
@@ -668,14 +639,13 @@ class _Recipe extends Recipe {
       photoCount,
       notes,
       const DeepCollectionEquality().hash(_folderIds),
-      const DeepCollectionEquality().hash(_techniques),
       const DeepCollectionEquality().hash(_components),
       version,
       versionGroupId);
 
   @override
   String toString() {
-    return 'Recipe(id: $id, title: $title, source: $source, sourceUrl: $sourceUrl, servings: $servings, timeMinutes: $timeMinutes, kcal: $kcal, protein: $protein, carb: $carb, fat: $fat, heroColor: $heroColor, photoCount: $photoCount, notes: $notes, folderIds: $folderIds, techniques: $techniques, components: $components, version: $version, versionGroupId: $versionGroupId)';
+    return 'Recipe(id: $id, title: $title, source: $source, sourceUrl: $sourceUrl, servings: $servings, timeMinutes: $timeMinutes, kcal: $kcal, protein: $protein, carb: $carb, fat: $fat, heroColor: $heroColor, photoCount: $photoCount, notes: $notes, folderIds: $folderIds, components: $components, version: $version, versionGroupId: $versionGroupId)';
   }
 }
 
@@ -700,7 +670,6 @@ abstract mixin class _$RecipeCopyWith<$Res> implements $RecipeCopyWith<$Res> {
       int photoCount,
       String? notes,
       List<String> folderIds,
-      List<String> techniques,
       List<RecipeComponent> components,
       int version,
       String? versionGroupId});
@@ -732,7 +701,6 @@ class __$RecipeCopyWithImpl<$Res> implements _$RecipeCopyWith<$Res> {
     Object? photoCount = null,
     Object? notes = freezed,
     Object? folderIds = null,
-    Object? techniques = null,
     Object? components = null,
     Object? version = null,
     Object? versionGroupId = freezed,
@@ -793,10 +761,6 @@ class __$RecipeCopyWithImpl<$Res> implements _$RecipeCopyWith<$Res> {
       folderIds: null == folderIds
           ? _self._folderIds
           : folderIds // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      techniques: null == techniques
-          ? _self._techniques
-          : techniques // ignore: cast_nullable_to_non_nullable
               as List<String>,
       components: null == components
           ? _self._components

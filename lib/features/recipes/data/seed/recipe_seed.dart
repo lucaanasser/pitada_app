@@ -38,7 +38,6 @@ const kSeedRecipes = <Recipe>[
     folderIds: ['rapidos'],
     version: 3,
     versionGroupId: 'frango-xadrez',
-    techniques: ['Selar a carne', 'Emulsionar um molho'],
     components: [
       RecipeComponent(
         ingredients: [
@@ -154,7 +153,6 @@ const kSeedRecipes = <Recipe>[
     fat: 34,
     heroColor: 'rust',
     folderIds: ['rapidos'],
-    techniques: ['Selar a carne', 'Emulsionar um molho'],
     version: 2,
     versionGroupId: 'strogonoff',
     components: [

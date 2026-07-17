@@ -184,7 +184,18 @@ não existem mais nas specs. Sobrou um:
 
 - [ ] `Colors.white` cru em `core/widgets/cards/recipe_thumb.dart:55` → token de `AppColors`
 
-## 8. Smoke das 5 abas no browser — [ ]
+## 8. Duas noções de técnica até o Caderno ser refatorado — [ ]
+
+Decisão consciente (jul/2026, refatoração da página de receita): `Technique.notion`
+(recipes) nasceu como campo próprio porque o Caderno ainda é legado, mas o Caderno já
+tem `LessonKind.technique` com `Lesson.summary` = a mesma noção. São dois lugares onde
+a mesma coisa pode ser escrita — exatamente o "dois sistemas que dessincronizam" que a
+tese proíbe.
+
+- [ ] Na refatoração do Caderno: reconciliar `Technique.notion` ↔ `Lesson.summary`
+      (uma escrita, duas verdades — decidir qual é a fonte e derivar a outra)
+
+## 9. Smoke das 5 abas no browser — [ ]
 
 A única verificação que a Fase 3 devia ter e não tem. `analyze` 0 erros e `flutter build web
 --release` passam, mas **ninguém abriu o app pra ver as abas de pé**. A Fase 3 mexeu em caminho e

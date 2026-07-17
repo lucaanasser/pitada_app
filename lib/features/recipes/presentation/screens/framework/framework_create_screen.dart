@@ -12,15 +12,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../../core/theme/app_icons.dart';
-import '../../../../../core/utils/slug.dart';
 import '../../../../../core/theme/pitada_colors.dart';
 import '../../../../../core/theme/spacing.dart';
 import '../../../../../core/widgets/cards/step_progress.dart';
 import '../../../../../core/widgets/controls/pitada_button.dart';
 import '../../../application/framework_providers.dart';
 import '../../../application/recipes_providers.dart';
+import '../../../application/technique_providers.dart';
 import '../../../data/models/framework.dart';
 import '../../../data/models/recipe/recipe.dart';
+import '../../../data/models/technique.dart';
 import '../../widgets/framework/framework_question_view.dart';
 
 /// Tela de criação guiada de framework. [recipeIds] chega da sugestão
@@ -97,14 +98,21 @@ class _FrameworkCreateScreenState extends ConsumerState<FrameworkCreateScreen> {
           if (l.trim().isNotEmpty) l.trim(),
       ];
 
-  /// Cria o framework com as respostas e volta para a tab. Usada por: [build].
+  /// Cria o framework com as respostas e volta para a tab. As técnicas vêm dos
+  /// PASSOS das receitas ligadas (entidade canônica, nunca string solta).
+  /// Usada por: [build].
   Future<void> _create(List<Recipe> linked) async {
-    final bySlug = <String, String>{};
-    for (final r in linked) {
-      for (final t in r.techniques) {
-        bySlug.putIfAbsent(slugify(t), () => t);
-      }
-    }
+    final known =
+        ref.read(techniquesProvider).valueOrNull ?? const <Technique>[];
+    final ids = <String>{
+      for (final r in linked)
+        for (final s in r.allSteps)
+          for (final t in s.techniques) t.techniqueId,
+    };
+    final names = [
+      for (final t in known)
+        if (ids.contains(t.id)) t.name,
+    ];
     final id = await ref.read(frameworkEditControllerProvider).create(
           Framework(
             id: '',
@@ -113,7 +121,7 @@ class _FrameworkCreateScreenState extends ConsumerState<FrameworkCreateScreen> {
             slots: _lines(_slots),
             rules: _lines(_rules),
             recipeIds: [for (final r in linked) r.id],
-            techniques: bySlug.values.toList(),
+            techniques: names,
           ),
         );
     if (!mounted) return;

@@ -276,6 +276,15 @@ migrations:
       enum flavor_axis: [acid, umami, fat, sweet, bitter, salt, fresh]  # fresh = frescor herbáceo
       recipe_ingredients_add: flavors flavor_axis[] not null default '{}'
 
+  - 0017_drop_recipe_techniques.sql:  # fim das técnicas soltas
+      alias_seed: termos universais -> slug canônico ('dourar a carne' -> 'selar')
+      backfill: >
+        Cada string de recipes.techniques vira uma linha de techniques do
+        usuário (slug via alias quando houver; senão unaccent+lower). NÃO liga
+        técnica a passo (não há como saber qual): as migradas existem e listam
+        suas receitas, mas sem grifo até a pessoa editar. Degradação correta.
+      drop: recipes.techniques (text[])
+
 leitura_pelo_app:                    # PostgREST embedding — 1 query traz tudo
   exemplo: >
     from('recipes').select('*, recipe_ingredients(*), recipe_steps(*),

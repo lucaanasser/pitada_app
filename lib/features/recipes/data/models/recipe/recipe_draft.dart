@@ -58,7 +58,6 @@ class RecipeDraft {
   String heroColor;
   String? notes;
   List<String> folderIds;
-  List<String> techniques;
   List<DraftComponent> components;
 
   RecipeDraft({
@@ -75,10 +74,8 @@ class RecipeDraft {
     this.heroColor = 'clay',
     this.notes,
     List<String>? folderIds,
-    List<String>? techniques,
     List<DraftComponent>? components,
   })  : folderIds = folderIds ?? <String>[],
-        techniques = techniques ?? <String>[],
         components = (components == null || components.isEmpty)
             ? [DraftComponent()]
             : components;
@@ -104,7 +101,6 @@ class RecipeDraft {
         heroColor: r.heroColor,
         notes: r.notes,
         folderIds: List<String>.of(r.folderIds),
-        techniques: List<String>.of(r.techniques),
         components: [
           for (final c in r.components) DraftComponent.fromComponent(c),
         ],
@@ -126,7 +122,6 @@ class RecipeDraft {
         heroColor: heroColor,
         notes: notes,
         folderIds: List<String>.of(folderIds),
-        techniques: List<String>.of(techniques),
         components: [for (final c in components) c.toComponent()],
       );
 }
