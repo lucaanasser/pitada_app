@@ -19,13 +19,46 @@ List<Map<String, dynamic>> _sortedByPosition(Object? embedded) {
     );
 }
 
+/// Agrupa ingredientes/passos por component_id no shape de RecipeComponent.
+/// Sem componentes: tudo cai num componente sem nome; órfãos (component_id
+/// null) caem no primeiro componente. Usada por: recipeFromRow.
+List<Map<String, dynamic>> _componentMaps(
+  List<Map<String, dynamic>> components,
+  List<Map<String, dynamic>> ingredients,
+  List<Map<String, dynamic>> steps,
+) {
+  if (components.isEmpty) {
+    return [
+      {'name': null, 'ingredients': ingredients, 'steps': steps},
+    ];
+  }
+  List<Map<String, dynamic>> of(List<Map<String, dynamic>> rows, int i) => [
+        for (final r in rows)
+          if (r['component_id'] == components[i]['id'] ||
+              (i == 0 && r['component_id'] == null))
+            r,
+      ];
+  return [
+    for (var i = 0; i < components.length; i++)
+      {
+        'name': components[i]['name'],
+        'ingredients': of(ingredients, i),
+        'steps': of(steps, i),
+      },
+  ];
+}
+
 /// Converte a linha de `recipes` (com embedding) no modelo Recipe.
 /// Usada por: SupabaseRecipesRepository (fetchRecipes/fetchById/fetchVersionGroup).
 Recipe recipeFromRow(Map<String, dynamic> row) {
+  final ingredients = _sortedByPosition(row['recipe_ingredients']);
+  final steps = _sortedByPosition(row['recipe_steps']);
+  final components = _sortedByPosition(row['recipe_components']);
   return Recipe.fromJson({
     ...row,
-    'ingredients': _sortedByPosition(row['recipe_ingredients']),
-    'steps': _sortedByPosition(row['recipe_steps']),
+    'ingredients': ingredients,
+    'steps': steps,
+    'components': _componentMaps(components, ingredients, steps),
     'folder_ids': [
       for (final f in (row['recipe_folders'] as List? ?? const []))
         (f as Map)['folder_id'] as String,
@@ -41,6 +74,7 @@ Map<String, dynamic> recipeToRow(Recipe recipe, {bool withId = true}) {
   final row = recipe.toJson()
     ..remove('ingredients')
     ..remove('steps')
+    ..remove('components')
     ..remove('folder_ids');
   if (!withId) row.remove('id');
   return row;

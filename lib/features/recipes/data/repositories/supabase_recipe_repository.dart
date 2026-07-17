@@ -25,8 +25,8 @@ class SupabaseRecipesRepository implements RecipesRepository {
   SupabaseClient get _db => SupabaseService.client;
 
   /// Embedding padrão: receita + filhas numa query só (mapper monta o modelo).
-  static const _select =
-      '*, recipe_ingredients(*), recipe_steps(*), recipe_folders(folder_id)';
+  static const _select = '*, recipe_ingredients(*), recipe_steps(*), '
+      'recipe_components(*), recipe_folders(folder_id)';
 
   /// Só as DEFINITIVAS (coluna gerada is_definitive), na ordem de criação.
   /// Usada por: recipesProvider.
@@ -141,6 +141,7 @@ class SupabaseRecipesRepository implements RecipesRepository {
   Future<void> _writeChildren(Recipe recipe, String recipeId) async {
     await _db.from('recipe_ingredients').delete().eq('recipe_id', recipeId);
     await _db.from('recipe_steps').delete().eq('recipe_id', recipeId);
+    await _db.from('recipe_components').delete().eq('recipe_id', recipeId);
     await _db.from('recipe_folders').delete().eq('recipe_id', recipeId);
     final ings = ingredientRows(recipe, recipeId);
     final steps = stepRows(recipe, recipeId);

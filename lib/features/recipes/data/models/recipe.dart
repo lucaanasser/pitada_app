@@ -1,13 +1,16 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/recipes/data/models/recipe.dart
-// O QUÊ:     Modelo principal de receita (agrega ingredientes, passos, metadados).
-// USA:       freezed + json_serializable (codegen), ingredient.dart, recipe_step.dart.
+// O QUÊ:     Modelo principal de receita (agrega componentes, ingredientes,
+//            passos e metadados).
+// USA:       freezed + json_serializable (codegen), ingredient.dart,
+//            recipe_step.dart, recipe_component.dart.
 // USADO POR: recipe_seed, repositórios (seed/Supabase), providers e telas de Receitas.
-// SPEC:      specs/features/recipes.yaml (data.models, data.versoes)
+// SPEC:      specs/features/recipes.yaml (data.models, data.componentes, data.versoes)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'ingredient.dart';
+import 'recipe_component.dart';
 import 'recipe_step.dart';
 
 part 'recipe.freezed.dart';
@@ -43,6 +46,7 @@ abstract class Recipe with _$Recipe {
     @Default([]) List<String> techniques,
     @Default([]) List<Ingredient> ingredients,
     @Default([]) List<RecipeStep> steps,
+    @Default([]) List<RecipeComponent> components,
     @Default(1) int version,
     String? versionGroupId,
   }) = _Recipe;
@@ -53,6 +57,17 @@ abstract class Recipe with _$Recipe {
 
   /// True quando a receita faz parte de um grupo de versões. Usada por: RecipeDetailScreen.
   bool get hasVersions => versionGroupId != null;
+
+  /// Ingredientes de todos os componentes, achatados na ordem (macros somam:
+  /// componente é sub-receita). Usada por: cook mode, lista de compras, macros.
+  List<Ingredient> get allIngredients => components.isEmpty
+      ? ingredients
+      : [for (final c in components) ...c.ingredients];
+
+  /// Passos de todos os componentes, achatados na ordem (fila reta do cook
+  /// mode). Usada por: CookModeScreen, StepProgress.
+  List<RecipeStep> get allSteps =>
+      components.isEmpty ? steps : [for (final c in components) ...c.steps];
 
   /// Deriva um snapshot com a IDENTIDADE de versão trocada (id, número, grupo e,
   /// opcionalmente, as pastas) — o conteúdo permanece. Usada por:

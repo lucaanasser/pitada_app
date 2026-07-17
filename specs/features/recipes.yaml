@@ -4,15 +4,22 @@ prototype: "TAB-RECEITAS, VIEW-RECIPE, VIEW-EDIT, VIEW-COOK, VIEW-FOLDER, SHEET-
 purpose: Guardar, ver, editar, cozinhar e importar receitas. Grama é a base.
 
 data:
-  models: [Recipe, Ingredient, RecipeStep, Folder]
+  models: [Recipe, RecipeComponent, Ingredient, RecipeStep, Folder]
   models_impl: >
     freezed + json_serializable (regra de architecture.md). fromJson/toJson com
     field_rename snake (camelCase Dart <-> snake_case Postgres, ver
     specs/backend/database.yaml). Recipe.fromJson aceita o embedding do
     PostgREST (recipe_ingredients/recipe_steps/recipe_folders aninhados).
+  componentes: >
+    RecipeComponent {name?, ingredients, steps} = SUB-RECEITA (massa/cobertura;
+    macros somam — ver rules/data-model.md), nunca pasta. Receita simples = 1
+    componente com name null (a tela não mostra subcabeçalho). Recipe.components
+    é a fonte da verdade estrutural; allIngredients/allSteps achatam para quem
+    precisa da lista reta (cook mode, lista de compras, macros).
   model_helpers:
     - Recipe.copyWith(...)   # gerado pelo freezed (edição inline)
     - Recipe.withVersionIdentity(...)  # método custom (construtor privado Recipe._())
+    - Recipe.allIngredients / Recipe.allSteps  # achatam os componentes na ordem
   repository: >
     RecipesRepository (ABSTRATO) + 2 impls: SeedRecipesRepository (em memória,
     preview PC — comportamento abaixo) e SupabaseRecipesRepository (online,

@@ -37,6 +37,10 @@ _Recipe _$RecipeFromJson(Map<String, dynamic> json) => _Recipe(
               ?.map((e) => RecipeStep.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
+      components: (json['components'] as List<dynamic>?)
+              ?.map((e) => RecipeComponent.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
       version: (json['version'] as num?)?.toInt() ?? 1,
       versionGroupId: json['version_group_id'] as String?,
     );
@@ -59,6 +63,7 @@ Map<String, dynamic> _$RecipeToJson(_Recipe instance) => <String, dynamic>{
       'techniques': instance.techniques,
       'ingredients': instance.ingredients.map((e) => e.toJson()).toList(),
       'steps': instance.steps.map((e) => e.toJson()).toList(),
+      'components': instance.components.map((e) => e.toJson()).toList(),
       'version': instance.version,
       'version_group_id': instance.versionGroupId,
     };

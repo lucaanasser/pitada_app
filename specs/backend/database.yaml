@@ -227,11 +227,28 @@ migrations:
         (batchEmbedContents, taskType RETRIEVAL_DOCUMENT) e faz UPDATE. Roda 1x após
         reset/deploy (dado DERIVADO, fora de migration). Sem ele, busca segue lexical.
 
+  - 0014_recipe_components.sql:    # componente = SUB-RECEITA (massa/cobertura) — macros SOMAM
+      motivo: >
+        Uma receita pode ter partes com nome próprio (massa, cobertura, molho). Componente
+        é sub-receita, não pasta (ver rules/data-model.md): os macros dele rolam pro prato.
+        Tabela (não JSONB) para o sum() por componente ser SQL quando a fatia de macros chegar.
+      recipe_components:
+        colunas: [id, recipe_id fk->recipes on delete cascade, position int default 0,
+                  name text]           # name null = componente implícito (receita simples)
+        indice: recipe_id
+      recipe_ingredients_add: component_id uuid fk->recipe_components on delete cascade  # null = implícito
+      recipe_steps_add:       component_id uuid fk->recipe_components on delete cascade  # null = implícito
+      migracao_de_dados: >
+        Nenhuma. component_id null = pertence ao componente implícito; o mapper agrupa
+        órfãos num componente sem nome. Receitas existentes não mudam.
+      rls: dono da receita (mesmo padrão de recipe_steps)
+
 leitura_pelo_app:                    # PostgREST embedding — 1 query traz tudo
   exemplo: >
     from('recipes').select('*, recipe_ingredients(*), recipe_steps(*),
-    recipe_folders(folder_id)') — Recipe.fromJson monta o aninhado
-    (ingredientes/passos ordenados por position).
+    recipe_components(*), recipe_folders(folder_id)') — o mapper agrupa
+    ingredientes/passos por component_id (ordenados por position) e monta
+    Recipe.components; sem componentes, tudo cai num componente sem nome.
   bancada: >
     from('bancada_items').select() filtrando por cooked_at (null = ativos); a Recipe de
     cada item vem por lookup no app (recipeByIdProvider), não por embedding.
