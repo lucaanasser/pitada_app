@@ -90,7 +90,15 @@ class _ImportSourceGridState extends State<ImportSourceGrid> {
           ],
         ),
         const SizedBox(height: AppSpacing.md),
-        _card(pit, AppIcons.framework, 'Novo Framework', widget.onNewFramework),
+        SizedBox(
+          width: double.infinity,
+          child: _card(
+            pit,
+            AppIcons.framework,
+            'Novo Framework',
+            widget.onNewFramework,
+          ),
+        ),
       ],
     );
   }
