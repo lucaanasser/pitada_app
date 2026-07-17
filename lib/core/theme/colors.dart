@@ -74,18 +74,18 @@ class AppColors {
   static Color heroOf(String? name) => hero[name] ?? clay;
 
   static const List<Color> tabBgLight = [
-    Color(0xFFF7DECB), // Receitas (pêssego)
-    Color(0xFFE5F1CA), // Caderno (pistache)
-    Color(0xFFF7EDC8), // Planos (manteiga)
-    Color(0xFFD1F0E6), // Ingredientes (menta)
-    Color(0xFFF7D9E3), // Perfil (rosé)
+    Color(0xFFF5E0D3), // Receitas (terra)
+    Color(0xFFEAF5D3), // Caderno (moss)
+    Color(0xFFF5EBD3), // Planos (ochre)
+    Color(0xFFD3F5EA), // Ingredientes (teal)
+    Color(0xFFF5D3E4), // Perfil (plum)
   ];
   static const List<Color> tabBgDark = [
-    Color(0xFF261912), // Receitas (brasa)
-    Color(0xFF1D2412), // Caderno (musgo)
-    Color(0xFF262111), // Planos (âmbar)
-    Color(0xFF11221E), // Ingredientes (pinho)
-    Color(0xFF25141B), // Perfil (ameixa)
+    Color(0xFF1B120C), // Receitas (terra)
+    Color(0xFF161B0C), // Caderno (moss)
+    Color(0xFF1B160C), // Planos (ochre)
+    Color(0xFF0C1B16), // Ingredientes (teal)
+    Color(0xFF1B0C13), // Perfil (plum)
   ];
 
   static const Map<String, Color> cardLight = {

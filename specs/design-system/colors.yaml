@@ -61,15 +61,15 @@ ink:
   escuro: "#0E0C08"   # inkDark — quase-preto (o marrom antigo lia como cinza)
 
 # Fundos tingidos por aba (0..4): Receitas, Caderno, Planos, Ingredientes, Perfil
-# Cada aba tem um matiz próprio, o MESMO nos dois temas (pêssego/brasa 26°,
-# pistache/musgo 80°, manteiga/âmbar 46°, menta/pinho 163°, rosé/ameixa 338°).
-# A cor é perceptível — nunca lê como creme puro nem como preto (pedido do dono).
-# CLARO: pastéis quase-creme (V ≈ 0.95, S ≈ 0.12–0.19), a meio caminho entre o
-# creme base (#F4EDDE) e os pastéis de card.
-tab_bg_light: ["#F7DECB", "#E5F1CA", "#F7EDC8", "#D1F0E6", "#F7D9E3"]
-# ESCURO: quase-pretos tingidos (V ≈ 0.13–0.15, S ≈ 0.46–0.55) — escuros o
-# bastante para não atrapalhar a leitura, saturados o bastante para ter cor.
-tab_bg_dark:  ["#261912", "#1D2412", "#262111", "#11221E", "#25141B"]
+# Cada aba usa o matiz do seu hero (terra/moss/ochre/teal/plum), o MESMO nos
+# dois temas; as cinco compartilham S e V idênticos — é isso que faz o conjunto
+# combinar. A cor é perceptível, mas o fundo fica SEMPRE abaixo de surf em
+# luminosidade: os cards continuam mais claros que o fundo e nada compete.
+# CLARO: quase-creme (V ≈ 0.96, S ≈ 0.14) — abaixo de surfLight (#FBF6EC).
+tab_bg_light: ["#F5E0D3", "#EAF5D3", "#F5EBD3", "#D3F5EA", "#F5D3E4"]
+# ESCURO: quase-preto (V ≈ 0.11, S ≈ 0.56) — abaixo de surf (#1D1A13); o tint
+# vem da saturação, não da luminosidade.
+tab_bg_dark:  ["#1B120C", "#161B0C", "#1B160C", "#0C1B16", "#1B0C13"]
 
 # Cor do bloco de foto (card) por hero, em cada tema (pastel / escuro)
 card_light: {clay: "#F3D3BC", moss: "#D3E0B4", ochre: "#F0DFA9", terra: "#F2C9B4", plum: "#E7CBD6", teal: "#BFE0CE", rust: "#F1C4B0"}
