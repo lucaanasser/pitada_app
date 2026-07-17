@@ -14,8 +14,8 @@ import '../../../../core/theme/typography.dart';
 import '../../application/recipes_providers.dart';
 import '../../data/models/recipe.dart';
 import '../sheets/recipe_version_sheet.dart';
+import '../widgets/detail/header/recipe_version_tag.dart';
 import '../widgets/detail/recipe_detail_body.dart';
-import '../widgets/detail/recipe_version_tag.dart';
 
 /// Tela de detalhe de uma receita. Usada por: router (/recipe/:id).
 class RecipeDetailScreen extends ConsumerWidget {

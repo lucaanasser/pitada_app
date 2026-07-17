@@ -1,12 +1,11 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/recipes/presentation/widgets/detail/recipe_detail_body.dart
-// O QUÊ:     Corpo rolável do detalhe (galeria + seções) + barra fixa. Cada campo é
-//            editável por gesto (Editable) via RecipeQuickEdit; o lápis abre o editor
-//            inteiro. Extraído do RecipeDetailScreen (limite de 200 linhas).
-// USA:       core/widgets (Editable, NutritionCard, PitadaTag, SectionHeader), theme,
-//            utils/format, recipe_quick_edit, widgets do detalhe, go_router.
+// O QUÊ:     Compositor do detalhe da receita: monta a lista rolável (galeria +
+//            seções, cada uma um widget próprio) e a barra fixa de ações.
+// USA:       core (theme, NutritionCard), framework_providers, recipe_quick_edit,
+//            widgets do detalhe (header/, sections/), go_router.
 // USADO POR: recipe_detail_screen (_body, já com a versão resolvida).
-// SPEC:      specs/features/recipes.yaml (RecipeDetailScreen: edicao_inline)
+// SPEC:      specs/features/recipes.yaml (RecipeDetailScreen)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,19 +16,18 @@ import '../../../../../core/theme/colors.dart';
 import '../../../../../core/theme/pitada_colors.dart';
 import '../../../../../core/theme/spacing.dart';
 import '../../../../../core/theme/typography.dart';
-import '../../../../../core/utils/format.dart';
-import '../../../../../core/widgets/controls/editable.dart';
 import '../../../../../core/widgets/cards/nutrition_card.dart';
-import '../../../../../core/widgets/tags/pitada_tag.dart';
-import '../../../../../core/widgets/layout/section_header.dart';
 import '../../../application/framework_providers.dart';
 import '../../../data/models/recipe.dart';
 import '../../recipe_quick_edit.dart';
-import 'ingredient_row.dart';
+import 'header/recipe_meta.dart';
+import 'header/recipe_title_view.dart';
 import 'recipe_detail_bar.dart';
 import 'recipe_gallery.dart';
-import 'recipe_meta.dart';
-import 'step_tile.dart';
+import 'sections/recipe_ingredients_section.dart';
+import 'sections/recipe_notes_section.dart';
+import 'sections/recipe_steps_section.dart';
+import 'sections/recipe_techniques_section.dart';
 
 /// Corpo do detalhe da receita já resolvida (versão escolhida). [versionTag] é o
 /// marcador "V3" ao lado do título (só quando há versões). Usada por: RecipeDetailScreen.
@@ -76,37 +74,12 @@ class RecipeDetailBody extends ConsumerWidget {
     );
   }
 
-  /// As seções, de cima para baixo, cada campo com seu gesto de edição inline.
-  /// Usada por: [build].
+  /// As seções, de cima para baixo; cada uma é um widget próprio. Usada por: [build].
   List<Widget> _sections(BuildContext context, WidgetRef ref, RecipeQuickEdit qe) {
-    final pit = context.pit;
     final r = recipe;
     final frameworks = ref.watch(frameworksForRecipeProvider(r.id));
     return [
-      Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Flexible(
-            child: Editable(
-              onEdit: () => qe.title(r),
-              child:
-                  Text(r.title, style: AppType.on(AppType.display, pit.text)),
-            ),
-          ),
-          if (versionTag != null) ...[
-            const SizedBox(width: AppSpacing.md),
-            versionTag!,
-          ],
-        ],
-      ),
-      const SizedBox(height: AppSpacing.sm),
-      Editable(
-        onEdit: () => qe.kcal(r),
-        child: Text(
-          '${formatKcal(r.kcal)} kcal',
-          style: AppType.on(AppType.numeralLg, AppColors.accent),
-        ),
-      ),
+      RecipeTitleView(recipe: r, quickEdit: qe, versionTag: versionTag),
       const SizedBox(height: AppSpacing.lg),
       RecipeMeta(
         recipe: r,
@@ -148,50 +121,10 @@ class RecipeDetailBody extends ConsumerWidget {
         onEditFat: () => qe.macro(r, RecipeMacro.fat),
         onEditCarb: () => qe.macro(r, RecipeMacro.carb),
       ),
-      const SectionHeader(label: 'Ingredientes'),
-      for (var i = 0; i < r.ingredients.length; i++)
-        IngredientRow(
-          ingredient: r.ingredients[i],
-          showDivider: i != r.ingredients.length - 1,
-          onEdit: () => qe.ingredient(r, i),
-        ),
-      const SectionHeader(label: 'Modo de preparo'),
-      for (var i = 0; i < r.steps.length; i++)
-        StepTile(
-          number: i + 1,
-          step: r.steps[i],
-          showDivider: i != r.steps.length - 1,
-          onEdit: () => qe.step(r, i),
-        ),
-      if (r.techniques.isNotEmpty) ...[
-        const SectionHeader(label: 'Técnicas desta receita'),
-        Editable(
-          onEdit: () => qe.techniques(r),
-          child: Wrap(
-            spacing: AppSpacing.sm,
-            runSpacing: AppSpacing.sm,
-            children: [
-              for (final t in r.techniques)
-                PitadaTag(
-                  label: t,
-                  color: pit.card('plum'),
-                  icon: AppIcons.technique,
-                ),
-            ],
-          ),
-        ),
-      ],
-      const SectionHeader(label: 'Anotações & ajustes'),
-      Editable(onEdit: () => qe.notes(r), child: _notes(pit)),
+      RecipeIngredientsSection(recipe: r, quickEdit: qe),
+      RecipeStepsSection(recipe: r, quickEdit: qe),
+      RecipeTechniquesSection(recipe: r, quickEdit: qe),
+      RecipeNotesSection(recipe: r, quickEdit: qe),
     ];
-  }
-
-  /// Texto das anotações (ou placeholder quando vazio). Usada por: [_sections].
-  Widget _notes(PitadaColors pit) {
-    final has = recipe.notes != null && recipe.notes!.trim().isNotEmpty;
-    return Text(
-      has ? recipe.notes! : 'Sem anotações ainda.',
-      style: AppType.on(AppType.tip, has ? pit.text2 : pit.faint),
-    );
   }
 }

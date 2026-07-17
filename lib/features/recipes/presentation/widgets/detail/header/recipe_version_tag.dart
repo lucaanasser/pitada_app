@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/recipes/presentation/widgets/detail/recipe_version_tag.dart
+// lib/features/recipes/presentation/widgets/detail/header/recipe_version_tag.dart
 // O QUÊ:     Marcador "V3" da versão atual ao lado do título da receita — em ACCENT
 //            (terracota) + caret, tocável (abre o seletor de versões).
 // USA:       core/theme (AppColors, AppType, AppSpacing, AppIcons).
@@ -8,10 +8,10 @@
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 
-import '../../../../../core/theme/app_icons.dart';
-import '../../../../../core/theme/colors.dart';
-import '../../../../../core/theme/spacing.dart';
-import '../../../../../core/theme/typography.dart';
+import '../../../../../../core/theme/app_icons.dart';
+import '../../../../../../core/theme/colors.dart';
+import '../../../../../../core/theme/spacing.dart';
+import '../../../../../../core/theme/typography.dart';
 
 /// Pílula-controle "V{version}" em accent, com caret, que abre o seletor de versão.
 /// Não é métrica: identifica QUAL versão está na tela e é o gatilho do seletor.

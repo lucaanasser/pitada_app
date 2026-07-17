@@ -1,23 +1,23 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/recipes/presentation/widgets/detail/step_tile.dart
+// lib/features/recipes/presentation/widgets/detail/items/step_tile.dart
 // O QUÊ:     Passo do preparo com número em "bolinha" terracota + WhyCallout opcional.
 // USA:       core/theme (AppColors, PitadaColors), core/widgets/why_callout, RecipeStep.
-// USADO POR: recipe_detail_screen (e servirá ao cook_mode).
+// USADO POR: recipe_steps_section (e servirá ao cook_mode).
 // SPEC:      specs/features/recipes.yaml (RecipeDetailScreen: StepTile)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 
-import '../../../../../core/theme/colors.dart';
-import '../../../../../core/theme/pitada_colors.dart';
-import '../../../../../core/theme/spacing.dart';
-import '../../../../../core/theme/typography.dart';
-import '../../../../../core/widgets/controls/editable.dart';
-import '../../../../../core/widgets/cards/why_callout.dart';
-import '../../../data/models/recipe_step.dart';
+import '../../../../../../core/theme/colors.dart';
+import '../../../../../../core/theme/pitada_colors.dart';
+import '../../../../../../core/theme/spacing.dart';
+import '../../../../../../core/theme/typography.dart';
+import '../../../../../../core/widgets/controls/editable.dart';
+import '../../../../../../core/widgets/cards/why_callout.dart';
+import '../../../../data/models/recipe_step.dart';
 
 /// Um passo: bolinha numerada terracota + texto + dica de técnica (se houver).
 /// Editável por gesto ([onEdit]): segurar/duplo-clique abre a edição do passo.
-/// Usada por: recipe_detail_screen.
+/// Usada por: recipe_steps_section.
 class StepTile extends StatelessWidget {
   const StepTile({
     super.key,

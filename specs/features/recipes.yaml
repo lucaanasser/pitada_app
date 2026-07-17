@@ -186,6 +186,13 @@ screens:
       # meta = TEXTO sóbrio "N porções · tempo · dificuldade" (bodySm, pit.text2) —
       # métrica nunca vira cápsula (ver specs/components/tags/pitada_tag.yaml: regra_de_uso);
       # cápsulas no detalhe só nas TAGS de técnicas.
+      widgets_proprios: >   # o corpo é um COMPOSITOR: cada seção é um widget próprio
+        widgets/detail/recipe_detail_body.dart (compositor), recipe_detail_bar.dart,
+        recipe_gallery.dart; detail/header/: recipe_title_view.dart (título+versão+kcal),
+        recipe_meta.dart, recipe_version_tag.dart; detail/sections/:
+        recipe_ingredients_section.dart, recipe_steps_section.dart,
+        recipe_techniques_section.dart, recipe_notes_section.dart; detail/items/:
+        ingredient_row.dart, step_tile.dart
       titulo_com_versao: >
         A linha do título é [título + RecipeVersionTag] quando a receita tem grupo de
         versões (2+ snapshots). A tag é "V3" em ACCENT (terracota) + caret, TOCÁVEL —
@@ -385,7 +392,7 @@ feature_widgets:                    # widgets exclusivos da feature (presentatio
   - RecipeVersionTag: >
       Marcador "V3" da versão atual ao lado do título, em ACCENT (terracota) + caret,
       tocável (abre o seletor). Reusa AppType.numeralSm + AppColors.accent + AppSpacing.
-      Só aparece quando a receita tem 2+ versões. arquivo: widgets/recipe_version_tag.dart
+      Só aparece quando a receita tem 2+ versões. arquivo: widgets/detail/header/recipe_version_tag.dart
 
 components_reutilizados: [Masthead, PitadaScaffold, PitadaSearchField, PitadaTabs,
   HairlineRow, RecipeThumb, RecipeRow, NutritionCard, SectionHeader, WhyCallout, PitadaChip,
