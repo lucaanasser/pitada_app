@@ -9,17 +9,17 @@
 import 'package:flutter/painting.dart';
 
 /// Tokens de cor do Pitada. Todos `static const` para uso em widgets const.
-/// Superfícies/texto existem em duas versões (escuro = base histórica; claro = novo).
+/// Superfícies/texto existem em duas versões (escuro grafite-marinho; claro creme).
 /// Marca (accent/sage) e cores hero são iguais nos dois temas.
 /// Usada por: todo o app (tema, widgets compartilhados, telas).
 class AppColors {
   AppColors._();
 
-  static const bg = Color(0xFF15130E); // fundo geral
-  static const surf = Color(0xFF1D1A13); // card / campo
-  static const surf2 = Color(0xFF242017); // input
-  static const line = Color(0xFF29251A); // filete divisor
-  static const line2 = Color(0xFF383223); // borda / filete forte
+  static const bg = Color(0xFF12151B); // fundo geral (grafite-marinho)
+  static const surf = Color(0xFF181C23); // card / campo
+  static const surf2 = Color(0xFF1C212A); // input
+  static const line = Color(0xFF20252F); // filete divisor
+  static const line2 = Color(0xFF2A313E); // borda / filete forte
 
   static const text = Color(0xFFF2EDE1); // principal
   static const text2 = Color(0xFFC5BEAD); // secundário
@@ -38,7 +38,7 @@ class AppColors {
   static const faintLight = Color(0xFFB4AB98);
 
   static const inkLight = Color(0xFF221E17);
-  static const inkDark = Color(0xFF0E0C08);
+  static const inkDark = Color(0xFF0A0C10);
 
   static const shadow = Color(0x59000000);
 
@@ -73,20 +73,8 @@ class AppColors {
   /// Usada por: qualquer widget que receba `hero_color` como String do banco.
   static Color heroOf(String? name) => hero[name] ?? clay;
 
-  static const List<Color> tabBgLight = [
-    Color(0xFFF5E0D3), // Receitas (terra)
-    Color(0xFFEAF5D3), // Caderno (moss)
-    Color(0xFFF5EBD3), // Planos (ochre)
-    Color(0xFFD3F5EA), // Ingredientes (teal)
-    Color(0xFFF5D3E4), // Perfil (plum)
-  ];
-  static const List<Color> tabBgDark = [
-    Color(0xFF1B120C), // Receitas (terra)
-    Color(0xFF161B0C), // Caderno (moss)
-    Color(0xFF1B160C), // Planos (ochre)
-    Color(0xFF0C1B16), // Ingredientes (teal)
-    Color(0xFF1B0C13), // Perfil (plum)
-  ];
+  static const List<Color> tabBgLight = [bgLight]; // todas as abas: creme base
+  static const List<Color> tabBgDark = [bg]; // todas as abas: grafite-marinho
 
   static const Map<String, Color> cardLight = {
     'clay': Color(0xFFF3D3BC),

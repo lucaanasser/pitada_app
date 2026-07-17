@@ -30,7 +30,7 @@ class PitadaColors extends ThemeExtension<PitadaColors> {
   final Brightness brightness;
   final Color bg, surf, surf2, line, line2, border, text, text2, muted, faint;
 
-  /// Instância do tema escuro (base histórica do Pitada).
+  /// Instância do tema escuro (base grafite-marinho).
   static const dark = PitadaColors(
     brightness: Brightness.dark,
     bg: AppColors.bg,
@@ -68,7 +68,8 @@ class PitadaColors extends ThemeExtension<PitadaColors> {
     return map[hero] ?? map['clay']!;
   }
 
-  /// Fundo tingido de uma aba pelo índice (0..4). Usada por: scaffolds das abas.
+  /// Fundo de uma aba pelo índice; hoje todas compartilham o fundo base do tema.
+  /// Usada por: scaffolds das abas.
   Color tabBg(int index) {
     final list = isDark ? AppColors.tabBgDark : AppColors.tabBgLight;
     return list[index % list.length];

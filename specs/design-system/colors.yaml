@@ -1,18 +1,18 @@
 # ─────────────────────────────────────────────────────────────────────────────
 # specs/design-system/colors.yaml
-# O QUÊ:  Paleta única do Pitada. Copiada 1:1 do :root de pitada.html.
+# O QUÊ:  Paleta única do Pitada. Escuro grafite-marinho, claro creme.
 # GERA:   lib/core/theme/colors.dart  (classe AppColors)
 # USADO POR: todo o app. Nenhuma cor pode existir fora daqui.
 # ─────────────────────────────────────────────────────────────────────────────
 token_class: AppColors
 prototype: ":root em pitada.html"
 
-superficie:            # fundos e filetes
-  bg:     "#15130E"    # fundo geral do app
-  surf:   "#1D1A13"    # superfície de card/campo
-  surf2:  "#242017"    # superfície mais clara (input)
-  line:   "#29251A"    # filete divisor
-  line2:  "#383223"    # filete mais forte / borda
+superficie:            # fundos e filetes do escuro — grafite-marinho (h≈220°, S≈0.33)
+  bg:     "#12151B"    # fundo geral do app
+  surf:   "#181C23"    # superfície de card/campo
+  surf2:  "#1C212A"    # superfície mais clara (input)
+  line:   "#20252F"    # filete divisor
+  line2:  "#2A313E"    # filete mais forte / borda
 
 texto:
   text:   "#F2EDE1"    # texto principal
@@ -58,18 +58,14 @@ tema_claro:
 # Tinta/borda neo-brutalista (usada como pit.border)
 ink:
   claro:  "#221E17"   # inkLight
-  escuro: "#0E0C08"   # inkDark — quase-preto (o marrom antigo lia como cinza)
+  escuro: "#0A0C10"   # inkDark — quase-preto marinho, um passo abaixo do bg
 
-# Fundos tingidos por aba (0..4): Receitas, Caderno, Planos, Ingredientes, Perfil
-# Cada aba usa o matiz do seu hero (terra/moss/ochre/teal/plum), o MESMO nos
-# dois temas; as cinco compartilham S e V idênticos — é isso que faz o conjunto
-# combinar. A cor é perceptível, mas o fundo fica SEMPRE abaixo de surf em
-# luminosidade: os cards continuam mais claros que o fundo e nada compete.
-# CLARO: quase-creme (V ≈ 0.96, S ≈ 0.14) — abaixo de surfLight (#FBF6EC).
-tab_bg_light: ["#F5E0D3", "#EAF5D3", "#F5EBD3", "#D3F5EA", "#F5D3E4"]
-# ESCURO: quase-preto (V ≈ 0.11, S ≈ 0.56) — abaixo de surf (#1D1A13); o tint
-# vem da saturação, não da luminosidade.
-tab_bg_dark:  ["#1B120C", "#161B0C", "#1B160C", "#0C1B16", "#1B0C13"]
+# Fundo das abas: TODAS compartilham o fundo base do tema — creme no claro,
+# grafite-marinho no escuro (pedido do dono: uma cor só, sem tint por aba).
+# A lista tem 1 entrada e tabBg indexa com módulo; re-tingir por aba no futuro
+# é só voltar a listar 5 valores, sem mudar a API.
+tab_bg_light: ["#F4EDDE"]   # = bgLight
+tab_bg_dark:  ["#12151B"]   # = bg
 
 # Cor do bloco de foto (card) por hero, em cada tema (pastel / escuro)
 card_light: {clay: "#F3D3BC", moss: "#D3E0B4", ochre: "#F0DFA9", terra: "#F2C9B4", plum: "#E7CBD6", teal: "#BFE0CE", rust: "#F1C4B0"}
