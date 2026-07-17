@@ -3,7 +3,7 @@
 // O QUÊ:     A "lacuna" visível de um framework: pílula vazia de contorno
 //            tracejado no olhar (borda + texto muted), marcando o que varia.
 // USA:       core/theme (PitadaColors, AppSpacing, AppType).
-// USADO POR: framework_card, framework_skeleton_view.
+// USADO POR: framework_skeleton_view.
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 
@@ -12,7 +12,7 @@ import '../../../../../core/theme/spacing.dart';
 import '../../../../../core/theme/typography.dart';
 
 /// Pílula de slot: um espaço em branco nomeado ("proteína", "líquido") na
-/// planta baixa do framework. Usada por: FrameworkCard, FrameworkSkeletonView.
+/// planta baixa do framework. Usada por: FrameworkSkeletonView.
 class FrameworkSlotPill extends StatelessWidget {
   const FrameworkSlotPill({super.key, required this.label});
 

@@ -50,7 +50,7 @@ data:
   seed_frameworks:                # framework_seed.dart — ANDAIME TEMPORÁRIO, apagar
     file: lib/features/recipes/data/seed/framework_seed.dart
     proposito: >
-      Existe só p/ ver o card, a planta baixa e o detalhe do framework com
+      Existe só p/ ver a lista, a planta baixa e o detalhe do framework com
       conteúdo real no preview do PC. NÃO É PRODUTO: no app o primeiro framework
       nasce da pessoa, que nomeia o padrão — nomear é o ato de aprendizado, e a
       IA nunca rotula. Apagar antes de valer; SeedFrameworksRepository._session
@@ -155,6 +155,16 @@ screens:
         outlined=true (borda tinta) — a cor cheia legada (AppColors.heroOf) saiu
         da aba Receitas; o pastel + borda casa com o RecipeCard e o restante do app.
         Título + meta em texto (recipe_meta_text) + seta.
+      framework_row: >
+        Linha da tab Frameworks, IRMÃ do RecipeRow — mesmo HairlineRow, mesma
+        miniatura 72 e o mesmo respiro vertical (o antigo card de planta baixa
+        saiu: moldura + kicker + pílulas pesavam ao lado da lista de receitas).
+        RecipeThumb accentSoft outlined com AppIcons.framework, cor ÚNICA p/
+        todas — receita varia de cor porque prato varia; framework é estrutura,
+        uma família só. Nome em titleSm e UMA linha de lacunas em caption muted
+        ("proteína · aromático · líquido"); sem slots, "N passos · N receitas".
+        Sem kicker FRAMEWORK (a aba já diz isso) e as pílulas de lacuna
+        (FrameworkSlotPill) ficam SÓ na planta baixa do detalhe.
       alternador_de_layout: >
         RecipeViewToggle (single/grid/list) no cabeçalho da lista — SEM moldura de
         pílula; uma "gota" accentSoft escorrega sob o ícone ativo (easeOutBack) com

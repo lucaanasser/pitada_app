@@ -4,8 +4,8 @@
 //            modo pastel neo-brutalista (borda tinta + ícone na tinta do tema).
 // USA:       core/theme/app_icons (ícone padrão), theme/pitada_colors (tinta),
 //            theme/spacing (raio/borda).
-// USADO POR: recipes_screen (RecipeRow), plans (add_option_sheet), meal pickers,
-//            listas do Caderno (modo legado, cor cheia).
+// USADO POR: recipes (RecipeRow, FrameworkRow), plans (add_option_sheet),
+//            meal pickers, listas do Caderno (modo legado, cor cheia).
 // SPEC:      specs/components/cards/recipe_thumb.yaml
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
@@ -15,7 +15,7 @@ import '../../theme/spacing.dart';
 
 /// Quadrado colorido (hero_color) com ícone no centro — placeholder de foto.
 /// [outlined] = pastel + borda tinta (soft neo-brutalismo); false = cor cheia legada.
-/// Usada por: RecipeRow e seletores de receita.
+/// Usada por: RecipeRow, FrameworkRow e seletores de receita.
 class RecipeThumb extends StatelessWidget {
   const RecipeThumb({
     super.key,

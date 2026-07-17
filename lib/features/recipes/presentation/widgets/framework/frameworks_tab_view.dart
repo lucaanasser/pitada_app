@@ -1,10 +1,11 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/recipes/presentation/widgets/framework/frameworks_tab_view.dart
 // O QUÊ:     Conteúdo da tab Frameworks: a única sugestão socrática (quando
-//            houver) e os cards de planta baixa. Estado vazio didático — o
-//            primeiro contato com a ideia. Criar framework fica no '+' do
-//            header (card Novo Framework da ImportSheet).
-// USA:       framework_providers, framework_suggestion_service, framework_card,
+//            houver) e as linhas de framework, no mesmo ritmo da lista de
+//            receitas. Estado vazio didático — o primeiro contato com a ideia.
+//            Criar framework fica no '+' do header (card Novo Framework da
+//            ImportSheet).
+// USA:       framework_providers, framework_suggestion_service, framework_row,
 //            framework_suggestion_card, core/widgets (EmptyState).
 // USADO POR: recipes_screen (tab 1).
 // ─────────────────────────────────────────────────────────────────────────────
@@ -18,7 +19,7 @@ import '../../../../../core/widgets/layout/empty_state.dart';
 import '../../../application/framework_providers.dart';
 import '../../../application/framework_suggestion_service.dart';
 import '../../../data/models/framework.dart';
-import 'framework_card.dart';
+import 'framework_row.dart';
 import 'framework_suggestion_card.dart';
 
 /// Corpo da tab Frameworks. Usada por: recipes_screen.
@@ -62,13 +63,11 @@ class FrameworksTabView extends ConsumerWidget {
             ),
           )
         else
-          for (final f in frameworks)
-            Padding(
-              padding: const EdgeInsets.only(bottom: AppSpacing.lg),
-              child: FrameworkCard(
-                framework: f,
-                onTap: () => context.push('/framework/${f.id}'),
-              ),
+          for (var i = 0; i < frameworks.length; i++)
+            FrameworkRow(
+              framework: frameworks[i],
+              showDivider: i != frameworks.length - 1,
+              onTap: () => context.push('/framework/${frameworks[i].id}'),
             ),
       ],
     );

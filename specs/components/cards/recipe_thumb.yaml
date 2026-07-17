@@ -18,9 +18,9 @@ detalhes: >
   outlined=false mantém o visual legado (cor cheia + ícone branco) usado nas
   listas do Caderno.
   O widget não escolhe a cor: quem chama passa pit.card(hero) no modo outlined
-  ou AppColors.heroOf(hero) no legado.
+  (AppColors.accentSoft no FrameworkRow) ou AppColors.heroOf(hero) no legado.
 used_by:
-  - recipes (RecipeRow, outlined; PhotoGrid, legado com radiusLg + AppIcons.photo)
+  - recipes (RecipeRow e FrameworkRow, outlined; PhotoGrid, legado com radiusLg + AppIcons.photo)
   - plans (add_option_sheet, outlined)
   - core (add_options_sheet, legado size 44)
   - notebook (repertoire_screen, process_logs_screen, diary_row, version_row,

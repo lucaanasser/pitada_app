@@ -1,7 +1,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/recipes/data/seed/framework_seed.dart
 // O QUÊ:     Frameworks de exemplo p/ PREVIEW VISUAL no PC — andaime temporário
-//            p/ ver card, planta baixa e detalhe com conteúdo real. NÃO é
+//            p/ ver lista, planta baixa e detalhe com conteúdo real. NÃO é
 //            produto: no app o primeiro framework nasce da pessoa, que nomeia
 //            (a IA nunca rotula). Apagar este arquivo antes de valer.
 // USA:       framework.dart; recipeIds apontam p/ recipe_seed.dart.
