@@ -29,8 +29,6 @@ mixin _$Recipe {
   String? get notes;
   List<String> get folderIds;
   List<String> get techniques;
-  List<Ingredient> get ingredients;
-  List<RecipeStep> get steps;
   List<RecipeComponent> get components;
   int get version;
   String? get versionGroupId;
@@ -72,9 +70,6 @@ mixin _$Recipe {
             const DeepCollectionEquality()
                 .equals(other.techniques, techniques) &&
             const DeepCollectionEquality()
-                .equals(other.ingredients, ingredients) &&
-            const DeepCollectionEquality().equals(other.steps, steps) &&
-            const DeepCollectionEquality()
                 .equals(other.components, components) &&
             (identical(other.version, version) || other.version == version) &&
             (identical(other.versionGroupId, versionGroupId) ||
@@ -83,33 +78,30 @@ mixin _$Recipe {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hashAll([
-        runtimeType,
-        id,
-        title,
-        source,
-        sourceUrl,
-        servings,
-        timeMinutes,
-        kcal,
-        protein,
-        carb,
-        fat,
-        heroColor,
-        photoCount,
-        notes,
-        const DeepCollectionEquality().hash(folderIds),
-        const DeepCollectionEquality().hash(techniques),
-        const DeepCollectionEquality().hash(ingredients),
-        const DeepCollectionEquality().hash(steps),
-        const DeepCollectionEquality().hash(components),
-        version,
-        versionGroupId
-      ]);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      title,
+      source,
+      sourceUrl,
+      servings,
+      timeMinutes,
+      kcal,
+      protein,
+      carb,
+      fat,
+      heroColor,
+      photoCount,
+      notes,
+      const DeepCollectionEquality().hash(folderIds),
+      const DeepCollectionEquality().hash(techniques),
+      const DeepCollectionEquality().hash(components),
+      version,
+      versionGroupId);
 
   @override
   String toString() {
-    return 'Recipe(id: $id, title: $title, source: $source, sourceUrl: $sourceUrl, servings: $servings, timeMinutes: $timeMinutes, kcal: $kcal, protein: $protein, carb: $carb, fat: $fat, heroColor: $heroColor, photoCount: $photoCount, notes: $notes, folderIds: $folderIds, techniques: $techniques, ingredients: $ingredients, steps: $steps, components: $components, version: $version, versionGroupId: $versionGroupId)';
+    return 'Recipe(id: $id, title: $title, source: $source, sourceUrl: $sourceUrl, servings: $servings, timeMinutes: $timeMinutes, kcal: $kcal, protein: $protein, carb: $carb, fat: $fat, heroColor: $heroColor, photoCount: $photoCount, notes: $notes, folderIds: $folderIds, techniques: $techniques, components: $components, version: $version, versionGroupId: $versionGroupId)';
   }
 }
 
@@ -134,8 +126,6 @@ abstract mixin class $RecipeCopyWith<$Res> {
       String? notes,
       List<String> folderIds,
       List<String> techniques,
-      List<Ingredient> ingredients,
-      List<RecipeStep> steps,
       List<RecipeComponent> components,
       int version,
       String? versionGroupId});
@@ -168,8 +158,6 @@ class _$RecipeCopyWithImpl<$Res> implements $RecipeCopyWith<$Res> {
     Object? notes = freezed,
     Object? folderIds = null,
     Object? techniques = null,
-    Object? ingredients = null,
-    Object? steps = null,
     Object? components = null,
     Object? version = null,
     Object? versionGroupId = freezed,
@@ -235,14 +223,6 @@ class _$RecipeCopyWithImpl<$Res> implements $RecipeCopyWith<$Res> {
           ? _self.techniques
           : techniques // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      ingredients: null == ingredients
-          ? _self.ingredients
-          : ingredients // ignore: cast_nullable_to_non_nullable
-              as List<Ingredient>,
-      steps: null == steps
-          ? _self.steps
-          : steps // ignore: cast_nullable_to_non_nullable
-              as List<RecipeStep>,
       components: null == components
           ? _self.components
           : components // ignore: cast_nullable_to_non_nullable
@@ -368,8 +348,6 @@ extension RecipePatterns on Recipe {
             String? notes,
             List<String> folderIds,
             List<String> techniques,
-            List<Ingredient> ingredients,
-            List<RecipeStep> steps,
             List<RecipeComponent> components,
             int version,
             String? versionGroupId)?
@@ -395,8 +373,6 @@ extension RecipePatterns on Recipe {
             _that.notes,
             _that.folderIds,
             _that.techniques,
-            _that.ingredients,
-            _that.steps,
             _that.components,
             _that.version,
             _that.versionGroupId);
@@ -436,8 +412,6 @@ extension RecipePatterns on Recipe {
             String? notes,
             List<String> folderIds,
             List<String> techniques,
-            List<Ingredient> ingredients,
-            List<RecipeStep> steps,
             List<RecipeComponent> components,
             int version,
             String? versionGroupId)
@@ -462,8 +436,6 @@ extension RecipePatterns on Recipe {
             _that.notes,
             _that.folderIds,
             _that.techniques,
-            _that.ingredients,
-            _that.steps,
             _that.components,
             _that.version,
             _that.versionGroupId);
@@ -502,8 +474,6 @@ extension RecipePatterns on Recipe {
             String? notes,
             List<String> folderIds,
             List<String> techniques,
-            List<Ingredient> ingredients,
-            List<RecipeStep> steps,
             List<RecipeComponent> components,
             int version,
             String? versionGroupId)?
@@ -528,8 +498,6 @@ extension RecipePatterns on Recipe {
             _that.notes,
             _that.folderIds,
             _that.techniques,
-            _that.ingredients,
-            _that.steps,
             _that.components,
             _that.version,
             _that.versionGroupId);
@@ -558,15 +526,11 @@ class _Recipe extends Recipe {
       this.notes,
       final List<String> folderIds = const [],
       final List<String> techniques = const [],
-      final List<Ingredient> ingredients = const [],
-      final List<RecipeStep> steps = const [],
       final List<RecipeComponent> components = const [],
       this.version = 1,
       this.versionGroupId})
       : _folderIds = folderIds,
         _techniques = techniques,
-        _ingredients = ingredients,
-        _steps = steps,
         _components = components,
         super._();
   factory _Recipe.fromJson(Map<String, dynamic> json) => _$RecipeFromJson(json);
@@ -620,24 +584,6 @@ class _Recipe extends Recipe {
     if (_techniques is EqualUnmodifiableListView) return _techniques;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_techniques);
-  }
-
-  final List<Ingredient> _ingredients;
-  @override
-  @JsonKey()
-  List<Ingredient> get ingredients {
-    if (_ingredients is EqualUnmodifiableListView) return _ingredients;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_ingredients);
-  }
-
-  final List<RecipeStep> _steps;
-  @override
-  @JsonKey()
-  List<RecipeStep> get steps {
-    if (_steps is EqualUnmodifiableListView) return _steps;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_steps);
   }
 
   final List<RecipeComponent> _components;
@@ -698,9 +644,6 @@ class _Recipe extends Recipe {
             const DeepCollectionEquality()
                 .equals(other._techniques, _techniques) &&
             const DeepCollectionEquality()
-                .equals(other._ingredients, _ingredients) &&
-            const DeepCollectionEquality().equals(other._steps, _steps) &&
-            const DeepCollectionEquality()
                 .equals(other._components, _components) &&
             (identical(other.version, version) || other.version == version) &&
             (identical(other.versionGroupId, versionGroupId) ||
@@ -709,33 +652,30 @@ class _Recipe extends Recipe {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hashAll([
-        runtimeType,
-        id,
-        title,
-        source,
-        sourceUrl,
-        servings,
-        timeMinutes,
-        kcal,
-        protein,
-        carb,
-        fat,
-        heroColor,
-        photoCount,
-        notes,
-        const DeepCollectionEquality().hash(_folderIds),
-        const DeepCollectionEquality().hash(_techniques),
-        const DeepCollectionEquality().hash(_ingredients),
-        const DeepCollectionEquality().hash(_steps),
-        const DeepCollectionEquality().hash(_components),
-        version,
-        versionGroupId
-      ]);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      title,
+      source,
+      sourceUrl,
+      servings,
+      timeMinutes,
+      kcal,
+      protein,
+      carb,
+      fat,
+      heroColor,
+      photoCount,
+      notes,
+      const DeepCollectionEquality().hash(_folderIds),
+      const DeepCollectionEquality().hash(_techniques),
+      const DeepCollectionEquality().hash(_components),
+      version,
+      versionGroupId);
 
   @override
   String toString() {
-    return 'Recipe(id: $id, title: $title, source: $source, sourceUrl: $sourceUrl, servings: $servings, timeMinutes: $timeMinutes, kcal: $kcal, protein: $protein, carb: $carb, fat: $fat, heroColor: $heroColor, photoCount: $photoCount, notes: $notes, folderIds: $folderIds, techniques: $techniques, ingredients: $ingredients, steps: $steps, components: $components, version: $version, versionGroupId: $versionGroupId)';
+    return 'Recipe(id: $id, title: $title, source: $source, sourceUrl: $sourceUrl, servings: $servings, timeMinutes: $timeMinutes, kcal: $kcal, protein: $protein, carb: $carb, fat: $fat, heroColor: $heroColor, photoCount: $photoCount, notes: $notes, folderIds: $folderIds, techniques: $techniques, components: $components, version: $version, versionGroupId: $versionGroupId)';
   }
 }
 
@@ -761,8 +701,6 @@ abstract mixin class _$RecipeCopyWith<$Res> implements $RecipeCopyWith<$Res> {
       String? notes,
       List<String> folderIds,
       List<String> techniques,
-      List<Ingredient> ingredients,
-      List<RecipeStep> steps,
       List<RecipeComponent> components,
       int version,
       String? versionGroupId});
@@ -795,8 +733,6 @@ class __$RecipeCopyWithImpl<$Res> implements _$RecipeCopyWith<$Res> {
     Object? notes = freezed,
     Object? folderIds = null,
     Object? techniques = null,
-    Object? ingredients = null,
-    Object? steps = null,
     Object? components = null,
     Object? version = null,
     Object? versionGroupId = freezed,
@@ -862,14 +798,6 @@ class __$RecipeCopyWithImpl<$Res> implements _$RecipeCopyWith<$Res> {
           ? _self._techniques
           : techniques // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      ingredients: null == ingredients
-          ? _self._ingredients
-          : ingredients // ignore: cast_nullable_to_non_nullable
-              as List<Ingredient>,
-      steps: null == steps
-          ? _self._steps
-          : steps // ignore: cast_nullable_to_non_nullable
-              as List<RecipeStep>,
       components: null == components
           ? _self._components
           : components // ignore: cast_nullable_to_non_nullable

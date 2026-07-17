@@ -41,7 +41,7 @@ class _CookModeScreenState extends ConsumerState<CookModeScreen> {
   /// Avança um passo ou, no último, conclui e abre o diário rápido (as 3
   /// perguntas, no momento certo). Usada por: CookNavBar.
   void _next(Recipe recipe) {
-    if (_current < recipe.steps.length - 1) {
+    if (_current < recipe.allSteps.length - 1) {
       setState(() => _current++);
       return;
     }
@@ -59,7 +59,7 @@ class _CookModeScreenState extends ConsumerState<CookModeScreen> {
     return Scaffold(
       backgroundColor: context.pit.bg,
       body: SafeArea(
-        child: recipe == null || recipe.steps.isEmpty
+        child: recipe == null || recipe.allSteps.isEmpty
             ? const Center(
                 child: CircularProgressIndicator(color: AppColors.accent),
               )
@@ -75,14 +75,14 @@ class _CookModeScreenState extends ConsumerState<CookModeScreen> {
         _top(recipe),
         Expanded(
           child: CookStepView(
-            step: recipe.steps[_current],
+            step: recipe.allSteps[_current],
             index: _current,
-            total: recipe.steps.length,
+            total: recipe.allSteps.length,
           ),
         ),
         CookNavBar(
           isFirst: _current == 0,
-          isLast: _current == recipe.steps.length - 1,
+          isLast: _current == recipe.allSteps.length - 1,
           onBack: () => setState(() => _current--),
           onNext: () => _next(recipe),
         ),
@@ -93,7 +93,7 @@ class _CookModeScreenState extends ConsumerState<CookModeScreen> {
   /// Linha "Fechar" (X) + StepProgress com rótulos curtos. Usada por: [_content].
   Widget _top(Recipe recipe) {
     final labels = [
-      for (var i = 0; i < recipe.steps.length; i++) 'Passo ${i + 1}',
+      for (var i = 0; i < recipe.allSteps.length; i++) 'Passo ${i + 1}',
     ];
     return Padding(
       padding: const EdgeInsets.fromLTRB(

@@ -76,8 +76,7 @@ class GeminiRecipeImportService implements RecipeImportService {
       carb: (d['carb'] as num?) ?? 0,
       fat: (d['fat'] as num?) ?? 0,
       techniques: (d['techniques'] as List?)?.cast<String>() ?? const [],
-      ingredients: ingredients,
-      steps: steps,
+      components: [DraftComponent(ingredients: ingredients, steps: steps)],
     );
   }
 }

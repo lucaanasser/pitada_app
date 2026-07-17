@@ -88,7 +88,7 @@ final filteredRecipesProvider = Provider<List<Recipe>>((ref) {
     if (query.isEmpty) return true;
     final inTitle = r.title.toLowerCase().contains(query);
     final inIngredient =
-        r.ingredients.any((i) => i.name.toLowerCase().contains(query));
+        r.allIngredients.any((i) => i.name.toLowerCase().contains(query));
     return inTitle || inIngredient;
   }
 

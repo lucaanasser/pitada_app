@@ -15,6 +15,7 @@ import '../../../../../core/widgets/controls/pitada_button.dart';
 import '../../../../../core/widgets/layout/section_header.dart';
 import '../../../data/models/recipe_draft.dart';
 import '../../../../../core/widgets/controls/edit_field.dart';
+import '../detail/sections/recipe_component_header.dart';
 import '../edit/recipe_editors.dart';
 
 /// Rascunho editável da importação. Muta [draft] em memória e chama [onSave]
@@ -66,12 +67,18 @@ class _ImportPreviewState extends State<ImportPreview> {
           onChanged: (v) => setState(() => draft.servings = v),
         ),
         const SectionHeader(label: 'Ingredientes'),
-        IngredientsEditor(
-          ingredients: draft.ingredients,
-          onDirty: () => setState(() {}),
-        ),
+        for (final c in draft.components) ...[
+          if (c.name != null) RecipeComponentHeader(name: c.name!),
+          IngredientsEditor(
+            ingredients: c.ingredients,
+            onDirty: () => setState(() {}),
+          ),
+        ],
         const SectionHeader(label: 'Modo de preparo'),
-        StepsEditor(steps: draft.steps, onDirty: () => setState(() {})),
+        for (final c in draft.components) ...[
+          if (c.name != null) RecipeComponentHeader(name: c.name!),
+          StepsEditor(steps: c.steps, onDirty: () => setState(() {})),
+        ],
         const SizedBox(height: AppSpacing.xl),
         PitadaButton(
           label: 'Salvar receita',

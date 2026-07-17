@@ -137,14 +137,27 @@ class SupabaseRecipesRepository implements RecipesRepository {
   }
 
   /// Regrava as filhas de [recipeId] (delete + insert; position = ordem atual).
+  /// Receita simples não gera linha de componente (component_id null nas filhas).
   /// Usada por: updateRecipe e saveAsNewVersion.
   Future<void> _writeChildren(Recipe recipe, String recipeId) async {
     await _db.from('recipe_ingredients').delete().eq('recipe_id', recipeId);
     await _db.from('recipe_steps').delete().eq('recipe_id', recipeId);
     await _db.from('recipe_components').delete().eq('recipe_id', recipeId);
     await _db.from('recipe_folders').delete().eq('recipe_id', recipeId);
-    final ings = ingredientRows(recipe, recipeId);
-    final steps = stepRows(recipe, recipeId);
+    var componentIds = List<String?>.filled(recipe.components.length, null);
+    if (!isSingleImplicitComponent(recipe)) {
+      final inserted = await _db
+          .from('recipe_components')
+          .insert(componentRows(recipe, recipeId))
+          .select('id, position');
+      inserted.sort(
+        (a, b) => ((a['position'] ?? 0) as num)
+            .compareTo((b['position'] ?? 0) as num),
+      );
+      componentIds = [for (final row in inserted) row['id'] as String];
+    }
+    final ings = ingredientRows(recipe, recipeId, componentIds);
+    final steps = stepRows(recipe, recipeId, componentIds);
     final folders = folderRows(recipe, recipeId);
     if (ings.isNotEmpty) await _db.from('recipe_ingredients').insert(ings);
     if (steps.isNotEmpty) await _db.from('recipe_steps').insert(steps);

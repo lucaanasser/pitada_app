@@ -75,7 +75,7 @@ class ImportController extends StateNotifier<ImportState> {
     try {
       final draft = await pending;
       if (!mounted) return;
-      if (draft.title.trim().isEmpty && draft.ingredients.isEmpty) {
+      if (draft.title.trim().isEmpty && draft.allIngredients.isEmpty) {
         state = const ImportState(
           phase: ImportPhase.error,
           error: 'Não encontrei uma receita aí.',

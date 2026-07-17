@@ -67,7 +67,7 @@ FrameworkSuggestion? _byTechnique(List<Recipe> free) {
 /// Usada por: [frameworkSuggestionProvider].
 FrameworkSuggestion? _byIngredients(List<Recipe> free) {
   Set<String> names(Recipe r) =>
-      {for (final i in r.ingredients) i.name.trim().toLowerCase()};
+      {for (final i in r.allIngredients) i.name.trim().toLowerCase()};
   for (var a = 0; a < free.length; a++) {
     for (var b = a + 1; b < free.length; b++) {
       final shared = names(free[a]).intersection(names(free[b]));

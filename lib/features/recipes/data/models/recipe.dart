@@ -44,8 +44,6 @@ abstract class Recipe with _$Recipe {
     String? notes,
     @Default([]) List<String> folderIds,
     @Default([]) List<String> techniques,
-    @Default([]) List<Ingredient> ingredients,
-    @Default([]) List<RecipeStep> steps,
     @Default([]) List<RecipeComponent> components,
     @Default(1) int version,
     String? versionGroupId,
@@ -60,14 +58,20 @@ abstract class Recipe with _$Recipe {
 
   /// Ingredientes de todos os componentes, achatados na ordem (macros somam:
   /// componente é sub-receita). Usada por: cook mode, lista de compras, macros.
-  List<Ingredient> get allIngredients => components.isEmpty
-      ? ingredients
-      : [for (final c in components) ...c.ingredients];
+  List<Ingredient> get allIngredients =>
+      [for (final c in components) ...c.ingredients];
 
   /// Passos de todos os componentes, achatados na ordem (fila reta do cook
   /// mode). Usada por: CookModeScreen, StepProgress.
-  List<RecipeStep> get allSteps =>
-      components.isEmpty ? steps : [for (final c in components) ...c.steps];
+  List<RecipeStep> get allSteps => [for (final c in components) ...c.steps];
+
+  /// Deriva a receita com UM componente trocado (edição inline endereça por
+  /// componente + índice). Usada por: RecipeItemEdit (ingrediente/passo).
+  Recipe withComponent(int index, RecipeComponent component) {
+    final list = List<RecipeComponent>.of(components);
+    list[index] = component;
+    return copyWith(components: list);
+  }
 
   /// Deriva um snapshot com a IDENTIDADE de versão trocada (id, número, grupo e,
   /// opcionalmente, as pastas) — o conteúdo permanece. Usada por:

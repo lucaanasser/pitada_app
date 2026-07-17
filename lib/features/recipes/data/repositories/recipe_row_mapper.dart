@@ -56,8 +56,6 @@ Recipe recipeFromRow(Map<String, dynamic> row) {
   final components = _sortedByPosition(row['recipe_components']);
   return Recipe.fromJson({
     ...row,
-    'ingredients': ingredients,
-    'steps': steps,
     'components': _componentMaps(components, ingredients, steps),
     'folder_ids': [
       for (final f in (row['recipe_folders'] as List? ?? const []))
@@ -80,19 +78,59 @@ Map<String, dynamic> recipeToRow(Recipe recipe, {bool withId = true}) {
   return row;
 }
 
-/// Linhas de `recipe_ingredients` para [recipeId] (position = ordem da lista).
+/// True quando a receita dispensa linhas de componente (1 componente sem nome:
+/// as filhas ficam com component_id null). Usada por: SupabaseRecipesRepository.
+bool isSingleImplicitComponent(Recipe recipe) =>
+    recipe.components.length == 1 && recipe.components.first.name == null;
+
+/// Linhas de `recipe_components` para [recipeId] (position = ordem da lista).
 /// Usada por: SupabaseRecipesRepository (escrita das filhas).
-List<Map<String, dynamic>> ingredientRows(Recipe recipe, String recipeId) => [
-      for (final (i, ing) in recipe.ingredients.indexed)
-        {...ing.toJson(), 'recipe_id': recipeId, 'position': i},
+List<Map<String, dynamic>> componentRows(Recipe recipe, String recipeId) => [
+      for (final (i, c) in recipe.components.indexed)
+        {'recipe_id': recipeId, 'position': i, 'name': c.name},
     ];
 
-/// Linhas de `recipe_steps` para [recipeId] (position = ordem da lista).
+/// Linhas de `recipe_ingredients` para [recipeId], com component_id alinhado a
+/// [componentIds] (nulls = componente implícito; position = ordem global).
 /// Usada por: SupabaseRecipesRepository (escrita das filhas).
-List<Map<String, dynamic>> stepRows(Recipe recipe, String recipeId) => [
-      for (final (i, step) in recipe.steps.indexed)
-        {...step.toJson(), 'recipe_id': recipeId, 'position': i},
-    ];
+List<Map<String, dynamic>> ingredientRows(
+  Recipe recipe,
+  String recipeId,
+  List<String?> componentIds,
+) {
+  var position = 0;
+  return [
+    for (final (c, comp) in recipe.components.indexed)
+      for (final ing in comp.ingredients)
+        {
+          ...ing.toJson(),
+          'recipe_id': recipeId,
+          'component_id': componentIds[c],
+          'position': position++,
+        },
+  ];
+}
+
+/// Linhas de `recipe_steps` para [recipeId], com component_id alinhado a
+/// [componentIds] (nulls = componente implícito; position = ordem global).
+/// Usada por: SupabaseRecipesRepository (escrita das filhas).
+List<Map<String, dynamic>> stepRows(
+  Recipe recipe,
+  String recipeId,
+  List<String?> componentIds,
+) {
+  var position = 0;
+  return [
+    for (final (c, comp) in recipe.components.indexed)
+      for (final step in comp.steps)
+        {
+          ...step.toJson(),
+          'recipe_id': recipeId,
+          'component_id': componentIds[c],
+          'position': position++,
+        },
+  ];
+}
 
 /// Linhas de `recipe_folders` (N:N) para [recipeId].
 /// Usada por: SupabaseRecipesRepository (escrita das filhas).

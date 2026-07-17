@@ -21,6 +21,7 @@ import '../../application/recipes_providers.dart';
 import '../../data/models/recipe.dart';
 import '../../data/models/recipe_draft.dart';
 import '../../../../core/widgets/controls/edit_field.dart';
+import '../widgets/detail/sections/recipe_component_header.dart';
 import '../widgets/edit/photo_grid.dart';
 import '../widgets/edit/recipe_editors.dart';
 
@@ -116,12 +117,18 @@ class _RecipeEditScreenState extends ConsumerState<RecipeEditScreen> {
             onChanged: (v) => setState(() => draft.timeMinutes = v),
           ),
           const SectionHeader(label: 'Ingredientes'),
-          IngredientsEditor(
-            ingredients: draft.ingredients,
-            onDirty: () => setState(() {}),
-          ),
+          for (final c in draft.components) ...[
+            if (c.name != null) RecipeComponentHeader(name: c.name!),
+            IngredientsEditor(
+              ingredients: c.ingredients,
+              onDirty: () => setState(() {}),
+            ),
+          ],
           const SectionHeader(label: 'Modo de preparo'),
-          StepsEditor(steps: draft.steps, onDirty: () => setState(() {})),
+          for (final c in draft.components) ...[
+            if (c.name != null) RecipeComponentHeader(name: c.name!),
+            StepsEditor(steps: c.steps, onDirty: () => setState(() {})),
+          ],
         ],
       ),
     );

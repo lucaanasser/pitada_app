@@ -12,9 +12,11 @@ part of 'recipe_quick_edit.dart';
 /// Edição inline dos itens de lista da receita. Métodos públicos usados no detalhe;
 /// reusa os helpers privados da biblioteca (_save/_toNum/_numStr). Usada por: detalhe.
 extension RecipeItemEdit on RecipeQuickEdit {
-  /// Edita um ingrediente (nome + gramas + quantidade/unidade humana). Usada por: IngredientRow.
-  Future<void> ingredient(Recipe r, int index) async {
-    final ing = r.ingredients[index];
+  /// Edita um ingrediente (nome + gramas + quantidade/unidade humana),
+  /// endereçado por componente + índice. Usada por: IngredientRow.
+  Future<void> ingredient(Recipe r, int component, int index) async {
+    final comp = r.components[component];
+    final ing = comp.ingredients[index];
     final res = await showQuickEditSheet(
       context,
       title: 'Ingrediente',
@@ -43,22 +45,28 @@ extension RecipeItemEdit on RecipeQuickEdit {
     );
     if (res == null) return;
     final v = res.values;
-    final list = List<Ingredient>.of(r.ingredients);
+    final list = List<Ingredient>.of(comp.ingredients);
     list[index] = Ingredient(
       name: v[0].trim(),
       grams: _toNum(v[1]),
       humanQty: _toNum(v[2]),
       humanUnit: v[3].trim().isEmpty ? null : v[3].trim(),
     );
-    await _save(r.copyWith(ingredients: list), asNewVersion: res.toggle);
+    await _save(
+      r.withComponent(component, comp.copyWith(ingredients: list)),
+      asNewVersion: res.toggle,
+    );
   }
 
-  /// Edita um passo do preparo (texto + "Por quê" opcional). Usada por: StepTile.
-  Future<void> step(Recipe r, int index) async {
-    final st = r.steps[index];
+  /// Edita um passo do preparo (texto + "Por quê" opcional), endereçado por
+  /// componente + índice; [number] é o número CONTÍNUO exibido. Usada por: StepTile.
+  Future<void> step(Recipe r, int component, int index,
+      {required int number,}) async {
+    final comp = r.components[component];
+    final st = comp.steps[index];
     final res = await showQuickEditSheet(
       context,
-      title: 'Passo ${index + 1}',
+      title: 'Passo $number',
       toggleLabel: _versionLabel,
       toggleSubtitle: _versionSub,
       fields: [
@@ -78,11 +86,14 @@ extension RecipeItemEdit on RecipeQuickEdit {
     );
     if (res == null) return;
     final v = res.values;
-    final list = List<RecipeStep>.of(r.steps);
+    final list = List<RecipeStep>.of(comp.steps);
     list[index] = RecipeStep(
       text: v[0].trim(),
       tip: v[1].trim().isEmpty ? null : v[1].trim(),
     );
-    await _save(r.copyWith(steps: list), asNewVersion: res.toggle);
+    await _save(
+      r.withComponent(component, comp.copyWith(steps: list)),
+      asNewVersion: res.toggle,
+    );
   }
 }

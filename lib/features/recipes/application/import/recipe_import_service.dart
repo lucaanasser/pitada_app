@@ -70,27 +70,49 @@ class MockRecipeImportService implements RecipeImportService {
       fat: 18,
       heroColor: 'terra',
       techniques: <String>['Selar a carne', 'Emulsionar um molho'],
-      ingredients: const <Ingredient>[
-        Ingredient(name: 'Peito de frango', grams: 500, humanQty: 500, humanUnit: 'g'),
-        Ingredient(name: 'Ovo', grams: 80, humanQty: 2, humanUnit: 'unidade'),
-        Ingredient(name: 'Pimentão', grams: 120, humanQty: 1, humanUnit: 'unidade'),
-        Ingredient(name: 'Shoyu', grams: 45, humanQty: 3, humanUnit: 'c. sopa'),
-        Ingredient(name: 'Amendoim', grams: 70, humanQty: 0.5, humanUnit: 'xícara'),
-        Ingredient(name: 'Alho', grams: 15, humanQty: 3, humanUnit: 'dentes'),
-      ],
-      steps: const <RecipeStep>[
-        RecipeStep(
-          text: 'Corte o frango em cubos e seque bem com papel-toalha.',
-          tip: 'Frango seco doura em vez de cozinhar na própria água — mais sabor.',
-        ),
-        RecipeStep(
-          text: 'Sele os cubos em fogo alto, sem mexer demais, até dourar.',
-          tip: 'Panela cheia demais esfria e cozinha; sele em levas.',
-        ),
-        RecipeStep(text: 'Refogue alho e pimentão rapidamente para manter a crocância.'),
-        RecipeStep(
-          text: 'Volte o frango, junte o shoyu e o amendoim e finalize.',
-          tip: 'O shoyu reduz e vira molho — desligue quando encorpar.',
+      components: [
+        DraftComponent(
+          ingredients: const <Ingredient>[
+            Ingredient(
+                name: 'Peito de frango',
+                grams: 500,
+                humanQty: 500,
+                humanUnit: 'g',),
+            Ingredient(
+                name: 'Ovo', grams: 80, humanQty: 2, humanUnit: 'unidade',),
+            Ingredient(
+                name: 'Pimentão',
+                grams: 120,
+                humanQty: 1,
+                humanUnit: 'unidade',),
+            Ingredient(
+                name: 'Shoyu', grams: 45, humanQty: 3, humanUnit: 'c. sopa',),
+            Ingredient(
+                name: 'Amendoim',
+                grams: 70,
+                humanQty: 0.5,
+                humanUnit: 'xícara',),
+            Ingredient(
+                name: 'Alho', grams: 15, humanQty: 3, humanUnit: 'dentes',),
+          ],
+          steps: const <RecipeStep>[
+            RecipeStep(
+              text: 'Corte o frango em cubos e seque bem com papel-toalha.',
+              tip:
+                  'Frango seco doura em vez de cozinhar na própria água — mais sabor.',
+            ),
+            RecipeStep(
+              text: 'Sele os cubos em fogo alto, sem mexer demais, até dourar.',
+              tip: 'Panela cheia demais esfria e cozinha; sele em levas.',
+            ),
+            RecipeStep(
+                text:
+                    'Refogue alho e pimentão rapidamente para manter a crocância.',),
+            RecipeStep(
+              text: 'Volte o frango, junte o shoyu e o amendoim e finalize.',
+              tip: 'O shoyu reduz e vira molho — desligue quando encorpar.',
+            ),
+          ],
         ),
       ],
     );

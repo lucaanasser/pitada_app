@@ -2,13 +2,14 @@
 // lib/features/recipes/data/seed/recipe_seed.dart
 // O QUÊ:     Dados de exemplo (pastas + receitas DEFINITIVAS do protótipo) p/ preview.
 //            Snapshots de versões antigas ficam em recipe_versions_seed.dart.
-// USA:       recipe.dart, ingredient.dart, recipe_step.dart, folder.dart.
+// USA:       recipe.dart, recipe_component.dart, ingredient.dart, recipe_step.dart. folder.dart.
 // USADO POR: seed_recipe_repository (fonte em memória enquanto não há Supabase).
 // SPEC:      specs/features/recipes.yaml (data.seed)
 // ─────────────────────────────────────────────────────────────────────────────
 import '../models/folder.dart';
 import '../models/ingredient.dart';
 import '../models/recipe.dart';
+import '../models/recipe_component.dart';
 import '../models/recipe_step.dart';
 
 /// Pastas de exemplo (capítulos), cada uma com seu pastel. Usada por: seed_recipe_repository.
@@ -37,45 +38,51 @@ const kSeedRecipes = <Recipe>[
     version: 3,
     versionGroupId: 'frango-xadrez',
     techniques: ['Selar a carne', 'Emulsionar um molho'],
-    ingredients: [
-      Ingredient(
-        name: 'Peito de frango',
-        grams: 500,
-        humanQty: 500,
-        humanUnit: 'g',
-      ),
-      Ingredient(name: 'Ovo', grams: 80, humanQty: 2, humanUnit: 'unidade'),
-      Ingredient(
-        name: 'Pimentão',
-        grams: 120,
-        humanQty: 1,
-        humanUnit: 'unidade',
-      ),
-      Ingredient(name: 'Shoyu', grams: 45, humanQty: 3, humanUnit: 'c. sopa'),
-      Ingredient(
-        name: 'Amendoim',
-        grams: 70,
-        humanQty: 0.5,
-        humanUnit: 'xícara',
-      ),
-      Ingredient(name: 'Alho', grams: 15, humanQty: 3, humanUnit: 'dentes'),
-    ],
-    steps: [
-      RecipeStep(
-        text: 'Corte o frango em cubos e seque bem com papel-toalha.',
-        tip:
-            'Frango seco doura em vez de cozinhar na própria água — mais sabor.',
-      ),
-      RecipeStep(
-        text: 'Sele os cubos em fogo alto, sem mexer demais, até dourar.',
-        tip: 'Panela cheia demais esfria e cozinha; sele em levas.',
-      ),
-      RecipeStep(
-        text: 'Refogue alho e pimentão rapidamente para manterem a crocância.',
-      ),
-      RecipeStep(
-        text: 'Volte o frango, junte o shoyu e o amendoim e finalize.',
-        tip: 'O shoyu reduz e vira molho — desligue quando encorpar.',
+    components: [
+      RecipeComponent(
+        ingredients: [
+          Ingredient(
+            name: 'Peito de frango',
+            grams: 500,
+            humanQty: 500,
+            humanUnit: 'g',
+          ),
+          Ingredient(name: 'Ovo', grams: 80, humanQty: 2, humanUnit: 'unidade'),
+          Ingredient(
+            name: 'Pimentão',
+            grams: 120,
+            humanQty: 1,
+            humanUnit: 'unidade',
+          ),
+          Ingredient(
+              name: 'Shoyu', grams: 45, humanQty: 3, humanUnit: 'c. sopa',),
+          Ingredient(
+            name: 'Amendoim',
+            grams: 70,
+            humanQty: 0.5,
+            humanUnit: 'xícara',
+          ),
+          Ingredient(name: 'Alho', grams: 15, humanQty: 3, humanUnit: 'dentes'),
+        ],
+        steps: [
+          RecipeStep(
+            text: 'Corte o frango em cubos e seque bem com papel-toalha.',
+            tip:
+                'Frango seco doura em vez de cozinhar na própria água — mais sabor.',
+          ),
+          RecipeStep(
+            text: 'Sele os cubos em fogo alto, sem mexer demais, até dourar.',
+            tip: 'Panela cheia demais esfria e cozinha; sele em levas.',
+          ),
+          RecipeStep(
+            text:
+                'Refogue alho e pimentão rapidamente para manterem a crocância.',
+          ),
+          RecipeStep(
+            text: 'Volte o frango, junte o shoyu e o amendoim e finalize.',
+            tip: 'O shoyu reduz e vira molho — desligue quando encorpar.',
+          ),
+        ],
       ),
     ],
   ),
@@ -91,23 +98,29 @@ const kSeedRecipes = <Recipe>[
     fat: 14,
     heroColor: 'moss',
     folderIds: ['fit'],
-    ingredients: [
-      Ingredient(name: 'Quinoa', grams: 90, humanQty: 0.5, humanUnit: 'xícara'),
-      Ingredient(
-        name: 'Grão-de-bico',
-        grams: 120,
-        humanQty: 120,
-        humanUnit: 'g',
+    components: [
+      RecipeComponent(
+        ingredients: [
+          Ingredient(
+              name: 'Quinoa', grams: 90, humanQty: 0.5, humanUnit: 'xícara',),
+          Ingredient(
+            name: 'Grão-de-bico',
+            grams: 120,
+            humanQty: 120,
+            humanUnit: 'g',
+          ),
+          Ingredient(
+            name: 'Abacate',
+            grams: 80,
+            humanQty: 0.5,
+            humanUnit: 'unidade',
+          ),
+        ],
+        steps: [
+          RecipeStep(
+              text: 'Cozinhe a quinoa e monte o bowl com os demais itens.',),
+        ],
       ),
-      Ingredient(
-        name: 'Abacate',
-        grams: 80,
-        humanQty: 0.5,
-        humanUnit: 'unidade',
-      ),
-    ],
-    steps: [
-      RecipeStep(text: 'Cozinhe a quinoa e monte o bowl com os demais itens.'),
     ],
   ),
   Recipe(
@@ -125,19 +138,42 @@ const kSeedRecipes = <Recipe>[
     techniques: ['Selar a carne', 'Emulsionar um molho'],
     version: 2,
     versionGroupId: 'strogonoff',
-    ingredients: [
-      Ingredient(name: 'Alcatra', grams: 500, humanQty: 500, humanUnit: 'g'),
-      Ingredient(
-        name: 'Creme de leite',
-        grams: 200,
-        humanQty: 1,
-        humanUnit: 'lata',
+    components: [
+      RecipeComponent(
+        name: 'Base',
+        ingredients: [
+          Ingredient(
+            name: 'Alcatra',
+            grams: 500,
+            humanQty: 500,
+            humanUnit: 'g',
+          ),
+        ],
+        steps: [
+          RecipeStep(text: 'Sele a carne em fogo alto, em levas.'),
+        ],
       ),
-      Ingredient(name: 'Champignon', grams: 100, humanQty: 100, humanUnit: 'g'),
-    ],
-    steps: [
-      RecipeStep(
-        text: 'Sele a carne, faça o molho e incorpore o creme de leite.',
+      RecipeComponent(
+        name: 'Molho',
+        ingredients: [
+          Ingredient(
+            name: 'Creme de leite',
+            grams: 200,
+            humanQty: 1,
+            humanUnit: 'lata',
+          ),
+          Ingredient(
+            name: 'Champignon',
+            grams: 100,
+            humanQty: 100,
+            humanUnit: 'g',
+          ),
+        ],
+        steps: [
+          RecipeStep(
+            text: 'Faça o molho e incorpore o creme de leite.',
+          ),
+        ],
       ),
     ],
   ),
@@ -153,13 +189,21 @@ const kSeedRecipes = <Recipe>[
     fat: 7,
     heroColor: 'ochre',
     folderIds: ['doces', 'fit'],
-    ingredients: [
-      Ingredient(name: 'Banana', grams: 120, humanQty: 1, humanUnit: 'unidade'),
-      Ingredient(name: 'Ovo', grams: 100, humanQty: 2, humanUnit: 'unidade'),
-      Ingredient(name: 'Aveia', grams: 30, humanQty: 3, humanUnit: 'c. sopa'),
-    ],
-    steps: [
-      RecipeStep(text: 'Amasse a banana, misture tudo e doure dos dois lados.'),
+    components: [
+      RecipeComponent(
+        ingredients: [
+          Ingredient(
+              name: 'Banana', grams: 120, humanQty: 1, humanUnit: 'unidade',),
+          Ingredient(
+              name: 'Ovo', grams: 100, humanQty: 2, humanUnit: 'unidade',),
+          Ingredient(
+              name: 'Aveia', grams: 30, humanQty: 3, humanUnit: 'c. sopa',),
+        ],
+        steps: [
+          RecipeStep(
+              text: 'Amasse a banana, misture tudo e doure dos dois lados.',),
+        ],
+      ),
     ],
   ),
 ];

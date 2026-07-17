@@ -218,10 +218,18 @@ screens:
       layout: [cabeçalho de identidade (voltar + FRAMEWORK/RECEITA + lápis),
                [título + RecipeVersionTag "V3"], kcal, fonte clicável,
                meta em texto(porções/tempo),
-               NutritionCard, SectionHeader Ingredientes -> IngredientRow,
-               SectionHeader "Modo de preparo" -> StepTile(+WhyCallout),
+               NutritionCard, SectionHeader Ingredientes -> por componente
+               (RecipeComponentHeader quando nomeado) -> IngredientRow,
+               SectionHeader "Modo de preparo" -> por componente -> StepTile(+WhyCallout),
                SectionHeader "Técnicas" -> PitadaTag, "Anotações" (texto),
                barra inferior: Cozinhar + ícones]
+      componentes_na_tela: >
+        SEÇÃO, nunca aba: massa e cobertura são o mesmo prato, lidos na mesma rolagem.
+        Dentro de Ingredientes e de Modo de preparo, cada componente NOMEADO abre com
+        um RecipeComponentHeader (titleSm, pit.text, sem filete — menor que o
+        SectionHeader). Componente sem nome (receita simples) não mostra subcabeçalho:
+        a tela fica idêntica à de antes. A numeração dos passos é CONTÍNUA entre
+        componentes (fila reta do cook mode).
       # Toggle "pôr na bancada" na barra inferior entra com a implementação da Bancada
       # (ver specs/features/bancada.yaml: integracoes.entrada).
       navega: CookModeScreen (/recipe/:id/cook via "Cozinhar"), RecipeEditScreen (/recipe/:id/edit via ícone lápis),
@@ -242,8 +250,10 @@ screens:
           - kcal                -> QuickEdit 1 campo numérico
           - porções/tempo/dificuldade -> RecipeMeta: cada segmento é um Editable próprio
           - macros              -> NutritionCard: cada célula (Proteína/Gordura/Carbo) é Editable
-          - ingrediente         -> IngredientRow: QuickEdit 4 campos (nome/gramas/qtd/unidade)
-          - passo               -> StepTile: QuickEdit 2 campos multiline (passo / "Por quê")
+          - ingrediente         -> IngredientRow: QuickEdit 4 campos (nome/gramas/qtd/unidade);
+                                   endereçado por (componente, índice)
+          - passo               -> StepTile: QuickEdit 2 campos multiline (passo / "Por quê");
+                                   endereçado por (componente, índice)
           - técnicas            -> QuickEdit 1 campo multiline (uma técnica por linha)
           - anotações           -> QuickEdit 1 campo multiline
 
@@ -264,12 +274,15 @@ screens:
           - EditFieldRow "Pasta": abre seletor de pasta (lista de foldersProvider, multiescolha) -> PitadaChip por pasta
           - EditFieldRow "Porções": stepper − N + (usa PitadaIconButton, AppType.numeral)
           - EditFieldRow "Tempo (min)": stepper − N + ou campo numérico
-          - SectionHeader "Ingredientes" -> EditIngredientEditor:
+          - SectionHeader "Ingredientes" -> POR COMPONENTE (rótulo do nome quando houver)
+              -> IngredientsEditor:
               por linha: nome + gramas + humanQty + humanUnit (HairlineRow com campos) + remover (ícone)
               rodapé: PitadaButton(outline) "＋ Ingrediente"
-          - SectionHeader "Modo de preparo" -> EditStepEditor:
+          - SectionHeader "Modo de preparo" -> POR COMPONENTE -> StepsEditor:
               por passo: número + texto (multiline) + tip opcional ("Por quê") + remover
               rodapé: PitadaButton(outline) "＋ Passo"
+          # o rascunho (RecipeDraft) guarda DraftComponent mutáveis; receita simples
+          # tem 1 componente sem nome e o editor não muda nada visualmente
       salvar: monta Recipe imutável a partir do rascunho e chama repository (mock: log via AppLog + pop);
               AppLog.i('recipes', 'receita salva: <id>')
       navega: volta para RecipeDetailScreen ao salvar/cancelar (context.pop)

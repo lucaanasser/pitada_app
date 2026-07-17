@@ -1,13 +1,45 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/recipes/data/models/recipe_draft.dart
 // O QUÊ:     Rascunho mutável leve de receita, para telas de edição/importação.
-// USA:       recipe.dart, ingredient.dart, recipe_step.dart (converte de/para).
+//            Guarda DraftComponent mutáveis (massa/cobertura); receita simples
+//            tem 1 componente sem nome.
+// USA:       recipe.dart, recipe_component.dart, ingredient.dart, recipe_step.dart.
 // USADO POR: import_controller (preview) e RecipeEditScreen (edição em memória).
 // SPEC:      specs/features/recipes.yaml (RecipeEditScreen: rascunho local)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'ingredient.dart';
 import 'recipe.dart';
+import 'recipe_component.dart';
 import 'recipe_step.dart';
+
+/// Componente mutável do rascunho (espelho editável de [RecipeComponent]).
+/// Usada por: RecipeDraft, IngredientsEditor/StepsEditor (listas mutáveis).
+class DraftComponent {
+  String? name;
+  List<Ingredient> ingredients;
+  List<RecipeStep> steps;
+
+  DraftComponent({
+    this.name,
+    List<Ingredient>? ingredients,
+    List<RecipeStep>? steps,
+  })  : ingredients = ingredients ?? <Ingredient>[],
+        steps = steps ?? <RecipeStep>[];
+
+  /// Cria a partir do componente imutável (para editar). Usada por: RecipeDraft.fromRecipe.
+  factory DraftComponent.fromComponent(RecipeComponent c) => DraftComponent(
+        name: c.name,
+        ingredients: List<Ingredient>.of(c.ingredients),
+        steps: List<RecipeStep>.of(c.steps),
+      );
+
+  /// Congela no componente imutável. Usada por: RecipeDraft.toRecipe.
+  RecipeComponent toComponent() => RecipeComponent(
+        name: name,
+        ingredients: List<Ingredient>.of(ingredients),
+        steps: List<RecipeStep>.of(steps),
+      );
+}
 
 /// Rascunho editável de receita. Diferente de [Recipe] (imutável), aqui os campos
 /// mudam enquanto o usuário edita ou revisa uma importação, virando [Recipe] no fim.
@@ -27,8 +59,7 @@ class RecipeDraft {
   String? notes;
   List<String> folderIds;
   List<String> techniques;
-  List<Ingredient> ingredients;
-  List<RecipeStep> steps;
+  List<DraftComponent> components;
 
   RecipeDraft({
     this.id = '',
@@ -45,12 +76,17 @@ class RecipeDraft {
     this.notes,
     List<String>? folderIds,
     List<String>? techniques,
-    List<Ingredient>? ingredients,
-    List<RecipeStep>? steps,
+    List<DraftComponent>? components,
   })  : folderIds = folderIds ?? <String>[],
         techniques = techniques ?? <String>[],
-        ingredients = ingredients ?? <Ingredient>[],
-        steps = steps ?? <RecipeStep>[];
+        components = (components == null || components.isEmpty)
+            ? [DraftComponent()]
+            : components;
+
+  /// Ingredientes de todos os componentes, achatados (checagens do import).
+  /// Usada por: import_controller.
+  List<Ingredient> get allIngredients =>
+      [for (final c in components) ...c.ingredients];
 
   /// Cria um rascunho a partir de uma receita existente (para editar).
   /// Usada por: RecipeEditScreen ao carregar uma receita.
@@ -69,8 +105,9 @@ class RecipeDraft {
         notes: r.notes,
         folderIds: List<String>.of(r.folderIds),
         techniques: List<String>.of(r.techniques),
-        ingredients: List<Ingredient>.of(r.ingredients),
-        steps: List<RecipeStep>.of(r.steps),
+        components: [
+          for (final c in r.components) DraftComponent.fromComponent(c),
+        ],
       );
 
   /// Congela o rascunho numa [Recipe] imutável, pronta para salvar.
@@ -90,7 +127,6 @@ class RecipeDraft {
         notes: notes,
         folderIds: List<String>.of(folderIds),
         techniques: List<String>.of(techniques),
-        ingredients: List<Ingredient>.of(ingredients),
-        steps: List<RecipeStep>.of(steps),
+        components: [for (final c in components) c.toComponent()],
       );
 }
