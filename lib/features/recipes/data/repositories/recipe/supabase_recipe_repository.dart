@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/recipes/data/repositories/supabase_recipe_repository.dart
+// lib/features/recipes/data/repositories/recipe/supabase_recipe_repository.dart
 // O QUÊ:     Implementação ONLINE do RecipesRepository: Postgres via PostgREST
 //            (leitura com embedding numa query; escrita = linha + filhas).
 // USA:       recipe_repository (contrato), recipe_row_mapper (linha<->modelo),
@@ -10,10 +10,10 @@
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../../../core/supabase/supabase.dart';
-import '../../../../core/utils/app_log.dart';
-import '../models/folder.dart';
-import '../models/recipe.dart';
+import '../../../../../core/supabase/supabase.dart';
+import '../../../../../core/utils/app_log.dart';
+import '../../models/folder.dart';
+import '../../models/recipe/recipe.dart';
 import 'recipe_row_mapper.dart';
 import 'recipe_repository.dart';
 

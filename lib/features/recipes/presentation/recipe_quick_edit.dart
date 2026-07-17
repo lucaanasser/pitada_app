@@ -11,9 +11,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../application/recipes_providers.dart';
-import '../data/models/ingredient.dart';
-import '../data/models/recipe.dart';
-import '../data/models/recipe_step.dart';
+import '../data/models/recipe/ingredient.dart';
+import '../data/models/recipe/recipe.dart';
+import '../data/models/recipe/recipe_step.dart';
 import 'sheets/quick_edit_sheet.dart';
 
 part 'recipe_item_edit.dart';

@@ -15,7 +15,7 @@ import '../../../../../../core/theme/spacing.dart';
 import '../../../../../../core/theme/typography.dart';
 import '../../../../../../core/utils/format.dart';
 import '../../../../../../core/widgets/controls/editable.dart';
-import '../../../../data/models/recipe.dart';
+import '../../../../data/models/recipe/recipe.dart';
 
 /// Bloco com o link de origem (quando houver) e a meta em texto sóbrio. Cada
 /// segmento (porções/tempo) é editável por gesto quando o respectivo

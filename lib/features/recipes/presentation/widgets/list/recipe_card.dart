@@ -13,7 +13,7 @@ import '../../../../../core/theme/app_icons.dart';
 import '../../../../../core/theme/pitada_colors.dart';
 import '../../../../../core/theme/spacing.dart';
 import '../../../../../core/theme/typography.dart';
-import '../../../data/models/recipe.dart';
+import '../../../data/models/recipe/recipe.dart';
 import 'recipe_meta_text.dart';
 
 /// Card de receita com foto (placeholder colorido) e meta em texto sóbrio.

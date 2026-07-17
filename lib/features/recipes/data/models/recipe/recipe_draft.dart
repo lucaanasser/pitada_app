@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/recipes/data/models/recipe_draft.dart
+// lib/features/recipes/data/models/recipe/recipe_draft.dart
 // O QUÊ:     Rascunho mutável leve de receita, para telas de edição/importação.
 //            Guarda DraftComponent mutáveis (massa/cobertura); receita simples
 //            tem 1 componente sem nome.

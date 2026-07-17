@@ -12,7 +12,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../notebook/application/providers.dart';
 import '../../notebook/data/models/activity/diary_entry.dart';
-import '../data/models/recipe.dart';
+import '../data/models/recipe/recipe.dart';
 import 'recipe_filters.dart';
 import 'recipes_providers.dart';
 

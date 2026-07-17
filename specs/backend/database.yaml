@@ -243,6 +243,29 @@ migrations:
         órfãos num componente sem nome. Receitas existentes não mudam.
       rls: dono da receita (mesmo padrão de recipe_steps)
 
+  - 0015_techniques.sql:           # técnica vira ENTIDADE canônica (não string livre)
+      motivo: >
+        recipes.techniques (text[]) fragmenta: "Selar a carne" ≠ "selar" e o
+        agrupamento de frameworks quebra na primeira importação real. Técnica vira
+        tabela com slug canônico + aliases (espelho de food_aliases), e cada PASSO
+        aponta a técnica que executa (com o trecho literal a grifar).
+      techniques:
+        colunas: [id, user_id default auth.uid(), slug text not null,
+                  name text not null, notion text]
+        # slug = unaccent+lower ('selar'); name = como a pessoa escreveu;
+        # notion = a noção ("o que é selar") — IA rascunha no import, a pessoa edita
+        unique: (user_id, slug)
+      technique_aliases:             # referência GLOBAL, seedada por nós (como food_aliases)
+        colunas: [term text pk, canonical text not null]   # 'dourar a carne' -> 'selar'
+      recipe_step_techniques:        # N:N passo <-> técnica + âncora do grifo
+        colunas: [step_id fk->recipe_steps cascade, technique_id fk->techniques cascade,
+                  anchor text]       # trecho LITERAL do passo a grifar; não casou = sem grifo
+        pk: (step_id, technique_id)
+      deprecia: >
+        recipes.techniques (text[]) FICA até a 0017 (dropar aqui quebraria seed e
+        framework_suggestion no mesmo commit). O agrupamento de frameworks passa a
+        usar o slug normalizado já nesta fatia.
+
 leitura_pelo_app:                    # PostgREST embedding — 1 query traz tudo
   exemplo: >
     from('recipes').select('*, recipe_ingredients(*), recipe_steps(*),

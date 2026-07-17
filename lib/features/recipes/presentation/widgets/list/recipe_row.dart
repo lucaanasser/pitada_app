@@ -15,7 +15,7 @@ import '../../../../../core/theme/spacing.dart';
 import '../../../../../core/theme/typography.dart';
 import '../../../../../core/widgets/cards/hairline_row.dart';
 import '../../../../../core/widgets/cards/recipe_thumb.dart';
-import '../../../data/models/recipe.dart';
+import '../../../data/models/recipe/recipe.dart';
 import 'recipe_meta_text.dart';
 
 /// Uma receita como linha de lista. [mastery] é a maestria

@@ -4,7 +4,17 @@ prototype: "TAB-RECEITAS, VIEW-RECIPE, VIEW-EDIT, VIEW-COOK, VIEW-FOLDER, SHEET-
 purpose: Guardar, ver, editar, cozinhar e importar receitas. Grama é a base.
 
 data:
-  models: [Recipe, RecipeComponent, Ingredient, RecipeStep, Folder]
+  models: [Recipe, RecipeComponent, Ingredient, RecipeStep, StepTechnique, Technique, Folder]
+  # models/recipe/ agrupa o sub-domínio da receita (regra de 7); Technique/Folder/
+  # Framework ficam soltos em models/. Repositórios idem: repositories/{recipe,framework,technique}/.
+  tecnica: >
+    Technique {id, slug, name, notion?} é ENTIDADE canônica (specs/backend/database.yaml
+    0015), nunca string livre. slug normaliza (unaccent+lower) e deduplica; notion é a
+    noção ("o que é selar") — a IA rascunha no import, a pessoa edita (regra da IA:
+    trabalho, não decisão). Cada RecipeStep carrega StepTechnique {techniqueId, anchor}:
+    anchor é o trecho literal do passo a grifar (não casou = grifo some, degrada em
+    silêncio). O agrupamento de frameworks usa o slug — "Selar a carne" e "selar"
+    são o mesmo grupo.
   models_impl: >
     freezed + json_serializable (regra de architecture.md). fromJson/toJson com
     field_rename snake (camelCase Dart <-> snake_case Postgres, ver
@@ -25,7 +35,7 @@ data:
     preview PC — comportamento abaixo) e SupabaseRecipesRepository (online,
     Postgres com RLS). main.dart escolhe via override do recipesRepositoryProvider
     quando SupabaseService.initIfConfigured() == true.
-  repository_supabase:            # data/repositories/supabase_recipe_repository.dart
+  repository_supabase:            # data/repositories/recipe/supabase_recipe_repository.dart
     leitura: >
       1 query com embedding: from('recipes').select('*, recipe_ingredients(*),
       recipe_steps(*), recipe_folders(folder_id)'). fetchRecipes filtra as

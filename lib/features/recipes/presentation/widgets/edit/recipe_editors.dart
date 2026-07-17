@@ -11,8 +11,8 @@ import 'package:flutter/material.dart';
 
 import '../../../../../core/theme/spacing.dart';
 import '../../../../../core/widgets/controls/pitada_button.dart';
-import '../../../data/models/ingredient.dart';
-import '../../../data/models/recipe_step.dart';
+import '../../../data/models/recipe/ingredient.dart';
+import '../../../data/models/recipe/recipe_step.dart';
 import 'edit_ingredient_row.dart';
 import 'edit_step_row.dart';
 

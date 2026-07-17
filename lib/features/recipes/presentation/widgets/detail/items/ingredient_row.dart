@@ -12,7 +12,7 @@ import '../../../../../../core/theme/typography.dart';
 import '../../../../../../core/utils/format.dart';
 import '../../../../../../core/widgets/controls/editable.dart';
 import '../../../../../../core/widgets/cards/hairline_row.dart';
-import '../../../../data/models/ingredient.dart';
+import '../../../../data/models/recipe/ingredient.dart';
 
 /// Ingrediente como linha: grama grande (base) + unidade humana pequena (ref.).
 /// Editável por gesto ([onEdit]): segurar/duplo-clique abre a edição do ingrediente.

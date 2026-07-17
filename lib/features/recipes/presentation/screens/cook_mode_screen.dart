@@ -20,7 +20,7 @@ import '../../../../core/utils/app_log.dart';
 import '../../../../core/widgets/cards/step_progress.dart';
 import '../../../notebook/presentation/sheets/diary_quick_sheet.dart';
 import '../../application/recipes_providers.dart';
-import '../../data/models/recipe.dart';
+import '../../data/models/recipe/recipe.dart';
 import '../widgets/cook/cook_nav_bar.dart';
 import '../widgets/cook/cook_step_view.dart';
 

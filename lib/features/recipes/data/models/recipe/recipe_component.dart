@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/recipes/data/models/recipe_component.dart
+// lib/features/recipes/data/models/recipe/recipe_component.dart
 // O QUÊ:     Componente de receita = SUB-RECEITA (massa, cobertura, molho):
 //            macros somam no prato (rules/data-model.md), nunca é pasta.
 // USA:       freezed + json_serializable, ingredient.dart, recipe_step.dart.

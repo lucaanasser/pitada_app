@@ -19,7 +19,7 @@ import '../../../../core/widgets/layout/section_header.dart';
 import '../../application/framework_providers.dart';
 import '../../application/recipe_list_providers.dart';
 import '../../application/recipes_providers.dart';
-import '../../data/models/recipe.dart';
+import '../../data/models/recipe/recipe.dart';
 import '../widgets/framework/framework_skeleton_view.dart';
 import '../widgets/list/recipe_row.dart';
 

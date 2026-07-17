@@ -15,7 +15,7 @@ import '../../../../../../core/theme/spacing.dart';
 import '../../../../../../core/widgets/controls/editable.dart';
 import '../../../../../../core/widgets/layout/section_header.dart';
 import '../../../../../../core/widgets/tags/pitada_tag.dart';
-import '../../../../data/models/recipe.dart';
+import '../../../../data/models/recipe/recipe.dart';
 import '../../../recipe_quick_edit.dart';
 
 /// Seção das técnicas em tags coloridas; editável por gesto. Vazia quando a

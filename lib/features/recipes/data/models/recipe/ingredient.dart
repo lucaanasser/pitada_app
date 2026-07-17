@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/recipes/data/models/ingredient.dart
+// lib/features/recipes/data/models/recipe/ingredient.dart
 // O QUÊ:     Modelo de ingrediente de receita. Grama é a base; unidade é referência.
 // USA:       freezed + json_serializable (codegen; JSON snake_case via build.yaml).
 // USADO POR: recipe.dart, recipe_seed, IngredientRow, importação, repositórios.

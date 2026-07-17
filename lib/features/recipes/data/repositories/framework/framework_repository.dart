@@ -1,11 +1,11 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/recipes/data/repositories/framework_repository.dart
+// lib/features/recipes/data/repositories/framework/framework_repository.dart
 // O QUÊ:     Contrato do repositório de frameworks (listar, buscar, criar,
 //            atualizar, apagar). Impl atual: seed em memória; Supabase depois.
 // USA:       framework.dart (modelo).
 // USADO POR: framework_providers (application) via frameworksRepositoryProvider.
 // ─────────────────────────────────────────────────────────────────────────────
-import '../models/framework.dart';
+import '../../models/framework.dart';
 
 /// Contrato de acesso aos frameworks do usuário. Usada por: framework_providers.
 abstract class FrameworksRepository {

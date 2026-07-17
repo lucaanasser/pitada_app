@@ -10,7 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../application/recipe_list_providers.dart';
-import '../../../data/models/recipe.dart';
+import '../../../data/models/recipe/recipe.dart';
 import 'recipe_row.dart';
 
 /// Lista de receitas em filetes, com maestria por item.

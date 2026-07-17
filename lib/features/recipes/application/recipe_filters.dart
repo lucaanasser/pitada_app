@@ -6,7 +6,7 @@
 // USADO POR: recipe_list_providers (aplica), RecipeFilterPanel (desenha os chips).
 // SPEC:      specs/features/recipes.yaml (screens.RecipesScreen.filtros)
 // ─────────────────────────────────────────────────────────────────────────────
-import '../data/models/recipe.dart';
+import '../data/models/recipe/recipe.dart';
 
 /// Maestria como FATO comparável (o rótulo é derivado daqui, não o contrário).
 /// Usada por: recipeMasteryProvider (rótulo) e RecipeFilters (filtro).

@@ -10,7 +10,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../../core/widgets/layout/section_header.dart';
-import '../../../../data/models/recipe.dart';
+import '../../../../data/models/recipe/recipe.dart';
 import '../../../recipe_quick_edit.dart';
 import '../items/step_tile.dart';
 import 'recipe_component_header.dart';

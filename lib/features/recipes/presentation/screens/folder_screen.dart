@@ -25,7 +25,7 @@ import '../../../../core/utils/app_log.dart';
 import '../../../../core/widgets/layout/empty_state.dart';
 import '../../../../core/widgets/controls/pitada_button.dart';
 import '../../application/recipes_providers.dart';
-import '../../data/models/recipe.dart';
+import '../../data/models/recipe/recipe.dart';
 import '../widgets/folder/paper_fly.dart';
 import '../widgets/list/recipe_card.dart';
 

@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/recipes/data/repositories/seed_recipe_repository.dart
+// lib/features/recipes/data/repositories/recipe/seed_recipe_repository.dart
 // O QUÊ:     Implementação EM MEMÓRIA do RecipesRepository (preview no PC, sem
 //            chaves): serve o seed e guarda edições da sessão em overrides.
 // USA:       recipe_repository (contrato), recipe/folder, recipe_seed,
@@ -7,12 +7,12 @@
 // USADO POR: recipes_providers (default do provider, quando offline).
 // SPEC:      specs/features/recipes.yaml (data.edicao_inline, data.versoes)
 // ─────────────────────────────────────────────────────────────────────────────
-import '../../../../core/utils/app_log.dart';
-import '../models/folder.dart';
-import '../models/recipe.dart';
+import '../../../../../core/utils/app_log.dart';
+import '../../models/folder.dart';
+import '../../models/recipe/recipe.dart';
 import 'recipe_repository.dart';
-import '../seed/recipe_seed.dart';
-import '../seed/recipe_versions_seed.dart';
+import '../../seed/recipe_seed.dart';
+import '../../seed/recipe_versions_seed.dart';
 
 /// Edições da sessão (persistência MOCK): id -> receita alterada. Aplicadas por cima
 /// do seed em toda leitura. Usada por: SeedRecipesRepository (fetch* + updateRecipe).

@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/recipes/data/repositories/recipe_row_mapper.dart
+// lib/features/recipes/data/repositories/recipe/recipe_row_mapper.dart
 // O QUÊ:     Tradução linha do Postgres <-> modelo Recipe. O embedding do
 //            PostgREST (recipe_ingredients/recipe_steps/recipe_folders) vira o
 //            shape do Recipe.fromJson; toRow tira o que não é coluna de recipes.
@@ -7,7 +7,7 @@
 // USADO POR: supabase_recipe_repository (leitura e escrita).
 // SPEC:      specs/features/recipes.yaml (data.repository_supabase)
 // ─────────────────────────────────────────────────────────────────────────────
-import '../models/recipe.dart';
+import '../../models/recipe/recipe.dart';
 
 /// Ordena uma lista embutida por `position` e devolve como List<Map>. Usada
 /// por: recipeFromRow (ingredientes e passos mantêm a ordem da receita).
@@ -124,7 +124,7 @@ List<Map<String, dynamic>> stepRows(
     for (final (c, comp) in recipe.components.indexed)
       for (final step in comp.steps)
         {
-          ...step.toJson(),
+          ...step.toJson()..remove('techniques'),
           'recipe_id': recipeId,
           'component_id': componentIds[c],
           'position': position++,

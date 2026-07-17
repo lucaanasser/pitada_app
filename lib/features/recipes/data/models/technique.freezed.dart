@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'recipe_step.dart';
+part of 'technique.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -13,78 +13,91 @@ part of 'recipe_step.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
-mixin _$RecipeStep {
-  String get text;
-  String? get tip;
+mixin _$Technique {
+  String get id;
+  String get slug;
+  String get name;
+  String? get notion;
 
-  /// Create a copy of RecipeStep
+  /// Create a copy of Technique
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $RecipeStepCopyWith<RecipeStep> get copyWith =>
-      _$RecipeStepCopyWithImpl<RecipeStep>(this as RecipeStep, _$identity);
+  $TechniqueCopyWith<Technique> get copyWith =>
+      _$TechniqueCopyWithImpl<Technique>(this as Technique, _$identity);
 
-  /// Serializes this RecipeStep to a JSON map.
+  /// Serializes this Technique to a JSON map.
   Map<String, dynamic> toJson();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is RecipeStep &&
-            (identical(other.text, text) || other.text == text) &&
-            (identical(other.tip, tip) || other.tip == tip));
+            other is Technique &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.slug, slug) || other.slug == slug) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.notion, notion) || other.notion == notion));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, text, tip);
+  int get hashCode => Object.hash(runtimeType, id, slug, name, notion);
 
   @override
   String toString() {
-    return 'RecipeStep(text: $text, tip: $tip)';
+    return 'Technique(id: $id, slug: $slug, name: $name, notion: $notion)';
   }
 }
 
 /// @nodoc
-abstract mixin class $RecipeStepCopyWith<$Res> {
-  factory $RecipeStepCopyWith(
-          RecipeStep value, $Res Function(RecipeStep) _then) =
-      _$RecipeStepCopyWithImpl;
+abstract mixin class $TechniqueCopyWith<$Res> {
+  factory $TechniqueCopyWith(Technique value, $Res Function(Technique) _then) =
+      _$TechniqueCopyWithImpl;
   @useResult
-  $Res call({String text, String? tip});
+  $Res call({String id, String slug, String name, String? notion});
 }
 
 /// @nodoc
-class _$RecipeStepCopyWithImpl<$Res> implements $RecipeStepCopyWith<$Res> {
-  _$RecipeStepCopyWithImpl(this._self, this._then);
+class _$TechniqueCopyWithImpl<$Res> implements $TechniqueCopyWith<$Res> {
+  _$TechniqueCopyWithImpl(this._self, this._then);
 
-  final RecipeStep _self;
-  final $Res Function(RecipeStep) _then;
+  final Technique _self;
+  final $Res Function(Technique) _then;
 
-  /// Create a copy of RecipeStep
+  /// Create a copy of Technique
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? text = null,
-    Object? tip = freezed,
+    Object? id = null,
+    Object? slug = null,
+    Object? name = null,
+    Object? notion = freezed,
   }) {
     return _then(_self.copyWith(
-      text: null == text
-          ? _self.text
-          : text // ignore: cast_nullable_to_non_nullable
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
               as String,
-      tip: freezed == tip
-          ? _self.tip
-          : tip // ignore: cast_nullable_to_non_nullable
+      slug: null == slug
+          ? _self.slug
+          : slug // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
+          ? _self.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      notion: freezed == notion
+          ? _self.notion
+          : notion // ignore: cast_nullable_to_non_nullable
               as String?,
     ));
   }
 }
 
-/// Adds pattern-matching-related methods to [RecipeStep].
-extension RecipeStepPatterns on RecipeStep {
+/// Adds pattern-matching-related methods to [Technique].
+extension TechniquePatterns on Technique {
   /// A variant of `map` that fallback to returning `orElse`.
   ///
   /// It is equivalent to doing:
@@ -99,12 +112,12 @@ extension RecipeStepPatterns on RecipeStep {
 
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>(
-    TResult Function(_RecipeStep value)? $default, {
+    TResult Function(_Technique value)? $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
-      case _RecipeStep() when $default != null:
+      case _Technique() when $default != null:
         return $default(_that);
       case _:
         return orElse();
@@ -126,11 +139,11 @@ extension RecipeStepPatterns on RecipeStep {
 
   @optionalTypeArgs
   TResult map<TResult extends Object?>(
-    TResult Function(_RecipeStep value) $default,
+    TResult Function(_Technique value) $default,
   ) {
     final _that = this;
     switch (_that) {
-      case _RecipeStep():
+      case _Technique():
         return $default(_that);
       case _:
         throw StateError('Unexpected subclass');
@@ -151,11 +164,11 @@ extension RecipeStepPatterns on RecipeStep {
 
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>(
-    TResult? Function(_RecipeStep value)? $default,
+    TResult? Function(_Technique value)? $default,
   ) {
     final _that = this;
     switch (_that) {
-      case _RecipeStep() when $default != null:
+      case _Technique() when $default != null:
         return $default(_that);
       case _:
         return null;
@@ -176,13 +189,14 @@ extension RecipeStepPatterns on RecipeStep {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(String text, String? tip)? $default, {
+    TResult Function(String id, String slug, String name, String? notion)?
+        $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
-      case _RecipeStep() when $default != null:
-        return $default(_that.text, _that.tip);
+      case _Technique() when $default != null:
+        return $default(_that.id, _that.slug, _that.name, _that.notion);
       case _:
         return orElse();
     }
@@ -203,12 +217,13 @@ extension RecipeStepPatterns on RecipeStep {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(String text, String? tip) $default,
+    TResult Function(String id, String slug, String name, String? notion)
+        $default,
   ) {
     final _that = this;
     switch (_that) {
-      case _RecipeStep():
-        return $default(_that.text, _that.tip);
+      case _Technique():
+        return $default(_that.id, _that.slug, _that.name, _that.notion);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -228,12 +243,13 @@ extension RecipeStepPatterns on RecipeStep {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(String text, String? tip)? $default,
+    TResult? Function(String id, String slug, String name, String? notion)?
+        $default,
   ) {
     final _that = this;
     switch (_that) {
-      case _RecipeStep() when $default != null:
-        return $default(_that.text, _that.tip);
+      case _Technique() when $default != null:
+        return $default(_that.id, _that.slug, _that.name, _that.notion);
       case _:
         return null;
     }
@@ -242,27 +258,32 @@ extension RecipeStepPatterns on RecipeStep {
 
 /// @nodoc
 @JsonSerializable()
-class _RecipeStep implements RecipeStep {
-  const _RecipeStep({required this.text, this.tip});
-  factory _RecipeStep.fromJson(Map<String, dynamic> json) =>
-      _$RecipeStepFromJson(json);
+class _Technique implements Technique {
+  const _Technique(
+      {required this.id, required this.slug, required this.name, this.notion});
+  factory _Technique.fromJson(Map<String, dynamic> json) =>
+      _$TechniqueFromJson(json);
 
   @override
-  final String text;
+  final String id;
   @override
-  final String? tip;
+  final String slug;
+  @override
+  final String name;
+  @override
+  final String? notion;
 
-  /// Create a copy of RecipeStep
+  /// Create a copy of Technique
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  _$RecipeStepCopyWith<_RecipeStep> get copyWith =>
-      __$RecipeStepCopyWithImpl<_RecipeStep>(this, _$identity);
+  _$TechniqueCopyWith<_Technique> get copyWith =>
+      __$TechniqueCopyWithImpl<_Technique>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$RecipeStepToJson(
+    return _$TechniqueToJson(
       this,
     );
   }
@@ -271,55 +292,67 @@ class _RecipeStep implements RecipeStep {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _RecipeStep &&
-            (identical(other.text, text) || other.text == text) &&
-            (identical(other.tip, tip) || other.tip == tip));
+            other is _Technique &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.slug, slug) || other.slug == slug) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.notion, notion) || other.notion == notion));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, text, tip);
+  int get hashCode => Object.hash(runtimeType, id, slug, name, notion);
 
   @override
   String toString() {
-    return 'RecipeStep(text: $text, tip: $tip)';
+    return 'Technique(id: $id, slug: $slug, name: $name, notion: $notion)';
   }
 }
 
 /// @nodoc
-abstract mixin class _$RecipeStepCopyWith<$Res>
-    implements $RecipeStepCopyWith<$Res> {
-  factory _$RecipeStepCopyWith(
-          _RecipeStep value, $Res Function(_RecipeStep) _then) =
-      __$RecipeStepCopyWithImpl;
+abstract mixin class _$TechniqueCopyWith<$Res>
+    implements $TechniqueCopyWith<$Res> {
+  factory _$TechniqueCopyWith(
+          _Technique value, $Res Function(_Technique) _then) =
+      __$TechniqueCopyWithImpl;
   @override
   @useResult
-  $Res call({String text, String? tip});
+  $Res call({String id, String slug, String name, String? notion});
 }
 
 /// @nodoc
-class __$RecipeStepCopyWithImpl<$Res> implements _$RecipeStepCopyWith<$Res> {
-  __$RecipeStepCopyWithImpl(this._self, this._then);
+class __$TechniqueCopyWithImpl<$Res> implements _$TechniqueCopyWith<$Res> {
+  __$TechniqueCopyWithImpl(this._self, this._then);
 
-  final _RecipeStep _self;
-  final $Res Function(_RecipeStep) _then;
+  final _Technique _self;
+  final $Res Function(_Technique) _then;
 
-  /// Create a copy of RecipeStep
+  /// Create a copy of Technique
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $Res call({
-    Object? text = null,
-    Object? tip = freezed,
+    Object? id = null,
+    Object? slug = null,
+    Object? name = null,
+    Object? notion = freezed,
   }) {
-    return _then(_RecipeStep(
-      text: null == text
-          ? _self.text
-          : text // ignore: cast_nullable_to_non_nullable
+    return _then(_Technique(
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
               as String,
-      tip: freezed == tip
-          ? _self.tip
-          : tip // ignore: cast_nullable_to_non_nullable
+      slug: null == slug
+          ? _self.slug
+          : slug // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
+          ? _self.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      notion: freezed == notion
+          ? _self.notion
+          : notion // ignore: cast_nullable_to_non_nullable
               as String?,
     ));
   }

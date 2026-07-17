@@ -13,7 +13,7 @@ import '../../../../../../core/theme/pitada_colors.dart';
 import '../../../../../../core/theme/typography.dart';
 import '../../../../../../core/widgets/controls/editable.dart';
 import '../../../../../../core/widgets/layout/section_header.dart';
-import '../../../../data/models/recipe.dart';
+import '../../../../data/models/recipe/recipe.dart';
 import '../../../recipe_quick_edit.dart';
 
 /// Seção de anotações da receita, com placeholder quando vazia. Usada por:

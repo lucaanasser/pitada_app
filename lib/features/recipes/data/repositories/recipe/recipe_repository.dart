@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/recipes/data/repositories/recipe_repository.dart
+// lib/features/recipes/data/repositories/recipe/recipe_repository.dart
 // O QUÊ:     CONTRATO do repositório de receitas/pastas. Impls: seed (preview) e
 //            Supabase (online) — main.dart escolhe via override do provider.
 // USA:       recipe.dart, folder.dart (modelos).
@@ -7,8 +7,8 @@
 //            supabase_recipe_repository. A UI nunca chama isto direto.
 // SPEC:      specs/features/recipes.yaml (data.repository, data.versoes)
 // ─────────────────────────────────────────────────────────────────────────────
-import '../models/folder.dart';
-import '../models/recipe.dart';
+import '../../models/folder.dart';
+import '../../models/recipe/recipe.dart';
 
 /// Contrato da fonte de receitas. As duas implementações mantêm a MESMA
 /// semântica de versões ("trocar tudo", ver spec). Usada por: recipes_providers.

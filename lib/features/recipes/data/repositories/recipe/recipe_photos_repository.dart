@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/recipes/data/repositories/recipe_photos_repository.dart
+// lib/features/recipes/data/repositories/recipe/recipe_photos_repository.dart
 // O QUÊ:     Fotos de receita no Storage (bucket privado recipe-photos):
 //            upload + URL assinada. A galeria liga aqui na próxima fatia.
 // USA:       supabase_flutter (FileOptions), core/supabase (cliente), core/utils/app_log.
@@ -10,8 +10,8 @@ import 'dart:typed_data';
 
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../../../core/supabase/supabase.dart';
-import '../../../../core/utils/app_log.dart';
+import '../../../../../core/supabase/supabase.dart';
+import '../../../../../core/utils/app_log.dart';
 
 /// Acesso às fotos no Storage. Paths seguem {user_id}/{recipe_id}/{index}.jpg —
 /// o 1º segmento é a base do RLS (dono só acessa a própria subpasta).

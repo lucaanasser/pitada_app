@@ -12,7 +12,7 @@ import '../../../../../core/theme/pitada_colors.dart';
 import '../../../../../core/theme/spacing.dart';
 import '../../../../../core/theme/typography.dart';
 import '../../../../../core/widgets/controls/edit_field.dart';
-import '../../../data/models/recipe.dart';
+import '../../../data/models/recipe/recipe.dart';
 
 /// Bloco de UMA pergunta socrática: quem responde escreve; a resposta vira o
 /// esqueleto do framework. Usada por: FrameworkCreateScreen.

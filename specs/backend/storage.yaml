@@ -22,7 +22,7 @@ politicas:                       # em storage.objects (ver rls.yaml)
     — cada usuário só acessa a própria subpasta.
 
 lado_app:                        # esqueleto nesta fatia; galeria liga depois
-  repository: lib/features/recipes/data/repositories/recipe_photos_repository.dart
+  repository: lib/features/recipes/data/repositories/recipe/recipe_photos_repository.dart
   api:
     - uploadPhoto(recipeId, index, bytes) -> path
     - signedUrl(path) -> url temporária (1h) para exibir

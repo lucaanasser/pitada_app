@@ -12,7 +12,7 @@ import '../../../../../core/theme/colors.dart';
 import '../../../../../core/theme/pitada_colors.dart';
 import '../../../../../core/theme/spacing.dart';
 import '../../../../../core/theme/typography.dart';
-import '../../../data/models/ingredient.dart';
+import '../../../data/models/recipe/ingredient.dart';
 
 /// Linha de edição de um ingrediente. Notifica [onChanged] a cada tecla e
 /// [onRemove] no ícone de lixeira. Usada por: editores de ingredientes.

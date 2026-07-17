@@ -12,7 +12,7 @@ import '../../../../core/theme/colors.dart';
 import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/typography.dart';
 import '../../application/recipes_providers.dart';
-import '../../data/models/recipe.dart';
+import '../../data/models/recipe/recipe.dart';
 import '../sheets/recipe_version_sheet.dart';
 import '../widgets/detail/header/recipe_version_tag.dart';
 import '../widgets/detail/recipe_detail_body.dart';

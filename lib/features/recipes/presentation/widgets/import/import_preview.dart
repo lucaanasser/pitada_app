@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 import '../../../../../core/theme/spacing.dart';
 import '../../../../../core/widgets/controls/pitada_button.dart';
 import '../../../../../core/widgets/layout/section_header.dart';
-import '../../../data/models/recipe_draft.dart';
+import '../../../data/models/recipe/recipe_draft.dart';
 import '../../../../../core/widgets/controls/edit_field.dart';
 import '../detail/sections/recipe_component_header.dart';
 import '../edit/recipe_editors.dart';

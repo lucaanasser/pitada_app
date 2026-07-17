@@ -7,10 +7,10 @@
 //            fetchVersionGroup).
 // SPEC:      specs/features/recipes.yaml (data.seed_versions, data.versoes)
 // ─────────────────────────────────────────────────────────────────────────────
-import '../models/ingredient.dart';
-import '../models/recipe.dart';
-import '../models/recipe_component.dart';
-import '../models/recipe_step.dart';
+import '../models/recipe/ingredient.dart';
+import '../models/recipe/recipe.dart';
+import '../models/recipe/recipe_component.dart';
+import '../models/recipe/recipe_step.dart';
 
 /// Versões antigas (não-definitivas). Compartilham versionGroupId com a definitiva,
 /// mas ficam FORA de listas/pastas (folderIds vazio).

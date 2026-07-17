@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/recipes/data/repositories/seed_framework_repository.dart
+// lib/features/recipes/data/repositories/framework/seed_framework_repository.dart
 // O QUÊ:     Repositório de frameworks em MEMÓRIA (preview no PC): parte do
 //            andaime de framework_seed.dart e guarda o que a sessão criar.
 //            Some ao recarregar; vira Supabase depois. ATENÇÃO: no produto o
@@ -9,9 +9,9 @@
 //            core/utils/app_log.
 // USADO POR: frameworksRepositoryProvider (default offline).
 // ─────────────────────────────────────────────────────────────────────────────
-import '../../../../core/utils/app_log.dart';
-import '../models/framework.dart';
-import '../seed/framework_seed.dart';
+import '../../../../../core/utils/app_log.dart';
+import '../../models/framework.dart';
+import '../../seed/framework_seed.dart';
 import 'framework_repository.dart';
 
 /// Implementação seed: lista mutável em memória, semeada com o andaime de preview.

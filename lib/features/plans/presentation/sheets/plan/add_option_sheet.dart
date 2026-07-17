@@ -20,7 +20,7 @@ import '../../../../../core/widgets/layout/empty_state.dart';
 import '../../../../../core/widgets/cards/hairline_row.dart';
 import '../../../../../core/widgets/cards/recipe_thumb.dart';
 import '../../../../recipes/application/recipes_providers.dart';
-import '../../../../recipes/data/models/recipe.dart';
+import '../../../../recipes/data/models/recipe/recipe.dart';
 import '../../../data/models/meal.dart';
 import '../../../../../core/widgets/sheets/sheet_grip.dart';
 

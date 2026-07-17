@@ -6,7 +6,7 @@
 // SPEC:      specs/components/recipe_card.yaml (linha de meta em texto)
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../../../../core/utils/format.dart';
-import '../../../data/models/recipe.dart';
+import '../../../data/models/recipe/recipe.dart';
 
 /// Monta a meta curta de uma receita: "tempo · kcal".
 /// Partes ausentes (tempo) são omitidas. Usada por: RecipeCard, RecipeRow.

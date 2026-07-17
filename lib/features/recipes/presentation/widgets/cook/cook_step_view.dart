@@ -13,7 +13,7 @@ import '../../../../../core/theme/pitada_colors.dart';
 import '../../../../../core/theme/spacing.dart';
 import '../../../../../core/theme/typography.dart';
 import '../../../../../core/widgets/cards/why_callout.dart';
-import '../../../data/models/recipe_step.dart';
+import '../../../data/models/recipe/recipe_step.dart';
 
 /// Mostra um passo isolado, com folga generosa. [index] é base 0; [total] o nº de passos.
 /// Usada por: cook_mode_screen.

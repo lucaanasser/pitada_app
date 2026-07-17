@@ -12,7 +12,7 @@ import '../../../../../core/theme/colors.dart';
 import '../../../../../core/theme/pitada_colors.dart';
 import '../../../../../core/theme/spacing.dart';
 import '../../../../../core/theme/typography.dart';
-import '../../../data/models/recipe_step.dart';
+import '../../../data/models/recipe/recipe_step.dart';
 
 /// Linha de edição de um passo. Notifica [onChanged] a cada tecla (mantendo a
 /// [tip] original) e [onRemove] na lixeira. Usada por: editores de passos.

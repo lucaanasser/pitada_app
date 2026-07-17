@@ -15,7 +15,7 @@ import '../../../../../../core/theme/spacing.dart';
 import '../../../../../../core/theme/typography.dart';
 import '../../../../../../core/utils/format.dart';
 import '../../../../../../core/widgets/controls/editable.dart';
-import '../../../../data/models/recipe.dart';
+import '../../../../data/models/recipe/recipe.dart';
 import '../../../recipe_quick_edit.dart';
 
 /// Linha do título (com [versionTag] quando a receita tem versões) + kcal.

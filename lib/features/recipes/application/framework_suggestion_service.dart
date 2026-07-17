@@ -9,8 +9,10 @@
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../core/utils/slug.dart';
+
 import '../data/models/framework.dart';
-import '../data/models/recipe.dart';
+import '../data/models/recipe/recipe.dart';
 import 'framework_providers.dart';
 import 'recipes_providers.dart';
 
@@ -38,21 +40,25 @@ final frameworkSuggestionProvider = Provider<FrameworkSuggestion?>((ref) {
   return _byTechnique(free) ?? _byIngredients(free);
 });
 
-/// Maior grupo (2+) de receitas livres que usa a mesma técnica.
+/// Maior grupo (2+) de receitas livres que usa a mesma técnica. Agrupa pelo
+/// SLUG canônico — "Selar a carne" e "selar" são o mesmo grupo.
 /// Usada por: [frameworkSuggestionProvider].
 FrameworkSuggestion? _byTechnique(List<Recipe> free) {
   final groups = <String, List<Recipe>>{};
+  final labels = <String, String>{};
   for (final r in free) {
     for (final t in r.techniques) {
-      groups.putIfAbsent(t, () => []).add(r);
+      final slug = slugify(t);
+      labels.putIfAbsent(slug, () => t);
+      groups.putIfAbsent(slug, () => []).add(r);
     }
   }
   List<Recipe>? best;
   String? trait;
-  groups.forEach((t, rs) {
+  groups.forEach((slug, rs) {
     if (rs.length >= 2 && (best == null || rs.length > best!.length)) {
       best = rs;
-      trait = t;
+      trait = labels[slug];
     }
   });
   if (best == null) return null;

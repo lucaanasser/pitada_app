@@ -13,7 +13,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../../core/theme/spacing.dart';
 import '../../../../../core/widgets/cards/nutrition_card.dart';
-import '../../../data/models/recipe.dart';
+import '../../../data/models/recipe/recipe.dart';
 import '../../recipe_quick_edit.dart';
 import 'header/recipe_detail_header.dart';
 import 'header/recipe_meta.dart';

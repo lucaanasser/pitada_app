@@ -29,7 +29,7 @@ import '../../../../core/widgets/cards/step_progress.dart';
 import '../../application/import/import_controller.dart';
 import '../../application/import/recipe_import_service.dart';
 import '../../application/recipes_providers.dart';
-import '../../data/models/recipe.dart';
+import '../../data/models/recipe/recipe.dart';
 import '../widgets/import/import_preview.dart';
 import '../widgets/import/import_source_grid.dart';
 

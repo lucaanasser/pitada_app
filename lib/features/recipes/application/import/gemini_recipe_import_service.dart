@@ -12,9 +12,9 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../../core/supabase/supabase.dart';
 import '../../../../core/utils/app_log.dart';
-import '../../data/models/ingredient.dart';
-import '../../data/models/recipe_draft.dart';
-import '../../data/models/recipe_step.dart';
+import '../../data/models/recipe/ingredient.dart';
+import '../../data/models/recipe/recipe_draft.dart';
+import '../../data/models/recipe/recipe_step.dart';
 import 'recipe_import_service.dart';
 
 /// Importação via Gemini na Edge Function `import-recipe`. Contrato:

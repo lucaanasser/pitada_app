@@ -13,7 +13,7 @@ import '../../../../../../core/theme/spacing.dart';
 import '../../../../../../core/theme/typography.dart';
 import '../../../../../../core/widgets/controls/editable.dart';
 import '../../../../../../core/widgets/cards/why_callout.dart';
-import '../../../../data/models/recipe_step.dart';
+import '../../../../data/models/recipe/recipe_step.dart';
 
 /// Um passo: bolinha numerada terracota + texto + dica de técnica (se houver).
 /// Editável por gesto ([onEdit]): segurar/duplo-clique abre a edição do passo.

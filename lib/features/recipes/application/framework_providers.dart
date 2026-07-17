@@ -11,8 +11,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../data/models/framework.dart';
-import '../data/repositories/framework_repository.dart';
-import '../data/repositories/seed_framework_repository.dart';
+import '../data/repositories/framework/framework_repository.dart';
+import '../data/repositories/framework/seed_framework_repository.dart';
 
 /// Instância do repositório de frameworks. Default = seed em memória;
 /// main.dart sobrescreve com a versão Supabase quando ela existir.

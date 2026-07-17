@@ -22,7 +22,9 @@ import 'features/plans/application/gemini_food_estimate_service.dart';
 import 'features/recipes/application/import/gemini_recipe_import_service.dart';
 import 'features/recipes/application/import/recipe_import_service.dart';
 import 'features/recipes/application/recipes_providers.dart';
-import 'features/recipes/data/repositories/supabase_recipe_repository.dart';
+import 'features/recipes/application/technique_providers.dart';
+import 'features/recipes/data/repositories/recipe/supabase_recipe_repository.dart';
+import 'features/recipes/data/repositories/technique/supabase_technique_repository.dart';
 
 /// Sobe o Pitada. Inicializa o backend quando configurado e injeta os providers:
 /// online -> implementações Supabase; offline (preview PC) -> mocks/seed padrão.
@@ -42,6 +44,8 @@ Future<void> main() async {
                 .overrideWithValue(const SupabaseAuthRepository()),
             recipesRepositoryProvider
                 .overrideWithValue(const SupabaseRecipesRepository()),
+            techniquesRepositoryProvider
+                .overrideWithValue(const SupabaseTechniquesRepository()),
             foodEstimateServiceProvider
                 .overrideWithValue(const GeminiFoodEstimateService()),
             recipeImportServiceProvider

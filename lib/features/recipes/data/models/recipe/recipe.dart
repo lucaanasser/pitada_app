@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/recipes/data/models/recipe.dart
+// lib/features/recipes/data/models/recipe/recipe.dart
 // O QUÊ:     Modelo principal de receita (agrega componentes, ingredientes,
 //            passos e metadados).
 // USA:       freezed + json_serializable (codegen), ingredient.dart,

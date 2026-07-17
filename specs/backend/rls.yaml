@@ -31,6 +31,17 @@ politicas:
     all: >
       exists(... recipes r where r.id = recipe_id and r.user_id = auth.uid())
       and exists(... folders f where f.id = folder_id and f.user_id = auth.uid())
+  recipe_components:                        # filha: dono é o dono da receita-mãe (0014)
+    all: exists(select 1 from recipes r where r.id = recipe_id and r.user_id = auth.uid())
+  techniques:                               # entidade canônica de técnica (0015)
+    all: auth.uid() = user_id
+    nota_insert: with check (auth.uid() = user_id) — user_id tem default auth.uid()
+  technique_aliases:                        # referência GLOBAL (como food_aliases): só leitura
+    select: authenticated (using true); escrita só via migration / service_role
+  recipe_step_techniques:                   # N:N passo<->técnica: dono via receita do passo (0015)
+    all: >
+      exists(select 1 from recipe_steps s join recipes r on r.id = s.recipe_id
+      where s.id = step_id and r.user_id = auth.uid())
   bancada_items:                            # fila "quero cozinhar em breve" (migration 0010)
     all (select/insert/update/delete): auth.uid() = user_id
     nota_insert: with check (auth.uid() = user_id) — user_id tem default auth.uid()
