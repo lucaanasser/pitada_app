@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/recipes/application/import_controller.dart
+// lib/features/recipes/application/import/import_controller.dart
 // O QUÊ:     Controller Riverpod da importação de receita: dispara o service
 //            (idle -> loading em 3 passos -> ready com preview | error com retry).
 // USA:       recipe_import_service (real/mock), recipe_draft, recipe (RecipeSource), app_log.
@@ -8,9 +8,9 @@
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/utils/app_log.dart';
-import '../data/models/recipe.dart';
-import '../data/models/recipe_draft.dart';
+import '../../../../core/utils/app_log.dart';
+import '../../data/models/recipe.dart';
+import '../../data/models/recipe_draft.dart';
 import 'recipe_import_service.dart';
 
 /// Fase do fluxo de importação. Espelha os estágios da SHEET-IMPORT.

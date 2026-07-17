@@ -51,7 +51,7 @@ class _FolderCardState extends State<FolderCard> {
         duration: const Duration(milliseconds: 110),
         curve: Curves.easeOut,
         child: AspectRatio(
-          aspectRatio: 1.18,
+          aspectRatio: 1.4,
           child: TweenAnimationBuilder<double>(
             tween: Tween(end: _pressed ? 6 : 0),
             duration: const Duration(milliseconds: 140),
@@ -70,10 +70,10 @@ class _FolderCardState extends State<FolderCard> {
             ),
             child: Padding(
               padding: const EdgeInsets.fromLTRB(
-                AppSpacing.lg,
+                AppSpacing.md,
                 0,
-                AppSpacing.lg,
-                AppSpacing.sm,
+                AppSpacing.md,
+                AppSpacing.xs,
               ),
               child: Align(
                 alignment: Alignment.bottomLeft,
@@ -83,11 +83,11 @@ class _FolderCardState extends State<FolderCard> {
                   children: [
                     Text(
                       widget.folder.name,
-                      style: AppType.on(AppType.titleXs, pit.text),
+                      style: AppType.on(AppType.caption, pit.text),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    const SizedBox(height: AppSpacing.xs),
+                    const SizedBox(height: 2),
                     Text(
                       label,
                       style: AppType.on(AppType.captionSm, pit.text2),

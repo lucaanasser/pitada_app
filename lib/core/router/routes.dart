@@ -25,6 +25,7 @@ import '../../features/notebook/presentation/screens/version/versions_screen.dar
 import '../../features/profile/presentation/settings_screen.dart';
 import '../../features/recipes/presentation/screens/cook_mode_screen.dart';
 import '../../features/recipes/presentation/screens/folder_screen.dart';
+import '../../features/recipes/presentation/screens/folders_grid_screen.dart';
 import '../../features/recipes/presentation/screens/framework_create_screen.dart';
 import '../../features/recipes/presentation/screens/framework_detail_screen.dart';
 import '../../features/recipes/presentation/screens/recipe_detail_screen.dart';
@@ -45,6 +46,7 @@ List<RouteBase> buildFullscreenRoutes(GlobalKey<NavigatorState> rootKey) {
     fs('/recipe/:id', (c, s) => RecipeDetailScreen(recipeId: p(s, 'id'))),
     fs('/recipe/:id/edit', (c, s) => RecipeEditScreen(recipeId: p(s, 'id'))),
     fs('/recipe/:id/cook', (c, s) => CookModeScreen(recipeId: p(s, 'id'))),
+    fs('/folders', (c, s) => const FoldersGridScreen()),
 
     fs(
       '/framework/new',

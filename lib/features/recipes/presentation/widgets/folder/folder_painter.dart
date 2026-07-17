@@ -3,12 +3,56 @@
 // O QUÊ:     Pintura do card de pasta: fundo com aba (curva S suave), papéis
 //            off-white em pilha saindo da pasta e bolso frontal com sombra
 //            pequena (profundidade funcional — exceção pontual ao flat).
+//            folderSilhouette() expõe a MESMA silhueta (corpo + aba) para quem
+//            precisa só do contorno (ex.: o card fantasma "Nova pasta").
 // USA:       core/theme (AppSpacing p/ raios e traço; cores vêm prontas do card).
-// USADO POR: folder_card (CustomPaint).
+// USADO POR: folder_card (CustomPaint), folder_cover_row (contorno fantasma).
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 
 import '../../../../../core/theme/spacing.dart';
+
+/// Altura da aba no topo da pasta — o corpo útil começa abaixo dela.
+/// Usada por: [_folderBackPath] e quem precisa centralizar no CORPO, não no
+/// card inteiro (ex.: o "+" do card fantasma "Nova pasta").
+const folderTabHeight = 22.0;
+
+/// Silhueta da pasta (corpo de cantos generosos + aba no topo-esquerdo com
+/// curva S), a MESMA usada no fundo pintado do [FolderPainter.paint]. Usada
+/// por: [FolderPainter] e o contorno fantasma de folder_cover_row.dart.
+Path folderSilhouette(Size size) => _folderBackPath(size.width, size.height, 0);
+
+/// Silhueta da pasta com um inset [i] (encolhe o traço para caber a borda
+/// dentro do canvas sem cortar). Usada internamente e por [folderSilhouette].
+Path _folderBackPath(double w, double h, double i) {
+  final tabW = w * 0.36;
+  const tabH = folderTabHeight;
+  const s = 14.0;
+  const rTab = AppSpacing.radiusMd;
+  const rBody = AppSpacing.radiusCard;
+  return Path()
+    ..moveTo(i, h - i - rBody)
+    ..lineTo(i, i + rTab)
+    ..arcToPoint(Offset(i + rTab, i), radius: const Radius.circular(rTab))
+    ..lineTo(i + tabW - s, i)
+    ..cubicTo(i + tabW, i, i + tabW, i + tabH, i + tabW + s, i + tabH)
+    ..lineTo(w - i - rBody, i + tabH)
+    ..arcToPoint(
+      Offset(w - i, i + tabH + rBody),
+      radius: const Radius.circular(rBody),
+    )
+    ..lineTo(w - i, h - i - rBody)
+    ..arcToPoint(
+      Offset(w - i - rBody, h - i),
+      radius: const Radius.circular(rBody),
+    )
+    ..lineTo(i + rBody, h - i)
+    ..arcToPoint(
+      Offset(i, h - i - rBody),
+      radius: const Radius.circular(rBody),
+    )
+    ..close();
+}
 
 /// Posições dos papéis por quantidade (esqFrac, topoFrac, ângulo rad).
 /// Menos receitas = menos papéis; teto 3 para não ficar lotado.
@@ -47,8 +91,7 @@ class FolderPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final w = size.width, h = size.height;
-    final back = _backPath(w, h, 0);
-    canvas.drawPath(back, Paint()..color = pastel);
+    canvas.drawPath(folderSilhouette(size), Paint()..color = pastel);
 
     for (final (j, spec) in _paperLayouts[count.clamp(0, 3)].indexed) {
       final isFront = j == _paperLayouts[count.clamp(0, 3)].length - 1;
@@ -73,38 +116,6 @@ class FolderPainter extends CustomPainter {
     );
     canvas.restore();
     canvas.drawRRect(pocket, Paint()..color = pastel);
-  }
-
-  /// Silhueta do fundo: aba no topo-esquerdo com curva S + corpo de cantos
-  /// generosos (radiusCard, a cara do app). Usada por: [paint].
-  Path _backPath(double w, double h, double i) {
-    final tabW = w * 0.36;
-    const tabH = 22.0;
-    const s = 14.0;
-    const rTab = AppSpacing.radiusMd;
-    const rBody = AppSpacing.radiusCard;
-    return Path()
-      ..moveTo(i, h - i - rBody)
-      ..lineTo(i, i + rTab)
-      ..arcToPoint(Offset(i + rTab, i), radius: const Radius.circular(rTab))
-      ..lineTo(i + tabW - s, i)
-      ..cubicTo(i + tabW, i, i + tabW, i + tabH, i + tabW + s, i + tabH)
-      ..lineTo(w - i - rBody, i + tabH)
-      ..arcToPoint(
-        Offset(w - i, i + tabH + rBody),
-        radius: const Radius.circular(rBody),
-      )
-      ..lineTo(w - i, h - i - rBody)
-      ..arcToPoint(
-        Offset(w - i - rBody, h - i),
-        radius: const Radius.circular(rBody),
-      )
-      ..lineTo(i + rBody, h - i)
-      ..arcToPoint(
-        Offset(i, h - i - rBody),
-        radius: const Radius.circular(rBody),
-      )
-      ..close();
   }
 
   /// Um papel da pilha: folha off-white grande, levemente girada, com sombra

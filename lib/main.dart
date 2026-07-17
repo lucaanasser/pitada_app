@@ -19,8 +19,8 @@ import 'features/auth/application/auth_providers.dart';
 import 'features/auth/data/auth_repository.dart';
 import 'features/plans/application/food_estimate_service.dart';
 import 'features/plans/application/gemini_food_estimate_service.dart';
-import 'features/recipes/application/gemini_recipe_import_service.dart';
-import 'features/recipes/application/recipe_import_service.dart';
+import 'features/recipes/application/import/gemini_recipe_import_service.dart';
+import 'features/recipes/application/import/recipe_import_service.dart';
 import 'features/recipes/application/recipes_providers.dart';
 import 'features/recipes/data/repositories/supabase_recipe_repository.dart';
 

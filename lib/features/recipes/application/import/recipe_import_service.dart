@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/recipes/application/recipe_import_service.dart
+// lib/features/recipes/application/import/recipe_import_service.dart
 // O QUÊ:     Service de importação de receita atrás de uma interface (real + mock,
 //            como FoodEstimateService). O mock roda no preview (rascunho de exemplo);
 //            o real (Gemini/Edge Function) fica em gemini_recipe_import_service.dart.
@@ -9,10 +9,10 @@
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../data/models/ingredient.dart';
-import '../data/models/recipe.dart';
-import '../data/models/recipe_draft.dart';
-import '../data/models/recipe_step.dart';
+import '../../data/models/ingredient.dart';
+import '../../data/models/recipe.dart';
+import '../../data/models/recipe_draft.dart';
+import '../../data/models/recipe_step.dart';
 
 /// Entrada da importação: a fonte + link (site/instagram/youtube) OU conteúdo
 /// (base64 do PDF). manual não usa rede — abre um rascunho em branco.

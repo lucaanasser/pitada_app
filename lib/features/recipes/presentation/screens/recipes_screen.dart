@@ -1,12 +1,14 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/recipes/presentation/screens/recipes_screen.dart
-// O QUÊ:     Aba Receitas: busca no topo, capas de pasta e duas tabs — Receitas
-//            (lista com maestria e memória do caderno) e Frameworks (as plantas
-//            baixas que a pessoa constrói das próprias receitas).
-// USA:       core/theme, core/widgets (PitadaTabs, PitadaSearchField,
-//            SectionHeader, EmptyState), recipe_list_providers,
-//            framework_providers, FolderCoverRow, RecipeListView,
-//            FrameworksTabView.
+// O QUÊ:     Aba Receitas: header → capas de pasta (nova pasta e ver todas
+//            entram como capas fantasma na própria fileira) → busca (com os
+//            filtros colapsados atrás do ícone) → duas tabs — Receitas (lista
+//            com maestria e memória do caderno) e Frameworks (as plantas baixas
+//            que a pessoa constrói das próprias receitas).
+// USA:       core/theme, core/widgets (PitadaTabs, EmptyState),
+//            recipe_list_providers, framework_providers, RecipeSearchField,
+//            RecipeFilterPanel, FolderCoverRow, RecipeListView,
+//            FrameworksTabView, go_router.
 // USADO POR: core/router/router.dart (branch /recipes).
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
@@ -19,9 +21,7 @@ import '../../../../core/theme/typography.dart';
 import '../../../../core/widgets/layout/empty_state.dart';
 import '../../../../core/widgets/layout/masthead.dart';
 import '../../../../core/widgets/layout/pitada_scaffold.dart';
-import '../../../../core/widgets/layout/section_header.dart';
 import '../../../../core/widgets/controls/pitada_button.dart';
-import '../../../../core/widgets/controls/pitada_search_field.dart';
 import '../../../../core/widgets/tabs/pitada_tabs.dart';
 import '../../application/framework_providers.dart';
 import '../../application/recipe_list_providers.dart';
@@ -30,7 +30,9 @@ import '../../data/models/recipe.dart';
 import '../sheets/import_sheet.dart';
 import '../widgets/folder/folder_cover_row.dart';
 import '../widgets/framework/frameworks_tab_view.dart';
+import '../widgets/list/recipe_filter_panel.dart';
 import '../widgets/list/recipe_list_view.dart';
+import '../widgets/list/recipe_search_field.dart';
 
 /// Tela principal da aba Receitas (busca + pastas + tabs). Usada por: router (/recipes).
 class RecipesScreen extends ConsumerWidget {
@@ -41,6 +43,7 @@ class RecipesScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final pit = context.pit;
     final tab = ref.watch(recipesTabIndexProvider);
+    final filtersOpen = ref.watch(recipeFiltersOpenProvider);
 
     return PitadaScaffold(
       background: pit.tabBg(0),
@@ -49,27 +52,37 @@ class RecipesScreen extends ConsumerWidget {
         padding: tabListPadding(context),
         children: [
           _header(context, pit),
+          const SizedBox(height: AppSpacing.xxl),
+          const FolderCoverRow(),
+          const SizedBox(height: AppSpacing.xxl),
           Padding(
             padding: AppSpacing.screenH,
-            child: PitadaSearchField(
-              hint: 'Buscar receita ou ingrediente',
-              onChanged: (q) =>
-                  ref.read(recipeSearchQueryProvider.notifier).state = q,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                RecipeSearchField(
+                  hint: 'Buscar receita ou ingrediente',
+                  onChanged: (q) =>
+                      ref.read(recipeSearchQueryProvider.notifier).state = q,
+                  onToggleFilters: tab == 0
+                      ? () => ref
+                          .read(recipeFiltersOpenProvider.notifier)
+                          .update((open) => !open)
+                      : null,
+                  filtersOpen: filtersOpen,
+                  filtersActive: ref.watch(recipeFiltersProvider).isActive,
+                ),
+                if (tab == 0 && filtersOpen) const RecipeFilterPanel(),
+              ],
             ),
           ),
-          const Padding(
-            padding: AppSpacing.screenH,
-            child: SectionHeader(label: 'Pastas', topGap: AppSpacing.xl),
-          ),
-          const FolderCoverRow(),
-          const SizedBox(height: AppSpacing.xl),
+          const SizedBox(height: AppSpacing.xxl),
           PitadaTabs(
             tabs: const ['Receitas', 'Frameworks'],
             selected: tab,
             onSelect: (i) =>
                 ref.read(recipesTabIndexProvider.notifier).state = i,
           ),
-          const SizedBox(height: AppSpacing.lg),
           Padding(
             padding: AppSpacing.screenH,
             child: tab == 0 ? _recipesTab(ref) : const FrameworksTabView(),
@@ -95,12 +108,15 @@ class RecipesScreen extends ConsumerWidget {
       );
     }
     if (recipes.isEmpty) {
-      return const Padding(
-        padding: EdgeInsets.only(top: AppSpacing.xl),
+      final filtered = ref.watch(recipeFiltersProvider).activeAxes > 0;
+      return Padding(
+        padding: const EdgeInsets.only(top: AppSpacing.xl),
         child: EmptyState(
           title: 'Nada por aqui',
-          message: 'Tente outra busca',
-          icon: AppIcons.search,
+          message: filtered
+              ? 'Nenhuma receita passa por esses filtros'
+              : 'Tente outra busca',
+          icon: filtered ? AppIcons.tune : AppIcons.search,
         ),
       );
     }

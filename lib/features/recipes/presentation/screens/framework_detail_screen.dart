@@ -86,7 +86,6 @@ class FrameworkDetailScreen extends ConsumerWidget {
                 RecipeRow(
                   recipe: instances[i],
                   mastery: ref.watch(recipeMasteryProvider(instances[i].id)),
-                  memory: ref.watch(lastCookMemoryProvider(instances[i].id)),
                   showDivider: i != instances.length - 1,
                   onTap: () => context.push('/recipe/${instances[i].id}'),
                 ),
