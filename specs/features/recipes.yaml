@@ -194,8 +194,9 @@ screens:
       # métrica nunca vira cápsula (ver specs/components/tags/pitada_tag.yaml: regra_de_uso);
       # cápsulas no detalhe só nas TAGS de técnicas.
       widgets_proprios: >   # o corpo é um COMPOSITOR: cada seção é um widget próprio
-        widgets/detail/recipe_detail_body.dart (compositor), recipe_detail_bar.dart,
-        recipe_gallery.dart; detail/header/: recipe_title_view.dart (título+versão+kcal),
+        widgets/detail/recipe_detail_body.dart (compositor), recipe_detail_bar.dart;
+        detail/header/: recipe_detail_header.dart (voltar + rótulo framework + lápis),
+        recipe_title_view.dart (título+versão+kcal),
         recipe_meta.dart, recipe_version_tag.dart; detail/sections/:
         recipe_ingredients_section.dart, recipe_steps_section.dart,
         recipe_techniques_section.dart, recipe_notes_section.dart; detail/items/:
@@ -207,11 +208,19 @@ screens:
         reflete a VERSÃO SELECIONADA (selectedRecipeVersionProvider, default = definitiva).
         Trocar de versão troca a tela inteira. Ações da barra (Cozinhar/editar) usam o id
         da versão vista. Receita sem versões: título simples, sem tag.
-      layout: [galeria, [título + RecipeVersionTag "V3"], fonte clicável,
-               meta em texto(porções/tempo/dificuldade),
-               NutritionCard, nota de conversão, SectionHeader Ingredientes -> IngredientRow,
+      cabecalho_identidade: >
+        A receita é lida A PARTIR do framework (o conhecimento que transfere), não
+        da foto. Linha do topo no padrão do FrameworkDetailScreen._top: voltar +
+        rótulo do framework em AppType.label ACCENT, clicável (-> /framework/:id)
+        + lápis (-> /recipe/:id/edit). Sem framework: rótulo "RECEITA" em pit.muted,
+        inerte. Com 2+ frameworks mostra o primeiro (identidade, não lista).
+        A galeria de 300px morreu; foto volta como EVIDÊNCIA (passo/histórico) depois.
+      layout: [cabeçalho de identidade (voltar + FRAMEWORK/RECEITA + lápis),
+               [título + RecipeVersionTag "V3"], kcal, fonte clicável,
+               meta em texto(porções/tempo),
+               NutritionCard, SectionHeader Ingredientes -> IngredientRow,
                SectionHeader "Modo de preparo" -> StepTile(+WhyCallout),
-               SectionHeader "Técnicas" -> PitadaChip, "Anotações" (texto),
+               SectionHeader "Técnicas" -> PitadaTag, "Anotações" (texto),
                barra inferior: Cozinhar + ícones]
       # Toggle "pôr na bancada" na barra inferior entra com a implementação da Bancada
       # (ver specs/features/bancada.yaml: integracoes.entrada).
@@ -219,7 +228,7 @@ screens:
               showRecipeVersionSheet (tocar na RecipeVersionTag)
       edicao_inline:   # "tudo é editável" — dois caminhos, ver specs/components/controls/editable.yaml
         principio: >
-          O ícone LÁPIS (galeria) abre o editor INTEIRO (RecipeEditScreen). SEGURAR ou
+          O ícone LÁPIS (cabeçalho de identidade) abre o editor INTEIRO (RecipeEditScreen). SEGURAR ou
           CLICAR DUAS VEZES em um elemento abre a edição só DAQUELE campo (Editable +
           QuickEditSheet via RecipeQuickEdit). Salvar persiste (RecipeEditController) e a
           tela atualiza na hora. O lápis, hoje solto, passa a ser ligado (onEdit -> /edit).

@@ -49,5 +49,5 @@ regras:
   - "Navbar: item ativo usa *Fill; inativo usa regular."
   - "Nunca usar Icons.* (Material legado) numa tela — sempre AppIcons.*"
 used_by:
-  - pitada_tab_bar, recipe_gallery, recipe_detail_bar, recipe_meta
+  - pitada_tab_bar, recipe_detail_header, recipe_detail_bar, recipe_meta
   - recipe_detail_screen, recipe_row, recipe_thumb, recipes_screen
