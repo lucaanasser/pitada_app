@@ -9,17 +9,17 @@
 import 'package:flutter/painting.dart';
 
 /// Tokens de cor do Pitada. Todos `static const` para uso em widgets const.
-/// Superfícies/texto existem em duas versões (escuro grafite-marinho; claro creme).
+/// Superfícies/texto existem em duas versões (escuro grafite frio; claro creme).
 /// Marca (accent/sage) e cores hero são iguais nos dois temas.
 /// Usada por: todo o app (tema, widgets compartilhados, telas).
 class AppColors {
   AppColors._();
 
-  static const bg = Color(0xFF12151B); // fundo geral (grafite-marinho)
-  static const surf = Color(0xFF181C23); // card / campo
-  static const surf2 = Color(0xFF1C212A); // input
-  static const line = Color(0xFF20252F); // filete divisor
-  static const line2 = Color(0xFF2A313E); // borda / filete forte
+  static const bg = Color(0xFF17181B); // fundo geral (grafite frio)
+  static const surf = Color(0xFF1E2023); // card / campo
+  static const surf2 = Color(0xFF24262A); // input
+  static const line = Color(0xFF282A2F); // filete divisor
+  static const line2 = Color(0xFF35383E); // borda / filete forte
 
   static const text = Color(0xFFF2EDE1); // principal
   static const text2 = Color(0xFFC5BEAD); // secundário
@@ -38,7 +38,7 @@ class AppColors {
   static const faintLight = Color(0xFFB4AB98);
 
   static const inkLight = Color(0xFF221E17);
-  static const inkDark = Color(0xFF0A0C10);
+  static const inkDark = Color(0xFF090A0C);
 
   static const shadow = Color(0x59000000);
 
@@ -74,7 +74,7 @@ class AppColors {
   static Color heroOf(String? name) => hero[name] ?? clay;
 
   static const List<Color> tabBgLight = [bgLight]; // todas as abas: creme base
-  static const List<Color> tabBgDark = [bg]; // todas as abas: grafite-marinho
+  static const List<Color> tabBgDark = [bg]; // todas as abas: grafite frio
 
   static const Map<String, Color> cardLight = {
     'clay': Color(0xFFF3D3BC),

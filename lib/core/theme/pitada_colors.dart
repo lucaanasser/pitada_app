@@ -30,7 +30,7 @@ class PitadaColors extends ThemeExtension<PitadaColors> {
   final Brightness brightness;
   final Color bg, surf, surf2, line, line2, border, text, text2, muted, faint;
 
-  /// Instância do tema escuro (base grafite-marinho).
+  /// Instância do tema escuro (base grafite frio).
   static const dark = PitadaColors(
     brightness: Brightness.dark,
     bg: AppColors.bg,

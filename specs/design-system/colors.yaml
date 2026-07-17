@@ -1,18 +1,18 @@
 # ─────────────────────────────────────────────────────────────────────────────
 # specs/design-system/colors.yaml
-# O QUÊ:  Paleta única do Pitada. Escuro grafite-marinho, claro creme.
+# O QUÊ:  Paleta única do Pitada. Escuro grafite frio, claro creme.
 # GERA:   lib/core/theme/colors.dart  (classe AppColors)
 # USADO POR: todo o app. Nenhuma cor pode existir fora daqui.
 # ─────────────────────────────────────────────────────────────────────────────
 token_class: AppColors
 prototype: ":root em pitada.html"
 
-superficie:            # fundos e filetes do escuro — grafite-marinho (h≈220°, S≈0.33)
-  bg:     "#12151B"    # fundo geral do app
-  surf:   "#181C23"    # superfície de card/campo
-  surf2:  "#1C212A"    # superfície mais clara (input)
-  line:   "#20252F"    # filete divisor
-  line2:  "#2A313E"    # filete mais forte / borda
+superficie:            # fundos e filetes do escuro — grafite frio (h≈220°, S≈0.15)
+  bg:     "#17181B"    # fundo geral do app
+  surf:   "#1E2023"    # superfície de card/campo
+  surf2:  "#24262A"    # superfície mais clara (input)
+  line:   "#282A2F"    # filete divisor
+  line2:  "#35383E"    # filete mais forte / borda
 
 texto:
   text:   "#F2EDE1"    # texto principal
@@ -58,14 +58,14 @@ tema_claro:
 # Tinta/borda neo-brutalista (usada como pit.border)
 ink:
   claro:  "#221E17"   # inkLight
-  escuro: "#0A0C10"   # inkDark — quase-preto marinho, um passo abaixo do bg
+  escuro: "#090A0C"   # inkDark — quase-preto grafite, um passo abaixo do bg
 
 # Fundo das abas: TODAS compartilham o fundo base do tema — creme no claro,
 # grafite-marinho no escuro (pedido do dono: uma cor só, sem tint por aba).
 # A lista tem 1 entrada e tabBg indexa com módulo; re-tingir por aba no futuro
 # é só voltar a listar 5 valores, sem mudar a API.
 tab_bg_light: ["#F4EDDE"]   # = bgLight
-tab_bg_dark:  ["#12151B"]   # = bg
+tab_bg_dark:  ["#17181B"]   # = bg
 
 # Cor do bloco de foto (card) por hero, em cada tema (pastel / escuro)
 card_light: {clay: "#F3D3BC", moss: "#D3E0B4", ochre: "#F0DFA9", terra: "#F2C9B4", plum: "#E7CBD6", teal: "#BFE0CE", rust: "#F1C4B0"}
