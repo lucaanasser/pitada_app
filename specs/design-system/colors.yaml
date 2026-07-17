@@ -14,11 +14,11 @@ superficie:            # fundos e filetes do escuro — grafite frio (h≈220°,
   line:   "#282A2F"    # filete divisor
   line2:  "#35383E"    # filete mais forte / borda
 
-texto:
-  text:   "#F2EDE1"    # texto principal
-  text2:  "#C5BEAD"    # texto secundário
-  muted:  "#8E8674"    # rótulos/menos importante
-  faint:  "#605948"    # placeholder / desabilitado
+texto:                 # escuro: branco puro + cinzas frios (nada de creme no texto)
+  text:   "#FFFFFF"    # texto principal
+  text2:  "#C6C8CD"    # texto secundário
+  muted:  "#8B8D93"    # rótulos/menos importante
+  faint:  "#5A5C63"    # placeholder / desabilitado
 
 marca:
   accent:      "#C2703F"                 # terracota (destaque, primário)

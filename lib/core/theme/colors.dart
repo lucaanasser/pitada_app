@@ -21,10 +21,10 @@ class AppColors {
   static const line = Color(0xFF282A2F); // filete divisor
   static const line2 = Color(0xFF35383E); // borda / filete forte
 
-  static const text = Color(0xFFF2EDE1); // principal
-  static const text2 = Color(0xFFC5BEAD); // secundário
-  static const muted = Color(0xFF8E8674); // rótulos
-  static const faint = Color(0xFF605948); // placeholder / desabilitado
+  static const text = Color(0xFFFFFFFF); // principal (branco puro)
+  static const text2 = Color(0xFFC6C8CD); // secundário
+  static const muted = Color(0xFF8B8D93); // rótulos
+  static const faint = Color(0xFF5A5C63); // placeholder / desabilitado
 
   static const bgLight = Color(0xFFF4EDDE); // fundo geral (creme quente)
   static const surfLight = Color(0xFFFBF6EC); // card/campo (creme quase-branco)

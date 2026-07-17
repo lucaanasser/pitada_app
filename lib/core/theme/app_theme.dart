@@ -16,7 +16,7 @@ import 'typography.dart';
 class AppTheme {
   AppTheme._();
 
-  /// Tema escuro (base histórica do app).
+  /// Tema escuro (base grafite frio, texto branco).
   /// Usada por: PitadaApp (darkTheme).
   static ThemeData get dark => _build(
         brightness: Brightness.dark,
