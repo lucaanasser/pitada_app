@@ -1,23 +1,27 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/recipes/data/repositories/seed_framework_repository.dart
-// O QUÊ:     Repositório de frameworks em MEMÓRIA (preview no PC): começa vazio
-//            — o primeiro framework nasce da pessoa, não do app — e guarda o
-//            que a sessão criar. Some ao recarregar; vira Supabase depois.
-// USA:       framework_repository (contrato), framework.dart, core/utils/app_log.
+// O QUÊ:     Repositório de frameworks em MEMÓRIA (preview no PC): parte do
+//            andaime de framework_seed.dart e guarda o que a sessão criar.
+//            Some ao recarregar; vira Supabase depois. ATENÇÃO: no produto o
+//            primeiro framework nasce da pessoa, não do app — ao remover o
+//            seed, _session volta a começar vazia.
+// USA:       framework_repository (contrato), framework.dart, framework_seed,
+//            core/utils/app_log.
 // USADO POR: frameworksRepositoryProvider (default offline).
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../../../core/utils/app_log.dart';
 import '../models/framework.dart';
+import '../seed/framework_seed.dart';
 import 'framework_repository.dart';
 
-/// Implementação seed: lista mutável em memória, vazia no primeiro uso.
+/// Implementação seed: lista mutável em memória, semeada com o andaime de preview.
 /// Usada por: frameworksRepositoryProvider.
 class SeedFrameworksRepository implements FrameworksRepository {
   const SeedFrameworksRepository();
 
-  /// Frameworks criados nesta sessão (em memória, some ao recarregar).
+  /// Frameworks da sessão: andaime de preview + o que for criado (some ao recarregar).
   /// Usada por: todos os métodos do repositório.
-  static final List<Framework> _session = [];
+  static final List<Framework> _session = [...kSeedFrameworks];
 
   /// Lista os frameworks da sessão. Usada por: frameworksProvider.
   @override

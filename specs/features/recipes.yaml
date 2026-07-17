@@ -47,6 +47,19 @@ data:
       helper_modelo: Recipe.withVersionIdentity({id, version, versionGroupId, folderIds})
   seed: recipe_seed.dart           # DEFINITIVAS: Frango xadrez(v3), Bowl, Strogonoff(v2), Panqueca
   seed_versions: recipe_versions_seed.dart    # snapshots ANTIGOS (Frango v1/v2, Strogonoff v1)
+  seed_frameworks:                # framework_seed.dart — ANDAIME TEMPORÁRIO, apagar
+    file: lib/features/recipes/data/seed/framework_seed.dart
+    proposito: >
+      Existe só p/ ver o card, a planta baixa e o detalhe do framework com
+      conteúdo real no preview do PC. NÃO É PRODUTO: no app o primeiro framework
+      nasce da pessoa, que nomeia o padrão — nomear é o ato de aprendizado, e a
+      IA nunca rotula. Apagar antes de valer; SeedFrameworksRepository._session
+      volta a começar vazia e a tab exibe o EmptyState didático.
+    conteudo: >
+      3 frameworks cujos recipeIds apontam p/ o recipe_seed: "Selar e montar
+      molho na mesma panela" (frango-xadrez + strogonoff, o par que já divide
+      técnicas), "Bowl montado por camadas" (bowl-quinoa) e "Massa rápida de
+      frigideira" (panqueca-banana).
   versoes:                        # "trocar tudo" — cada versão é um Recipe COMPLETO
     campos_recipe:                # Recipe ganha 2 campos p/ agrupar versões:
       - version: int (default 1)              # número da versão (1,2,3…) -> rótulo "V3"
@@ -72,7 +85,10 @@ application:
     - recipesProvider (FutureProvider<List<Recipe>>)
     - foldersProvider
     - selectedFolderProvider (StateProvider<int>)  # 0 = Todas
-    - filteredRecipesProvider
+    - recipeSearchQueryProvider (StateProvider<String>)
+    - recipeFiltersProvider (StateProvider<RecipeFilters>)  # maestria/tempo/kcal + ordem
+    - recipeFiltersOpenProvider (StateProvider<bool>)       # painel colapsado/aberto
+    - filteredRecipesProvider   # busca -> filtros -> ordem
     - recipeByIdProvider (family)
     - recipeVersionGroupProvider (family<List<Recipe>, String groupId>)  # versões do grupo (asc)
     - selectedRecipeVersionProvider (StateProvider.family<int?, String groupId>)  # versão vista (null = definitiva)
@@ -100,14 +116,39 @@ routes:                             # eu ligo no router depois; garanta nome/ass
 
 screens:
   - RecipesScreen:
-      layout: [Masthead, thead("Receitas" + '+'), PitadaSearchField,
-               PitadaTabs([Minhas Receitas, Pastas]), lista de RecipeRow]
-      # "Receitas Salvas" removida: manuais + importadas convivem em "Minhas Receitas".
+      layout: [Masthead, thead("Receitas" + '+'), FolderCoverRow, RecipeSearchField,
+               RecipeFilterPanel (colapsado), PitadaTabs([Receitas, Frameworks]),
+               lista de RecipeRow | FrameworksTabView]
+      # "Receitas Salvas" removida: manuais + importadas convivem em "Receitas".
+      busca_e_filtros: >
+        RecipeSearchField é lupa + campo sobre filete (sem caixa), e carrega no FIM
+        da barra um ícone de filtro (AppIcons.tune) que COLAPSA/expande o painel —
+        o traço minimalista: nenhuma camada nova, o painel empurra a lista.
+        O ícone fica accent quando há filtro ativo e ganha um ponto accent (badge)
+        para dizer "tem coisa ligada aqui embaixo" mesmo colapsado.
+      filtros: >
+        RecipeFilterPanel: seleção múltipla dentro de cada eixo, E entre eixos
+        (maestria E tempo E kcal). Só aparece no tab Receitas — Frameworks não
+        filtra. VISUAL: nada de cápsula — cápsula é só TAG (ver
+        specs/components/tags/pitada_tag.yaml: regra_de_uso); um filtro é
+        SELETOR. Cada opção é TEXTO no traço do PitadaTabs logo abaixo: ligada
+        em pit.text com filete accent (borderAccent) embaixo, desligada em
+        pit.muted, sem moldura. Eixos:
+          - maestria: [nunca fiz, fiz 1-2×, domino]  # o eixo do projeto, no lugar de dificuldade
+          - tempo:    [até 30 min, 30-60 min, 1h+]   # de recipe.timeMinutes; sem tempo = fora
+          - kcal:     [até 400, 400-700, 700+]       # por porção, de recipe.kcal
+        "Limpar" aparece só quando há filtro ativo e zera todos os eixos + a ordem.
+      ordenacao: >
+        Uma linha de chips no mesmo painel, seleção ÚNICA (não é filtro, é ordem):
+          - atividade (padrão): última atividade real do caderno primeiro, acervo depois
+          - recentes: ordem em que foi adicionada ao acervo (mais nova primeiro)
+          - A-Z: alfabética por título
       abas: >
-        Hoje 2 abas fixas: RecipesTab {mine, folders}. A antiga "Favoritas" foi REMOVIDA
-        (feature legada apagada: bool recipe.favorite, filtro, EmptyState e botão de coração
-        na galeria). "Favoritar de verdade" vira uma PASTA comum criada pelo usuário. A 3ª
-        aba passa a ser a BANCADA (fila "quero cozinhar em breve") — desenho em
+        Hoje 2 abas fixas: [Receitas, Frameworks] (recipesTabIndexProvider). As pastas
+        saíram das abas e viram capas no topo (FolderCoverRow). A antiga "Favoritas" foi
+        REMOVIDA (feature legada apagada: bool recipe.favorite, filtro, EmptyState e botão
+        de coração na galeria). "Favoritar de verdade" vira uma PASTA comum criada pelo
+        usuário. A BANCADA (fila "quero cozinhar em breve") tem desenho em
         specs/features/bancada.yaml; entra quando a Bancada for implementada.
       recipe_row: >
         Linha da lista densa: RecipeThumb PASTEL (context.pit.card(hero)) com
