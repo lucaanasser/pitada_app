@@ -22,7 +22,6 @@ import 'recipe_detail_bar.dart';
 import 'sections/recipe_ingredients_section.dart';
 import 'sections/recipe_notes_section.dart';
 import 'sections/recipe_steps_section.dart';
-import 'sections/recipe_techniques_section.dart';
 
 /// Corpo do detalhe da receita já resolvida (versão escolhida). [versionTag] é o
 /// marcador "V3" ao lado do título (só quando há versões). Usada por: RecipeDetailScreen.
@@ -70,7 +69,6 @@ class RecipeDetailBody extends ConsumerWidget {
                 ),
                 RecipeIngredientsSection(recipe: r, quickEdit: qe),
                 RecipeStepsSection(recipe: r, quickEdit: qe),
-                RecipeTechniquesSection(recipe: r, quickEdit: qe),
                 RecipeNotesSection(recipe: r, quickEdit: qe),
               ],
             ),

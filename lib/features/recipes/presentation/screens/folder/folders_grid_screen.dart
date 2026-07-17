@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/recipes/presentation/screens/folders_grid_screen.dart
+// lib/features/recipes/presentation/screens/folder/folders_grid_screen.dart
 // O QUÊ:     Todas as pastas em grade 2 colunas — a fileira horizontal da aba
 //            Receitas só mostra as primeiras; aqui dá pra ver (e abrir) todas,
 //            e também criar uma nova (ícone + no topo).
@@ -12,15 +12,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../core/theme/app_icons.dart';
-import '../../../../core/theme/pitada_colors.dart';
-import '../../../../core/theme/spacing.dart';
-import '../../../../core/theme/typography.dart';
-import '../../../../core/utils/app_log.dart';
-import '../../../../core/widgets/controls/pitada_button.dart';
-import '../../../../core/widgets/layout/empty_state.dart';
-import '../../application/recipes_providers.dart';
-import '../widgets/folder/folder_card.dart';
+import '../../../../../core/theme/app_icons.dart';
+import '../../../../../core/theme/pitada_colors.dart';
+import '../../../../../core/theme/spacing.dart';
+import '../../../../../core/theme/typography.dart';
+import '../../../../../core/utils/app_log.dart';
+import '../../../../../core/widgets/controls/pitada_button.dart';
+import '../../../../../core/widgets/layout/empty_state.dart';
+import '../../../application/recipes_providers.dart';
+import '../../widgets/folder/folder_card.dart';
 
 /// Tela com todas as pastas em grade. Usada por: router (/folders).
 class FoldersGridScreen extends ConsumerWidget {

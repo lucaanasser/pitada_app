@@ -48,11 +48,16 @@ List<Map<String, dynamic>> _componentMaps(
   ];
 }
 
-/// Converte a linha de `recipes` (com embedding) no modelo Recipe.
+/// Converte a linha de `recipes` (com embedding) no modelo Recipe. As técnicas
+/// de cada passo chegam aninhadas (recipe_step_techniques) e viram o campo
+/// `techniques` do passo.
 /// Usada por: SupabaseRecipesRepository (fetchRecipes/fetchById/fetchVersionGroup).
 Recipe recipeFromRow(Map<String, dynamic> row) {
   final ingredients = _sortedByPosition(row['recipe_ingredients']);
-  final steps = _sortedByPosition(row['recipe_steps']);
+  final steps = [
+    for (final s in _sortedByPosition(row['recipe_steps']))
+      {...s, 'techniques': s['recipe_step_techniques'] ?? const []},
+  ];
   final components = _sortedByPosition(row['recipe_components']);
   return Recipe.fromJson({
     ...row,
@@ -131,6 +136,23 @@ List<Map<String, dynamic>> stepRows(
         },
   ];
 }
+
+/// Linhas de `recipe_step_techniques` a partir dos passos JÁ inseridos:
+/// [stepIds] alinha com recipe.allSteps (ordem global de position).
+/// Usada por: SupabaseRecipesRepository (escrita das filhas).
+List<Map<String, dynamic>> stepTechniqueRows(
+  Recipe recipe,
+  List<String> stepIds,
+) =>
+    [
+      for (final (i, step) in recipe.allSteps.indexed)
+        for (final t in step.techniques)
+          {
+            'step_id': stepIds[i],
+            'technique_id': t.techniqueId,
+            'anchor': t.anchor,
+          },
+    ];
 
 /// Linhas de `recipe_folders` (N:N) para [recipeId].
 /// Usada por: SupabaseRecipesRepository (escrita das filhas).

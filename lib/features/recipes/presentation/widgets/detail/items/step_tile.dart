@@ -1,7 +1,9 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/recipes/presentation/widgets/detail/items/step_tile.dart
-// O QUÊ:     Passo do preparo com número em "bolinha" terracota + WhyCallout opcional.
-// USA:       core/theme (AppColors, PitadaColors), core/widgets/why_callout, RecipeStep.
+// O QUÊ:     Passo do preparo com número em "bolinha" terracota, texto com
+//            técnica grifada (StepTextView) + WhyCallout opcional.
+// USA:       core/theme (AppColors, PitadaColors), core/widgets/why_callout,
+//            step_text_view, RecipeStep.
 // USADO POR: recipe_steps_section (e servirá ao cook_mode).
 // SPEC:      specs/features/recipes.yaml (RecipeDetailScreen: StepTile)
 // ─────────────────────────────────────────────────────────────────────────────
@@ -14,6 +16,7 @@ import '../../../../../../core/theme/typography.dart';
 import '../../../../../../core/widgets/controls/editable.dart';
 import '../../../../../../core/widgets/cards/why_callout.dart';
 import '../../../../data/models/recipe/recipe_step.dart';
+import 'step_text_view.dart';
 
 /// Um passo: bolinha numerada terracota + texto + dica de técnica (se houver).
 /// Editável por gesto ([onEdit]): segurar/duplo-clique abre a edição do passo.
@@ -56,11 +59,7 @@ class StepTile extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    step.text,
-                    style: AppType.on(AppType.body, pit.text2)
-                        .copyWith(height: 1.55),
-                  ),
+                  StepTextView(step: step),
                   if (step.tip != null) WhyCallout(text: step.tip!),
                 ],
               ),

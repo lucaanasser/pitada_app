@@ -24,12 +24,13 @@ import '../../features/notebook/presentation/screens/version/version_history_scr
 import '../../features/notebook/presentation/screens/version/versions_screen.dart';
 import '../../features/profile/presentation/settings_screen.dart';
 import '../../features/recipes/presentation/screens/cook_mode_screen.dart';
-import '../../features/recipes/presentation/screens/folder_screen.dart';
-import '../../features/recipes/presentation/screens/folders_grid_screen.dart';
-import '../../features/recipes/presentation/screens/framework_create_screen.dart';
-import '../../features/recipes/presentation/screens/framework_detail_screen.dart';
+import '../../features/recipes/presentation/screens/folder/folder_screen.dart';
+import '../../features/recipes/presentation/screens/folder/folders_grid_screen.dart';
+import '../../features/recipes/presentation/screens/framework/framework_create_screen.dart';
+import '../../features/recipes/presentation/screens/framework/framework_detail_screen.dart';
 import '../../features/recipes/presentation/screens/recipe_detail_screen.dart';
 import '../../features/recipes/presentation/screens/recipe_edit_screen.dart';
+import '../../features/recipes/presentation/screens/technique_detail_screen.dart';
 
 /// Constrói as rotas full-screen (pushadas sobre o shell, escondendo a barra).
 /// [rootKey] é o Navigator raiz — garante que estas telas cubram as abas.
@@ -57,6 +58,10 @@ List<RouteBase> buildFullscreenRoutes(GlobalKey<NavigatorState> rootKey) {
     fs(
       '/framework/:id',
       (c, s) => FrameworkDetailScreen(frameworkId: p(s, 'id')),
+    ),
+    fs(
+      '/technique/:id',
+      (c, s) => TechniqueDetailScreen(techniqueId: p(s, 'id')),
     ),
 
     GoRoute(

@@ -12,9 +12,11 @@ data:
     0015), nunca string livre. slug normaliza (unaccent+lower) e deduplica; notion é a
     noção ("o que é selar") — a IA rascunha no import, a pessoa edita (regra da IA:
     trabalho, não decisão). Cada RecipeStep carrega StepTechnique {techniqueId, anchor}:
-    anchor é o trecho literal do passo a grifar (não casou = grifo some, degrada em
-    silêncio). O agrupamento de frameworks usa o slug — "Selar a carne" e "selar"
-    são o mesmo grupo.
+    anchor é o trecho literal do passo a grifar; quando não casa (texto editado) ou
+    é nulo (técnica ligada à mão), a técnica aparece SÓBRIA sob o passo — clicável,
+    nunca cápsula. O agrupamento de frameworks usa o slug — "Selar a carne" e
+    "selar" são o mesmo grupo. A técnica encosta na receita NO PASSO: a palavra
+    grifada (accent) leva a /technique/:id; a seção "Técnicas desta receita" morreu.
   models_impl: >
     freezed + json_serializable (regra de architecture.md). fromJson/toJson com
     field_rename snake (camelCase Dart <-> snake_case Postgres, ver
@@ -38,13 +40,16 @@ data:
   repository_supabase:            # data/repositories/recipe/supabase_recipe_repository.dart
     leitura: >
       1 query com embedding: from('recipes').select('*, recipe_ingredients(*),
-      recipe_steps(*), recipe_folders(folder_id)'). fetchRecipes filtra as
-      DEFINITIVAS (linhas cujo id == id canônico do grupo, ver versões abaixo);
-      ingredientes/passos ordenados por position.
+      recipe_steps(*, recipe_step_techniques(*)), recipe_components(*),
+      recipe_folders(folder_id)'). fetchRecipes filtra as DEFINITIVAS (linhas
+      cujo id == id canônico do grupo, ver versões abaixo); o mapper agrupa
+      filhas por component_id (ordenadas por position) e aninha as técnicas
+      de cada passo.
     escrita: >
-      updateRecipe = upsert de recipes + delete/insert das filhas (ingredientes/
-      passos/pastas). saveAsNewVersion replica a lógica do seed: arquiva a
-      definitiva como linha própria e promove a edição no id canônico.
+      updateRecipe = upsert de recipes + delete/insert das filhas (componentes/
+      ingredientes/passos/técnicas do passo/pastas; receita simples não gera
+      linha de componente). saveAsNewVersion replica a lógica do seed: arquiva
+      a definitiva como linha própria e promove a edição no id canônico.
   edicao_inline:                  # persistência MOCK das edições da sessão (impl seed)
     overrides: >
       Um mapa em memória id -> Recipe guarda o que foi editado/adicionado. fetchById e
@@ -127,9 +132,11 @@ routes:                             # eu ligo no router depois; garanta nome/ass
     - {path: /folder/:id,      screen: FolderScreen(folderId),
        page: CustomTransitionPage NÃO-opaca (ver FolderScreen.animacao) — a aba
              Pastas fica visível por baixo durante abrir/fechar}
+    - {path: /technique/:id,   screen: TechniqueDetailScreen(techniqueId)}
   functions:                        # sheets expostas como showXxxSheet(BuildContext)
     - showImportSheet(BuildContext)                 # import_sheet.dart
-    - showCookChatSheet(BuildContext, recipe)       # cook_chat_sheet.dart
+    # showCookChatSheet foi substituída no código pelo diary_quick_sheet do
+    # Caderno (fim do cook mode) — cook_chat_sheet.dart nunca existiu.
 
 screens:
   - RecipesScreen:
@@ -209,8 +216,8 @@ screens:
         recipe_title_view.dart (título+versão+kcal),
         recipe_meta.dart, recipe_version_tag.dart; detail/sections/:
         recipe_ingredients_section.dart, recipe_steps_section.dart,
-        recipe_techniques_section.dart, recipe_notes_section.dart; detail/items/:
-        ingredient_row.dart, step_tile.dart
+        recipe_component_header.dart, recipe_notes_section.dart; detail/items/:
+        ingredient_row.dart, step_tile.dart, step_text_view.dart (grifo de técnica)
       titulo_com_versao: >
         A linha do título é [título + RecipeVersionTag] quando a receita tem grupo de
         versões (2+ snapshots). A tag é "V3" em ACCENT (terracota) + caret, TOCÁVEL —
@@ -230,9 +237,12 @@ screens:
                meta em texto(porções/tempo),
                NutritionCard, SectionHeader Ingredientes -> por componente
                (RecipeComponentHeader quando nomeado) -> IngredientRow,
-               SectionHeader "Modo de preparo" -> por componente -> StepTile(+WhyCallout),
-               SectionHeader "Técnicas" -> PitadaTag, "Anotações" (texto),
+               SectionHeader "Modo de preparo" -> por componente -> StepTile
+               (texto com técnica GRIFADA em accent -> /technique/:id; +WhyCallout),
+               "Anotações" (texto),
                barra inferior: Cozinhar + ícones]
+      # a seção "Técnicas desta receita" (tags no rodapé) MORREU: técnica é
+      # etiqueta morta fora do passo — o conhecimento encosta onde acontece.
       componentes_na_tela: >
         SEÇÃO, nunca aba: massa e cobertura são o mesmo prato, lidos na mesma rolagem.
         Dentro de Ingredientes e de Modo de preparo, cada componente NOMEADO abre com
@@ -262,14 +272,30 @@ screens:
           - macros              -> NutritionCard: cada célula (Proteína/Gordura/Carbo) é Editable
           - ingrediente         -> IngredientRow: QuickEdit 4 campos (nome/gramas/qtd/unidade);
                                    endereçado por (componente, índice)
-          - passo               -> StepTile: QuickEdit 2 campos multiline (passo / "Por quê");
-                                   endereçado por (componente, índice)
-          - técnicas            -> QuickEdit 1 campo multiline (uma técnica por linha)
+          - passo               -> StepTile: QuickEdit 3 campos (passo / "Por quê" /
+                                   técnicas por vírgula — nome novo CRIA a técnica,
+                                   dedupe pelo slug); endereçado por (componente, índice)
           - anotações           -> QuickEdit 1 campo multiline
+
+  - TechniqueDetailScreen:
+      arquivo: presentation/screens/technique_detail_screen.dart
+      construtor: TechniqueDetailScreen({required String techniqueId})
+      proposito: >
+        A página da técnica no MESMO desenho do FrameworkDetailScreen: rótulo
+        TÉCNICA (label accent) + nome (screenTitle) + noção + "Receitas onde usei".
+        SEM aba própria — chega-se por ela pelo grifo no passo. A noção nasce da
+        IA (import) ou vazia; vazia mostra um convite a escrever (o app vem cheio:
+        o primeiro registro é uma edição). Segurar/duplo-clique na noção edita
+        (QuickEditSheet simples, sem switch de versão — técnica não versiona).
+      layout: [voltar + rótulo TÉCNICA, nome, noção (tip, editável) ou convite,
+               SectionHeader "Receitas onde usei" -> RecipeRow(maestria)]
+      providers: [techniqueByIdProvider, recipesUsingTechniqueProvider,
+                  recipeMasteryProvider, techniqueEditControllerProvider]
+      navega: RecipeDetailScreen (/recipe/:id)
 
   - RecipeEditScreen:
       classe: RecipeEditScreen extends ConsumerStatefulWidget  # controllers locais editáveis
-      arquivo: presentation/recipe_edit_screen.dart
+      arquivo: presentation/screens/recipe_edit_screen.dart
       widgets_proprios: presentation/widgets/edit_photo_strip.dart, edit_field_row.dart,
                         edit_ingredient_editor.dart, edit_step_editor.dart
       construtor: RecipeEditScreen({required String? recipeId})  # nulo = criar nova
@@ -299,7 +325,7 @@ screens:
 
   - CookModeScreen:
       classe: CookModeScreen extends ConsumerStatefulWidget  # guarda índice do passo atual
-      arquivo: presentation/cook_mode_screen.dart
+      arquivo: presentation/screens/cook_mode_screen.dart
       widgets_proprios: presentation/widgets/cook_step_view.dart, cook_nav_bar.dart
       construtor: CookModeScreen({required String recipeId})
       estado: currentIndex (0..steps.length-1); passos de recipeByIdProvider(recipeId)
@@ -319,7 +345,7 @@ screens:
 
   - FolderScreen:
       classe: FolderScreen extends ConsumerWidget      # SEM controller próprio: a rota anima
-      arquivo: presentation/folder_screen.dart
+      arquivo: presentation/screens/folder/folder_screen.dart
       widgets_proprios: presentation/widgets/paper_fly.dart   # PaperFly + FolderMotion + BottomOpenClipper
       construtor: FolderScreen({required String folderId})
       estado: pasta/receitas de foldersProvider + recipesProvider (filtro por folderId)
@@ -356,7 +382,7 @@ screens:
 sheets:
   - ImportSheet:
       funcao: showImportSheet(BuildContext)   # showModalBottomSheet padrão (surf, radiusXxl, grip)
-      arquivo: presentation/import_sheet.dart
+      arquivo: presentation/sheets/import_sheet.dart
       classe_interna: _ImportSheet extends ConsumerStatefulWidget  # controla o estágio
       widgets_proprios: presentation/widgets/import_source_grid.dart, import_preview.dart
       servico: >
@@ -406,7 +432,7 @@ sheets:
 
   - RecipeVersionSheet:
       funcao: showRecipeVersionSheet(BuildContext, {versions, selected, changelog, onSelect})
-      arquivo: presentation/recipe_version_sheet.dart   # showPitadaSheet + SheetGrip
+      arquivo: presentation/sheets/recipe_version_sheet.dart   # showPitadaSheet + SheetGrip
       abre: ao tocar na RecipeVersionTag do título (RecipeDetailScreen)
       layout:
         - grip + título "Versões"

@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/recipes/presentation/screens/framework_create_screen.dart
+// lib/features/recipes/presentation/screens/framework/framework_create_screen.dart
 // O QUÊ:     Criação guiada de um framework: 4 perguntas socráticas em sequência
 //            (o que se repete / o que varia / que regra aprendeu / que nome dá).
 //            As respostas da pessoa VIRAM o esqueleto — a IA nunca preenche.
@@ -11,17 +11,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../core/theme/app_icons.dart';
-import '../../../../core/utils/slug.dart';
-import '../../../../core/theme/pitada_colors.dart';
-import '../../../../core/theme/spacing.dart';
-import '../../../../core/widgets/cards/step_progress.dart';
-import '../../../../core/widgets/controls/pitada_button.dart';
-import '../../application/framework_providers.dart';
-import '../../application/recipes_providers.dart';
-import '../../data/models/framework.dart';
-import '../../data/models/recipe/recipe.dart';
-import '../widgets/framework/framework_question_view.dart';
+import '../../../../../core/theme/app_icons.dart';
+import '../../../../../core/utils/slug.dart';
+import '../../../../../core/theme/pitada_colors.dart';
+import '../../../../../core/theme/spacing.dart';
+import '../../../../../core/widgets/cards/step_progress.dart';
+import '../../../../../core/widgets/controls/pitada_button.dart';
+import '../../../application/framework_providers.dart';
+import '../../../application/recipes_providers.dart';
+import '../../../data/models/framework.dart';
+import '../../../data/models/recipe/recipe.dart';
+import '../../widgets/framework/framework_question_view.dart';
 
 /// Tela de criação guiada de framework. [recipeIds] chega da sugestão
 /// socrática (ou vazio, criando do zero). Usada por: router (/framework/new).

@@ -10,10 +10,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/utils/slug.dart';
 import '../application/recipes_providers.dart';
+import '../application/technique_providers.dart';
 import '../data/models/recipe/ingredient.dart';
 import '../data/models/recipe/recipe.dart';
 import '../data/models/recipe/recipe_step.dart';
+import '../data/models/technique.dart';
 import 'sheets/quick_edit_sheet.dart';
 
 part 'recipe_item_edit.dart';
@@ -150,17 +153,6 @@ class RecipeQuickEdit {
         (s) => r.copyWith(notes: s.trim()),
       );
 
-  /// Edita as técnicas (uma por linha). Usada por: bloco de tags de técnicas.
-  Future<void> techniques(Recipe r) => _one(
-        'Técnicas desta receita',
-        QuickEditField(
-          label: 'Técnicas',
-          initial: r.techniques.join('\n'),
-          hint: 'Uma técnica por linha',
-          multiline: true,
-        ),
-        (s) => r.copyWith(techniques: _lines(s)),
-      );
 }
 
 /// Converte texto em número (aceita vírgula); vazio vira null. Usada por: macros/ingrediente.
@@ -173,9 +165,3 @@ num? _toNum(String s) {
 String _numStr(num? n) => n == null
     ? ''
     : (n == n.roundToDouble() ? n.toInt().toString() : n.toString());
-
-/// Quebra um texto em linhas não vazias e aparadas. Usada por: edição de técnicas.
-List<String> _lines(String s) => [
-      for (final l in s.split('\n'))
-        if (l.trim().isNotEmpty) l.trim(),
-    ];

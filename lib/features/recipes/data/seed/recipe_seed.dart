@@ -73,10 +73,16 @@ const kSeedRecipes = <Recipe>[
           RecipeStep(
             text: 'Sele os cubos em fogo alto, sem mexer demais, até dourar.',
             tip: 'Panela cheia demais esfria e cozinha; sele em levas.',
+            techniques: [
+              StepTechnique(techniqueId: 'tq-selar', anchor: 'Sele os cubos'),
+            ],
           ),
           RecipeStep(
             text:
                 'Refogue alho e pimentão rapidamente para manterem a crocância.',
+            techniques: [
+              StepTechnique(techniqueId: 'tq-refogar', anchor: 'Refogue'),
+            ],
           ),
           RecipeStep(
             text: 'Volte o frango, junte o shoyu e o amendoim e finalize.',
@@ -150,7 +156,12 @@ const kSeedRecipes = <Recipe>[
           ),
         ],
         steps: [
-          RecipeStep(text: 'Sele a carne em fogo alto, em levas.'),
+          RecipeStep(
+            text: 'Sele a carne em fogo alto, em levas.',
+            techniques: [
+              StepTechnique(techniqueId: 'tq-selar', anchor: 'Sele a carne'),
+            ],
+          ),
         ],
       ),
       RecipeComponent(
@@ -172,6 +183,12 @@ const kSeedRecipes = <Recipe>[
         steps: [
           RecipeStep(
             text: 'Faça o molho e incorpore o creme de leite.',
+            techniques: [
+              StepTechnique(
+                techniqueId: 'tq-emulsionar',
+                anchor: 'incorpore o creme de leite',
+              ),
+            ],
           ),
         ],
       ),

@@ -58,12 +58,15 @@ extension RecipeItemEdit on RecipeQuickEdit {
     );
   }
 
-  /// Edita um passo do preparo (texto + "Por quê" opcional), endereçado por
-  /// componente + índice; [number] é o número CONTÍNUO exibido. Usada por: StepTile.
+  /// Edita um passo do preparo (texto + "Por quê" + técnicas por vírgula —
+  /// nome novo CRIA a técnica, dedupe pelo slug), endereçado por componente +
+  /// índice; [number] é o número CONTÍNUO exibido. Usada por: StepTile.
   Future<void> step(Recipe r, int component, int index,
       {required int number,}) async {
     final comp = r.components[component];
     final st = comp.steps[index];
+    final known = await ref.read(techniquesProvider.future);
+    if (!context.mounted) return;
     final res = await showQuickEditSheet(
       context,
       title: 'Passo $number',
@@ -82,18 +85,70 @@ extension RecipeItemEdit on RecipeQuickEdit {
           hint: 'Dica de técnica',
           multiline: true,
         ),
+        QuickEditField(
+          label: 'Técnicas (separadas por vírgula)',
+          initial: _techniqueNames(st, known),
+          hint: 'ex.: selar, corte em cubo',
+        ),
       ],
     );
     if (res == null) return;
     final v = res.values;
+    final text = v[0].trim();
     final list = List<RecipeStep>.of(comp.steps);
     list[index] = RecipeStep(
-      text: v[0].trim(),
+      text: text,
       tip: v[1].trim().isEmpty ? null : v[1].trim(),
+      techniques: await _resolveTechniques(v[2], st, text, known),
     );
     await _save(
       r.withComponent(component, comp.copyWith(steps: list)),
       asNewVersion: res.toggle,
     );
+  }
+
+  /// Nomes das técnicas do passo, para o campo (ids -> nomes conhecidos).
+  /// Usada por: [step].
+  String _techniqueNames(RecipeStep st, List<Technique> known) => [
+        for (final t in st.techniques)
+          for (final k in known)
+            if (k.id == t.techniqueId) k.name.toLowerCase(),
+      ].join(', ');
+
+  /// Resolve os nomes digitados em StepTechnique: reusa pelo slug, cria o que
+  /// não existe, preserva a âncora anterior ou tenta casar o nome no texto.
+  /// Usada por: [step].
+  Future<List<StepTechnique>> _resolveTechniques(
+    String csv,
+    RecipeStep st,
+    String text,
+    List<Technique> known,
+  ) async {
+    final links = <StepTechnique>[];
+    for (final raw in csv.split(',')) {
+      final name = raw.trim();
+      if (name.isEmpty) continue;
+      final slug = slugify(name);
+      String? id;
+      for (final k in known) {
+        if (k.slug == slug) {
+          id = k.id;
+          break;
+        }
+      }
+      id ??= await ref
+          .read(techniqueEditControllerProvider)
+          .create(Technique(id: '', slug: slug, name: name));
+      String? anchor;
+      for (final t in st.techniques) {
+        if (t.techniqueId == id) anchor = t.anchor;
+      }
+      if (anchor == null || !text.contains(anchor)) {
+        final i = text.toLowerCase().indexOf(name.toLowerCase());
+        anchor = i < 0 ? null : text.substring(i, i + name.length);
+      }
+      links.add(StepTechnique(techniqueId: id, anchor: anchor));
+    }
+    return links;
   }
 }

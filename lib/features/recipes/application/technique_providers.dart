@@ -9,9 +9,12 @@
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/utils/slug.dart';
+import '../data/models/recipe/recipe.dart';
 import '../data/models/technique.dart';
 import '../data/repositories/technique/seed_technique_repository.dart';
 import '../data/repositories/technique/technique_repository.dart';
+import 'recipes_providers.dart';
 
 /// Repositório de técnicas em uso (seed no preview; Supabase via override no
 /// main.dart). Usada por: providers abaixo.
@@ -29,6 +32,24 @@ final techniquesProvider = FutureProvider<List<Technique>>(
 final techniqueByIdProvider = FutureProvider.family<Technique?, String>(
   (ref, id) => ref.watch(techniquesRepositoryProvider).fetchById(id),
 );
+
+/// Receitas onde a técnica aparece: link no passo ou, transitoriamente, a
+/// string legada de Recipe.techniques contendo o slug (morre com a 0017).
+/// Usada por: TechniqueDetailScreen ("Receitas onde usei").
+final recipesUsingTechniqueProvider =
+    FutureProvider.family<List<Recipe>, String>((ref, techniqueId) async {
+  final technique = await ref.watch(techniqueByIdProvider(techniqueId).future);
+  final recipes = await ref.watch(recipesProvider.future);
+  bool linked(Recipe r) => r.allSteps
+      .any((s) => s.techniques.any((t) => t.techniqueId == techniqueId));
+  bool legacy(Recipe r) =>
+      technique != null &&
+      r.techniques.any((t) => slugify(t).contains(technique.slug));
+  return [
+    for (final r in recipes)
+      if (linked(r) || legacy(r)) r,
+  ];
+});
 
 /// Ações de escrita sobre técnicas, invalidando os providers de leitura.
 /// Usada por: página de técnica (editar noção) e autocomplete (criar).

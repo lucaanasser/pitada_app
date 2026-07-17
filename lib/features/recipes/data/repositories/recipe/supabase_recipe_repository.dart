@@ -25,7 +25,8 @@ class SupabaseRecipesRepository implements RecipesRepository {
   SupabaseClient get _db => SupabaseService.client;
 
   /// Embedding padrão: receita + filhas numa query só (mapper monta o modelo).
-  static const _select = '*, recipe_ingredients(*), recipe_steps(*), '
+  static const _select =
+      '*, recipe_ingredients(*), recipe_steps(*, recipe_step_techniques(*)), '
       'recipe_components(*), recipe_folders(folder_id)';
 
   /// Só as DEFINITIVAS (coluna gerada is_definitive), na ordem de criação.
@@ -160,7 +161,21 @@ class SupabaseRecipesRepository implements RecipesRepository {
     final steps = stepRows(recipe, recipeId, componentIds);
     final folders = folderRows(recipe, recipeId);
     if (ings.isNotEmpty) await _db.from('recipe_ingredients').insert(ings);
-    if (steps.isNotEmpty) await _db.from('recipe_steps').insert(steps);
+    if (steps.isNotEmpty) {
+      final inserted = await _db
+          .from('recipe_steps')
+          .insert(steps)
+          .select('id, position');
+      inserted.sort(
+        (a, b) => ((a['position'] ?? 0) as num)
+            .compareTo((b['position'] ?? 0) as num),
+      );
+      final stepIds = [for (final row in inserted) row['id'] as String];
+      final links = stepTechniqueRows(recipe, stepIds);
+      if (links.isNotEmpty) {
+        await _db.from('recipe_step_techniques').insert(links);
+      }
+    }
     if (folders.isNotEmpty) await _db.from('recipe_folders').insert(folders);
   }
 }

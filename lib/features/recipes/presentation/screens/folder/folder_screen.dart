@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/recipes/presentation/screens/folder_screen.dart
+// lib/features/recipes/presentation/screens/folder/folder_screen.dart
 // O QUÊ:     Pasta aberta (estilo iOS Notes): grade de receitas que deslizam PARA
 //            FORA da pasta ao abrir e voltam PARA DENTRO ao fechar, dirigidas
 //            pela ANIMAÇÃO DA ROTA (não-opaca): a aba Pastas fica visível por
@@ -16,18 +16,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../core/theme/app_icons.dart';
-import '../../../../core/theme/colors.dart';
-import '../../../../core/theme/pitada_colors.dart';
-import '../../../../core/theme/spacing.dart';
-import '../../../../core/theme/typography.dart';
-import '../../../../core/utils/app_log.dart';
-import '../../../../core/widgets/layout/empty_state.dart';
-import '../../../../core/widgets/controls/pitada_button.dart';
-import '../../application/recipes_providers.dart';
-import '../../data/models/recipe/recipe.dart';
-import '../widgets/folder/paper_fly.dart';
-import '../widgets/list/recipe_card.dart';
+import '../../../../../core/theme/app_icons.dart';
+import '../../../../../core/theme/colors.dart';
+import '../../../../../core/theme/pitada_colors.dart';
+import '../../../../../core/theme/spacing.dart';
+import '../../../../../core/theme/typography.dart';
+import '../../../../../core/utils/app_log.dart';
+import '../../../../../core/widgets/layout/empty_state.dart';
+import '../../../../../core/widgets/controls/pitada_button.dart';
+import '../../../application/recipes_providers.dart';
+import '../../../data/models/recipe/recipe.dart';
+import '../../widgets/folder/paper_fly.dart';
+import '../../widgets/list/recipe_card.dart';
 
 /// Tela de uma pasta aberta, com papéis animados pela PRÓPRIA ROTA: o push
 /// avança a animação (papéis saem) e o pop a reverte (papéis voltam) enquanto
