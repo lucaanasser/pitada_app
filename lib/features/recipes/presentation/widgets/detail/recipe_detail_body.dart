@@ -19,6 +19,7 @@ import 'header/recipe_detail_header.dart';
 import 'header/recipe_meta.dart';
 import 'header/recipe_title_view.dart';
 import 'recipe_detail_bar.dart';
+import 'sections/recipe_history_section.dart';
 import 'sections/recipe_ingredients_section.dart';
 import 'sections/recipe_notes_section.dart';
 import 'sections/recipe_steps_section.dart';
@@ -69,6 +70,7 @@ class RecipeDetailBody extends ConsumerWidget {
                 ),
                 RecipeIngredientsSection(recipe: r, quickEdit: qe),
                 RecipeStepsSection(recipe: r, quickEdit: qe),
+                RecipeHistorySection(recipe: r),
                 RecipeNotesSection(recipe: r, quickEdit: qe),
               ],
             ),
