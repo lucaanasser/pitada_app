@@ -1,10 +1,11 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/recipes/presentation/widgets/framework/frameworks_tab_view.dart
 // O QUÊ:     Conteúdo da tab Frameworks: a única sugestão socrática (quando
-//            houver), os cards de planta baixa e o convite a criar do zero.
-//            Estado vazio didático — o primeiro contato com a ideia.
+//            houver) e os cards de planta baixa. Estado vazio didático — o
+//            primeiro contato com a ideia. Criar framework fica no '+' do
+//            header (card Novo Framework da ImportSheet).
 // USA:       framework_providers, framework_suggestion_service, framework_card,
-//            framework_suggestion_card, core/widgets (EmptyState, PitadaButton).
+//            framework_suggestion_card, core/widgets (EmptyState).
 // USADO POR: recipes_screen (tab 1).
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
@@ -13,7 +14,6 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../../core/theme/app_icons.dart';
 import '../../../../../core/theme/spacing.dart';
-import '../../../../../core/widgets/controls/pitada_button.dart';
 import '../../../../../core/widgets/layout/empty_state.dart';
 import '../../../application/framework_providers.dart';
 import '../../../application/framework_suggestion_service.dart';
@@ -56,7 +56,8 @@ class FrameworksTabView extends ConsumerWidget {
               title: 'Nenhum framework ainda',
               message: 'Um framework é o que sobra de uma receita quando '
                   'você tira as quantidades — a estrutura que se repete. '
-                  'Junte receitas parecidas e dê um nome ao padrão.',
+                  'Junte receitas parecidas e dê um nome ao padrão '
+                  'no botão +.',
               icon: AppIcons.framework,
             ),
           )
@@ -69,12 +70,6 @@ class FrameworksTabView extends ConsumerWidget {
                 onTap: () => context.push('/framework/${f.id}'),
               ),
             ),
-        PitadaButton(
-          label: 'Novo framework',
-          icon: AppIcons.add,
-          variant: PitadaButtonVariant.outline,
-          onPressed: () => context.push('/framework/new'),
-        ),
       ],
     );
   }

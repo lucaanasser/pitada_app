@@ -1,7 +1,8 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/recipes/presentation/widgets/import/import_source_grid.dart
 // O QUÊ:     Escolha da fonte da importação: campo de link (site/Instagram/YouTube)
-//            com botão Importar + cards PDF e Escrever. Devolve a ação escolhida.
+//            com botão Importar + cards PDF, Escrever e Novo Framework. Devolve
+//            a ação escolhida.
 // USA:       core/widgets (PitadaSearchField, PitadaButton), theme/*, app_icons.
 // USADO POR: import_sheet (primeiro estágio: choose).
 // SPEC:      specs/features/recipes.yaml (SHEET-IMPORT: choose / ImportSourceGrid)
@@ -17,18 +18,21 @@ import '../../../../../core/widgets/controls/pitada_button.dart';
 import '../../../../../core/widgets/controls/pitada_search_field.dart';
 
 /// Grade de origens de importação. Chama [onSubmitUrl] com um link, [onPickPdf]
-/// para escolher um PDF ou [onManual] para começar em branco. Usada por: import_sheet.
+/// para escolher um PDF, [onManual] para começar em branco ou [onNewFramework]
+/// para criar um framework. Usada por: import_sheet.
 class ImportSourceGrid extends StatefulWidget {
   const ImportSourceGrid({
     super.key,
     required this.onSubmitUrl,
     required this.onPickPdf,
     required this.onManual,
+    required this.onNewFramework,
   });
 
   final ValueChanged<String> onSubmitUrl;
   final VoidCallback onPickPdf;
   final VoidCallback onManual;
+  final VoidCallback onNewFramework;
 
   @override
   State<ImportSourceGrid> createState() => _ImportSourceGridState();
@@ -85,6 +89,8 @@ class _ImportSourceGridState extends State<ImportSourceGrid> {
             ),
           ],
         ),
+        const SizedBox(height: AppSpacing.md),
+        _card(pit, AppIcons.framework, 'Novo Framework', widget.onNewFramework),
       ],
     );
   }

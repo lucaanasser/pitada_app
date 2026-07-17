@@ -273,6 +273,9 @@ sheets:
                 deduz o RecipeSource pela url (instagram/youtube/site) e chama startFrom
               - card PDF -> file_picker (withData) -> base64 -> startFrom(source: pdf, content)
               - card Escrever -> startFrom(source: manual) = rascunho em branco (sem rede)
+              - card "Novo Framework" (largura cheia, abaixo da fileira) -> fecha a sheet
+                e navega p/ /framework/new; é o ÚNICO ponto de criação de framework
+                (a tab Frameworks não tem mais botão próprio)
         2. loading -> StepProgress(['Lendo','Extraindo','Estruturando']); passos são cosméticos
               enquanto a importação real roda; AppLog.d('recipes', 'import iniciado: <source>')
         3. ready -> ImportPreview: rascunho editável (nome, porções, ingredientes, passos);

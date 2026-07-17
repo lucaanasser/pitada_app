@@ -2,9 +2,11 @@
 // lib/features/recipes/presentation/sheets/import_sheet.dart
 // O QUÊ:     Bottom sheet de importar receita em 4 estágios (escolher origem ->
 //            loading com StepProgress -> preview editável -> erro com retry).
-//            Detecta a fonte do link, escolhe PDF e persiste a receita importada.
+//            Detecta a fonte do link, escolhe PDF, persiste a receita importada
+//            e dá o atalho p/ criar um framework (/framework/new).
 // USA:       import_controller (fases), recipe_import_service (input), recipes_providers
-//            (create), import_source_grid/preview, file_picker, core/widgets, theme/*.
+//            (create), import_source_grid/preview, file_picker, core/widgets, theme/*,
+//            go_router.
 // USADO POR: recipes_screen (botão '+') via showImportSheet(context).
 // SPEC:      specs/features/recipes.yaml (SHEET-IMPORT)
 // ─────────────────────────────────────────────────────────────────────────────
@@ -13,6 +15,7 @@ import 'dart:convert';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../core/theme/app_icons.dart';
 import '../../../../core/theme/pitada_colors.dart';
@@ -82,6 +85,13 @@ class _ImportSheetState extends ConsumerState<_ImportSheet> {
     );
   }
 
+  /// Fecha a sheet e abre a criação de framework. Usada por: grade (card Novo Framework).
+  void _newFramework() {
+    final router = GoRouter.of(context);
+    Navigator.of(context).pop();
+    router.push('/framework/new');
+  }
+
   /// Congela o preview numa receita nova, persiste e fecha. Usada por: ImportPreview.
   Future<void> _save() async {
     final draft = ref.read(importControllerProvider).preview;
@@ -143,6 +153,7 @@ class _ImportSheetState extends ConsumerState<_ImportSheet> {
           onManual: () => _ctrl.startFrom(
             const RecipeImportInput(source: RecipeSource.manual),
           ),
+          onNewFramework: _newFramework,
         ),
       ],
     );
