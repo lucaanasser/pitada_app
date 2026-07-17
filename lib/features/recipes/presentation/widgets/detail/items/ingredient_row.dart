@@ -1,9 +1,11 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/recipes/presentation/widgets/detail/items/ingredient_row.dart
-// O QUÊ:     Linha de ingrediente: nome + grama em destaque + unidade humana menor.
-// USA:       core/theme (PitadaColors), core/widgets/hairline_row, utils/format, Ingredient.
+// O QUÊ:     Linha de ingrediente: nome + função de sabor sóbria + grama em
+//            destaque + unidade humana menor.
+// USA:       core/theme (PitadaColors), core/widgets/hairline_row, utils/format,
+//            Ingredient, flavor_axis.
 // USADO POR: recipe_ingredients_section (detalhe da receita).
-// SPEC:      specs/features/recipes.yaml (RecipeDetailScreen: IngredientRow)
+// SPEC:      specs/features/recipes.yaml (RecipeDetailScreen: IngredientRow, data.sabor)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 
@@ -12,6 +14,7 @@ import '../../../../../../core/theme/typography.dart';
 import '../../../../../../core/utils/format.dart';
 import '../../../../../../core/widgets/controls/editable.dart';
 import '../../../../../../core/widgets/cards/hairline_row.dart';
+import '../../../../data/models/recipe/flavor_axis.dart';
 import '../../../../data/models/recipe/ingredient.dart';
 
 /// Ingrediente como linha: grama grande (base) + unidade humana pequena (ref.).
@@ -39,7 +42,20 @@ class IngredientRow extends StatelessWidget {
         showDivider: showDivider,
         crossAxisAlignment: CrossAxisAlignment.start,
         padding: const EdgeInsets.symmetric(vertical: 14),
-        title: Text(ingredient.name, style: AppType.on(AppType.body, pit.text)),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(ingredient.name, style: AppType.on(AppType.body, pit.text)),
+            if (ingredient.flavors.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.only(top: 2),
+                child: Text(
+                  [for (final f in ingredient.flavors) f.label].join(' · '),
+                  style: AppType.on(AppType.captionSm, pit.muted),
+                ),
+              ),
+          ],
+        ),
         trailing: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [

@@ -7,6 +7,7 @@
 // SPEC:      specs/features/recipes.yaml (data.seed)
 // ─────────────────────────────────────────────────────────────────────────────
 import '../models/folder.dart';
+import '../models/recipe/flavor_axis.dart';
 import '../models/recipe/ingredient.dart';
 import '../models/recipe/recipe.dart';
 import '../models/recipe/recipe_component.dart';
@@ -55,12 +56,18 @@ const kSeedRecipes = <Recipe>[
             humanUnit: 'unidade',
           ),
           Ingredient(
-              name: 'Shoyu', grams: 45, humanQty: 3, humanUnit: 'c. sopa',),
+            name: 'Shoyu',
+            grams: 45,
+            humanQty: 3,
+            humanUnit: 'c. sopa',
+            flavors: [FlavorAxis.umami, FlavorAxis.salt],
+          ),
           Ingredient(
             name: 'Amendoim',
             grams: 70,
             humanQty: 0.5,
             humanUnit: 'xícara',
+            flavors: [FlavorAxis.fat],
           ),
           Ingredient(name: 'Alho', grams: 15, humanQty: 3, humanUnit: 'dentes'),
         ],
@@ -108,7 +115,11 @@ const kSeedRecipes = <Recipe>[
       RecipeComponent(
         ingredients: [
           Ingredient(
-              name: 'Quinoa', grams: 90, humanQty: 0.5, humanUnit: 'xícara',),
+            name: 'Quinoa',
+            grams: 90,
+            humanQty: 0.5,
+            humanUnit: 'xícara',
+          ),
           Ingredient(
             name: 'Grão-de-bico',
             grams: 120,
@@ -120,11 +131,13 @@ const kSeedRecipes = <Recipe>[
             grams: 80,
             humanQty: 0.5,
             humanUnit: 'unidade',
+            flavors: [FlavorAxis.fat],
           ),
         ],
         steps: [
           RecipeStep(
-              text: 'Cozinhe a quinoa e monte o bowl com os demais itens.',),
+            text: 'Cozinhe a quinoa e monte o bowl com os demais itens.',
+          ),
         ],
       ),
     ],
@@ -172,12 +185,14 @@ const kSeedRecipes = <Recipe>[
             grams: 200,
             humanQty: 1,
             humanUnit: 'lata',
+            flavors: [FlavorAxis.fat],
           ),
           Ingredient(
             name: 'Champignon',
             grams: 100,
             humanQty: 100,
             humanUnit: 'g',
+            flavors: [FlavorAxis.umami],
           ),
         ],
         steps: [
@@ -210,15 +225,29 @@ const kSeedRecipes = <Recipe>[
       RecipeComponent(
         ingredients: [
           Ingredient(
-              name: 'Banana', grams: 120, humanQty: 1, humanUnit: 'unidade',),
+            name: 'Banana',
+            grams: 120,
+            humanQty: 1,
+            humanUnit: 'unidade',
+            flavors: [FlavorAxis.sweet],
+          ),
           Ingredient(
-              name: 'Ovo', grams: 100, humanQty: 2, humanUnit: 'unidade',),
+            name: 'Ovo',
+            grams: 100,
+            humanQty: 2,
+            humanUnit: 'unidade',
+          ),
           Ingredient(
-              name: 'Aveia', grams: 30, humanQty: 3, humanUnit: 'c. sopa',),
+            name: 'Aveia',
+            grams: 30,
+            humanQty: 3,
+            humanUnit: 'c. sopa',
+          ),
         ],
         steps: [
           RecipeStep(
-              text: 'Amasse a banana, misture tudo e doure dos dois lados.',),
+            text: 'Amasse a banana, misture tudo e doure dos dois lados.',
+          ),
         ],
       ),
     ],

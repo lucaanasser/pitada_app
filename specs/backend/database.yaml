@@ -266,6 +266,16 @@ migrations:
         framework_suggestion no mesmo commit). O agrupamento de frameworks passa a
         usar o slug normalizado já nesta fatia.
 
+  - 0016_ingredient_flavors.sql:   # eixo de SABOR como função do ingrediente
+      motivo: >
+        Temperar é o conhecimento que mais transfere (rácio + princípio + padrão).
+        O sabor entra como FUNÇÃO do ingrediente (limão = acidez), nunca veredito
+        do prato: marcar é transcrição (IA pode); julgar o prato é decisão (IA não).
+        A exposição repetida — 50 receitas com limão/vinagre/tamarindo marcados
+        'acid' — forma o princípio; é a base da substituição futura.
+      enum flavor_axis: [acid, umami, fat, sweet, bitter, salt, fresh]  # fresh = frescor herbáceo
+      recipe_ingredients_add: flavors flavor_axis[] not null default '{}'
+
 leitura_pelo_app:                    # PostgREST embedding — 1 query traz tudo
   exemplo: >
     from('recipes').select('*, recipe_ingredients(*), recipe_steps(*),

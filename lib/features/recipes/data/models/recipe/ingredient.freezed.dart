@@ -18,6 +18,7 @@ mixin _$Ingredient {
   num? get grams;
   num? get humanQty;
   String? get humanUnit;
+  List<FlavorAxis> get flavors;
 
   /// Create a copy of Ingredient
   /// with the given fields replaced by the non-null parameter values.
@@ -39,17 +40,18 @@ mixin _$Ingredient {
             (identical(other.humanQty, humanQty) ||
                 other.humanQty == humanQty) &&
             (identical(other.humanUnit, humanUnit) ||
-                other.humanUnit == humanUnit));
+                other.humanUnit == humanUnit) &&
+            const DeepCollectionEquality().equals(other.flavors, flavors));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, name, grams, humanQty, humanUnit);
+  int get hashCode => Object.hash(runtimeType, name, grams, humanQty, humanUnit,
+      const DeepCollectionEquality().hash(flavors));
 
   @override
   String toString() {
-    return 'Ingredient(name: $name, grams: $grams, humanQty: $humanQty, humanUnit: $humanUnit)';
+    return 'Ingredient(name: $name, grams: $grams, humanQty: $humanQty, humanUnit: $humanUnit, flavors: $flavors)';
   }
 }
 
@@ -59,7 +61,12 @@ abstract mixin class $IngredientCopyWith<$Res> {
           Ingredient value, $Res Function(Ingredient) _then) =
       _$IngredientCopyWithImpl;
   @useResult
-  $Res call({String name, num? grams, num? humanQty, String? humanUnit});
+  $Res call(
+      {String name,
+      num? grams,
+      num? humanQty,
+      String? humanUnit,
+      List<FlavorAxis> flavors});
 }
 
 /// @nodoc
@@ -78,6 +85,7 @@ class _$IngredientCopyWithImpl<$Res> implements $IngredientCopyWith<$Res> {
     Object? grams = freezed,
     Object? humanQty = freezed,
     Object? humanUnit = freezed,
+    Object? flavors = null,
   }) {
     return _then(_self.copyWith(
       name: null == name
@@ -96,6 +104,10 @@ class _$IngredientCopyWithImpl<$Res> implements $IngredientCopyWith<$Res> {
           ? _self.humanUnit
           : humanUnit // ignore: cast_nullable_to_non_nullable
               as String?,
+      flavors: null == flavors
+          ? _self.flavors
+          : flavors // ignore: cast_nullable_to_non_nullable
+              as List<FlavorAxis>,
     ));
   }
 }
@@ -193,15 +205,16 @@ extension IngredientPatterns on Ingredient {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(String name, num? grams, num? humanQty, String? humanUnit)?
+    TResult Function(String name, num? grams, num? humanQty, String? humanUnit,
+            List<FlavorAxis> flavors)?
         $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _Ingredient() when $default != null:
-        return $default(
-            _that.name, _that.grams, _that.humanQty, _that.humanUnit);
+        return $default(_that.name, _that.grams, _that.humanQty,
+            _that.humanUnit, _that.flavors);
       case _:
         return orElse();
     }
@@ -222,14 +235,15 @@ extension IngredientPatterns on Ingredient {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(String name, num? grams, num? humanQty, String? humanUnit)
+    TResult Function(String name, num? grams, num? humanQty, String? humanUnit,
+            List<FlavorAxis> flavors)
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _Ingredient():
-        return $default(
-            _that.name, _that.grams, _that.humanQty, _that.humanUnit);
+        return $default(_that.name, _that.grams, _that.humanQty,
+            _that.humanUnit, _that.flavors);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -249,15 +263,15 @@ extension IngredientPatterns on Ingredient {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(
-            String name, num? grams, num? humanQty, String? humanUnit)?
+    TResult? Function(String name, num? grams, num? humanQty, String? humanUnit,
+            List<FlavorAxis> flavors)?
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _Ingredient() when $default != null:
-        return $default(
-            _that.name, _that.grams, _that.humanQty, _that.humanUnit);
+        return $default(_that.name, _that.grams, _that.humanQty,
+            _that.humanUnit, _that.flavors);
       case _:
         return null;
     }
@@ -268,7 +282,12 @@ extension IngredientPatterns on Ingredient {
 @JsonSerializable()
 class _Ingredient implements Ingredient {
   const _Ingredient(
-      {required this.name, this.grams, this.humanQty, this.humanUnit});
+      {required this.name,
+      this.grams,
+      this.humanQty,
+      this.humanUnit,
+      final List<FlavorAxis> flavors = const []})
+      : _flavors = flavors;
   factory _Ingredient.fromJson(Map<String, dynamic> json) =>
       _$IngredientFromJson(json);
 
@@ -280,6 +299,14 @@ class _Ingredient implements Ingredient {
   final num? humanQty;
   @override
   final String? humanUnit;
+  final List<FlavorAxis> _flavors;
+  @override
+  @JsonKey()
+  List<FlavorAxis> get flavors {
+    if (_flavors is EqualUnmodifiableListView) return _flavors;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_flavors);
+  }
 
   /// Create a copy of Ingredient
   /// with the given fields replaced by the non-null parameter values.
@@ -306,17 +333,18 @@ class _Ingredient implements Ingredient {
             (identical(other.humanQty, humanQty) ||
                 other.humanQty == humanQty) &&
             (identical(other.humanUnit, humanUnit) ||
-                other.humanUnit == humanUnit));
+                other.humanUnit == humanUnit) &&
+            const DeepCollectionEquality().equals(other._flavors, _flavors));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, name, grams, humanQty, humanUnit);
+  int get hashCode => Object.hash(runtimeType, name, grams, humanQty, humanUnit,
+      const DeepCollectionEquality().hash(_flavors));
 
   @override
   String toString() {
-    return 'Ingredient(name: $name, grams: $grams, humanQty: $humanQty, humanUnit: $humanUnit)';
+    return 'Ingredient(name: $name, grams: $grams, humanQty: $humanQty, humanUnit: $humanUnit, flavors: $flavors)';
   }
 }
 
@@ -328,7 +356,12 @@ abstract mixin class _$IngredientCopyWith<$Res>
       __$IngredientCopyWithImpl;
   @override
   @useResult
-  $Res call({String name, num? grams, num? humanQty, String? humanUnit});
+  $Res call(
+      {String name,
+      num? grams,
+      num? humanQty,
+      String? humanUnit,
+      List<FlavorAxis> flavors});
 }
 
 /// @nodoc
@@ -347,6 +380,7 @@ class __$IngredientCopyWithImpl<$Res> implements _$IngredientCopyWith<$Res> {
     Object? grams = freezed,
     Object? humanQty = freezed,
     Object? humanUnit = freezed,
+    Object? flavors = null,
   }) {
     return _then(_Ingredient(
       name: null == name
@@ -365,6 +399,10 @@ class __$IngredientCopyWithImpl<$Res> implements _$IngredientCopyWith<$Res> {
           ? _self.humanUnit
           : humanUnit // ignore: cast_nullable_to_non_nullable
               as String?,
+      flavors: null == flavors
+          ? _self._flavors
+          : flavors // ignore: cast_nullable_to_non_nullable
+              as List<FlavorAxis>,
     ));
   }
 }

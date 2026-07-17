@@ -17,6 +17,14 @@ data:
     nunca cápsula. O agrupamento de frameworks usa o slug — "Selar a carne" e
     "selar" são o mesmo grupo. A técnica encosta na receita NO PASSO: a palavra
     grifada (accent) leva a /technique/:id; a seção "Técnicas desta receita" morreu.
+  sabor: >
+    FlavorAxis {acid, umami, fat, sweet, bitter, salt, fresh} é FUNÇÃO do
+    ingrediente (Ingredient.flavors), nunca veredito do prato nem seção própria.
+    Render SÓBRIO na IngredientRow: 'ácido · umami' em captionSm/pit.muted sob o
+    nome — sem cápsula, sem ícone (exposição repetida discreta; a regra do design
+    system proíbe cápsula p/ atributo). A IA marca no import (transcrever, não
+    julgar: shoyu=umami+sal é fato); na dúvida, lista vazia. É a base da
+    substituição futura (coentro->salsinha porque ambos são frescor).
   models_impl: >
     freezed + json_serializable (regra de architecture.md). fromJson/toJson com
     field_rename snake (camelCase Dart <-> snake_case Postgres, ver
@@ -216,7 +224,8 @@ screens:
         recipe_title_view.dart (título+versão+kcal),
         recipe_meta.dart, recipe_version_tag.dart; detail/sections/:
         recipe_ingredients_section.dart, recipe_steps_section.dart,
-        recipe_component_header.dart, recipe_notes_section.dart; detail/items/:
+        recipe_component_header.dart, recipe_history_section.dart,
+        recipe_notes_section.dart; detail/items/:
         ingredient_row.dart, step_tile.dart, step_text_view.dart (grifo de técnica)
       titulo_com_versao: >
         A linha do título é [título + RecipeVersionTag] quando a receita tem grupo de
@@ -239,10 +248,19 @@ screens:
                (RecipeComponentHeader quando nomeado) -> IngredientRow,
                SectionHeader "Modo de preparo" -> por componente -> StepTile
                (texto com técnica GRIFADA em accent -> /technique/:id; +WhyCallout),
+               SectionHeader "Histórico" -> RecipeHistorySection,
                "Anotações" (texto),
                barra inferior: Cozinhar + ícones]
       # a seção "Técnicas desta receita" (tags no rodapé) MORREU: técnica é
       # etiqueta morta fora do passo — o conhecimento encosta onde acontece.
+      historico: >
+        O histórico é seção de PRIMEIRA CLASSE (não só a sheet atrás do
+        RecipeVersionTag): uma linha por versão (desc) com "V{n}" + a nota
+        "o que mudou" do Caderno (versionForRecipeProvider, labels vN) + rodapé
+        "Ver histórico completo" (-> /versions/:id). Receita sem grupo mostra
+        "V1 · sem histórico ainda" — a seção NÃO some. Uma escrita, duas
+        verdades: o conteúdo vem de recipes, a nota continua fonte única no
+        Caderno. A RecipeVersionTag e a sheet permanecem (atalho/seletor).
       componentes_na_tela: >
         SEÇÃO, nunca aba: massa e cobertura são o mesmo prato, lidos na mesma rolagem.
         Dentro de Ingredientes e de Modo de preparo, cada componente NOMEADO abre com
