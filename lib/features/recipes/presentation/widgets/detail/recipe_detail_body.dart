@@ -2,10 +2,11 @@
 // lib/features/recipes/presentation/widgets/detail/recipe_detail_body.dart
 // O QUÊ:     Compositor do detalhe da receita: cabeçalho de identidade + seções
 //            (cada uma um widget próprio) numa rolagem + barra fixa de ações.
-// USA:       core (theme, NutritionCard), recipe_quick_edit, widgets do detalhe
-//            (header/, sections/), go_router.
+//            Resolve as porções vistas (viewServingsProvider) e o fator de escala.
+// USA:       core (theme, NutritionCard), recipes_providers (viewServings),
+//            recipe_quick_edit, widgets do detalhe (header/, sections/), go_router.
 // USADO POR: recipe_detail_screen (_body, já com a versão resolvida).
-// SPEC:      specs/features/recipes.yaml (RecipeDetailScreen)
+// SPEC:      specs/features/recipes.yaml (RecipeDetailScreen, data.escala)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,6 +14,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../../core/theme/spacing.dart';
 import '../../../../../core/widgets/cards/nutrition_card.dart';
+import '../../../application/recipes_providers.dart';
 import '../../../data/models/recipe/recipe.dart';
 import '../../recipe_quick_edit.dart';
 import 'header/recipe_detail_header.dart';
@@ -37,6 +39,8 @@ class RecipeDetailBody extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final qe = RecipeQuickEdit(context, ref);
     final r = recipe;
+    final viewServings = ref.watch(viewServingsProvider(r.id)) ?? r.servings;
+    final num factor = r.servings > 0 ? viewServings / r.servings : 1;
     return SafeArea(
       bottom: false,
       child: Column(
@@ -56,6 +60,9 @@ class RecipeDetailBody extends ConsumerWidget {
                 const SizedBox(height: AppSpacing.lg),
                 RecipeMeta(
                   recipe: r,
+                  viewServings: viewServings,
+                  onLessServing: () => _setViewServings(ref, viewServings - 1),
+                  onMoreServing: () => _setViewServings(ref, viewServings + 1),
                   onEditServings: () => qe.servings(r),
                   onEditTime: () => qe.time(r),
                 ),
@@ -68,7 +75,7 @@ class RecipeDetailBody extends ConsumerWidget {
                   onEditFat: () => qe.macro(r, RecipeMacro.fat),
                   onEditCarb: () => qe.macro(r, RecipeMacro.carb),
                 ),
-                RecipeIngredientsSection(recipe: r, quickEdit: qe),
+                RecipeIngredientsSection(recipe: r, quickEdit: qe, factor: factor),
                 RecipeStepsSection(recipe: r, quickEdit: qe),
                 RecipeHistorySection(recipe: r),
                 RecipeNotesSection(recipe: r, quickEdit: qe),
@@ -81,5 +88,13 @@ class RecipeDetailBody extends ConsumerWidget {
         ],
       ),
     );
+  }
+
+  /// Muda as porções vistas (mínimo 1); igual à base volta a null (estado
+  /// limpo, sem escala). Usada por: [build] (stepper do RecipeMeta).
+  void _setViewServings(WidgetRef ref, int next) {
+    final clamped = next.clamp(1, 999);
+    ref.read(viewServingsProvider(recipe.id).notifier).state =
+        clamped == recipe.servings ? null : clamped;
   }
 }

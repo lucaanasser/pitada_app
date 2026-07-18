@@ -57,6 +57,9 @@ componentes_de_feature:                     # widgets de feature, não de core/ 
   - specs/components/recipe_card.yaml       # -> lib/features/recipes/presentation/widgets/list/recipe_card.dart
   - specs/components/quick_edit_sheet.yaml  # -> lib/features/recipes/presentation/sheets/quick_edit_sheet.dart
 
+core_utils:                                 # -> lib/core/utils/ (funções puras compartilhadas)
+  - specs/core/utils/scaling.yaml           # escala por fator (porções + vínculo de subreceita)
+
 features:                                   # -> lib/features/<f>/presentation/
   - specs/features/recipes.yaml
   - specs/features/bancada.yaml             # fila "quero cozinhar em breve" (ex-aba "Favoritas")

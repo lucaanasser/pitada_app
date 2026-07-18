@@ -1,0 +1,22 @@
+# specs/core/utils/scaling.yaml -> lib/core/utils/scaling.dart
+util: scaling
+file: lib/core/utils/scaling.dart
+purpose: >
+  Escala de quantidades por um fator puro. Grama é a base (rules/data-model.md):
+  escalar multiplica gramas E quantidade humana pelo MESMO fator, com
+  arredondamento de cozinha. É a fundação de dois usos: a visualização por
+  porções no detalhe da receita (fator = porções vistas / porções base) e o
+  scale por vínculo de subreceita (2×, 1,2× — specs/features/sub_recipes.yaml).
+api:
+  - "scaleQty(num? qty, num factor) -> num?"  # nulo passa; fator 1 = identidade
+  - "formatFactor(num factor) -> String"      # 2 -> '2×', 1.2 -> '1,2×' (pt-BR)
+rounding: >
+  Precisão de cozinha, não de laboratório: resultado >= 10 vira inteiro
+  (112,5 g -> 113 g); >= 1 fica com 1 casa; < 1 fica com 2 casas
+  (0,5 xícara × 1,2 = 0,6). Fator 1 devolve o valor intacto (sem arredondar).
+regra: >
+  Macros e kcal da receita são POR PORÇÃO — não mudam quando as porções mudam;
+  o que escala são as quantidades dos ingredientes. Escalar é sempre exibição
+  ou vínculo, nunca reescrita do valor base gravado.
+used_by: [Ingredient.scaled, RecipeDetailBody (view por porções),
+          RecipeMeta (stepper), vínculos de subreceita (fases seguintes)]

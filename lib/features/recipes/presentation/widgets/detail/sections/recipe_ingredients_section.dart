@@ -16,16 +16,19 @@ import '../items/ingredient_row.dart';
 import 'recipe_component_header.dart';
 
 /// Seção de ingredientes por componente, na mesma rolagem (seção, nunca aba).
-/// Usada por: RecipeDetailBody.
+/// [factor] reescala a EXIBIÇÃO das quantidades (porções vistas / base); a
+/// edição por gesto continua editando a receita base. Usada por: RecipeDetailBody.
 class RecipeIngredientsSection extends StatelessWidget {
   const RecipeIngredientsSection({
     super.key,
     required this.recipe,
     required this.quickEdit,
+    this.factor = 1,
   });
 
   final Recipe recipe;
   final RecipeQuickEdit quickEdit;
+  final num factor;
 
   /// Monta o cabeçalho e as linhas de cada componente. Usada por: framework.
   @override
@@ -39,7 +42,7 @@ class RecipeIngredientsSection extends StatelessWidget {
             RecipeComponentHeader(name: recipe.components[c].name!),
           for (var i = 0; i < recipe.components[c].ingredients.length; i++)
             IngredientRow(
-              ingredient: recipe.components[c].ingredients[i],
+              ingredient: recipe.components[c].ingredients[i].scaled(factor),
               showDivider: i != recipe.components[c].ingredients.length - 1,
               onEdit: () => quickEdit.ingredient(recipe, c, i),
             ),

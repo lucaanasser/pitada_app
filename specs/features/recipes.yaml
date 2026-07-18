@@ -36,6 +36,13 @@ data:
     componente com name null (a tela não mostra subcabeçalho). Recipe.components
     é a fonte da verdade estrutural; allIngredients/allSteps achatam para quem
     precisa da lista reta (cook mode, lista de compras, macros).
+  escala: >
+    A receita ESCALA POR PORÇÕES na visualização (specs/core/utils/scaling.yaml):
+    fator = porções vistas / porções base, aplicado a gramas + qtd humana de
+    todos os ingredientes via Ingredient.scaled(factor). Macros/kcal são POR
+    PORÇÃO e não mudam com as porções. Estado de UI puro (viewServingsProvider,
+    null = base); a receita gravada nunca muda — edição inline sempre edita a
+    BASE (a sheet mostra os valores base, não os escalados).
   model_helpers:
     - Recipe.copyWith(...)   # gerado pelo freezed (edição inline)
     - Recipe.withVersionIdentity(...)  # método custom (construtor privado Recipe._())
@@ -122,6 +129,7 @@ application:
     - recipeByIdProvider (family)
     - recipeVersionGroupProvider (family<List<Recipe>, String groupId>)  # versões do grupo (asc)
     - selectedRecipeVersionProvider (StateProvider.family<int?, String groupId>)  # versão vista (null = definitiva)
+    - viewServingsProvider (StateProvider.family<int?, String recipeId>)  # porções vistas (null = base; UI pura, reescala ingredientes)
     - folderByIdProvider (family)                   # pasta única, para FolderScreen
     - recipesInFolderProvider (family)              # receitas de uma pasta (por folderId)
     - recipeEditControllerProvider (Provider<RecipeEditController>)  # edição inline
@@ -261,6 +269,13 @@ screens:
         "V1 · sem histórico ainda" — a seção NÃO some. Uma escrita, duas
         verdades: o conteúdo vem de recipes, a nota continua fonte única no
         Caderno. A RecipeVersionTag e a sheet permanecem (atalho/seletor).
+      porcoes_stepper: >
+        A meta traz um stepper − N porções + (PitadaIconButton iconButtonSm nos
+        dois lados do segmento): muda viewServingsProvider (>= 1) e os
+        ingredientes reescalam ao vivo (data.escala). Quando as porções vistas
+        diferem da base, o número fica ACCENT (sinal de "vista escalada");
+        segurar/duplo-clique no texto continua editando as porções BASE
+        (QuickEdit). Macros/kcal não mudam (por porção).
       componentes_na_tela: >
         SEÇÃO, nunca aba: massa e cobertura são o mesmo prato, lidos na mesma rolagem.
         Hierarquia: a SEÇÃO (Ingredientes, Modo de preparo) é o nível forte —

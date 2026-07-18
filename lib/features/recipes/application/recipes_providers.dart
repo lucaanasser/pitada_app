@@ -46,6 +46,12 @@ final recipeVersionGroupProvider =
 final selectedRecipeVersionProvider =
     StateProvider.family<int?, String>((ref, groupId) => null);
 
+/// Porções vistas no detalhe, por receita. null = as porções base. Estado de UI
+/// puro: reescala os ingredientes na tela sem tocar na receita gravada.
+/// Usada por: RecipeDetailBody, RecipeMeta (stepper de porções).
+final viewServingsProvider =
+    StateProvider.family<int?, String>((ref, recipeId) => null);
+
 /// Controller de edição inline: salva uma receita alterada e refaz as telas.
 /// Presentation nunca fala com o repositório direto — passa por aqui.
 /// Usada por: recipeEditControllerProvider.

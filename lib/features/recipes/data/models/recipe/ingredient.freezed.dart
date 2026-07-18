@@ -280,14 +280,15 @@ extension IngredientPatterns on Ingredient {
 
 /// @nodoc
 @JsonSerializable()
-class _Ingredient implements Ingredient {
+class _Ingredient extends Ingredient {
   const _Ingredient(
       {required this.name,
       this.grams,
       this.humanQty,
       this.humanUnit,
       final List<FlavorAxis> flavors = const []})
-      : _flavors = flavors;
+      : _flavors = flavors,
+        super._();
   factory _Ingredient.fromJson(Map<String, dynamic> json) =>
       _$IngredientFromJson(json);
 
