@@ -30,7 +30,9 @@ class RecipeStepsSection extends StatelessWidget {
   /// Monta o cabeçalho e os passos de cada componente. Usada por: framework.
   @override
   Widget build(BuildContext context) {
-    final children = <Widget>[const SectionHeader(label: 'Modo de preparo')];
+    final children = <Widget>[
+      const SectionHeader(label: 'Modo de preparo', accent: true),
+    ];
     var number = 0;
     for (var c = 0; c < recipe.components.length; c++) {
       final comp = recipe.components[c];

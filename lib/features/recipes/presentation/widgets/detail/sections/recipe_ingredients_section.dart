@@ -33,7 +33,7 @@ class RecipeIngredientsSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SectionHeader(label: 'Ingredientes'),
+        const SectionHeader(label: 'Ingredientes', accent: true),
         for (var c = 0; c < recipe.components.length; c++) ...[
           if (recipe.components[c].name != null)
             RecipeComponentHeader(name: recipe.components[c].name!),

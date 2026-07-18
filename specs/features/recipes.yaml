@@ -244,7 +244,7 @@ screens:
       layout: [cabeçalho de identidade (voltar + FRAMEWORK/RECEITA + lápis),
                [título + RecipeVersionTag "V3"], kcal, fonte clicável,
                meta em texto(porções/tempo),
-               NutritionCard, SectionHeader Ingredientes -> por componente
+               NutritionCard, SectionHeader Ingredientes (accent) -> por componente
                (RecipeComponentHeader quando nomeado) -> IngredientRow,
                SectionHeader "Modo de preparo" -> por componente -> StepTile
                (texto com técnica GRIFADA em accent -> /technique/:id; +WhyCallout),
@@ -263,11 +263,13 @@ screens:
         Caderno. A RecipeVersionTag e a sheet permanecem (atalho/seletor).
       componentes_na_tela: >
         SEÇÃO, nunca aba: massa e cobertura são o mesmo prato, lidos na mesma rolagem.
-        Dentro de Ingredientes e de Modo de preparo, cada componente NOMEADO abre com
-        um RecipeComponentHeader (titleSm, pit.text, sem filete — menor que o
-        SectionHeader). Componente sem nome (receita simples) não mostra subcabeçalho:
-        a tela fica idêntica à de antes. A numeração dos passos é CONTÍNUA entre
-        componentes (fila reta do cook mode).
+        Hierarquia: a SEÇÃO (Ingredientes, Modo de preparo) é o nível forte —
+        SectionHeader com accent (versalete laranja em labelLg, maior, filete neutro).
+        Dentro dela, cada componente NOMEADO abre com um RecipeComponentHeader, agora
+        um SectionHeader neutro (versalete cinza + filete, topGap reduzido) — o
+        aninhamento abaixo da seção. Componente sem nome (receita simples) não mostra
+        subcabeçalho: a tela fica idêntica à de antes. A numeração dos passos é
+        CONTÍNUA entre componentes (fila reta do cook mode).
       # Toggle "pôr na bancada" na barra inferior entra com a implementação da Bancada
       # (ver specs/features/bancada.yaml: integracoes.entrada).
       navega: CookModeScreen (/recipe/:id/cook via "Cozinhar"), RecipeEditScreen (/recipe/:id/edit via ícone lápis),

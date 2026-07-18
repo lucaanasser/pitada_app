@@ -130,6 +130,14 @@ class AppType {
     height: 1.0,
     color: AppColors.muted,
   );
+  static const labelLg = TextStyle(
+    fontFamily: _ui,
+    fontSize: 13,
+    fontWeight: FontWeight.w700,
+    letterSpacing: 1.6,
+    height: 1.0,
+    color: AppColors.muted,
+  );
   static const button = TextStyle(
     fontFamily: _disp,
     fontSize: 15,

@@ -2,10 +2,14 @@
 component: SectionHeader
 prototype: ".shead (.l rótulo + .r filete + .x ação opcional)"
 purpose: Rótulo de seção em versalete + filete fino. Onipresente no app.
-uses: [AppColors.muted, AppColors.line, AppColors.accent, AppType.label, AppSpacing]
+uses: [AppColors.muted, AppColors.line, AppColors.accent, AppType.label, AppType.labelLg, AppSpacing]
 api:
   - label: String            # texto em versalete (ex.: "Ingredientes")
   - action: String?          # texto de ação à direita (ex.: "Ver tudo"), cor accent
   - onAction: VoidCallback?  # callback do action
-layout: "Row: [label em AppType.label] [Expanded filete 1px line] [action?]"
+  - accent: bool             # seção em destaque: rótulo laranja e maior (labelLg); filete segue neutro
+variants:
+  - {name: default, label: AppType.label, cor: AppColors.muted}
+  - {name: accent, label: AppType.labelLg, cor: AppColors.accent}
+layout: "Row: [label em AppType.label|labelLg] [Expanded filete 1px line] [action?]"
 used_by: [recipe_detail_screen, learning_screen, shopping_screen, plans_screen]

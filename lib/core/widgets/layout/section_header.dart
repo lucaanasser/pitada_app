@@ -1,6 +1,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/core/widgets/layout/section_header.dart
-// O QUÊ:     Rótulo de seção em versalete + filete fino (.shead), com ação opcional.
+// O QUÊ:     Rótulo de seção em versalete + filete fino (.shead), com ação opcional;
+//            variante accent (laranja + maior) para seções em destaque.
 // USA:       theme/colors, theme/spacing, theme/typography.
 // USADO POR: recipes (detail/edit/import), notebook, groceries, plans, profile
 //            — em toda seção de conteúdo.
@@ -13,7 +14,8 @@ import '../../theme/spacing.dart';
 import '../../theme/typography.dart';
 
 /// Cabeçalho de seção: [label] em versalete + filete que preenche a largura,
-/// com [action] opcional à direita. Usada por: telas de detalhe e listas.
+/// com [action] opcional à direita. [accent] deixa o rótulo laranja e maior
+/// (seção em destaque). Usada por: telas de detalhe e listas.
 class SectionHeader extends StatelessWidget {
   const SectionHeader({
     super.key,
@@ -21,12 +23,14 @@ class SectionHeader extends StatelessWidget {
     this.action,
     this.onAction,
     this.topGap = AppSpacing.xxxl,
+    this.accent = false,
   });
 
   final String label;
   final String? action;
   final VoidCallback? onAction;
   final double topGap;
+  final bool accent;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +40,9 @@ class SectionHeader extends StatelessWidget {
         children: [
           Text(
             label.toUpperCase(),
-            style: AppType.on(AppType.label, context.pit.muted),
+            style: accent
+                ? AppType.on(AppType.labelLg, AppColors.accent)
+                : AppType.on(AppType.label, context.pit.muted),
           ),
           const SizedBox(width: AppSpacing.md),
           const Expanded(child: Divider(height: AppSpacing.hair)),
