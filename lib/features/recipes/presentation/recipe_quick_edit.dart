@@ -3,23 +3,34 @@
 // O QUÊ:     Orquestra a edição inline do detalhe: um método por campo (título,
 //            kcal, porções, tempo, macros, ingrediente, passo, técnicas,
 //            anotações). Abre a QuickEditSheet, monta o Recipe editado e salva.
-// USA:       QuickEditSheet, recipes_providers (RecipeEditController), modelos.
-// USADO POR: recipe_detail_body (gestos Editable de cada campo).
+//            Partes: itens de lista (recipe_item_edit) e subreceita/vínculo
+//            (sub_recipe_quick_edit).
+// USA:       QuickEditSheet, AddOptionsSheet, recipes_providers,
+//            sub_recipe_providers, technique_providers, modelos, go_router.
+// USADO POR: recipe_detail_body (gestos Editable de cada campo) e telas de
+//            subreceita (biblioteca).
 // SPEC:      specs/features/recipes.yaml (RecipeDetailScreen: edicao_inline)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../../core/theme/app_icons.dart';
+import '../../../core/utils/scaling.dart';
 import '../../../core/utils/slug.dart';
+import '../../../core/widgets/sheets/add_options_sheet.dart';
 import '../application/recipes_providers.dart';
+import '../application/sub_recipe_providers.dart';
 import '../application/technique_providers.dart';
 import '../data/models/recipe/ingredient.dart';
 import '../data/models/recipe/recipe.dart';
 import '../data/models/recipe/recipe_step.dart';
+import '../data/models/recipe/sub_recipe.dart';
 import '../data/models/technique.dart';
 import 'sheets/quick_edit_sheet.dart';
 
 part 'recipe_item_edit.dart';
+part 'sub_recipe_quick_edit.dart';
 
 /// Qual macro está sendo editado (célula da NutritionCard). Usada por: [RecipeQuickEdit.macro].
 enum RecipeMacro { protein, fat, carb }

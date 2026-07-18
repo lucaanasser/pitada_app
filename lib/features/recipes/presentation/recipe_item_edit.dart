@@ -51,6 +51,7 @@ extension RecipeItemEdit on RecipeQuickEdit {
       grams: _toNum(v[1]),
       humanQty: _toNum(v[2]),
       humanUnit: v[3].trim().isEmpty ? null : v[3].trim(),
+      flavors: ing.flavors,
     );
     await _save(
       r.withComponent(component, comp.copyWith(ingredients: list)),

@@ -37,6 +37,7 @@ class AppIcons {
   static const chevron = PhosphorIconsRegular.caretRight;
   static const expand = PhosphorIconsRegular.caretDown;
   static const link = PhosphorIconsRegular.link;
+  static const unlink = PhosphorIconsRegular.linkBreak;
   static const folder = PhosphorIconsRegular.folderOpen;
   static const dragHandle = PhosphorIconsRegular.dotsSixVertical;
   static const viewSingle = PhosphorIconsRegular.square;

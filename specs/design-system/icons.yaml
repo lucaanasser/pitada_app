@@ -28,6 +28,7 @@ acoes:
   chevron:   caretRight
   expand:    caretDown      # título-seletor que abre sheet (ex.: lista ativa)
   link:      link
+  unlink:    linkBreak      # desvincular subreceita (vira cópia local)
   folder:    folderOpen
   dragHandle: dotsSixVertical   # pega de arrastar (reordenar refeições no Plano)
 

@@ -30,6 +30,8 @@ import '../../features/recipes/presentation/screens/framework/framework_create_s
 import '../../features/recipes/presentation/screens/framework/framework_detail_screen.dart';
 import '../../features/recipes/presentation/screens/recipe_detail_screen.dart';
 import '../../features/recipes/presentation/screens/recipe_edit_screen.dart';
+import '../../features/recipes/presentation/screens/sub_recipe/sub_recipe_detail_screen.dart';
+import '../../features/recipes/presentation/screens/sub_recipe/sub_recipes_screen.dart';
 import '../../features/recipes/presentation/screens/technique_detail_screen.dart';
 
 /// Constrói as rotas full-screen (pushadas sobre o shell, escondendo a barra).
@@ -62,6 +64,11 @@ List<RouteBase> buildFullscreenRoutes(GlobalKey<NavigatorState> rootKey) {
     fs(
       '/technique/:id',
       (c, s) => TechniqueDetailScreen(techniqueId: p(s, 'id')),
+    ),
+    fs('/sub-recipes', (c, s) => const SubRecipesScreen()),
+    fs(
+      '/sub-recipe/:id',
+      (c, s) => SubRecipeDetailScreen(subRecipeId: p(s, 'id')),
     ),
 
     GoRoute(

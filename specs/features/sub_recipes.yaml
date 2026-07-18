@@ -88,23 +88,35 @@ application:              # application/sub_recipe_providers.dart
 
 ui:                       # fatia 2 — presentation/
   biblioteca:
-    - rota /sub-recipes -> SubRecipesScreen (lista: nome + "usada em N
-      receitas"; EmptyState didático quando vazia)
-    - rota /sub-recipe/:id -> SubRecipeDetailScreen (nome, ingredientes,
-      passos; edição inline por gesto como no detalhe de receita; toda edição
-      PROPAGA — o aviso "usada em N receitas" fica visível no topo)
+    - "rota /sub-recipes -> SubRecipesScreen
+       (screens/sub_recipe/sub_recipes_screen.dart): voltar + rótulo
+       SUBRECEITAS, lista HairlineRow nome + 'em N receitas' -> detalhe;
+       EmptyState didático quando vazia"
+    - "rota /sub-recipe/:id -> SubRecipeDetailScreen
+       (screens/sub_recipe/sub_recipe_detail_screen.dart): desenho do
+       TechniqueDetailScreen — voltar + rótulo SUBRECEITA, nome (Editable ->
+       renomear), aviso 'usada em N receitas — editar aqui propaga', seções
+       Ingredientes (IngredientRow, valores BASE) e Modo de preparo (StepTile);
+       edição inline por gesto, SEM switch de versão"
   no_prato:
-    - RecipeComponentHeader ganha variante vinculada: nome + ícone de corrente
-      + "N receitas · 2×" sóbrio (SEM cápsula — vínculo é metadado, não tag);
-      tocar navega para /sub-recipe/:id
-    - edição inline de ingrediente/passo de componente vinculado edita a
-      SUBRECEITA (SubRecipeEditController.save) — sheet avisa "propaga para N
-      receitas"; o switch "salvar como nova versão" não se aplica aí
-  acoes:                  # no editor/detalhe do componente
-    - promover: componente local -> "tornar subreceita" (pede/usa o nome)
-    - vincular: "usar subreceita" -> seletor da biblioteca + escala
-    - desvincular: vira cópia local desta receita (para divergir)
-    - escala: stepper/campo do fator no vínculo (1×, 1,2×, 2×)
+    - "RecipeComponentHeader ganha variante vinculada: name + action do
+       SectionHeader com '1,5× · em 2 receitas' (formatFactor; accent tocável
+       -> /sub-recipe/:id). SEM cápsula — vínculo é metadado. Segurar/duplo-
+       clique no header (Editable) abre a sheet de ações do componente."
+    - "edição inline de ingrediente/passo de componente vinculado busca a
+       SubRecipe (valores BASE, não os escalados) e salva via
+       SubRecipeEditController — a sheet diz 'propaga p/ N receitas' no
+       título; sem switch de versão. Orquestra: sub_recipe_quick_edit.dart
+       (façade SubRecipeQuickEdit, irmã da RecipeQuickEdit)."
+    - "SectionHeader 'Ingredientes' ganha action 'usar subreceita' -> seletor."
+  acoes:                  # sheets REUSAM showAddOptionsSheet (nada de sheet nova)
+    - "componente LOCAL nomeado: segurar o header -> opção 'Tornar subreceita'
+       (promove com o nome atual; QuickEdit pré-preenchido confirma o nome)"
+    - "componente VINCULADO: segurar o header -> 'Abrir subreceita' /
+       'Alterar escala' (QuickEdit numérico do fator) / 'Desvincular'
+       (vira cópia local desta receita, na escala atual)"
+    - "vincular: action 'usar subreceita' -> showAddOptionsSheet com a
+       biblioteca (nome + 'em N receitas') + 'Ver biblioteca' -> /sub-recipes"
 
 unificacao:               # fatia 3 — o caso "4 bolos do Instagram"
   proposito: >
