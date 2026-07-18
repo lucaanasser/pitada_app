@@ -1,14 +1,14 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'recipe_component.dart';
+part of 'sub_recipe.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_RecipeComponent _$RecipeComponentFromJson(Map<String, dynamic> json) =>
-    _RecipeComponent(
-      name: json['name'] as String?,
+_SubRecipe _$SubRecipeFromJson(Map<String, dynamic> json) => _SubRecipe(
+      id: json['id'] as String,
+      name: json['name'] as String,
       ingredients: (json['ingredients'] as List<dynamic>?)
               ?.map((e) => Ingredient.fromJson(e as Map<String, dynamic>))
               .toList() ??
@@ -17,15 +17,12 @@ _RecipeComponent _$RecipeComponentFromJson(Map<String, dynamic> json) =>
               ?.map((e) => RecipeStep.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
-      subRecipeId: json['sub_recipe_id'] as String?,
-      scale: json['scale'] as num? ?? 1,
     );
 
-Map<String, dynamic> _$RecipeComponentToJson(_RecipeComponent instance) =>
+Map<String, dynamic> _$SubRecipeToJson(_SubRecipe instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'name': instance.name,
       'ingredients': instance.ingredients.map((e) => e.toJson()).toList(),
       'steps': instance.steps.map((e) => e.toJson()).toList(),
-      'sub_recipe_id': instance.subRecipeId,
-      'scale': instance.scale,
     };

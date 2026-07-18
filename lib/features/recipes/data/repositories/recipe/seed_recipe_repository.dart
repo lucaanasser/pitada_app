@@ -1,11 +1,14 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/recipes/data/repositories/recipe/seed_recipe_repository.dart
 // O QUÊ:     Implementação EM MEMÓRIA do RecipesRepository (preview no PC, sem
-//            chaves): serve o seed e guarda edições da sessão em overrides.
+//            chaves): serve o seed, guarda edições da sessão em overrides e
+//            resolve componentes VINCULADOS a cada leitura (propagação real).
 // USA:       recipe_repository (contrato), recipe/folder, recipe_seed,
-//            recipe_versions_seed, core/utils/app_log.
+//            recipe_versions_seed, sub_recipe_seed (bolos demo),
+//            seed_sub_recipe_repository (estado da subreceita), app_log.
 // USADO POR: recipes_providers (default do provider, quando offline).
-// SPEC:      specs/features/recipes.yaml (data.edicao_inline, data.versoes)
+// SPEC:      specs/features/recipes.yaml (data.edicao_inline, data.versoes) +
+//            specs/features/sub_recipes.yaml (data.leitura)
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../../../../core/utils/app_log.dart';
 import '../../models/folder.dart';
@@ -13,6 +16,8 @@ import '../../models/recipe/recipe.dart';
 import 'recipe_repository.dart';
 import '../../seed/recipe_seed.dart';
 import '../../seed/recipe_versions_seed.dart';
+import '../../seed/sub_recipe_seed.dart';
+import '../sub_recipe/seed_sub_recipe_repository.dart';
 
 /// Edições da sessão (persistência MOCK): id -> receita alterada. Aplicadas por cima
 /// do seed em toda leitura. Usada por: SeedRecipesRepository (fetch* + updateRecipe).
@@ -29,12 +34,32 @@ class SeedRecipesRepository implements RecipesRepository {
 
   /// Todos os snapshots: criadas na sessão + definitivas + versões antigas.
   /// Usada internamente por fetchById/fetchVersionGroup.
-  List<Recipe> get _all =>
-      [..._createdRecipes, ...kSeedRecipes, ...kSeedOldVersions];
+  List<Recipe> get _all => [
+        ..._createdRecipes,
+        ...kSeedRecipes,
+        ...kSeedCakeRecipes,
+        ...kSeedOldVersions,
+      ];
 
   /// Aplica o override da sessão (se houver) por cima da receita do seed. Usada
   /// internamente por fetchRecipes/fetchById/fetchVersionGroup.
   Recipe _withOverride(Recipe r) => _recipeOverrides[r.id] ?? r;
+
+  /// Resolve os componentes VINCULADOS contra o estado ATUAL da subreceita
+  /// (sessionSubRecipeById) — é o que faz editar a cobertura refletir em todos
+  /// os bolos no preview. Usada por: fetchRecipes/fetchById/fetchVersionGroup.
+  Recipe _resolved(Recipe r) {
+    if (r.components.every((c) => !c.isLinked)) return r;
+    return r.copyWith(
+      components: [
+        for (final c in r.components)
+          if (c.isLinked && sessionSubRecipeById(c.subRecipeId!) != null)
+            c.resolvedWith(sessionSubRecipeById(c.subRecipeId!)!)
+          else
+            c,
+      ],
+    );
+  }
 
   /// Criadas na sessão (topo) + definitivas do seed, com override aplicado.
   /// Usada por: recipesProvider.
@@ -42,8 +67,9 @@ class SeedRecipesRepository implements RecipesRepository {
   Future<List<Recipe>> fetchRecipes() async {
     AppLog.d('recipes', 'carregando receitas (seed)');
     return [
-      for (final r in _createdRecipes) _withOverride(r),
-      for (final r in kSeedRecipes) _withOverride(r),
+      for (final r in _createdRecipes) _resolved(_withOverride(r)),
+      for (final r in kSeedRecipes) _resolved(_withOverride(r)),
+      for (final r in kSeedCakeRecipes) _resolved(_withOverride(r)),
     ];
   }
 
@@ -68,9 +94,9 @@ class SeedRecipesRepository implements RecipesRepository {
   @override
   Future<Recipe?> fetchById(String id) async {
     final override = _recipeOverrides[id];
-    if (override != null) return override;
+    if (override != null) return _resolved(override);
     for (final r in _all) {
-      if (r.id == id) return r;
+      if (r.id == id) return _resolved(r);
     }
     AppLog.w('recipes', 'receita não encontrada: $id');
     return null;
@@ -83,10 +109,10 @@ class SeedRecipesRepository implements RecipesRepository {
     final byId = <String, Recipe>{};
     for (final r in _all) {
       final eff = _withOverride(r);
-      if (eff.versionGroupId == groupId) byId[eff.id] = eff;
+      if (eff.versionGroupId == groupId) byId[eff.id] = _resolved(eff);
     }
     for (final r in _recipeOverrides.values) {
-      if (r.versionGroupId == groupId) byId[r.id] = r;
+      if (r.versionGroupId == groupId) byId[r.id] = _resolved(r);
     }
     return byId.values.toList()..sort((a, b) => a.version.compareTo(b.version));
   }

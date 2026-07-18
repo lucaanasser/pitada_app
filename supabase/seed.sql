@@ -179,3 +179,76 @@ from (values
   ('bbbbbbbb-0000-0000-0000-000000000003'::uuid, 1, 'dddddddd-0000-0000-0000-000000000003'::uuid, 'incorpore o creme de leite')
 ) as v(recipe_id, position, technique_id, anchor)
 join public.recipe_steps s on s.recipe_id = v.recipe_id and s.position = v.position;
+
+-- ── Subreceita COMPARTILHADA (sub_recipe_seed.dart): a cobertura + 2 bolos ────
+-- Editar a cobertura propaga pros dois; o bolo de chocolate usa 1,5×.
+insert into public.sub_recipes (id, user_id, name) values
+  ('ffffffff-0000-0000-0000-000000000001', '11111111-1111-1111-1111-111111111111',
+   'Cobertura de chocolate');
+
+insert into public.sub_recipe_ingredients (sub_recipe_id, position, name, grams, human_qty, human_unit, flavors) values
+  ('ffffffff-0000-0000-0000-000000000001', 0, 'Manteiga', 15, 1, 'c. sopa', '{fat}'),
+  ('ffffffff-0000-0000-0000-000000000001', 1, 'Chocolate em pó', 30, 3, 'c. sopa', '{bitter,sweet}'),
+  ('ffffffff-0000-0000-0000-000000000001', 2, 'Açúcar', 90, 0.5, 'xícara', '{sweet}'),
+  ('ffffffff-0000-0000-0000-000000000001', 3, 'Leite', 60, 60, 'ml', '{}');
+
+insert into public.sub_recipe_steps (sub_recipe_id, position, text, tip) values
+  ('ffffffff-0000-0000-0000-000000000001', 0, 'Derreta a manteiga com o chocolate em pó em fogo baixo.', null),
+  ('ffffffff-0000-0000-0000-000000000001', 1, 'Junte o leite e o açúcar e mexa até encorpar; cubra o bolo.',
+   'Calda ganha brilho no bolo ainda morno — não espere esfriar.');
+
+insert into public.recipes (
+  id, user_id, title, source, source_url, servings, time_minutes,
+  kcal, protein, carb, fat, difficulty, hero_color, version, version_group_id
+) values
+  ('bbbbbbbb-0000-0000-0000-000000000005', '11111111-1111-1111-1111-111111111111',
+   'Bolo de cenoura', 'manual', null, 12, 50, 385, 5, 52, 17, 'Fácil', 'ochre', 1, null),
+  ('bbbbbbbb-0000-0000-0000-000000000006', '11111111-1111-1111-1111-111111111111',
+   'Bolo de chocolate', 'manual', null, 10, 45, 410, 6, 55, 19, 'Fácil', 'rust', 1, null);
+
+insert into public.recipe_folders (recipe_id, folder_id) values
+  ('bbbbbbbb-0000-0000-0000-000000000005', 'aaaaaaaa-0000-0000-0000-000000000004'),
+  ('bbbbbbbb-0000-0000-0000-000000000006', 'aaaaaaaa-0000-0000-0000-000000000004');
+
+-- Massa local + vínculo com a cobertura (name null no vínculo; scale por uso).
+insert into public.recipe_components (id, recipe_id, position, name, sub_recipe_id, scale) values
+  ('eeeeeeee-0000-0000-0000-000000000003', 'bbbbbbbb-0000-0000-0000-000000000005', 0, 'Massa', null, 1),
+  ('eeeeeeee-0000-0000-0000-000000000004', 'bbbbbbbb-0000-0000-0000-000000000005', 1, null,
+   'ffffffff-0000-0000-0000-000000000001', 1),
+  ('eeeeeeee-0000-0000-0000-000000000005', 'bbbbbbbb-0000-0000-0000-000000000006', 0, 'Massa', null, 1),
+  ('eeeeeeee-0000-0000-0000-000000000006', 'bbbbbbbb-0000-0000-0000-000000000006', 1, null,
+   'ffffffff-0000-0000-0000-000000000001', 1.5);
+
+insert into public.recipe_ingredients (recipe_id, component_id, position, name, grams, human_qty, human_unit, flavors) values
+  -- Bolo de cenoura: Massa
+  ('bbbbbbbb-0000-0000-0000-000000000005', 'eeeeeeee-0000-0000-0000-000000000003', 0, 'Óleo', 100, 0.5, 'xícara', '{fat}'),
+  ('bbbbbbbb-0000-0000-0000-000000000005', 'eeeeeeee-0000-0000-0000-000000000003', 1, 'Cenouras médias', 250, 3, 'unidade', '{sweet}'),
+  ('bbbbbbbb-0000-0000-0000-000000000005', 'eeeeeeee-0000-0000-0000-000000000003', 2, 'Ovos', 200, 4, 'unidade', '{fat}'),
+  ('bbbbbbbb-0000-0000-0000-000000000005', 'eeeeeeee-0000-0000-0000-000000000003', 3, 'Açúcar', 360, 2, 'xícara', '{sweet}'),
+  ('bbbbbbbb-0000-0000-0000-000000000005', 'eeeeeeee-0000-0000-0000-000000000003', 4, 'Farinha de trigo', 300, 2.5, 'xícara', '{}'),
+  ('bbbbbbbb-0000-0000-0000-000000000005', 'eeeeeeee-0000-0000-0000-000000000003', 5, 'Fermento em pó', 15, 1, 'c. sopa', '{}'),
+  -- Bolo de chocolate: Massa
+  ('bbbbbbbb-0000-0000-0000-000000000006', 'eeeeeeee-0000-0000-0000-000000000005', 0, 'Farinha de trigo', 240, 2, 'xícara', '{}'),
+  ('bbbbbbbb-0000-0000-0000-000000000006', 'eeeeeeee-0000-0000-0000-000000000005', 1, 'Chocolate em pó', 90, 1, 'xícara', '{bitter}'),
+  ('bbbbbbbb-0000-0000-0000-000000000006', 'eeeeeeee-0000-0000-0000-000000000005', 2, 'Açúcar', 270, 1.5, 'xícara', '{sweet}'),
+  ('bbbbbbbb-0000-0000-0000-000000000006', 'eeeeeeee-0000-0000-0000-000000000005', 3, 'Ovos', 150, 3, 'unidade', '{fat}'),
+  ('bbbbbbbb-0000-0000-0000-000000000006', 'eeeeeeee-0000-0000-0000-000000000005', 4, 'Leite', 240, 1, 'xícara', '{}'),
+  ('bbbbbbbb-0000-0000-0000-000000000006', 'eeeeeeee-0000-0000-0000-000000000005', 5, 'Óleo', 100, 0.5, 'xícara', '{fat}'),
+  ('bbbbbbbb-0000-0000-0000-000000000006', 'eeeeeeee-0000-0000-0000-000000000005', 6, 'Fermento em pó', 15, 1, 'c. sopa', '{}');
+
+insert into public.recipe_steps (recipe_id, component_id, position, text, tip) values
+  -- Bolo de cenoura: Massa
+  ('bbbbbbbb-0000-0000-0000-000000000005', 'eeeeeeee-0000-0000-0000-000000000003', 0,
+   'Bata no liquidificador as cenouras, os ovos e o óleo.', null),
+  ('bbbbbbbb-0000-0000-0000-000000000005', 'eeeeeeee-0000-0000-0000-000000000003', 1,
+   'Misture o açúcar e a farinha; o fermento vai por último.',
+   'Fermento por último e sem bater: bater demais tira o ar.'),
+  ('bbbbbbbb-0000-0000-0000-000000000005', 'eeeeeeee-0000-0000-0000-000000000003', 2,
+   'Asse em forma untada a 180 °C por 40 minutos.', null),
+  -- Bolo de chocolate: Massa
+  ('bbbbbbbb-0000-0000-0000-000000000006', 'eeeeeeee-0000-0000-0000-000000000005', 0,
+   'Misture os secos: farinha, chocolate, açúcar e fermento.', null),
+  ('bbbbbbbb-0000-0000-0000-000000000006', 'eeeeeeee-0000-0000-0000-000000000005', 1,
+   'Junte ovos, leite e óleo e bata até ficar liso.', null),
+  ('bbbbbbbb-0000-0000-0000-000000000006', 'eeeeeeee-0000-0000-0000-000000000005', 2,
+   'Asse a 180 °C por 35 minutos.', null);

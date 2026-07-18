@@ -24,10 +24,13 @@ class SupabaseRecipesRepository implements RecipesRepository {
 
   SupabaseClient get _db => SupabaseService.client;
 
-  /// Embedding padrão: receita + filhas numa query só (mapper monta o modelo).
+  /// Embedding padrão: receita + filhas numa query só (mapper monta o modelo);
+  /// componente vinculado traz a sub_recipes inteira aninhada.
   static const _select =
       '*, recipe_ingredients(*), recipe_steps(*, recipe_step_techniques(*)), '
-      'recipe_components(*), recipe_folders(folder_id)';
+      'recipe_components(*, sub_recipes(*, sub_recipe_ingredients(*), '
+      'sub_recipe_steps(*, sub_recipe_step_techniques(*)))), '
+      'recipe_folders(folder_id)';
 
   /// Só as DEFINITIVAS (coluna gerada is_definitive), na ordem de criação.
   /// Usada por: recipesProvider.

@@ -13,24 +13,34 @@ import 'recipe_component.dart';
 import 'recipe_step.dart';
 
 /// Componente mutável do rascunho (espelho editável de [RecipeComponent]).
-/// Usada por: RecipeDraft, IngredientsEditor/StepsEditor (listas mutáveis).
+/// [subRecipeId]/[scale] preservam o vínculo no round-trip (o editor não o
+/// destrói). Usada por: RecipeDraft, IngredientsEditor/StepsEditor.
 class DraftComponent {
   String? name;
   List<Ingredient> ingredients;
   List<RecipeStep> steps;
+  String? subRecipeId;
+  num scale;
 
   DraftComponent({
     this.name,
     List<Ingredient>? ingredients,
     List<RecipeStep>? steps,
+    this.subRecipeId,
+    this.scale = 1,
   })  : ingredients = ingredients ?? <Ingredient>[],
         steps = steps ?? <RecipeStep>[];
+
+  /// True quando o componente aponta para uma subreceita. Usada por: editores.
+  bool get isLinked => subRecipeId != null;
 
   /// Cria a partir do componente imutável (para editar). Usada por: RecipeDraft.fromRecipe.
   factory DraftComponent.fromComponent(RecipeComponent c) => DraftComponent(
         name: c.name,
         ingredients: List<Ingredient>.of(c.ingredients),
         steps: List<RecipeStep>.of(c.steps),
+        subRecipeId: c.subRecipeId,
+        scale: c.scale,
       );
 
   /// Congela no componente imutável. Usada por: RecipeDraft.toRecipe.
@@ -38,6 +48,8 @@ class DraftComponent {
         name: name,
         ingredients: List<Ingredient>.of(ingredients),
         steps: List<RecipeStep>.of(steps),
+        subRecipeId: subRecipeId,
+        scale: scale,
       );
 }
 

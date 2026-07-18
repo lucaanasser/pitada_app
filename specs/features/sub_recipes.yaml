@@ -1,0 +1,128 @@
+# specs/features/sub_recipes.yaml -> lib/features/recipes/ (sub-domínio subreceita)
+feature: Subreceitas compartilhadas
+purpose: >
+  Uma subreceita (cobertura, massa, molho) existe UMA vez e é usada por várias
+  receitas. Editar propaga para todas; a única variação permitida entre usos é a
+  ESCALA (2×, 1,2×). Divergir de verdade = desvincular (vira cópia local).
+
+conceito:
+  diferenciacao: >
+    Subreceita NÃO é receita. Receita é PRATO: tem porções, entra em pastas e
+    planos, aparece na lista principal. Subreceita é BLOCO DE MONTAGEM: mora na
+    biblioteca própria (rota /sub-recipes), é usada DENTRO de receitas e nunca
+    aparece na lista de receitas. No detalhe do prato, componente vinculado
+    carrega selo (ícone de corrente + "usada em N receitas") — bate o olho e
+    sabe que editar ali mexe nos outros pratos.
+  regras:
+    - Vinculada é SEMPRE idêntica em todas as instâncias (ingredientes,
+      proporções e passos); só o scale por vínculo varia.
+    - Editar a subreceita propaga para TODAS as receitas que a usam. Não existe
+      "editar só aqui" — para isso, desvincular (copia o conteúdo na escala
+      atual para um componente local e solta o vínculo).
+    - Fator efetivo exibido no prato = scale do vínculo × (porções vistas /
+      porções base) — ver specs/core/utils/scaling.yaml.
+    - Macros do prato seguem os campos gravados da receita (por porção, edição
+      manual) — rollup automático de macros da subreceita é fatia futura.
+
+data:
+  models:
+    SubRecipe:            # models/recipe/sub_recipe.dart
+      campos: "{id, name, ingredients[Ingredient], steps[RecipeStep]}"
+      nota: >
+        Reusa Ingredient/RecipeStep da receita (não duplica). Sem macros nem
+        rendimento na v1 (fatia futura, junto do rollup). Identidade ESTÁVEL:
+        o id nunca muda numa edição (escrita por upsert, nunca delete+insert
+        da linha própria; só as filhas são regravadas).
+    RecipeComponent_add:  # models/recipe/recipe_component.dart ganha:
+      - "subRecipeId: String? (null = componente local, comportamento de hoje)"
+      - "scale: num (default 1) — só faz sentido quando vinculado"
+      - "isLinked => subRecipeId != null"
+      - "resolvedWith(SubRecipe) — preenche name/steps e ingredients JÁ
+         escalados pelo scale; caminho ÚNICO de resolução (seed e Supabase)"
+    RecipeDraft: DraftComponent carrega subRecipeId/scale no round-trip (o
+      editor não destrói vínculos).
+  leitura: >
+    O vínculo resolve NA LEITURA: o mapper/repositório preenche
+    component.ingredients/steps a partir da SubRecipe atual (escalados pelo
+    scale) — a UI existente lê component.ingredients sem mudar. allIngredients
+    do prato já sai com o conteúdo vinculado (cook mode e lista de compras
+    ganham de graça).
+  escrita: >
+    Componente vinculado grava SÓ a linha-vínculo (sub_recipe_id, scale,
+    position; name null — o nome vem da sub_recipes). Ingredientes/passos
+    resolvidos NÃO viram linhas da receita. Componente local grava como hoje.
+  repository:             # data/repositories/sub_recipe/ (espelha o padrão recipe/)
+    contrato: SubRecipesRepository (ABSTRATO) em sub_recipe_repository.dart
+    metodos:
+      - fetchSubRecipes() -> List<SubRecipe>       # biblioteca, ordem por nome
+      - fetchById(String id) -> SubRecipe?
+      - createSubRecipe(SubRecipe) -> String       # devolve o id gerado
+      - updateSubRecipe(SubRecipe)                 # upsert linha + regrava filhas
+    impls:
+      - SeedSubRecipesRepository (memória; overrides de sessão + criadas, como
+        o de receitas; sessionSubRecipeById() expõe lookup p/ o seed de receitas
+        resolver vínculos a cada leitura — propagação real no preview)
+      - SupabaseSubRecipesRepository (online; embedding
+        '*, sub_recipe_ingredients(*), sub_recipe_steps(*,
+        sub_recipe_step_techniques(*))'; mapper próprio sub_recipe_row_mapper)
+    delete: fora da v1 (exigiria desvincular todos os usos primeiro).
+
+application:              # application/sub_recipe_providers.dart
+  providers:
+    - subRecipesRepositoryProvider (default seed; main.dart sobrescreve online)
+    - subRecipesProvider (FutureProvider<List<SubRecipe>>)
+    - subRecipeByIdProvider (family)
+    - subRecipeUsageProvider (FutureProvider<Map<String,int>>)  # id -> nº de
+      # receitas DEFINITIVAS que vinculam (derivado de recipesProvider, sem SQL)
+  controller:
+    SubRecipeEditController: >
+      Única porta de escrita de subreceita e de vínculos. save(SubRecipe)
+      persiste e invalida recipeByIdProvider/recipesProvider/
+      recipeVersionGroupProvider INTEIROS (propagação na hora em todos os
+      pratos abertos) + os providers de subreceita. promote(recipe, index,
+      name) cria a SubRecipe a partir do componente e troca-o pelo vínculo
+      (scale 1). link(recipe, subId, scale) anexa vínculo. unlink(recipe,
+      index) copia o conteúdo resolvido para componente local e solta.
+      setScale(recipe, index, scale) troca o fator. Os saves de receita
+      delegam ao RecipeEditController (porta única preservada).
+
+ui:                       # fatia 2 — presentation/
+  biblioteca:
+    - rota /sub-recipes -> SubRecipesScreen (lista: nome + "usada em N
+      receitas"; EmptyState didático quando vazia)
+    - rota /sub-recipe/:id -> SubRecipeDetailScreen (nome, ingredientes,
+      passos; edição inline por gesto como no detalhe de receita; toda edição
+      PROPAGA — o aviso "usada em N receitas" fica visível no topo)
+  no_prato:
+    - RecipeComponentHeader ganha variante vinculada: nome + ícone de corrente
+      + "N receitas · 2×" sóbrio (SEM cápsula — vínculo é metadado, não tag);
+      tocar navega para /sub-recipe/:id
+    - edição inline de ingrediente/passo de componente vinculado edita a
+      SUBRECEITA (SubRecipeEditController.save) — sheet avisa "propaga para N
+      receitas"; o switch "salvar como nova versão" não se aplica aí
+  acoes:                  # no editor/detalhe do componente
+    - promover: componente local -> "tornar subreceita" (pede/usa o nome)
+    - vincular: "usar subreceita" -> seletor da biblioteca + escala
+    - desvincular: vira cópia local desta receita (para divergir)
+    - escala: stepper/campo do fator no vínculo (1×, 1,2×, 2×)
+
+unificacao:               # fatia 3 — o caso "4 bolos do Instagram"
+  proposito: >
+    N componentes parecidos (coberturas quase iguais) colapsam numa ÚNICA
+    SubRecipe: a pessoa escolhe a canônica (ou edita a mescla), define o scale
+    de cada origem, e os N componentes viram vínculos. Diferença de quantidade
+    vira escala; diferença de conteúdo se resolve na canônica.
+  deteccao: >
+    Candidatas por semelhança: slug do nome (core/utils/slug.dart) + interseção
+    de nomes de ingredientes (Jaccard simples). v1 = multiseleção manual com
+    sugestão "parecidas"; sugestão automática pós-import é fast-follow.
+
+historico: fatia 4 (fast-follow) — portar versionGroupId/timeline p/ SubRecipe.
+
+seed:
+  - sub_recipe_seed.dart: kSeedSubRecipes ('cobertura-chocolate') + 2 bolos
+    demo (bolo-cenoura scale 1, bolo-chocolate scale 1.5) vinculando a mesma
+    cobertura — o exemplo canônico do usuário.
+  - supabase/seed.sql ganha as mesmas linhas (uuids fixos do usuário de teste).
+
+backend: specs/backend/database.yaml (0018_sub_recipes.sql)

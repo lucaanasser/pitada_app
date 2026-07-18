@@ -42,6 +42,15 @@ politicas:
     all: >
       exists(select 1 from recipe_steps s join recipes r on r.id = s.recipe_id
       where s.id = step_id and r.user_id = auth.uid())
+  sub_recipes:                              # subreceita compartilhada (0018)
+    all: auth.uid() = user_id
+    nota_insert: with check (auth.uid() = user_id) — user_id tem default auth.uid()
+  sub_recipe_ingredients / sub_recipe_steps:  # filhas: dono é o dono da subreceita-mãe (0018)
+    all: exists(select 1 from sub_recipes s where s.id = sub_recipe_id and s.user_id = auth.uid())
+  sub_recipe_step_techniques:               # N:N passo<->técnica: dono via subreceita do passo (0018)
+    all: >
+      exists(select 1 from sub_recipe_steps p join sub_recipes s on s.id = p.sub_recipe_id
+      where p.id = step_id and s.user_id = auth.uid())
   bancada_items:                            # fila "quero cozinhar em breve" (migration 0010)
     all (select/insert/update/delete): auth.uid() = user_id
     nota_insert: with check (auth.uid() = user_id) — user_id tem default auth.uid()

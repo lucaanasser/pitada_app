@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'recipe_component.dart';
+part of 'sub_recipe.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -13,92 +13,87 @@ part of 'recipe_component.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
-mixin _$RecipeComponent {
-  String? get name;
+mixin _$SubRecipe {
+  String get id;
+  String get name;
   List<Ingredient> get ingredients;
   List<RecipeStep> get steps;
-  String? get subRecipeId;
-  num get scale;
 
-  /// Create a copy of RecipeComponent
+  /// Create a copy of SubRecipe
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $RecipeComponentCopyWith<RecipeComponent> get copyWith =>
-      _$RecipeComponentCopyWithImpl<RecipeComponent>(
-          this as RecipeComponent, _$identity);
+  $SubRecipeCopyWith<SubRecipe> get copyWith =>
+      _$SubRecipeCopyWithImpl<SubRecipe>(this as SubRecipe, _$identity);
 
-  /// Serializes this RecipeComponent to a JSON map.
+  /// Serializes this SubRecipe to a JSON map.
   Map<String, dynamic> toJson();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is RecipeComponent &&
+            other is SubRecipe &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             const DeepCollectionEquality()
                 .equals(other.ingredients, ingredients) &&
-            const DeepCollectionEquality().equals(other.steps, steps) &&
-            (identical(other.subRecipeId, subRecipeId) ||
-                other.subRecipeId == subRecipeId) &&
-            (identical(other.scale, scale) || other.scale == scale));
+            const DeepCollectionEquality().equals(other.steps, steps));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      id,
       name,
       const DeepCollectionEquality().hash(ingredients),
-      const DeepCollectionEquality().hash(steps),
-      subRecipeId,
-      scale);
+      const DeepCollectionEquality().hash(steps));
 
   @override
   String toString() {
-    return 'RecipeComponent(name: $name, ingredients: $ingredients, steps: $steps, subRecipeId: $subRecipeId, scale: $scale)';
+    return 'SubRecipe(id: $id, name: $name, ingredients: $ingredients, steps: $steps)';
   }
 }
 
 /// @nodoc
-abstract mixin class $RecipeComponentCopyWith<$Res> {
-  factory $RecipeComponentCopyWith(
-          RecipeComponent value, $Res Function(RecipeComponent) _then) =
-      _$RecipeComponentCopyWithImpl;
+abstract mixin class $SubRecipeCopyWith<$Res> {
+  factory $SubRecipeCopyWith(SubRecipe value, $Res Function(SubRecipe) _then) =
+      _$SubRecipeCopyWithImpl;
   @useResult
   $Res call(
-      {String? name,
+      {String id,
+      String name,
       List<Ingredient> ingredients,
-      List<RecipeStep> steps,
-      String? subRecipeId,
-      num scale});
+      List<RecipeStep> steps});
 }
 
 /// @nodoc
-class _$RecipeComponentCopyWithImpl<$Res>
-    implements $RecipeComponentCopyWith<$Res> {
-  _$RecipeComponentCopyWithImpl(this._self, this._then);
+class _$SubRecipeCopyWithImpl<$Res> implements $SubRecipeCopyWith<$Res> {
+  _$SubRecipeCopyWithImpl(this._self, this._then);
 
-  final RecipeComponent _self;
-  final $Res Function(RecipeComponent) _then;
+  final SubRecipe _self;
+  final $Res Function(SubRecipe) _then;
 
-  /// Create a copy of RecipeComponent
+  /// Create a copy of SubRecipe
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = freezed,
+    Object? id = null,
+    Object? name = null,
     Object? ingredients = null,
     Object? steps = null,
-    Object? subRecipeId = freezed,
-    Object? scale = null,
   }) {
     return _then(_self.copyWith(
-      name: freezed == name
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
           ? _self.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       ingredients: null == ingredients
           ? _self.ingredients
           : ingredients // ignore: cast_nullable_to_non_nullable
@@ -107,20 +102,12 @@ class _$RecipeComponentCopyWithImpl<$Res>
           ? _self.steps
           : steps // ignore: cast_nullable_to_non_nullable
               as List<RecipeStep>,
-      subRecipeId: freezed == subRecipeId
-          ? _self.subRecipeId
-          : subRecipeId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      scale: null == scale
-          ? _self.scale
-          : scale // ignore: cast_nullable_to_non_nullable
-              as num,
     ));
   }
 }
 
-/// Adds pattern-matching-related methods to [RecipeComponent].
-extension RecipeComponentPatterns on RecipeComponent {
+/// Adds pattern-matching-related methods to [SubRecipe].
+extension SubRecipePatterns on SubRecipe {
   /// A variant of `map` that fallback to returning `orElse`.
   ///
   /// It is equivalent to doing:
@@ -135,12 +122,12 @@ extension RecipeComponentPatterns on RecipeComponent {
 
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>(
-    TResult Function(_RecipeComponent value)? $default, {
+    TResult Function(_SubRecipe value)? $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
-      case _RecipeComponent() when $default != null:
+      case _SubRecipe() when $default != null:
         return $default(_that);
       case _:
         return orElse();
@@ -162,11 +149,11 @@ extension RecipeComponentPatterns on RecipeComponent {
 
   @optionalTypeArgs
   TResult map<TResult extends Object?>(
-    TResult Function(_RecipeComponent value) $default,
+    TResult Function(_SubRecipe value) $default,
   ) {
     final _that = this;
     switch (_that) {
-      case _RecipeComponent():
+      case _SubRecipe():
         return $default(_that);
       case _:
         throw StateError('Unexpected subclass');
@@ -187,11 +174,11 @@ extension RecipeComponentPatterns on RecipeComponent {
 
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>(
-    TResult? Function(_RecipeComponent value)? $default,
+    TResult? Function(_SubRecipe value)? $default,
   ) {
     final _that = this;
     switch (_that) {
-      case _RecipeComponent() when $default != null:
+      case _SubRecipe() when $default != null:
         return $default(_that);
       case _:
         return null;
@@ -212,16 +199,15 @@ extension RecipeComponentPatterns on RecipeComponent {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(String? name, List<Ingredient> ingredients,
-            List<RecipeStep> steps, String? subRecipeId, num scale)?
+    TResult Function(String id, String name, List<Ingredient> ingredients,
+            List<RecipeStep> steps)?
         $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
-      case _RecipeComponent() when $default != null:
-        return $default(_that.name, _that.ingredients, _that.steps,
-            _that.subRecipeId, _that.scale);
+      case _SubRecipe() when $default != null:
+        return $default(_that.id, _that.name, _that.ingredients, _that.steps);
       case _:
         return orElse();
     }
@@ -242,15 +228,14 @@ extension RecipeComponentPatterns on RecipeComponent {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(String? name, List<Ingredient> ingredients,
-            List<RecipeStep> steps, String? subRecipeId, num scale)
+    TResult Function(String id, String name, List<Ingredient> ingredients,
+            List<RecipeStep> steps)
         $default,
   ) {
     final _that = this;
     switch (_that) {
-      case _RecipeComponent():
-        return $default(_that.name, _that.ingredients, _that.steps,
-            _that.subRecipeId, _that.scale);
+      case _SubRecipe():
+        return $default(_that.id, _that.name, _that.ingredients, _that.steps);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -270,15 +255,14 @@ extension RecipeComponentPatterns on RecipeComponent {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(String? name, List<Ingredient> ingredients,
-            List<RecipeStep> steps, String? subRecipeId, num scale)?
+    TResult? Function(String id, String name, List<Ingredient> ingredients,
+            List<RecipeStep> steps)?
         $default,
   ) {
     final _that = this;
     switch (_that) {
-      case _RecipeComponent() when $default != null:
-        return $default(_that.name, _that.ingredients, _that.steps,
-            _that.subRecipeId, _that.scale);
+      case _SubRecipe() when $default != null:
+        return $default(_that.id, _that.name, _that.ingredients, _that.steps);
       case _:
         return null;
     }
@@ -287,21 +271,21 @@ extension RecipeComponentPatterns on RecipeComponent {
 
 /// @nodoc
 @JsonSerializable()
-class _RecipeComponent extends RecipeComponent {
-  const _RecipeComponent(
-      {this.name,
+class _SubRecipe implements SubRecipe {
+  const _SubRecipe(
+      {required this.id,
+      required this.name,
       final List<Ingredient> ingredients = const [],
-      final List<RecipeStep> steps = const [],
-      this.subRecipeId,
-      this.scale = 1})
+      final List<RecipeStep> steps = const []})
       : _ingredients = ingredients,
-        _steps = steps,
-        super._();
-  factory _RecipeComponent.fromJson(Map<String, dynamic> json) =>
-      _$RecipeComponentFromJson(json);
+        _steps = steps;
+  factory _SubRecipe.fromJson(Map<String, dynamic> json) =>
+      _$SubRecipeFromJson(json);
 
   @override
-  final String? name;
+  final String id;
+  @override
+  final String name;
   final List<Ingredient> _ingredients;
   @override
   @JsonKey()
@@ -320,23 +304,17 @@ class _RecipeComponent extends RecipeComponent {
     return EqualUnmodifiableListView(_steps);
   }
 
-  @override
-  final String? subRecipeId;
-  @override
-  @JsonKey()
-  final num scale;
-
-  /// Create a copy of RecipeComponent
+  /// Create a copy of SubRecipe
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  _$RecipeComponentCopyWith<_RecipeComponent> get copyWith =>
-      __$RecipeComponentCopyWithImpl<_RecipeComponent>(this, _$identity);
+  _$SubRecipeCopyWith<_SubRecipe> get copyWith =>
+      __$SubRecipeCopyWithImpl<_SubRecipe>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$RecipeComponentToJson(
+    return _$SubRecipeToJson(
       this,
     );
   }
@@ -345,72 +323,70 @@ class _RecipeComponent extends RecipeComponent {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _RecipeComponent &&
+            other is _SubRecipe &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             const DeepCollectionEquality()
                 .equals(other._ingredients, _ingredients) &&
-            const DeepCollectionEquality().equals(other._steps, _steps) &&
-            (identical(other.subRecipeId, subRecipeId) ||
-                other.subRecipeId == subRecipeId) &&
-            (identical(other.scale, scale) || other.scale == scale));
+            const DeepCollectionEquality().equals(other._steps, _steps));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      id,
       name,
       const DeepCollectionEquality().hash(_ingredients),
-      const DeepCollectionEquality().hash(_steps),
-      subRecipeId,
-      scale);
+      const DeepCollectionEquality().hash(_steps));
 
   @override
   String toString() {
-    return 'RecipeComponent(name: $name, ingredients: $ingredients, steps: $steps, subRecipeId: $subRecipeId, scale: $scale)';
+    return 'SubRecipe(id: $id, name: $name, ingredients: $ingredients, steps: $steps)';
   }
 }
 
 /// @nodoc
-abstract mixin class _$RecipeComponentCopyWith<$Res>
-    implements $RecipeComponentCopyWith<$Res> {
-  factory _$RecipeComponentCopyWith(
-          _RecipeComponent value, $Res Function(_RecipeComponent) _then) =
-      __$RecipeComponentCopyWithImpl;
+abstract mixin class _$SubRecipeCopyWith<$Res>
+    implements $SubRecipeCopyWith<$Res> {
+  factory _$SubRecipeCopyWith(
+          _SubRecipe value, $Res Function(_SubRecipe) _then) =
+      __$SubRecipeCopyWithImpl;
   @override
   @useResult
   $Res call(
-      {String? name,
+      {String id,
+      String name,
       List<Ingredient> ingredients,
-      List<RecipeStep> steps,
-      String? subRecipeId,
-      num scale});
+      List<RecipeStep> steps});
 }
 
 /// @nodoc
-class __$RecipeComponentCopyWithImpl<$Res>
-    implements _$RecipeComponentCopyWith<$Res> {
-  __$RecipeComponentCopyWithImpl(this._self, this._then);
+class __$SubRecipeCopyWithImpl<$Res> implements _$SubRecipeCopyWith<$Res> {
+  __$SubRecipeCopyWithImpl(this._self, this._then);
 
-  final _RecipeComponent _self;
-  final $Res Function(_RecipeComponent) _then;
+  final _SubRecipe _self;
+  final $Res Function(_SubRecipe) _then;
 
-  /// Create a copy of RecipeComponent
+  /// Create a copy of SubRecipe
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $Res call({
-    Object? name = freezed,
+    Object? id = null,
+    Object? name = null,
     Object? ingredients = null,
     Object? steps = null,
-    Object? subRecipeId = freezed,
-    Object? scale = null,
   }) {
-    return _then(_RecipeComponent(
-      name: freezed == name
+    return _then(_SubRecipe(
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
           ? _self.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       ingredients: null == ingredients
           ? _self._ingredients
           : ingredients // ignore: cast_nullable_to_non_nullable
@@ -419,14 +395,6 @@ class __$RecipeComponentCopyWithImpl<$Res>
           ? _self._steps
           : steps // ignore: cast_nullable_to_non_nullable
               as List<RecipeStep>,
-      subRecipeId: freezed == subRecipeId
-          ? _self.subRecipeId
-          : subRecipeId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      scale: null == scale
-          ? _self.scale
-          : scale // ignore: cast_nullable_to_non_nullable
-              as num,
     ));
   }
 }

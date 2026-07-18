@@ -285,6 +285,46 @@ migrations:
         suas receitas, mas sem grifo até a pessoa editar. Degradação correta.
       drop: recipes.techniques (text[])
 
+  - 0018_sub_recipes.sql:          # subreceita COMPARTILHADA (identidade estável)
+      motivo: >
+        Uma subreceita (cobertura/massa/molho) usada por várias receitas, com
+        edição que PROPAGA (specs/features/sub_recipes.yaml). O componente
+        embutido não serve: recipe_id not null + delete/insert a cada save =
+        sem identidade. sub_recipes tem id ESTÁVEL (upsert da linha; só as
+        filhas regravam) e recipe_components passa a poder APONTAR para ela.
+      sub_recipes:                 # 1 linha por subreceita da biblioteca do usuário
+        colunas: [id, user_id default auth.uid(), name text not null,
+                  created_at, updated_at]
+        indice: user_id
+        trigger: set_updated_at() BEFORE UPDATE
+      sub_recipe_ingredients:      # espelho de recipe_ingredients (grama é a base)
+        colunas: [id, sub_recipe_id fk->sub_recipes on delete cascade, position int,
+                  name text not null, grams numeric, human_qty numeric,
+                  human_unit text, flavors flavor_axis[] default '{}']
+        indice: sub_recipe_id
+      sub_recipe_steps:
+        colunas: [id, sub_recipe_id fk->sub_recipes on delete cascade, position int,
+                  text text not null, tip text]
+        indice: sub_recipe_id
+      sub_recipe_step_techniques:  # N:N passo<->técnica (espelho de recipe_step_techniques)
+        colunas: [step_id fk->sub_recipe_steps cascade,
+                  technique_id fk->techniques cascade, anchor text]
+        pk: (step_id, technique_id)
+      recipe_components_add:
+        - "sub_recipe_id uuid fk->sub_recipes (SEM cascade: restrict — apagar
+           subreceita em uso é erro; desvincular primeiro)"
+        - "scale numeric not null default 1  # única variação permitida por uso"
+        - "name fica null quando vinculado (o nome vem de sub_recipes)"
+      escrita: >
+        Vinculado grava só a linha-vínculo em recipe_components; os
+        ingredientes/passos resolvidos NÃO viram linhas de recipe_*. A leitura
+        embeda: recipe_components(*, sub_recipes(*, sub_recipe_ingredients(*),
+        sub_recipe_steps(*, sub_recipe_step_techniques(*)))).
+      rls: >
+        sub_recipes: dono (user_id). Filhas: dono da subreceita-mãe (exists,
+        padrão recipe_steps). recipe_components.sub_recipe_id não muda a
+        policy existente (dono da receita).
+
 leitura_pelo_app:                    # PostgREST embedding — 1 query traz tudo
   exemplo: >
     from('recipes').select('*, recipe_ingredients(*), recipe_steps(*),

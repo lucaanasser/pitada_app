@@ -62,6 +62,7 @@ core_utils:                                 # -> lib/core/utils/ (funções pura
 
 features:                                   # -> lib/features/<f>/presentation/
   - specs/features/recipes.yaml
+  - specs/features/sub_recipes.yaml         # subreceitas compartilhadas (vínculo + escala + propagação)
   - specs/features/bancada.yaml             # fila "quero cozinhar em breve" (ex-aba "Favoritas")
   - specs/features/notebook.yaml            # aba 'Caderno'
   - specs/features/plans.yaml
