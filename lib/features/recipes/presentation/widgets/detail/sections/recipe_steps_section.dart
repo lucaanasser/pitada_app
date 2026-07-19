@@ -15,7 +15,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../../../core/widgets/layout/section_header.dart';
-import '../../../../application/sub_recipe_providers.dart';
+import '../../../../application/sub_recipe/sub_recipe_providers.dart';
 import '../../../../data/models/recipe/recipe.dart';
 import '../../../recipe_quick_edit.dart';
 import '../items/step_tile.dart';

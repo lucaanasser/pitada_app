@@ -1,21 +1,22 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/recipes/application/sub_recipe_providers.dart
+// lib/features/recipes/application/sub_recipe/sub_recipe_providers.dart
 // O QUÊ:     Providers Riverpod de subreceitas (biblioteca, detalhe, uso) e o
 //            controller de edição/vínculo — única porta de escrita.
 // USA:       sub_recipe_repository (contrato), seed_sub_recipe_repository
 //            (default offline), sub_recipe.dart, recipe.dart,
 //            recipe_component.dart, recipes_providers (porta de receita).
-// USADO POR: biblioteca de subreceitas, detalhe da receita (selo/edição).
+// USADO POR: biblioteca de subreceitas, detalhe da receita (selo/edição),
+//            unify_service (unificação N->1).
 // SPEC:      specs/features/sub_recipes.yaml (application)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../data/models/recipe/recipe.dart';
-import '../data/models/recipe/recipe_component.dart';
-import '../data/models/recipe/sub_recipe.dart';
-import '../data/repositories/sub_recipe/seed_sub_recipe_repository.dart';
-import '../data/repositories/sub_recipe/sub_recipe_repository.dart';
-import 'recipes_providers.dart';
+import '../../data/models/recipe/recipe.dart';
+import '../../data/models/recipe/recipe_component.dart';
+import '../../data/models/recipe/sub_recipe.dart';
+import '../../data/repositories/sub_recipe/seed_sub_recipe_repository.dart';
+import '../../data/repositories/sub_recipe/sub_recipe_repository.dart';
+import '../recipes_providers.dart';
 
 /// Instância do repositório de subreceitas. Default = seed em memória;
 /// main.dart sobrescreve com SupabaseSubRecipesRepository quando há chaves.
@@ -117,6 +118,32 @@ class SubRecipeEditController {
           recipe.withComponent(index, c.copyWith(scale: scale)),
         );
     _invalidate();
+  }
+
+  /// Unifica N componentes locais parecidos numa subreceita: promove a ORIGEM
+  /// como canônica e troca cada alvo (recipeId, índice, scale sugerido) pelo
+  /// vínculo. Devolve o id criado. Usada por: UnifyScreen.
+  Future<String> unify(
+    Recipe origin,
+    int originIndex,
+    String name,
+    List<(String, int, num)> targets,
+  ) async {
+    final id = await promote(origin, originIndex, name);
+    final repo = _ref.read(recipesRepositoryProvider);
+    for (final (recipeId, index, scale) in targets) {
+      final fresh = await repo.fetchById(recipeId);
+      if (fresh == null || index >= fresh.components.length) continue;
+      final c = fresh.components[index];
+      await _ref.read(recipeEditControllerProvider).save(
+            fresh.withComponent(
+              index,
+              c.copyWith(subRecipeId: id, scale: scale),
+            ),
+          );
+    }
+    _invalidate();
+    return id;
   }
 
   /// Refaz subreceitas + TODAS as famílias de receita (propagação na hora).

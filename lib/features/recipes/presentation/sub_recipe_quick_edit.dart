@@ -177,6 +177,13 @@ extension SubRecipeEdit on RecipeQuickEdit {
           AppIcons.link,
           (_) => _promote(r, index),
         ),
+        AddSheetOption(
+          'Unificar parecidas',
+          'juntar componentes quase iguais de outras receitas',
+          'plum',
+          AppIcons.swap,
+          (ctx) => ctx.push('/unify/${r.id}/$index'),
+        ),
       ],
     );
   }

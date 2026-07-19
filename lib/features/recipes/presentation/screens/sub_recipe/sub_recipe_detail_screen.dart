@@ -19,7 +19,7 @@ import '../../../../../core/theme/spacing.dart';
 import '../../../../../core/theme/typography.dart';
 import '../../../../../core/widgets/controls/editable.dart';
 import '../../../../../core/widgets/layout/section_header.dart';
-import '../../../application/sub_recipe_providers.dart';
+import '../../../application/sub_recipe/sub_recipe_providers.dart';
 import '../../recipe_quick_edit.dart';
 import '../../widgets/detail/items/ingredient_row.dart';
 import '../../widgets/detail/items/step_tile.dart';

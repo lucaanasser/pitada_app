@@ -17,6 +17,7 @@ import 'recipe_repository.dart';
 import '../../seed/recipe_seed.dart';
 import '../../seed/recipe_versions_seed.dart';
 import '../../seed/sub_recipe_seed.dart';
+import '../../seed/unify_demo_seed.dart';
 import '../sub_recipe/seed_sub_recipe_repository.dart';
 
 /// Edições da sessão (persistência MOCK): id -> receita alterada. Aplicadas por cima
@@ -38,6 +39,7 @@ class SeedRecipesRepository implements RecipesRepository {
         ..._createdRecipes,
         ...kSeedRecipes,
         ...kSeedCakeRecipes,
+        ...kSeedUnifyDemoRecipes,
         ...kSeedOldVersions,
       ];
 
@@ -70,6 +72,7 @@ class SeedRecipesRepository implements RecipesRepository {
       for (final r in _createdRecipes) _resolved(_withOverride(r)),
       for (final r in kSeedRecipes) _resolved(_withOverride(r)),
       for (final r in kSeedCakeRecipes) _resolved(_withOverride(r)),
+      for (final r in kSeedUnifyDemoRecipes) _resolved(_withOverride(r)),
     ];
   }
 

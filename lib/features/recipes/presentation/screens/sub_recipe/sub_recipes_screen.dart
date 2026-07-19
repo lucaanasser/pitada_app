@@ -18,7 +18,7 @@ import '../../../../../core/theme/spacing.dart';
 import '../../../../../core/theme/typography.dart';
 import '../../../../../core/widgets/cards/hairline_row.dart';
 import '../../../../../core/widgets/layout/empty_state.dart';
-import '../../../application/sub_recipe_providers.dart';
+import '../../../application/sub_recipe/sub_recipe_providers.dart';
 
 /// Biblioteca de subreceitas compartilhadas. Usada por: router (/sub-recipes).
 class SubRecipesScreen extends ConsumerWidget {

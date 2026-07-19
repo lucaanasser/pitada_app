@@ -20,7 +20,7 @@ import '../../../core/utils/scaling.dart';
 import '../../../core/utils/slug.dart';
 import '../../../core/widgets/sheets/add_options_sheet.dart';
 import '../application/recipes_providers.dart';
-import '../application/sub_recipe_providers.dart';
+import '../application/sub_recipe/sub_recipe_providers.dart';
 import '../application/technique_providers.dart';
 import '../data/models/recipe/ingredient.dart';
 import '../data/models/recipe/recipe.dart';

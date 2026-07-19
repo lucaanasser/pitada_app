@@ -252,3 +252,63 @@ insert into public.recipe_steps (recipe_id, component_id, position, text, tip) v
    'Junte ovos, leite e óleo e bata até ficar liso.', null),
   ('bbbbbbbb-0000-0000-0000-000000000006', 'eeeeeeee-0000-0000-0000-000000000005', 2,
    'Asse a 180 °C por 35 minutos.', null);
+
+-- ── Demo do UNIFICAR (unify_demo_seed.dart): coberturas LOCAIS parecidas ──────
+insert into public.recipes (
+  id, user_id, title, source, source_url, servings, time_minutes,
+  kcal, protein, carb, fat, difficulty, hero_color, version, version_group_id
+) values
+  ('bbbbbbbb-0000-0000-0000-000000000007', '11111111-1111-1111-1111-111111111111',
+   'Bolo formigueiro', 'instagram', 'https://instagram.com/reel/bolo-formigueiro',
+   12, 55, 395, 6, 50, 18, 'Fácil', 'plum', 1, null),
+  ('bbbbbbbb-0000-0000-0000-000000000008', '11111111-1111-1111-1111-111111111111',
+   'Nega maluca', 'site', 'https://receitas.com/nega-maluca',
+   10, 45, 420, 6, 56, 20, 'Fácil', 'clay', 1, null);
+
+insert into public.recipe_folders (recipe_id, folder_id) values
+  ('bbbbbbbb-0000-0000-0000-000000000007', 'aaaaaaaa-0000-0000-0000-000000000004'),
+  ('bbbbbbbb-0000-0000-0000-000000000008', 'aaaaaaaa-0000-0000-0000-000000000004');
+
+insert into public.recipe_components (id, recipe_id, position, name) values
+  ('eeeeeeee-0000-0000-0000-000000000007', 'bbbbbbbb-0000-0000-0000-000000000007', 0, 'Massa'),
+  ('eeeeeeee-0000-0000-0000-000000000008', 'bbbbbbbb-0000-0000-0000-000000000007', 1, 'Cobertura de chocolate'),
+  ('eeeeeeee-0000-0000-0000-000000000009', 'bbbbbbbb-0000-0000-0000-000000000008', 0, 'Massa'),
+  ('eeeeeeee-0000-0000-0000-000000000010', 'bbbbbbbb-0000-0000-0000-000000000008', 1, 'Cobertura de chocolate');
+
+insert into public.recipe_ingredients (recipe_id, component_id, position, name, grams, human_qty, human_unit, flavors) values
+  -- Formigueiro: Massa
+  ('bbbbbbbb-0000-0000-0000-000000000007', 'eeeeeeee-0000-0000-0000-000000000007', 0, 'Ovos', 150, 3, 'unidade', '{fat}'),
+  ('bbbbbbbb-0000-0000-0000-000000000007', 'eeeeeeee-0000-0000-0000-000000000007', 1, 'Açúcar', 270, 1.5, 'xícara', '{sweet}'),
+  ('bbbbbbbb-0000-0000-0000-000000000007', 'eeeeeeee-0000-0000-0000-000000000007', 2, 'Farinha de trigo', 300, 2.5, 'xícara', '{}'),
+  ('bbbbbbbb-0000-0000-0000-000000000007', 'eeeeeeee-0000-0000-0000-000000000007', 3, 'Granulado', 80, 0.5, 'xícara', '{sweet}'),
+  -- Formigueiro: Cobertura local
+  ('bbbbbbbb-0000-0000-0000-000000000007', 'eeeeeeee-0000-0000-0000-000000000008', 4, 'Manteiga', 20, 1.5, 'c. sopa', '{fat}'),
+  ('bbbbbbbb-0000-0000-0000-000000000007', 'eeeeeeee-0000-0000-0000-000000000008', 5, 'Chocolate em pó', 40, 4, 'c. sopa', '{bitter,sweet}'),
+  ('bbbbbbbb-0000-0000-0000-000000000007', 'eeeeeeee-0000-0000-0000-000000000008', 6, 'Açúcar', 120, 0.7, 'xícara', '{sweet}'),
+  ('bbbbbbbb-0000-0000-0000-000000000007', 'eeeeeeee-0000-0000-0000-000000000008', 7, 'Granulado', 50, 0.3, 'xícara', '{sweet}'),
+  -- Nega maluca: Massa
+  ('bbbbbbbb-0000-0000-0000-000000000008', 'eeeeeeee-0000-0000-0000-000000000009', 0, 'Ovos', 150, 3, 'unidade', '{fat}'),
+  ('bbbbbbbb-0000-0000-0000-000000000008', 'eeeeeeee-0000-0000-0000-000000000009', 1, 'Chocolate em pó', 90, 1, 'xícara', '{bitter}'),
+  ('bbbbbbbb-0000-0000-0000-000000000008', 'eeeeeeee-0000-0000-0000-000000000009', 2, 'Farinha de trigo', 240, 2, 'xícara', '{}'),
+  ('bbbbbbbb-0000-0000-0000-000000000008', 'eeeeeeee-0000-0000-0000-000000000009', 3, 'Água quente', 240, 1, 'xícara', '{}'),
+  -- Nega maluca: Cobertura local
+  ('bbbbbbbb-0000-0000-0000-000000000008', 'eeeeeeee-0000-0000-0000-000000000010', 4, 'Manteiga', 15, 1, 'c. sopa', '{fat}'),
+  ('bbbbbbbb-0000-0000-0000-000000000008', 'eeeeeeee-0000-0000-0000-000000000010', 5, 'Chocolate em pó', 30, 3, 'c. sopa', '{bitter,sweet}'),
+  ('bbbbbbbb-0000-0000-0000-000000000008', 'eeeeeeee-0000-0000-0000-000000000010', 6, 'Açúcar', 90, 0.5, 'xícara', '{sweet}'),
+  ('bbbbbbbb-0000-0000-0000-000000000008', 'eeeeeeee-0000-0000-0000-000000000010', 7, 'Leite', 60, 60, 'ml', '{}');
+
+insert into public.recipe_steps (recipe_id, component_id, position, text, tip) values
+  ('bbbbbbbb-0000-0000-0000-000000000007', 'eeeeeeee-0000-0000-0000-000000000007', 0,
+   'Bata ovos, açúcar e a manteiga; junte os secos.', null),
+  ('bbbbbbbb-0000-0000-0000-000000000007', 'eeeeeeee-0000-0000-0000-000000000007', 1,
+   'Envolva o granulado por último e asse a 180 °C por 40 min.',
+   'Granulado enfarinhado não afunda na massa.'),
+  ('bbbbbbbb-0000-0000-0000-000000000007', 'eeeeeeee-0000-0000-0000-000000000008', 2,
+   'Derreta tudo em fogo baixo e cubra o bolo.', null),
+  ('bbbbbbbb-0000-0000-0000-000000000008', 'eeeeeeee-0000-0000-0000-000000000009', 0,
+   'Misture tudo e bata até a massa ficar lisa.', null),
+  ('bbbbbbbb-0000-0000-0000-000000000008', 'eeeeeeee-0000-0000-0000-000000000009', 1,
+   'Asse a 180 °C por 35 minutos.', null),
+  ('bbbbbbbb-0000-0000-0000-000000000008', 'eeeeeeee-0000-0000-0000-000000000010', 2,
+   'Leve tudo ao fogo mexendo até encorpar; despeje quente.',
+   'Calda quente escorre e cobre por igual.');

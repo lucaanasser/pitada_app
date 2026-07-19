@@ -67,7 +67,7 @@ data:
         sub_recipe_step_techniques(*))'; mapper próprio sub_recipe_row_mapper)
     delete: fora da v1 (exigiria desvincular todos os usos primeiro).
 
-application:              # application/sub_recipe_providers.dart
+application:              # application/sub_recipe/ (providers + unify_service)
   providers:
     - subRecipesRepositoryProvider (default seed; main.dart sobrescreve online)
     - subRecipesProvider (FutureProvider<List<SubRecipe>>)
@@ -120,14 +120,41 @@ ui:                       # fatia 2 — presentation/
 
 unificacao:               # fatia 3 — o caso "4 bolos do Instagram"
   proposito: >
-    N componentes parecidos (coberturas quase iguais) colapsam numa ÚNICA
-    SubRecipe: a pessoa escolhe a canônica (ou edita a mescla), define o scale
-    de cada origem, e os N componentes viram vínculos. Diferença de quantidade
-    vira escala; diferença de conteúdo se resolve na canônica.
-  deteccao: >
-    Candidatas por semelhança: slug do nome (core/utils/slug.dart) + interseção
-    de nomes de ingredientes (Jaccard simples). v1 = multiseleção manual com
-    sugestão "parecidas"; sugestão automática pós-import é fast-follow.
+    N componentes LOCAIS parecidos (coberturas quase iguais) colapsam numa
+    ÚNICA SubRecipe: a versão da receita de ORIGEM vira a canônica, cada
+    origem marcada vira vínculo com o scale SUGERIDO (razão das somas de
+    gramas dos ingredientes casados). Diferença de quantidade vira escala;
+    diferença de conteúdo se resolve na canônica (a tela lista o que difere).
+    Quer outra canônica? Abra o unificar a partir DAQUELA receita. Ajuste
+    fino do fator depois, por "Alterar escala" no vínculo.
+  deteccao:               # application/sub_recipe/unify_service.dart (puro)
+    - "findUnifyCandidates(recipes, origin, originIndex): varre componentes
+       locais NOMEADOS das definitivas; score = 0,5·nome (slug igual 1,
+       contém 0,7) + 0,5·Jaccard dos nomes de ingredientes (slug); entra com
+       score >= 0,5, pré-marcada com >= 0,75"
+    - "suggestScale(canonical, other): razão das somas de gramas dos
+       ingredientes casados por slug, 2 casas; sem casamento -> 1"
+    - "componentDiffs(canonical, other): ['+ granulado', '− leite'] — o que a
+       candidata tem a mais / a menos que a canônica"
+  tela: >
+    Rota /unify/:recipeId/:component -> UnifyScreen
+    (screens/sub_recipe/unify_screen.dart): voltar + rótulo UNIFICAR, nome da
+    subreceita (campo, pré-preenchido com o nome do componente), aviso "a
+    versão desta receita vira a subreceita", lista de candidatas com CheckItem
+    (receita · diffs · ≈fator), rodapé PitadaButton "Unificar N em 1" ->
+    SubRecipeEditController.unify -> pop. EmptyState sem candidatas (ainda
+    permite tornar subreceita simples).
+  entrada: >
+    Sheet de ações do componente LOCAL nomeado ganha "Unificar parecidas"
+    (além de "Tornar subreceita"). Sugestão automática pós-import: fast-follow.
+  controller: >
+    SubRecipeEditController.unify(origin, originIndex, name, targets):
+    promote(origem) e, para cada alvo (recipeId, index, scale), refetch da
+    receita + troca do componente pelo vínculo. Invalida tudo ao fim.
+  seed_demo: >
+    data/seed/unify_demo_seed.dart: 2 bolos (formigueiro e nega-maluca) com
+    coberturas LOCAIS parecidas — matéria-prima para o fluxo no preview.
+    Paridade em supabase/seed.sql.
 
 historico: fatia 4 (fast-follow) — portar versionGroupId/timeline p/ SubRecipe.
 
