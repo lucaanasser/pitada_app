@@ -11,8 +11,10 @@ import 'package:flutter/material.dart';
 
 import '../../../../../core/theme/app_icons.dart';
 import '../../../../../core/theme/pitada_colors.dart';
+import '../../../../../core/theme/spacing.dart';
 import '../../../../../core/theme/typography.dart';
 import '../../../../../core/widgets/cards/hairline_row.dart';
+import '../../../../../core/widgets/cards/recipe_thumb.dart';
 import '../../../data/models/recipe/recipe.dart';
 import 'recipe_meta_text.dart';
 
@@ -41,6 +43,14 @@ class RecipeRow extends StatelessWidget {
     return HairlineRow(
       onTap: onTap,
       showDivider: showDivider,
+      leading: mastery == 'nunca fiz'
+          ? _EmptySlot(color: pit.line2)
+          : RecipeThumb(
+              color: pit.card(recipe.heroColor),
+              outlined: true,
+              size: _kSlotSize,
+              radius: AppSpacing.radiusLg,
+            ),
       title: Text(recipe.title, style: AppType.on(AppType.titleSm, pit.text)),
       subtitle: Text(
         hasMastery
@@ -51,4 +61,53 @@ class RecipeRow extends StatelessWidget {
       trailing: Icon(AppIcons.chevron, size: 16, color: pit.faint),
     );
   }
+}
+
+const _kSlotSize = 56.0;
+
+class _EmptySlot extends StatelessWidget {
+  const _EmptySlot({required this.color});
+
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: _kSlotSize,
+      height: _kSlotSize,
+      child: CustomPaint(painter: _DashedSlotPainter(color: color)),
+    );
+  }
+}
+
+class _DashedSlotPainter extends CustomPainter {
+  const _DashedSlotPainter({required this.color});
+
+  final Color color;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    const dash = 5.0, gap = 4.5;
+    final source = Path()
+      ..addRRect(
+        RRect.fromRectAndRadius(
+          Offset.zero & size,
+          const Radius.circular(AppSpacing.radiusLg),
+        ),
+      );
+    final paint = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = AppSpacing.borderStrong
+      ..color = color;
+    for (final metric in source.computeMetrics()) {
+      var d = 0.0;
+      while (d < metric.length) {
+        canvas.drawPath(metric.extractPath(d, d + dash), paint);
+        d += dash + gap;
+      }
+    }
+  }
+
+  @override
+  bool shouldRepaint(_DashedSlotPainter old) => old.color != color;
 }

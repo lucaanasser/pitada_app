@@ -51,9 +51,19 @@ class CollectionChart extends ConsumerWidget {
               trackColor: pit.line2,
             ),
             child: Center(
-              child: Text(
-                '$cooked',
-                style: AppType.on(AppType.numeralLg, pit.text),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    '$cooked',
+                    style: AppType.on(AppType.numeralLg, pit.text),
+                  ),
+                  const SizedBox(height: 1),
+                  Text(
+                    'de $total',
+                    style: AppType.on(AppType.captionSm, pit.muted),
+                  ),
+                ],
               ),
             ),
           ),
@@ -64,7 +74,7 @@ class CollectionChart extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'de $total receitas cozinhadas',
+                'receitas cozinhadas',
                 style: AppType.on(AppType.body, pit.text),
               ),
               if (waiting > 0) ...[
