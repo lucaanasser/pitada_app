@@ -32,52 +32,44 @@ class CollectionChart extends StatelessWidget {
   Widget build(BuildContext context) {
     final pit = context.pit;
     final waiting = total - cooked;
-    return Container(
-      padding: const EdgeInsets.all(AppSpacing.lg),
-      decoration: BoxDecoration(
-        color: pit.surf,
-        borderRadius: AppSpacing.br(AppSpacing.radiusCard),
-        border: Border.all(color: pit.border, width: AppSpacing.borderStrong),
-      ),
-      child: Row(
-        children: [
-          SizedBox(
-            width: 72,
-            height: 72,
-            child: CustomPaint(
-              painter: _RingPainter(
-                fraction: total == 0 ? 0 : cooked / total,
-                arcColor: AppColors.accent,
-                trackColor: pit.line2,
+    return Row(
+      children: [
+        SizedBox(
+          width: 72,
+          height: 72,
+          child: CustomPaint(
+            painter: _RingPainter(
+              fraction: total == 0 ? 0 : cooked / total,
+              arcColor: AppColors.accent,
+              trackColor: pit.line2,
+            ),
+          ),
+        ),
+        const SizedBox(width: AppSpacing.lg),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                '$cooked de $total',
+                style: AppType.on(AppType.title, pit.text),
               ),
-            ),
-          ),
-          const SizedBox(width: AppSpacing.lg),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              const SizedBox(height: 2),
+              Text(
+                'receitas cozinhadas',
+                style: AppType.on(AppType.bodySm, pit.text2),
+              ),
+              if (waiting > 0) ...[
+                const SizedBox(height: 4),
                 Text(
-                  '$cooked de $total',
-                  style: AppType.on(AppType.title, pit.text),
+                  '$waiting esperando estreia',
+                  style: AppType.on(AppType.caption, pit.muted),
                 ),
-                const SizedBox(height: 2),
-                Text(
-                  'receitas cozinhadas',
-                  style: AppType.on(AppType.bodySm, pit.text2),
-                ),
-                if (waiting > 0) ...[
-                  const SizedBox(height: 4),
-                  Text(
-                    '$waiting esperando estreia',
-                    style: AppType.on(AppType.caption, pit.muted),
-                  ),
-                ],
               ],
-            ),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

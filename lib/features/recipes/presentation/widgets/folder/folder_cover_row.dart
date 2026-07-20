@@ -21,7 +21,7 @@ import 'folder_painter.dart';
 
 /// Largura de cada capa na linha (altura sai da proporção do FolderCard).
 /// Usada por: [FolderCoverRow].
-const _kCoverWidth = 120.0;
+const _kCoverWidth = 132.0;
 
 /// Capas de pasta roláveis na horizontal. Usada por: recipes_screen.
 class FolderCoverRow extends ConsumerWidget {
@@ -35,7 +35,10 @@ class FolderCoverRow extends ConsumerWidget {
 
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
-      padding: AppSpacing.screenH,
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.gutter,
+        vertical: AppSpacing.sm,
+      ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [

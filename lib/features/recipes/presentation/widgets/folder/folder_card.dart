@@ -41,7 +41,6 @@ class _FolderCardState extends State<FolderCard> {
   @override
   Widget build(BuildContext context) {
     final pit = context.pit;
-    final label = widget.count == 1 ? '1 receita' : '${widget.count} receitas';
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTapDown: (_) => setState(() => _pressed = true),
@@ -80,22 +79,11 @@ class _FolderCardState extends State<FolderCard> {
               ),
               child: Align(
                 alignment: Alignment.bottomLeft,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      widget.folder.name,
-                      style: AppType.on(AppType.caption, pit.text),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      label,
-                      style: AppType.on(AppType.captionSm, pit.text2),
-                    ),
-                  ],
+                child: Text(
+                  widget.folder.name,
+                  style: AppType.on(AppType.caption, pit.text),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ),
