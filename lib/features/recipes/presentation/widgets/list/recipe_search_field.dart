@@ -46,10 +46,11 @@ class RecipeSearchField extends StatelessWidget {
     final pit = context.pit;
     return Container(
       height: AppSpacing.searchBar,
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
       decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(color: pit.line, width: AppSpacing.borderThick),
-        ),
+        color: pit.surf,
+        borderRadius: AppSpacing.br(AppSpacing.radiusMd),
+        border: Border.all(color: pit.line2, width: AppSpacing.borderStrong),
       ),
       child: Row(
         children: [

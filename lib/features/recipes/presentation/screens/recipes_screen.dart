@@ -58,7 +58,7 @@ class RecipesScreen extends ConsumerWidget {
             padding: AppSpacing.screenH,
             child: CollectionChart(),
           ),
-          const SizedBox(height: AppSpacing.xxl),
+          const SizedBox(height: AppSpacing.xxxl),
           Padding(
             padding: AppSpacing.screenH,
             child: Column(
@@ -80,7 +80,7 @@ class RecipesScreen extends ConsumerWidget {
               ],
             ),
           ),
-          const SizedBox(height: AppSpacing.xxl),
+          const SizedBox(height: AppSpacing.xxxl),
           PitadaTabs(
             tabs: const ['Receitas', 'Frameworks'],
             selected: tab,
