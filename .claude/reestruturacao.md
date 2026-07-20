@@ -98,33 +98,40 @@ specs/features/{auth,bancada,groceries,plans_progress,recipes}.yaml
 
 **Portão:** `python3 -c "import yaml,glob; [yaml.safe_load(open(p)) for p in glob.glob('specs/**/*.yaml',recursive=True)]"` sai sem erro.
 
-## 2. O vocabulário de sufixos não fecha com o corpus — 52 arquivos — [ ]
+## 2. O vocabulário de sufixos não fechava com o corpus — DECIDIDO 20/jul/2026 — [x]
 
-**Decisão do dono sobre a REGRA, não um sweep de renome.** `architecture.md` declara vocabulário
-obrigatório p/ `presentation`: `_screen _sheet _card _row _tile _view _bar _header _grid _chart
-_painter`. **52 arquivos** de `presentation/` + `core/widgets/` não têm nenhum deles (contado
-16/jul/2026; a anotação antiga dizia "~35", número que ninguém tinha contado).
+**Decisão do dono (20/jul/2026): híbrido, nem (A) nem (B) puros.** Nem afrouxar o sufixo a
+"indicativo" (o dono QUER sufixo obrigatório em feature — é o que torna botão/card achável e
+reusável por agente), nem inflar a lista até cobrir tudo (lista grande sem serventia). A meta era
+90%+ encaixando bem. Três decisões, gravadas em `architecture.md`:
 
-`core/widgets` 17 · recipes 12 · notebook 8 · plans 7 · profile 6 · groceries 2
+1. **Vocabulário de `presentation` cresce de 11 p/ 16**, só com o que o corpus já provou precisar
+   (≥ 2 usos reais): `+ _section _field _panel _picker _tag`. Critério gravado na regra: sufixo novo
+   só entra com 2+ arquivos reais — o freio contra inchar. Isso legaliza 137/177 (77%) sem tocar em código.
+2. **Átomos de `core/widgets/` são exceção nominal** (o nome É o papel: `pitada_button`, `masthead`,
+   `sheet_grip`). Preço: spec 1:1 obrigatória em `specs/components/` — átomo sem spec é bug.
+3. **Válvula de escape** (≤ ~5 no app): arquivo que não é papel-padrão nem átomo (pieces-file,
+   dado estático que não é widget, driver de animação) pode ficar sem sufixo COM linha no cabeçalho
+   dizendo por quê. A 6ª significa "tem papel escondido, a lista deve crescer".
 
-**Não é lapso dos arquivos — é a regra que não tem a palavra.** Não existe sufixo ali p/ botão, tag,
-campo editável, empty state ou animação, e é isso que são `pitada_button`, `pitada_tag`, `editable`,
-`empty_state`, `paper_fly`, `principle_quote`, `key_point`. A prova: a Fase 2 revisou `core/widgets`
-inteiro (agrupou os 25, espelho exato 25 `.dart` ↔ 25 `.yaml`) e **não renomeou nenhum** — não por
-esquecimento, por não haver sufixo verdadeiro p/ dar. 17 dos 52 estão justamente ali.
+**Renomes feitos (20/jul/2026), fora de `recipes/` (outro agente ativo lá):**
+- groceries: `category_group`→`category_section`
+- notebook: `key_point`→`key_point_tile`, `lesson_body`→`lesson_body_view`,
+  `principle_quote`→`principle_quote_view`, `note_take`→`note_take_tile`,
+  `pairing_legend`→`pairing_legend_view`
+- plans: `day_log_extras`→`day_log_extras_section`, `day_log_footer`→`day_log_footer_bar`,
+  `day_summary`→`day_summary_view`
+- profile: `activity_graph`→`activity_chart`, `friend_avatars`→`friend_avatar_row`,
+  `kitchen_radar`→`kitchen_radar_section`, `profile_stats`→`stats_bar`
+- escape valve (com nota no cabeçalho): `add_pantry_data` (dado estático, não-widget),
+  `log_param` (pieces: LogParamCell + LogStepRow), `settings_rows` (3 classes de linha),
+  `section_editor` (`_editor` fora do vocab pela regra dos 2+; promover quando a família de
+  edição de `recipes/` normalizar)
 
-Renomear p/ encaixar (`pitada_button_view`?) inventa sufixo falso — pior que não ter, e contra a
-regra de ouro 6 (o nome diz o que a coisa É).
-
-Escolha uma:
-- [ ] **(A)** `architecture.md` assume que o vocabulário é **indicativo p/ widget folha**, e
-  obrigatório onde de fato discrimina papel: `_screen _sheet _repository _providers _controller
-  _service _seed _mapper`. Zero renome; a regra passa a descrever o corpus que você já aprovou 2x.
-- [ ] **(B)** Ampliar o vocabulário com o que falta (`_button _field _panel _section _quote _anim`…)
-  e passar o sweep nos 52. Mais trabalho e ainda deixa `masthead`/`editable` sem casa óbvia.
-
-Enquanto não decidir, a regra está sendo violada 52 vezes por escrito — o que na prática ensina que
-ela é ignorável, que é o pior dos dois mundos.
+**Pendente (esperando o outro agente sair de `recipes/`):** ~11 arquivos de recipes
+(`recipe_meta`, `recipe_detail_body`, `paper_fly`, `import_preview`, `recipe_meta_text`, a família
+`*_quick_edit`/`*_item_edit`/`recipe_editors`, `framework_slot_pill`). `paper_fly` provavelmente
+escape valve; a família de edição pede decidir `_editor` (2+ usos aí dentro).
 
 ## 3. `<feature>_providers.dart` repete a feature no plural — 2 arquivos — [ ]
 

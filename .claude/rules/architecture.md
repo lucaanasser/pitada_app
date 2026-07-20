@@ -30,10 +30,16 @@ Over the limit? Split, in this order:
 
   | Layer | Suffixes |
   |---|---|
-  | presentation | `_screen` `_sheet` `_card` `_row` `_tile` `_view` `_bar` `_header` `_grid` `_chart` `_painter` |
+  | presentation | `_screen` `_sheet` `_card` `_row` `_tile` `_view` `_bar` `_header` `_grid` `_chart` `_painter` `_section` `_field` `_panel` `_picker` `_tag` |
   | application | `_providers` `_controller` `_service` |
   | data | `_repository` `_seed` `_mapper`; a **model is a plain noun** (`recipe.dart`), no suffix |
   | generated | `*.freezed.dart` `*.g.dart` next to the model |
+
+  **Growing the list is deliberate, not free.** A new presentation suffix earns its place only when **≥ 2 real files** already share that role (or it names a `core/widgets/` atom, below). One-off roles do not get a suffix — inventing `_button_view` to fit a rule is worse than the rule not having the word, and violates rule of gold 6 (the name says what the thing IS). The 16 above are what the corpus proved it needs; the next one waits for its second use.
+
+- **Two carve-outs from the suffix rule** (both bounded, both auditable):
+  1. **Design-system atoms in `core/widgets/`** — here the noun **is** the role (`pitada_button`, `masthead`, `sheet_grip`, `editable`, `empty_state`). A suffix would be a lie (`pitada_button_view`?) and adds nothing searchable — there is exactly one `pitada_button`, and it is found by its **mandatory 1:1 spec** in `specs/components/`, not by a `find` glob. The price of the carve-out is that spec: an atom with no `specs/components/**.yaml` is a bug, not an atom.
+  2. **Escape valve** — a file that is genuinely neither a standard role nor an atom (a pieces-file with two unrelated widgets, presentation-layer static data that is not a widget, a bespoke animation driver) may ship without a suffix **only** with a header line stating why. Keep this under ~5 across the whole app; the sixth means a real role is hiding and the list should grow, or the file is misplaced.
 
 ## Rule of 7
 **Max 7 loose files per directory; the 8th forces a subfolder.** Generated files do not count. 7 is a ceiling, not a floor — do not fragment for symmetry, and never create a one-file folder. When a directory overflows, split in this order:
