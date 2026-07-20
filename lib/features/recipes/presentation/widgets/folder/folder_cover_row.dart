@@ -3,8 +3,8 @@
 // O QUÊ:     Linha horizontal de capas de pasta na aba Receitas (lista única):
 //            um FolderCard por pasta, o card de contorno "Nova pasta" no fim
 //            e, depois dele, a seta solta "Ver todas" (sem card).
-// USA:       recipe_providers (pastas + receitas), folder_card, core/theme,
-//            core/utils/app_log, go_router.
+// USA:       recipe_providers (pastas + receitas), folder_card, folder_edit_sheet
+//            (criar/editar), core/theme, go_router.
 // USADO POR: recipes_screen (seção Pastas).
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
@@ -14,8 +14,8 @@ import 'package:go_router/go_router.dart';
 import '../../../../../core/theme/app_icons.dart';
 import '../../../../../core/theme/pitada_colors.dart';
 import '../../../../../core/theme/spacing.dart';
-import '../../../../../core/utils/app_log.dart';
 import '../../../application/recipe_providers.dart';
+import '../../sheets/folder_edit_sheet.dart';
 import 'folder_card.dart';
 import 'folder_painter.dart';
 
@@ -49,6 +49,7 @@ class FolderCoverRow extends ConsumerWidget {
                   count:
                       recipes.where((r) => r.folderIds.contains(f.id)).length,
                   onTap: () => context.push('/folder/${f.id}'),
+                  onLongPress: () => showFolderEditSheet(context, folder: f),
                 ),
               ),
             ),
@@ -103,8 +104,7 @@ class _NewFolderCover extends StatelessWidget {
     final pit = context.pit;
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
-      // TODO(pitada): abrir o editor de pasta quando ele existir.
-      onTap: () => AppLog.i('recipes', 'criar pasta — editor no próximo passo'),
+      onTap: () => showFolderEditSheet(context),
       child: AspectRatio(
         aspectRatio: 1.4,
         child: CustomPaint(

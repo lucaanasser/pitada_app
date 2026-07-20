@@ -3,8 +3,8 @@
 // O QUÊ:     Todas as pastas em grade 2 colunas — a fileira horizontal da aba
 //            Receitas só mostra as primeiras; aqui dá pra ver (e abrir) todas,
 //            e também criar uma nova (ícone + no topo).
-// USA:       recipe_providers, FolderCard, core/widgets (EmptyState),
-//            core/theme (AppIcons, AppSpacing, AppType), core/utils/app_log,
+// USA:       recipe_providers, FolderCard, folder_edit_sheet (criar/editar),
+//            core/widgets (EmptyState), core/theme (AppIcons, AppSpacing, AppType),
 //            go_router.
 // USADO POR: core/router (/folders), via o ícone "ver todas" da RecipesScreen.
 // ─────────────────────────────────────────────────────────────────────────────
@@ -16,10 +16,10 @@ import '../../../../../core/theme/app_icons.dart';
 import '../../../../../core/theme/pitada_colors.dart';
 import '../../../../../core/theme/spacing.dart';
 import '../../../../../core/theme/typography.dart';
-import '../../../../../core/utils/app_log.dart';
 import '../../../../../core/widgets/controls/pitada_button.dart';
 import '../../../../../core/widgets/layout/empty_state.dart';
 import '../../../application/recipe_providers.dart';
+import '../../sheets/folder_edit_sheet.dart';
 import '../../widgets/folder/folder_card.dart';
 
 /// Tela com todas as pastas em grade. Usada por: router (/folders).
@@ -71,6 +71,8 @@ class FoldersGridScreen extends ConsumerWidget {
                               .where((r) => r.folderIds.contains(f.id))
                               .length,
                           onTap: () => context.push('/folder/${f.id}'),
+                          onLongPress: () =>
+                              showFolderEditSheet(context, folder: f),
                         );
                       },
                     ),
@@ -103,9 +105,7 @@ class FoldersGridScreen extends ConsumerWidget {
             icon: AppIcons.add,
             filled: true,
             size: AppSpacing.iconButtonSm,
-            // TODO(pitada): abrir o editor de pasta quando ele existir.
-            onPressed: () =>
-                AppLog.i('recipes', 'criar pasta — editor no próximo passo'),
+            onPressed: () => showFolderEditSheet(context),
           ),
         ],
       ),

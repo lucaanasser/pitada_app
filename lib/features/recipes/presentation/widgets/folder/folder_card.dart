@@ -23,11 +23,13 @@ class FolderCard extends StatefulWidget {
     required this.folder,
     required this.count,
     this.onTap,
+    this.onLongPress,
   });
 
   final Folder folder;
   final int count;
   final VoidCallback? onTap;
+  final VoidCallback? onLongPress;
 
   @override
   State<FolderCard> createState() => _FolderCardState();
@@ -46,6 +48,7 @@ class _FolderCardState extends State<FolderCard> {
       onTapUp: (_) => setState(() => _pressed = false),
       onTapCancel: () => setState(() => _pressed = false),
       onTap: widget.onTap,
+      onLongPress: widget.onLongPress,
       child: AnimatedScale(
         scale: _pressed ? 0.97 : 1.0,
         duration: const Duration(milliseconds: 110),
