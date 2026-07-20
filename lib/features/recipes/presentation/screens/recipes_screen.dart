@@ -1,14 +1,15 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/recipes/presentation/screens/recipes_screen.dart
-// O QUÊ:     Aba Receitas: header → capas de pasta (nova pasta e ver todas
-//            entram como capas fantasma na própria fileira) → busca (com os
-//            filtros colapsados atrás do ícone) → duas tabs — Receitas (lista
-//            com maestria e memória do caderno) e Frameworks (as plantas baixas
-//            que a pessoa constrói das próprias receitas).
+// O QUÊ:     Aba Receitas: header → rosca da coleção (cozinhadas vs salvas) →
+//            capas de pasta (nova pasta e ver todas entram como capas fantasma
+//            na própria fileira) → busca (com os filtros colapsados atrás do
+//            ícone) → duas tabs — Receitas (lista com maestria e memória do
+//            caderno) e Frameworks (as plantas baixas que a pessoa constrói
+//            das próprias receitas).
 // USA:       core/theme, core/widgets (PitadaTabs, EmptyState),
-//            recipe_list_providers, framework_providers, RecipeSearchField,
-//            RecipeFilterPanel, FolderCoverRow, RecipeListView,
-//            FrameworksTabView, go_router.
+//            recipe_list_providers, framework_providers, CollectionChart,
+//            RecipeSearchField, RecipeFilterPanel, FolderCoverRow,
+//            RecipeListView, FrameworksTabView, go_router.
 // USADO POR: core/router/router.dart (branch /recipes).
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
@@ -28,6 +29,7 @@ import '../../application/recipe_list_providers.dart';
 import '../../application/recipe_providers.dart';
 import '../../data/models/recipe/recipe.dart';
 import '../sheets/import_sheet.dart';
+import '../widgets/collection_chart.dart';
 import '../widgets/folder/folder_cover_row.dart';
 import '../widgets/framework/frameworks_tab_view.dart';
 import '../widgets/list/recipe_filter_panel.dart';
@@ -52,6 +54,10 @@ class RecipesScreen extends ConsumerWidget {
         padding: tabListPadding(context),
         children: [
           _header(context, pit),
+          const Padding(
+            padding: AppSpacing.screenH,
+            child: CollectionChart(),
+          ),
           const SizedBox(height: AppSpacing.xxl),
           const FolderCoverRow(),
           const SizedBox(height: AppSpacing.xxl),
