@@ -49,7 +49,7 @@ data:
     - ProfileCounts:          # números reais agregados das outras features
         campos:
           - recipes: int                 # receitas (recipesProvider)
-          - captures: int                # capturas no caderno (fioProvider)
+          - captures: int                # capturas no caderno (threadProvider)
           - cooks: int                   # preparos no diário (diaryProvider)
     - RadarItem:              # uma pendência acionável do radar
         campos:
@@ -86,11 +86,11 @@ application:
     # O Perfil é um agregador de propósito: lê providers de recipes/learning/
     # shopping na camada application; a UI do perfil só lê providers da feature.
     - activityProvider (Provider<List<ActivityDay>>): >
-        SÍNCRONO, derivado do fioProvider: agrupa os registros reais por dia
-        (FioKind -> label pt-BR) e chama buildActivityDays. É a fonte do
+        SÍNCRONO, derivado do threadProvider: agrupa os registros reais por dia
+        (ThreadKind -> label pt-BR) e chama buildActivityDays. É a fonte do
         gráfico, do streak do cabeçalho e do drill-down por dia.
     - profileCountsProvider (Provider<ProfileCounts>): >
-        números reais: recipesProvider (receitas), fioProvider (capturas no
+        números reais: recipesProvider (receitas), threadProvider (capturas no
         caderno) e diaryProvider (preparos registrados).
     - kitchenRadarProvider (Provider<List<RadarItem>>): >
         pendências em ordem: cozinha sem registro (pendingCookProvider) ->

@@ -1,12 +1,12 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/plans/presentation/widgets/meal/cardapio_view.dart
+// lib/features/plans/presentation/widgets/meal/menu_view.dart
 // O QUÊ:     Corpo da sub-aba "Cardápio": só a lista reordenável de refeições do
 //            plano + botão de adicionar refeição. É lista (o que se pretende comer),
 //            não log. O resumo do dia (kcal + macros) e as abas ficam no cabeçalho
 //            compartilhado da PlansScreen, acima; o log fica em "Progresso".
 // USA:       core/widgets, plan_providers, MealCard, meal_sheet, theme/*.
 // USADO POR: plans_screen (sub-aba 0).
-// SPEC:      specs/features/plans_progress.yaml (screens_e_widgets: CardapioView)
+// SPEC:      specs/features/plans_progress.yaml (screens_e_widgets: MenuView)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,8 +20,8 @@ import '../../sheets/plan/meal_sheet.dart';
 import 'meal_card.dart';
 
 /// Sub-aba "Cardápio": refeições reordenáveis do plano ativo. Usada por: PlansScreen.
-class CardapioView extends ConsumerWidget {
-  const CardapioView({super.key});
+class MenuView extends ConsumerWidget {
+  const MenuView({super.key});
 
   /// Monta a lista de refeições + adicionar (sem título nem resumo, que vivem no
   /// cabeçalho da PlansScreen). Usada por: PlansScreen.

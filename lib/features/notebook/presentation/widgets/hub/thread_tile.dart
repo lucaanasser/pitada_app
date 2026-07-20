@@ -1,9 +1,9 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/notebook/presentation/widgets/hub/fio_tile.dart
+// lib/features/notebook/presentation/widgets/hub/thread_tile.dart
 // O QUÊ:     Item do fio cronológico do hub do Caderno: data + trilho de tinta
 //            + tag do tipo (Diário/Nota/Versão/Log) + título + excerto de 1 linha.
 // USA:       core/theme (pitada_colors, spacing, typography), core/widgets
-//            (PitadaTag, PitadaChip), go_router (abrir detalhe), FioEntry.
+//            (PitadaTag, PitadaChip), go_router (abrir detalhe), ThreadEntry.
 // USADO POR: hub do Caderno (seção "Fio" da NotebookScreen).
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
@@ -15,7 +15,7 @@ import '../../../../../core/theme/spacing.dart';
 import '../../../../../core/theme/typography.dart';
 import '../../../../../core/widgets/controls/pitada_chip.dart';
 import '../../../../../core/widgets/tags/pitada_tag.dart';
-import '../../../data/models/hub/fio_entry.dart';
+import '../../../data/models/hub/thread_entry.dart';
 
 /// Meses pt-BR abreviados para a coluna de data do fio.
 const _months = [
@@ -34,24 +34,24 @@ const _months = [
 ];
 
 /// Rótulo e hero pastel de cada tipo de captura do fio.
-/// Usada por: [FioTile] (tag colorida do item).
-({String label, String hero}) _kindStyle(FioKind kind) => switch (kind) {
-      FioKind.diary => (label: 'Diário', hero: 'moss'),
-      FioKind.note => (label: 'Nota', hero: 'ochre'),
-      FioKind.version => (label: 'Versão', hero: 'teal'),
-      FioKind.log => (label: 'Log', hero: 'plum'),
+/// Usada por: [ThreadTile] (tag colorida do item).
+({String label, String hero}) _kindStyle(ThreadKind kind) => switch (kind) {
+      ThreadKind.diary => (label: 'Diário', hero: 'moss'),
+      ThreadKind.note => (label: 'Nota', hero: 'ochre'),
+      ThreadKind.version => (label: 'Versão', hero: 'teal'),
+      ThreadKind.log => (label: 'Log', hero: 'plum'),
     };
 
 /// Um item do fio: coluna de data, trilho vertical de tinta que costura os
 /// itens e o conteúdo (tag do tipo, título, excerto). Toque abre o detalhe.
 /// Usada por: hub do Caderno (lista do fio).
-class FioTile extends StatelessWidget {
-  const FioTile({super.key, required this.entry, this.isLast = false});
+class ThreadTile extends StatelessWidget {
+  const ThreadTile({super.key, required this.entry, this.isLast = false});
 
-  final FioEntry entry;
+  final ThreadEntry entry;
   final bool isLast;
 
-  /// Monta data + trilho + conteúdo e navega para [FioEntry.route] no toque.
+  /// Monta data + trilho + conteúdo e navega para [ThreadEntry.route] no toque.
   @override
   Widget build(BuildContext context) {
     final pit = context.pit;

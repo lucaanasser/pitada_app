@@ -7,7 +7,7 @@
 // USA:       notebook/hub_providers (fio, cozinha pendente), notebook/providers
 //            (diário), recipe_providers (receitas), groceries/providers
 //            (despensa), activity_builder, activity_day, activity_entry,
-//            profile_counts, radar_item, fio_entry (modelo), riverpod.
+//            profile_counts, radar_item, thread_entry (modelo), riverpod.
 // USADO POR: ProfileHeader, ProfileStats, ActivityGraph e KitchenRadar.
 // SPEC:      specs/features/profile.yaml (application.providers — agregadores)
 // ─────────────────────────────────────────────────────────────────────────────
@@ -15,7 +15,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../notebook/application/hub_providers.dart';
 import '../../notebook/application/providers.dart';
-import '../../notebook/data/models/hub/fio_entry.dart';
+import '../../notebook/data/models/hub/thread_entry.dart';
 import '../../recipes/application/recipe_providers.dart';
 import '../../groceries/application/providers.dart';
 import '../data/activity_builder.dart';
@@ -25,11 +25,11 @@ import '../data/models/profile_counts.dart';
 import '../data/models/radar_item.dart';
 
 /// Rótulo pt-BR de um tipo de captura do fio. Usada por: [activityProvider].
-String _fioLabel(FioKind kind) => switch (kind) {
-      FioKind.diary => 'Diário',
-      FioKind.note => 'Nota',
-      FioKind.version => 'Versão',
-      FioKind.log => 'Log',
+String _fioLabel(ThreadKind kind) => switch (kind) {
+      ThreadKind.diary => 'Diário',
+      ThreadKind.note => 'Nota',
+      ThreadKind.version => 'Versão',
+      ThreadKind.log => 'Log',
     };
 
 /// Atividade da cozinha (22 semanas) derivada do fio REAL do Caderno: agrupa
@@ -38,7 +38,7 @@ String _fioLabel(FioKind kind) => switch (kind) {
 /// Usada por: ActivityGraph, ActivityGrid e ProfileHeader.
 final activityProvider = Provider<List<ActivityDay>>((ref) {
   final byDate = <DateTime, List<ActivityEntry>>{};
-  for (final e in ref.watch(fioProvider)) {
+  for (final e in ref.watch(threadProvider)) {
     final day = DateTime(e.date.year, e.date.month, e.date.day);
     byDate.putIfAbsent(day, () => []).add(
           ActivityEntry(
@@ -57,7 +57,7 @@ final activityProvider = Provider<List<ActivityDay>>((ref) {
 final profileCountsProvider = Provider<ProfileCounts>((ref) {
   return ProfileCounts(
     recipes: (ref.watch(recipesProvider).valueOrNull ?? const []).length,
-    captures: ref.watch(fioProvider).length,
+    captures: ref.watch(threadProvider).length,
     cooks: (ref.watch(diaryProvider).valueOrNull ?? const []).length,
   );
 });

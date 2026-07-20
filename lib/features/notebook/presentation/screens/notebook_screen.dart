@@ -22,7 +22,7 @@ import '../../../../core/widgets/layout/section_header.dart';
 import '../../application/hub_providers.dart';
 import '../sheets/add_sheet.dart';
 import '../widgets/hub/capture_bar.dart';
-import '../widgets/hub/fio_tile.dart';
+import '../widgets/hub/thread_tile.dart';
 import '../widgets/hub/reactivation_card.dart';
 import '../widgets/hub/tools_panel.dart';
 
@@ -38,7 +38,7 @@ class NotebookScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final pit = context.pit;
     final reactivation = ref.watch(reactivationItemsProvider);
-    final fio = ref.watch(fioProvider);
+    final fio = ref.watch(threadProvider);
     final expanded = ref.watch(fioExpandedProvider);
     final visible = expanded ? fio : fio.take(_kFioPreview).toList();
 
@@ -85,7 +85,7 @@ class NotebookScreen extends ConsumerWidget {
               child: Column(
                 children: [
                   for (var i = 0; i < visible.length; i++)
-                    FioTile(
+                    ThreadTile(
                       entry: visible[i],
                       isLast: i == visible.length - 1,
                     ),

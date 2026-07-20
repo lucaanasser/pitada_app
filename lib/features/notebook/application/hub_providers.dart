@@ -2,14 +2,14 @@
 // lib/features/notebook/application/hub_providers.dart
 // O QUÊ:     Providers do HUB do Caderno: fio cronológico unificado, cards de
 //            reativação ("Para hoje") e cozinha pendente de registro.
-// USA:       providers (fontes), modelos fio_entry/reactivation_item/
+// USA:       providers (fontes), modelos thread_entry/reactivation_item/
 //            pending_cook, riverpod.
 // USADO POR: NotebookScreen, CaptureBar, ReactivationCard e overview_providers
 //            (perfil).
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../data/models/hub/fio_entry.dart';
+import '../data/models/hub/thread_entry.dart';
 import '../data/models/activity/pending_cook.dart';
 import '../data/models/hub/reactivation_item.dart';
 import 'providers.dart';
@@ -28,12 +28,12 @@ final fioExpandedProvider = StateProvider<bool>((ref) => false);
 
 /// O fio do Caderno: diário + notas + versões + logs, do mais recente ao mais
 /// antigo. Usada por: NotebookScreen (seção "O fio").
-final fioProvider = Provider<List<FioEntry>>((ref) {
-  final entries = <FioEntry>[
+final threadProvider = Provider<List<ThreadEntry>>((ref) {
+  final entries = <ThreadEntry>[
     for (final d in ref.watch(diaryProvider).valueOrNull ?? [])
-      FioEntry(
+      ThreadEntry(
         id: d.id,
-        kind: FioKind.diary,
+        kind: ThreadKind.diary,
         date: d.date,
         title: d.recipeName,
         excerpt: d.body,
@@ -42,9 +42,9 @@ final fioProvider = Provider<List<FioEntry>>((ref) {
       ),
     for (final n in ref.watch(notesProvider).valueOrNull ?? [])
       if (n.date != null)
-        FioEntry(
+        ThreadEntry(
           id: n.id,
-          kind: FioKind.note,
+          kind: ThreadKind.note,
           date: n.date!,
           title: n.title,
           excerpt: n.takeaways.isEmpty ? n.meta : n.takeaways.first,
@@ -52,9 +52,9 @@ final fioProvider = Provider<List<FioEntry>>((ref) {
         ),
     for (final v in ref.watch(versionsProvider).valueOrNull ?? [])
       if (v.date != null && v.timeline.isNotEmpty)
-        FioEntry(
+        ThreadEntry(
           id: v.id,
-          kind: FioKind.version,
+          kind: ThreadKind.version,
           date: v.date!,
           title: v.recipeName,
           excerpt: v.timeline.last.change,
@@ -62,9 +62,9 @@ final fioProvider = Provider<List<FioEntry>>((ref) {
           tag: v.timeline.last.label,
         ),
     for (final l in ref.watch(logsProvider).valueOrNull ?? [])
-      FioEntry(
+      ThreadEntry(
         id: l.id,
-        kind: FioKind.log,
+        kind: ThreadKind.log,
         date: l.date,
         title: l.title,
         excerpt: l.note.isEmpty ? l.type : l.note,

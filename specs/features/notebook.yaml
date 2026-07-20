@@ -77,11 +77,11 @@ data:
     - Pairing:           # harmonização de um ingrediente
         file: lib/features/notebook/data/models/knowledge/repertoire.dart
         fields: "id, ingredient, items(List<PairingItem>), recipeIds(List<String>)"
-    - FioEntry:          # item do fio: visão unificada e cronológica das capturas
-        file: lib/features/notebook/data/models/hub/fio_entry.dart
-        fields: "id, kind(FioKind), date(DateTime), title, excerpt, route, tag(String?)"
-        kind: "enum FioKind { diary, note, version, log } -> cor e rótulo da tag"
-        notes: "derivado dos outros modelos em fioProvider; nunca persistido."
+    - ThreadEntry:          # item do fio: visão unificada e cronológica das capturas
+        file: lib/features/notebook/data/models/hub/thread_entry.dart
+        fields: "id, kind(ThreadKind), date(DateTime), title, excerpt, route, tag(String?)"
+        kind: "enum ThreadKind { diary, note, version, log } -> cor e rótulo da tag"
+        notes: "derivado dos outros modelos em threadProvider; nunca persistido."
     - PendingCook:       # cozinha feita sem registro no diário
         file: lib/features/notebook/data/models/activity/pending_cook.dart
         fields: [recipeId, recipeName, when(DateTime)]
@@ -145,7 +145,7 @@ application:
       - pendingCookProvider (FutureProvider<PendingCook?>)
       - dismissedReactivationsProvider (StateProvider<Set<String>>)
       - fioExpandedProvider (StateProvider<bool>)   # fio resumido x completo
-      - fioProvider (Provider<List<FioEntry>>)      # funde diário+notas+versões+logs
+      - threadProvider (Provider<List<ThreadEntry>>)      # funde diário+notas+versões+logs
       - reactivationItemsProvider (Provider<List<ReactivationItem>>)
     notes: "deriva o hub das fontes de providers.dart; não fala com o repositório direto."
 
@@ -158,12 +158,12 @@ screens:
         Masthead, cabeçalho (título "Caderno" + PitadaIconButton '+' ->
         showNotebookAddSheet), CaptureBar,
         SectionHeader "Para hoje" -> ReactivationCard por item (só se houver),
-        SectionHeader "O fio" -> FioTile (5 primeiros; PitadaButton outline
+        SectionHeader "O fio" -> ThreadTile (5 primeiros; PitadaButton outline
         "Ver o fio completo"/"Mostrar menos") ou EmptyState se vazio,
         SectionHeader "Ferramentas" -> ToolsPanel
-      providers: [reactivationItemsProvider, fioProvider, fioExpandedProvider]
+      providers: [reactivationItemsProvider, threadProvider, fioExpandedProvider]
       notes: "background pit.tabBg(1). O hub é o caderno aberto, não um índice."
-      navigates_to: "via FioTile (rota do item), ReactivationCard e ToolsPanel"
+      navigates_to: "via ThreadTile (rota do item), ReactivationCard e ToolsPanel"
 
   # ---- CONHECIMENTO ----
   - LessonCardsScreen:   # enciclopédia pessoal
@@ -311,7 +311,7 @@ sheets:
 widgets:                 # lib/features/notebook/presentation/widgets/
   hub:
     - CaptureBar:        # capture_bar.dart — convite de escrita + 3 chips (Cozinhei/Anotei/Ficha)
-    - FioTile:           # fio_tile.dart — data + trilho + tag do FioKind + título + excerto
+    - ThreadTile:           # thread_tile.dart — data + trilho + tag do ThreadKind + título + excerto
     - ReactivationCard:  # reactivation_card.dart — card pastel "Para hoje" + dispensa
     - ToolsPanel:        # tools_panel.dart — as 8 ferramentas nos 3 pilares, com contagens
   shared:

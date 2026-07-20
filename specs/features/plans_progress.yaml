@@ -25,7 +25,7 @@ navegacao:
     título 'Plano' (screenTitle) + DaySummary (kcal grande + status + FuelBar +
     macros) + PitadaTabs. O switcher fica abaixo dos macros (respiro xl),
     alinhado à ESQUERDA como nas outras telas. selected=0 ->
-    CardapioView (só a lista de refeições + 'Adicionar refeição', sem título nem
+    MenuView (só a lista de refeições + 'Adicionar refeição', sem título nem
     DaySummary), selected=1 -> ProgressView. Estado da aba em setState local
     (StatefulWidget), como recipes.
 
@@ -190,7 +190,7 @@ screens_e_widgets:
       tipo: "CustomPaint (sem lib externa; flat — linha accent + pontos, sem gradiente/sombra)"
       entrada: "List<WeightEntry> (>=2 p/ desenhar linha; <2 mostra dica)"
       eixos: "y auto-escala (min/max com folga); x pela ordem/tempo. Rótulos min/max discretos."
-  - CardapioView:                     # presentation/widgets/cardapio_view.dart
+  - MenuView:                     # presentation/widgets/menu_view.dart
       proposito: "Sub-aba 'Cardápio': só a lista reordenável de MealCards + botão
         'Adicionar refeição'. Sem título de plano e sem DaySummary — ambos vivem no
         cabeçalho compartilhado da PlansScreen, acima das abas."

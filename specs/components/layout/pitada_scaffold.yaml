@@ -20,5 +20,5 @@ used_by:
   scaffold: [recipes_screen, recipe_edit_screen, notebook_screen, notes_screen,
              diary_screen, process_logs_screen, versions_screen, repertoire_screen,
              plans_screen, groceries_screen, profile_screen, settings_screen]
-  tab_list_padding: [recipes_screen, notebook_screen, progress_view, cardapio_view,
+  tab_list_padding: [recipes_screen, notebook_screen, progress_view, menu_view,
                      grocery_list_view, pantry_view, profile_screen, settings_screen]

@@ -95,3 +95,48 @@ class RecipeEditController {
 /// Instância do controller de edição inline. Usada por: RecipeQuickEdit (detalhe).
 final recipeEditControllerProvider =
     Provider<RecipeEditController>(RecipeEditController.new);
+
+/// Controller de pastas: cria, renomeia/recolore, apaga e define as receitas de
+/// uma pasta, invalidando os providers dependentes. Presentation nunca fala com
+/// o repositório direto. Usada por: folderEditControllerProvider.
+class FolderEditController {
+  const FolderEditController(this._ref);
+
+  final Ref _ref;
+
+  /// Cria uma pasta nova e refaz a lista. Devolve o id gerado.
+  /// Usada por: showFolderEditSheet (criar).
+  Future<String> create(Folder folder) async {
+    final id = await _ref.read(recipesRepositoryProvider).createFolder(folder);
+    _ref.invalidate(foldersProvider);
+    return id;
+  }
+
+  /// Renomeia / troca a cor de uma pasta e refaz a lista.
+  /// Usada por: showFolderEditSheet (editar).
+  Future<void> save(Folder folder) async {
+    await _ref.read(recipesRepositoryProvider).updateFolder(folder);
+    _ref.invalidate(foldersProvider);
+  }
+
+  /// Apaga a pasta e refaz lista + receitas (a contagem some junto).
+  /// Usada por: showFolderEditSheet (apagar).
+  Future<void> delete(String id) async {
+    await _ref.read(recipesRepositoryProvider).deleteFolder(id);
+    _ref.invalidate(foldersProvider);
+    _ref.invalidate(recipesProvider);
+  }
+
+  /// Define quais receitas pertencem à pasta e refaz as receitas (contagem e
+  /// FolderScreen mudam). Usada por: showFolderEditSheet (Salvar).
+  Future<void> setRecipes(String folderId, List<String> recipeIds) async {
+    await _ref
+        .read(recipesRepositoryProvider)
+        .setFolderRecipes(folderId, recipeIds);
+    _ref.invalidate(recipesProvider);
+  }
+}
+
+/// Instância do controller de pastas. Usada por: showFolderEditSheet.
+final folderEditControllerProvider =
+    Provider<FolderEditController>(FolderEditController.new);
