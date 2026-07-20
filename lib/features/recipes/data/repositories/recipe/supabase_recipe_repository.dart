@@ -2,8 +2,10 @@
 // lib/features/recipes/data/repositories/recipe/supabase_recipe_repository.dart
 // O QUÊ:     Implementação ONLINE do RecipesRepository: Postgres via PostgREST
 //            (leitura com embedding numa query; escrita = linha + filhas).
-// USA:       recipe_repository (contrato), recipe_row_mapper (linha<->modelo),
-//            core/supabase (cliente), core/utils/app_log.
+//            A parte de pastas mora no mixin SupabaseFolderRepository.
+// USA:       recipe_repository (contrato), supabase_folder_repository (pastas),
+//            recipe_row_mapper (linha<->modelo), core/supabase (cliente),
+//            core/utils/app_log.
 // USADO POR: main.dart (override do recipesRepositoryProvider quando online).
 // SPEC:      specs/features/recipes.yaml (data.repository_supabase) +
 //            specs/backend/database.yaml
@@ -12,14 +14,16 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../../../core/supabase/supabase.dart';
 import '../../../../../core/utils/app_log.dart';
-import '../../models/folder.dart';
 import '../../models/recipe/recipe.dart';
 import 'recipe_row_mapper.dart';
 import 'recipe_repository.dart';
+import 'supabase_folder_repository.dart';
 
 /// Repositório online. A RLS garante que só as linhas do usuário chegam aqui —
 /// nenhuma query precisa filtrar por user_id. Usada por: main.dart (override).
-class SupabaseRecipesRepository implements RecipesRepository {
+class SupabaseRecipesRepository
+    with SupabaseFolderRepository
+    implements RecipesRepository {
   const SupabaseRecipesRepository();
 
   SupabaseClient get _db => SupabaseService.client;
@@ -43,14 +47,6 @@ class SupabaseRecipesRepository implements RecipesRepository {
         .order('created_at', ascending: true);
     AppLog.d('recipes', 'carregadas ${rows.length} receitas (supabase)');
     return rows.map(recipeFromRow).toList();
-  }
-
-  /// Pastas do usuário na ordem manual (position). Usada por: foldersProvider.
-  @override
-  Future<List<Folder>> fetchFolders() async {
-    final rows =
-        await _db.from('folders').select().order('position', ascending: true);
-    return rows.map(Folder.fromJson).toList();
   }
 
   /// Qualquer versão pelo id (uuid). Id malformado (ex.: slug do seed) vira

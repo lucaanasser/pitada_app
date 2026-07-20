@@ -20,6 +20,22 @@ abstract class RecipesRepository {
   /// Lista as pastas (capítulos). Usada por: foldersProvider.
   Future<List<Folder>> fetchFolders();
 
+  /// Cria uma pasta NOVA e devolve o id final gerado (online o Postgres gera o
+  /// uuid; no seed é um id local). Usada por: FolderEditController.create.
+  Future<String> createFolder(Folder folder);
+
+  /// Renomeia / troca a cor de uma pasta no lugar (mesmo id). Usada por:
+  /// FolderEditController.save.
+  Future<void> updateFolder(Folder folder);
+
+  /// Apaga a pasta (os vínculos recipe_folders somem junto). Usada por:
+  /// FolderEditController.delete.
+  Future<void> deleteFolder(String id);
+
+  /// Define QUAIS receitas pertencem à pasta [folderId] (substitui os vínculos).
+  /// Só entram receitas DEFINITIVAS. Usada por: FolderEditController.setRecipes.
+  Future<void> setFolderRecipes(String folderId, List<String> recipeIds);
+
   /// Busca uma receita por id — INCLUI versões antigas. null quando não existe.
   /// Usada por: recipeByIdProvider (detalhe/cozinhar/editar).
   Future<Recipe?> fetchById(String id);

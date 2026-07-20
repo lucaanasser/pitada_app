@@ -55,6 +55,16 @@ data:
     preview PC — comportamento abaixo) e SupabaseRecipesRepository (online,
     Postgres com RLS). main.dart escolhe via override do recipesRepositoryProvider
     quando SupabaseService.initIfConfigured() == true.
+  repository_pastas:              # CRUD de pastas (folders + recipe_folders)
+                                  # online: repositories/recipe/supabase_folder_repository.dart (mixin)
+    - createFolder(Folder) -> String   # insere a linha; devolve o id (online = uuid do Postgres)
+    - updateFolder(Folder)             # renomeia / troca hero_color no lugar (mesmo id)
+    - deleteFolder(String id)          # apaga a pasta; recipe_folders cai por cascade/override
+    - setFolderRecipes(String folderId, List<String> recipeIds): >
+        Substitui a lista de receitas da pasta (define os vínculos recipe_folders).
+        Online: delete recipe_folders where folder_id + insert dos selecionados.
+        Seed: aplica override por receita (add/remove folderId em folderIds). Só as
+        DEFINITIVAS entram (versões antigas ficam fora de pastas).
   repository_supabase:            # data/repositories/recipe/supabase_recipe_repository.dart
     leitura: >
       1 query com embedding: from('recipes').select('*, recipe_ingredients(*),
@@ -136,7 +146,13 @@ application:
     - folderByIdProvider (family)                   # pasta única, para FolderScreen
     - recipesInFolderProvider (family)              # receitas de uma pasta (por folderId)
     - recipeEditControllerProvider (Provider<RecipeEditController>)  # edição inline
+    - folderEditControllerProvider (Provider<FolderEditController>)  # CRUD de pastas
   controllers:
+    - FolderEditController: >
+        Cria/edita/apaga pastas e define as receitas de uma pasta, sempre invalidando
+        os providers dependentes. create/save/delete e setRecipes invalidam foldersProvider;
+        setRecipes também invalida recipesProvider (a contagem e o FolderScreen mudam).
+        A presentation nunca chama o repositório direto — passa por aqui.
     - RecipeEditController.save(Recipe, {bool asNewVersion}): >
         Persiste a receita editada e invalida os providers dependentes (recipeByIdProvider,
         recipesProvider, recipeVersionGroupProvider do grupo) — a tela reflete na hora.
@@ -223,7 +239,22 @@ screens:
           Nome no bolso em AppType.titleXs (14, Space Grotesk), até 2 LINHAS antes
           do "..."; contagem "N receitas" em captionSm logo abaixo. Padding inferior
           do texto = sm (bolso curto). Press: encolhe o card (0.97) e levanta os
-          papéis (lift 0..6px).
+          papéis (lift 0..6px). Toque LONGO (onLongPress) abre o editor da pasta.
+        editor_de_pasta:   # presentation/sheets/folder_edit_sheet.dart + widgets/folder/folder_color_picker.dart
+          api: showFolderEditSheet(BuildContext, {Folder? folder}) -> Future<void>
+          disparado_por: >
+            o "+" da capa "Nova pasta" (folder_cover_row) e do topo da FoldersGrid criam
+            (folder null); o toque longo num FolderCard edita a pasta tocada.
+          layout: >
+            grip + título ("Nova pasta"/"Editar pasta") + EditTextField (nome) +
+            FolderColorPicker (as 7 cores de card como bolinhas; a ativa ganha anel de tinta)
+            + rótulo RECEITAS com a lista de recipesProvider (HairlineRow tocável +
+            AppIcons.checkCircle na selecionada) + PitadaButton "Salvar". No modo edição,
+            um PitadaButton outline "Apagar pasta" fecha e chama delete.
+          persistencia: >
+            FolderEditController — create/save (nome+cor) e setRecipes (vínculos), sempre
+            em sequência no Salvar; delete some com a pasta. Sem receitas selecionadas a
+            pasta pode existir vazia (mostra EmptyState no FolderScreen).
 
   - RecipeDetailScreen:
       # meta = TEXTO sóbrio "N porções · tempo · dificuldade" (bodySm, pit.text2) —

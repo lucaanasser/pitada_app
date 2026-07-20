@@ -4,8 +4,8 @@
 //            chaves): serve o seed, guarda edições da sessão em overrides e
 //            resolve componentes VINCULADOS a cada leitura (propagação real).
 // USA:       recipe_repository (contrato), recipe/folder, recipe_seed,
-//            recipe_versions_seed, sub_recipe_seed (bolos demo),
-//            seed_sub_recipe_repository (estado da subreceita), app_log.
+//            recipe_versions_seed, sub_recipe_seed (bolos demo), seed_folder_store
+//            (estado das pastas), seed_sub_recipe_repository (subreceita), app_log.
 // USADO POR: recipes_providers (default do provider, quando offline).
 // SPEC:      specs/features/recipes.yaml (data.edicao_inline, data.versoes) +
 //            specs/features/sub_recipes.yaml (data.leitura)
@@ -14,6 +14,7 @@ import '../../../../../core/utils/app_log.dart';
 import '../../models/folder.dart';
 import '../../models/recipe/recipe.dart';
 import 'recipe_repository.dart';
+import 'seed_folder_store.dart';
 import '../../seed/recipe_seed.dart';
 import '../../seed/recipe_versions_seed.dart';
 import '../../seed/sub_recipe_seed.dart';
@@ -88,9 +89,50 @@ class SeedRecipesRepository implements RecipesRepository {
     return id;
   }
 
-  /// Pastas fixas do seed. Usada por: foldersProvider.
+  /// Pastas atuais do preview (seed + edições da sessão). Usada por: foldersProvider.
   @override
-  Future<List<Folder>> fetchFolders() async => kSeedFolders;
+  Future<List<Folder>> fetchFolders() async => sessionFolders();
+
+  /// Cria uma pasta em memória. Usada por: FolderEditController.create.
+  @override
+  Future<String> createFolder(Folder folder) async =>
+      createSessionFolder(folder);
+
+  /// Renomeia / troca a cor de uma pasta. Usada por: FolderEditController.save.
+  @override
+  Future<void> updateFolder(Folder folder) async =>
+      updateSessionFolder(folder);
+
+  /// Apaga a pasta e desfaz seus vínculos nas receitas. Usada por: FolderEditController.
+  @override
+  Future<void> deleteFolder(String id) async {
+    deleteSessionFolder(id);
+    await setFolderRecipes(id, const []);
+  }
+
+  /// Aplica override por receita p/ casar a lista de vínculos da pasta (só
+  /// DEFINITIVAS). Usada por: FolderEditController.setRecipes.
+  @override
+  Future<void> setFolderRecipes(String folderId, List<String> recipeIds) async {
+    final selected = recipeIds.toSet();
+    final definitives = [
+      ..._createdRecipes,
+      ...kSeedRecipes,
+      ...kSeedCakeRecipes,
+      ...kSeedUnifyDemoRecipes,
+    ];
+    for (final base in definitives) {
+      final r = _withOverride(base);
+      final should = selected.contains(r.id);
+      if (r.folderIds.contains(folderId) == should) continue;
+      _recipeOverrides[r.id] = r.copyWith(
+        folderIds: should
+            ? [...r.folderIds, folderId]
+            : [for (final f in r.folderIds) if (f != folderId) f],
+      );
+    }
+    AppLog.i('recipes', 'receitas da pasta $folderId: ${selected.length}');
+  }
 
   /// Consulta o override PRIMEIRO (aceita ids novos, ex.: um snapshot arquivado)
   /// e cai no seed — INCLUI versões antigas. Usada por: recipeByIdProvider.
