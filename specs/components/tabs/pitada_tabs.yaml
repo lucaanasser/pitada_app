@@ -30,5 +30,5 @@ details: >
 substitui: [ChapterTabs, SegTabs]   # widget único que unifica os dois antigos
 used_by:
   - recipes_screen (Minhas Receitas / Pastas / Favoritas)
-  - shopping_screen (Lista / Despensa)
+  - groceries_screen (Lista / Despensa)
   - lesson_cards_screen (categorias de fichas)

@@ -12,4 +12,4 @@ variants:
   - {name: default, label: AppType.label, cor: AppColors.muted}
   - {name: accent, label: AppType.labelLg, cor: AppColors.accent}
 layout: "Row: [label em AppType.label|labelLg] [Expanded filete 1px line] [action?]"
-used_by: [recipe_detail_screen, learning_screen, shopping_screen, plans_screen]
+used_by: [recipe_detail_screen, notebook_screen, groceries_screen, plans_screen]

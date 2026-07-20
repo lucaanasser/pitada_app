@@ -103,7 +103,7 @@ class RecipesScreen extends ConsumerWidget {
         child: EmptyState(
           title: 'Nenhuma receita ainda',
           message: 'Crie ou importe uma receita no botão +',
-          icon: AppIcons.notebook,
+          icon: AppIcons.journal,
         ),
       );
     }

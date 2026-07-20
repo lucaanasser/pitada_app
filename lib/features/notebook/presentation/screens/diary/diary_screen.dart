@@ -2,7 +2,7 @@
 // lib/features/notebook/presentation/screens/diary/diary_screen.dart
 // O QUÊ:     Tela "Diário de cozinha": dica no topo + lista de entradas (DiaryEntry).
 // USA:       providers (diaryProvider), DiaryRow, HintCard, DetailHeader.
-// USADO POR: core/router/routes.dart (/learning/diary).
+// USADO POR: core/router/routes.dart (/notebook/diary).
 // SPEC:      specs/features/notebook.yaml (screens.DiaryScreen)
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../../../../core/theme/app_icons.dart';
@@ -22,7 +22,7 @@ import '../../widgets/shared/detail_header.dart';
 import '../../widgets/diary_row.dart';
 import '../../widgets/shared/hint_card.dart';
 
-/// Lista do diário de cozinha. Usada por: router (/learning/diary).
+/// Lista do diário de cozinha. Usada por: router (/notebook/diary).
 class DiaryScreen extends ConsumerWidget {
   const DiaryScreen({super.key});
 

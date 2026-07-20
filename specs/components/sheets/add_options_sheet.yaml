@@ -17,4 +17,4 @@ comportamento: >
 used_by:
   - caderno_add_sheet ('+' do Caderno: ficha/nota/diário/log)
   - plan_add_sheet ('+' do Plano: nova refeição/registrar refeição/registrar peso)
-  - shopping_add_sheet ('+' de Ingredientes: nova lista/adicionar à despensa)
+  - groceries add_sheet ('+' de Ingredientes: nova lista/adicionar à despensa)

@@ -2,7 +2,7 @@
 // lib/features/notebook/presentation/screens/version/versions_screen.dart
 // O QUÊ:     Tela "Versões de receita": lista de receitas que têm histórico (RecipeVersion).
 // USA:       providers (versionsProvider), VersionRow, DetailHeader, core/widgets.
-// USADO POR: core/router/routes.dart (/learning/versions).
+// USADO POR: core/router/routes.dart (/notebook/versions).
 // SPEC:      specs/features/notebook.yaml (screens.VersionsScreen)
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../../../../core/theme/app_icons.dart';
@@ -21,7 +21,7 @@ import '../../../data/models/activity/recipe_version.dart';
 import '../../widgets/shared/detail_header.dart';
 import '../../widgets/version/version_row.dart';
 
-/// Lista de receitas com versões. Usada por: router (/learning/versions).
+/// Lista de receitas com versões. Usada por: router (/notebook/versions).
 class VersionsScreen extends ConsumerWidget {
   const VersionsScreen({super.key});
 

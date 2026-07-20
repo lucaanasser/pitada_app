@@ -83,8 +83,8 @@ application:
     - profileProvider (FutureProvider<Profile>)              # identidade
     - selectedActivityDayProvider (StateProvider<ActivityDay?>) # dia tocado no gráfico
     # —— agregadores cross-feature (overview_providers.dart) ——
-    # O Perfil é um agregador de propósito: lê providers de recipes/learning/
-    # shopping na camada application; a UI do perfil só lê providers da feature.
+    # O Perfil é um agregador de propósito: lê providers de recipes/notebook/
+    # groceries na camada application; a UI do perfil só lê providers da feature.
     - activityProvider (Provider<List<ActivityDay>>): >
         SÍNCRONO, derivado do threadProvider: agrupa os registros reais por dia
         (ThreadKind -> label pt-BR) e chama buildActivityDays. É a fonte do
@@ -125,7 +125,7 @@ screens:
            currentStreak real; some enquanto a atividade carrega)"
         - "ProfileStats: 3 números REAIS FLAT (sem caixa) — numeral Space
            Grotesk + rótulo caption, tocáveis: receitas -> go(/recipes),
-           capturas -> go(/learning), preparos -> push(/learning/diary)"
+           capturas -> go(/notebook), preparos -> push(/notebook/diary)"
         - SectionHeader "Seu semestre na cozinha"
         - "ActivityGraph — SEM card: grade 22 semanas (meses no topo, seg/qua/
            sex à esquerda, rola até a semana atual), linha de rodapé 'X dias
@@ -139,8 +139,8 @@ screens:
            acabando, refazer pendente. Vazio = linha calma."
         - SectionHeader "Amigos" (action "ver todos") -> FriendAvatars
       sem_voltar: é aba — não tem botão de voltar
-      navega: [SettingsScreen (/profile/settings), /recipes, /learning,
-        /learning/diary, /shopping, rotas de detalhe do fio (push)]
+      navega: [SettingsScreen (/profile/settings), /recipes, /notebook,
+        /notebook/diary, /groceries, rotas de detalhe do fio (push)]
 
   - SettingsScreen:           # rota full-screen /profile/settings (cobre a barra)
       file: lib/features/profile/presentation/settings_screen.dart

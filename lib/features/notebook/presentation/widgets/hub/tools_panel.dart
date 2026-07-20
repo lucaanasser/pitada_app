@@ -37,24 +37,24 @@ final _groups = <({String label, List<_Tool> tools})>[
   (
     label: 'Conhecimento',
     tools: [
-      _Tool('Fichas', lessonsProvider, '/learning/cards'),
-      _Tool('Notas', notesProvider, '/learning/notes'),
+      _Tool('Fichas', lessonsProvider, '/notebook/cards'),
+      _Tool('Notas', notesProvider, '/notebook/notes'),
     ],
   ),
   (
     label: 'Prática',
     tools: [
-      _Tool('Diário', diaryProvider, '/learning/diary'),
-      _Tool('Versões', versionsProvider, '/learning/versions'),
-      _Tool('Logs', logsProvider, '/learning/logs', subtle: true),
+      _Tool('Diário', diaryProvider, '/notebook/diary'),
+      _Tool('Versões', versionsProvider, '/notebook/versions'),
+      _Tool('Logs', logsProvider, '/notebook/logs', subtle: true),
     ],
   ),
   (
     label: 'Repertório',
     tools: [
-      _Tool('Rácios', ratiosProvider, '/learning/repertoire/ratios'),
-      _Tool('Substituições', subsProvider, '/learning/repertoire/subs'),
-      _Tool('Harmonizações', pairingsProvider, '/learning/repertoire/pairings'),
+      _Tool('Rácios', ratiosProvider, '/notebook/repertoire/ratios'),
+      _Tool('Substituições', subsProvider, '/notebook/repertoire/subs'),
+      _Tool('Harmonizações', pairingsProvider, '/notebook/repertoire/pairings'),
     ],
   ),
 ];

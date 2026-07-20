@@ -10,4 +10,4 @@ details:
   - "palavra 'pitada' em Cormorant 600, cor text2, letter-spacing .06em"
   - "padding fromLTRB(lg, sm, lg, lg): o bottom lg dá o respiro entre a marca e o
      título/conteúdo da aba (evita o conteúdo colado embaixo da masthead)"
-used_by: [recipes_screen, learning_screen, plans_screen, shopping_screen, profile_screen]
+used_by: [recipes_screen, notebook_screen, plans_screen, groceries_screen, profile_screen]

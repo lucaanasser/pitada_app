@@ -9,16 +9,16 @@ purpose: >
   capturado e um painel com as 8 ferramentas agrupadas nos 3 pilares
   (Conhecimento / Prática / Repertório).
 
-routes:                       # decisão pendente do dono: as rotas seguem '/learning'
-  tab: /learning              # branch da aba (core/router/router.dart)
+routes:                       # decisão pendente do dono: as rotas seguem '/notebook'
+  tab: /notebook              # branch da aba (core/router/router.dart)
   detail: [/lesson/:id, /note/:id, /diary/:id, /versions/:id, /log/:id, /pairing/:id]
-  list: [/learning/cards, /learning/notes, /learning/diary, /learning/versions,
-         /learning/logs, "/learning/repertoire/:kind (ratios|subs|pairings)"]
+  list: [/notebook/cards, /notebook/notes, /notebook/diary, /notebook/versions,
+         /notebook/logs, "/notebook/repertoire/:kind (ratios|subs|pairings)"]
   editor: /lesson-edit
   obs: >
-    A feature e os identificadores são 'notebook'; a rota e o ícone
-    (AppIcons.learning/learningFill) continuam 'learning' por decisão do dono
-    (.claude/reestruturacao.md, linha 42). Não renomear sem essa decisão.
+    A feature, as rotas (/notebook/*) e os ícones (AppIcons.notebook/notebookFill)
+    usam 'notebook' — o legado 'learning' foi renomeado (dívida #5 da
+    reestruturação); o glifo de caderno do EmptyState virou AppIcons.journal.
 
 data:
   # Modelos: classes puras imutáveis, const constructor (como Recipe). Sem freezed/json.
@@ -153,7 +153,7 @@ screens:
   # ---- HUB (aba raiz) ----
   - NotebookScreen:
       file: lib/features/notebook/presentation/screens/notebook_screen.dart
-      route: /learning
+      route: /notebook
       layout: >
         Masthead, cabeçalho (título "Caderno" + PitadaIconButton '+' ->
         showNotebookAddSheet), CaptureBar,
@@ -168,7 +168,7 @@ screens:
   # ---- CONHECIMENTO ----
   - LessonCardsScreen:   # enciclopédia pessoal
       file: lib/features/notebook/presentation/screens/lesson/lesson_cards_screen.dart
-      route: /learning/cards
+      route: /notebook/cards
       layout: >
         DetailHeader(kicker "Conhecimento", título "Fichas", lead, ação '+'),
         PitadaTabs [Técnicas, Frameworks, Ingredientes, Sabores, Ervas],
@@ -186,7 +186,7 @@ screens:
       navigates_to: [LessonEditScreen]
   - NotesScreen:
       file: lib/features/notebook/presentation/screens/note/notes_screen.dart
-      route: /learning/notes
+      route: /notebook/notes
       layout: "DetailHeader(kicker + 'Notas de fonte' + lead), lista de NoteRow"
       providers: [notesProvider]
       navigates_to: [NoteDetailScreen]
@@ -203,7 +203,7 @@ screens:
   # ---- PRÁTICA ----
   - DiaryScreen:
       file: lib/features/notebook/presentation/screens/diary/diary_screen.dart
-      route: /learning/diary
+      route: /notebook/diary
       layout: >
         DetailHeader(kicker "Prática" + "Diário de cozinha" + lead),
         HintCard, lista de DiaryRow (miniatura, receita, data, tag do veredito)
@@ -219,7 +219,7 @@ screens:
       navigates_to: [RecipeDetailScreen]
   - VersionsScreen:
       file: lib/features/notebook/presentation/screens/version/versions_screen.dart
-      route: /learning/versions
+      route: /notebook/versions
       layout: >
         DetailHeader(kicker "Prática" + "Versões de receita" + lead),
         lista de VersionRow (miniatura, receita, "N versões · def. vX")
@@ -235,7 +235,7 @@ screens:
       navigates_to: [RecipeDetailScreen]
   - ProcessLogsScreen:   # avançado
       file: lib/features/notebook/presentation/screens/log/process_logs_screen.dart
-      route: /learning/logs
+      route: /notebook/logs
       layout: >
         DetailHeader(kicker "Prática · avançado" + "Logs de processo" + lead),
         HintCard, lista de logs (miniatura do processo, título, tipo · data)
@@ -253,7 +253,7 @@ screens:
   # ---- REPERTÓRIO ----
   - RepertoireScreen:    # UMA tela para os 3 tipos de repertório
       file: lib/features/notebook/presentation/screens/repertoire_screen.dart
-      route: /learning/repertoire/:kind
+      route: /notebook/repertoire/:kind
       api: {kind: "String — 'ratios' | 'subs' | 'pairings'"}
       layout: >
         DetailHeader(kicker "Repertório", título e lead conforme o kind),
@@ -295,7 +295,7 @@ sheets:
         - "Ficha             -> /lesson-edit"
         - "Nota de fonte     -> showNoteQuickSheet"
         - "Entrada de diário -> showDiaryQuickSheet"
-        - "Log de processo   -> /learning/logs"
+        - "Log de processo   -> /notebook/logs"
       used_by: [NotebookScreen, CaptureBar]
   - showDiaryQuickSheet:
       file: lib/features/notebook/presentation/sheets/diary_quick_sheet.dart

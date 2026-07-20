@@ -25,5 +25,5 @@ details: >
   borda e texto vêm do tema. Sem sombra. Cantos totalmente arredondados (pill).
 used_by:
   - recipe_detail (técnicas — tag legítima)
-  - "learning: note_quick_sheet / diary_quick_sheet (tipo/veredito selecionado),
+  - "notebook: note_quick_sheet / diary_quick_sheet (tipo/veredito selecionado),
     capture_bar, thread_tile (rótulo do estilo do registro)"

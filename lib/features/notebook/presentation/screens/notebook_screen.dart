@@ -4,7 +4,7 @@
 //            reativação do dia ("Para hoje"), fio cronológico e ferramentas.
 // USA:       core/widgets (Masthead, PitadaScaffold, SectionHeader, botões),
 //            hub_providers (fio/reativação) e os widgets do hub.
-// USADO POR: core/router/router.dart (branch /learning).
+// USADO POR: core/router/router.dart (branch /notebook).
 // SPEC:      specs/features/notebook.yaml (screens.NotebookScreen)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
@@ -30,7 +30,7 @@ import '../widgets/hub/tools_panel.dart';
 const _kFioPreview = 5;
 
 /// Tela principal do Caderno: o próprio caderno aberto, não um menu.
-/// Usada por: router (/learning).
+/// Usada por: router (/notebook).
 class NotebookScreen extends ConsumerWidget {
   const NotebookScreen({super.key});
 

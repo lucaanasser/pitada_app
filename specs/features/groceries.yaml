@@ -1,7 +1,7 @@
 # specs/features/groceries.yaml -> lib/features/groceries/
 feature: Ingredientes    # rótulo da aba (antes "Compras"); reúne Lista + Despensa
 prototype: "TAB-COMPRAS (Lista / Despensa), SHEET-ADD-PANTRY"
-route: /shopping         # rota legada mantida de propósito (decisão pendente do dono)
+route: /groceries         # renomeada de /shopping junto com a pasta
 purpose: >
   Listas de compras (a pessoa pode ter VÁRIAS: 'Semana', 'Praia'...) e a
   despensa (o que já tenho, com validade). Cada lista escolhe se DESCONTA a

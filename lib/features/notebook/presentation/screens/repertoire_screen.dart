@@ -3,7 +3,7 @@
 // O QUÊ:     Lista do Repertório parametrizada por kind: rácios, substituições ou
 //            harmonizações. Harmonização navega para o detalhe (/pairing/:id).
 // USA:       providers, core/widgets, widgets locais, go_router, theme/*.
-// USADO POR: core/router/routes.dart (/learning/repertoire/:kind).
+// USADO POR: core/router/routes.dart (/notebook/repertoire/:kind).
 // SPEC:      specs/features/notebook.yaml (screens.RepertoireScreen — view-racios/subs/harm)
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../../../core/theme/app_icons.dart';
@@ -24,7 +24,7 @@ import '../widgets/shared/detail_header.dart';
 import '../widgets/repertoire/repertoire_row.dart';
 
 /// Tela de repertório: mostra a lista adequada ao [kind] (ratios|subs|pairings).
-/// Usada por: router (/learning/repertoire/:kind).
+/// Usada por: router (/notebook/repertoire/:kind).
 class RepertoireScreen extends ConsumerWidget {
   const RepertoireScreen({super.key, required this.kind});
 

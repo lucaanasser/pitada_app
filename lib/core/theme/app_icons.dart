@@ -18,8 +18,8 @@ class AppIcons {
 
   static const recipes = PhosphorIconsRegular.forkKnife;
   static const recipesFill = PhosphorIconsFill.forkKnife;
-  static const learning = PhosphorIconsRegular.chefHat;
-  static const learningFill = PhosphorIconsFill.chefHat;
+  static const notebook = PhosphorIconsRegular.chefHat;
+  static const notebookFill = PhosphorIconsFill.chefHat;
   static const plans = PhosphorIconsRegular.clipboardText;
   static const plansFill = PhosphorIconsFill.clipboardText;
   static const ingredients = PhosphorIconsRegular.carrot;
@@ -52,14 +52,14 @@ class AppIcons {
 
   static const check = PhosphorIconsRegular.check;
   static const checkCircle = PhosphorIconsRegular.checkCircle;
+  static const circle = PhosphorIconsRegular.circle;
   static const close = PhosphorIconsRegular.x;
   static const remove = PhosphorIconsRegular.minus;
   static const removeCircle = PhosphorIconsRegular.minusCircle;
   static const forward = PhosphorIconsRegular.arrowRight;
   static const swap = PhosphorIconsRegular.arrowsLeftRight;
   static const book = PhosphorIconsRegular.book;
-  static const notebook =
-      PhosphorIconsRegular.notebook;
+  static const journal = PhosphorIconsRegular.notebook;
   static const editNote = PhosphorIconsRegular.notePencil;
   static const bookmark = PhosphorIconsRegular.bookmarkSimple;
   static const history = PhosphorIconsRegular.clockCounterClockwise;

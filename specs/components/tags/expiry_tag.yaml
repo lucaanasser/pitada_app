@@ -11,4 +11,4 @@ api:
   - urgent: bool = false
 helper:
   - "ExpiryTag.fromDate(DateTime expires): decide urgent (<=2 dias) x soon (<=5) x nada"
-used_by: [shopping (despensa / .ditem)]
+used_by: [groceries (despensa / .ditem)]

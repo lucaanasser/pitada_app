@@ -24,6 +24,6 @@ regras:
   - "Nenhuma tela deve chamar showModalBottomSheet direto; usa este helper."
 used_by:
   - "plans: add_option/meal/log_day/log_weight/food_search/estimate_food/free_item"
-  - "learning: caderno_add/note_quick/diary_quick"
+  - "notebook: add_sheet/note_quick/diary_quick"
   - "recipes: import/cook_chat"
-  - "shopping: add_pantry"
+  - "groceries: add_pantry"

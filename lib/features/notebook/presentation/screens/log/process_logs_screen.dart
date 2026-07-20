@@ -2,7 +2,7 @@
 // lib/features/notebook/presentation/screens/log/process_logs_screen.dart
 // O QUÊ:     Lista de logs de processo (avançado): dica + linhas de ProcessLog.
 // USA:       providers, core/widgets, widgets locais, go_router, theme/*.
-// USADO POR: core/router/routes.dart (/learning/logs).
+// USADO POR: core/router/routes.dart (/notebook/logs).
 // SPEC:      specs/features/notebook.yaml (screens.ProcessLogsScreen — view-logs)
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../../../../core/theme/app_icons.dart';
@@ -25,7 +25,7 @@ import '../../widgets/shared/detail_header.dart';
 import '../../widgets/shared/hint_card.dart';
 
 /// Tela de logs de processo. Fica oculta até ser ativada; reúne processos longos
-/// e sensíveis (fermentação, sous-vide, cura). Usada por: router (/learning/logs).
+/// e sensíveis (fermentação, sous-vide, cura). Usada por: router (/notebook/logs).
 class ProcessLogsScreen extends ConsumerWidget {
   const ProcessLogsScreen({super.key});
 

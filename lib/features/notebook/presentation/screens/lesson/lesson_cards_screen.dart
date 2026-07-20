@@ -4,7 +4,7 @@
 //            e lista de fichas que abre o detalhe.
 // USA:       core/widgets (PitadaTabs), theme/*, providers, LessonCardRow,
 //            DetailHeader, go_router (navegação).
-// USADO POR: core/router/routes.dart (/learning/cards).
+// USADO POR: core/router/routes.dart (/notebook/cards).
 // SPEC:      specs/features/notebook.yaml (screens.LessonCardsScreen)
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../../../../core/theme/app_icons.dart';
@@ -41,7 +41,7 @@ const _tabLabels = <String>[
   'Ervas',
 ];
 
-/// Tela de Fichas: abas de categoria + lista de fichas. Usada por: router (/learning/cards).
+/// Tela de Fichas: abas de categoria + lista de fichas. Usada por: router (/notebook/cards).
 class LessonCardsScreen extends ConsumerWidget {
   const LessonCardsScreen({super.key});
 

@@ -20,7 +20,7 @@ import '../widgets/tabs/pitada_tab_bar.dart';
 /// (ativo). Perfil substitui a antiga aba Home (comunidade, abandonada).
 const kPitadaTabs = <PitadaTab>[
   PitadaTab(AppIcons.recipes, AppIcons.recipesFill, 'Receitas'),
-  PitadaTab(AppIcons.learning, AppIcons.learningFill, 'Caderno'),
+  PitadaTab(AppIcons.notebook, AppIcons.notebookFill, 'Caderno'),
   PitadaTab(AppIcons.plans, AppIcons.plansFill, 'Plano'),
   PitadaTab(AppIcons.ingredients, AppIcons.ingredientsFill, 'Ingredientes'),
   PitadaTab(AppIcons.profile, AppIcons.profileFill, 'Perfil'),

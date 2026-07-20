@@ -2,7 +2,7 @@
 // lib/features/notebook/presentation/screens/note/notes_screen.dart
 // O QUÊ:     Tela "Notas de fonte": lista de SourceNote (livro/vídeo/curso/chef).
 // USA:       providers (notesProvider), NoteRow, DetailHeader, core/widgets.
-// USADO POR: core/router/routes.dart (/learning/notes).
+// USADO POR: core/router/routes.dart (/notebook/notes).
 // SPEC:      specs/features/notebook.yaml (screens.NotesScreen)
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../../../../core/theme/app_icons.dart';
@@ -22,7 +22,7 @@ import '../../../data/models/activity/source_note.dart';
 import '../../widgets/shared/detail_header.dart';
 import '../../widgets/note/note_row.dart';
 
-/// Lista de notas de fonte do Caderno. Usada por: router (/learning/notes).
+/// Lista de notas de fonte do Caderno. Usada por: router (/notebook/notes).
 class NotesScreen extends ConsumerWidget {
   const NotesScreen({super.key});
 

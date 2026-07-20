@@ -17,4 +17,4 @@ details_icon_button: >
   engrenagem no Perfil). No header usa size AppSpacing.iconButtonSm (34) — menor e mais
   delicado que o iconButton padrão. O ícone escala com o círculo (size * 0.45).
 details: "active: scale .98. Sem sombra. Texto sempre AppType.button."
-used_by: [recipe_detail (barra), import_sheet, shopping, sheets em geral]
+used_by: [recipe_detail (barra), import_sheet, groceries, sheets em geral]

@@ -36,12 +36,12 @@ class ProfileStats extends ConsumerWidget {
         _Stat(
           value: counts.captures,
           label: 'no caderno',
-          onTap: () => _open(context, '/learning', go: true),
+          onTap: () => _open(context, '/notebook', go: true),
         ),
         _Stat(
           value: counts.cooks,
           label: 'preparos',
-          onTap: () => _open(context, '/learning/diary', go: false),
+          onTap: () => _open(context, '/notebook/diary', go: false),
         ),
       ],
     );

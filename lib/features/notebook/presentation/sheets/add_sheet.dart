@@ -49,7 +49,7 @@ void showNotebookAddSheet(BuildContext context) {
         'Fermentação, sous-vide, cura — avançado',
         'plum',
         AppIcons.science,
-        (ctx) => ctx.push('/learning/logs'),
+        (ctx) => ctx.push('/notebook/logs'),
       ),
     ],
   );

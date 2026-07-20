@@ -3,7 +3,7 @@
 // O QUÊ:     Aba Ingredientes: título + PitadaTabs (Lista/Despensa) e o corpo conforme a aba.
 // USA:       core/widgets (Masthead, PitadaScaffold, PitadaTabs), GroceryListView,
 //            PantryView, theme/*. Estado da aba num StateProvider local à tela.
-// USADO POR: core/router/router.dart (branch /shopping).
+// USADO POR: core/router/router.dart (branch /groceries).
 // SPEC:      specs/features/groceries.yaml (screens.GroceriesScreen)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
@@ -30,7 +30,7 @@ class GroceriesScreen extends ConsumerWidget {
   const GroceriesScreen({super.key});
 
   /// Monta Masthead + título + abas e escolhe o corpo conforme a aba ativa.
-  /// Usada por: router (/shopping).
+  /// Usada por: router (/groceries).
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final pit = context.pit;

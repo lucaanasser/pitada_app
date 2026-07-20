@@ -12,4 +12,4 @@ api:
   - showDivider: bool = true
   - padding: EdgeInsets = vertical 15
 details: "Row com gap; divisor 1px AppColors.line embaixo (some no último via showDivider)."
-used_by: [recipes, learning, shopping, plans, home — quase toda lista]
+used_by: [recipes, notebook, groceries, plans, home — quase toda lista]

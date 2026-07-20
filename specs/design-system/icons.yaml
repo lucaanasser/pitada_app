@@ -8,11 +8,11 @@ purpose: >
 
 navegacao:      # regular (inativo) + *Fill (ativo) — ordem da barra
   recipes:  forkKnife
-  learning: chefHat           # aba Caderno (antes notebook); notebook segue p/ EmptyState
+  notebook: chefHat           # aba Caderno (renomeada de learning); journal (glifo caderno) segue p/ EmptyState
   plans:    clipboardText     # aba Plano — "o plano escrito" (prancheta). Antes
                               # bowlSteam, que era o 4º ícone de comida da barra e
                               # lia como "receitas de novo"; antes disso, calendarBlank.
-  ingredients: carrot         # aba Ingredientes (antes "Compras"/shoppingCart)
+  ingredients: carrot         # aba Ingredientes (antes "Compras"/groceriesCart)
   profile:  user            # aba Perfil (home/house saiu com a aba de comunidade);
                             # o regular também serve de chip de pessoa (note_row)
 
@@ -45,6 +45,10 @@ progresso:    # aba Plano · sub-aba Progresso
   logDay:  calendarCheck  # registrar o dia (CTA da TodaySection)
   calendarPattern: calendarDots  # padrão por dia da semana (insight weekdayOver)
   timeline: chartLineUp   # progresso/gráfico
+
+selecao:        # multiescolha (ex.: receitas de uma pasta no editor)
+  checkCircle: checkCircle   # item selecionado
+  circle:      circle        # item não selecionado (anel vazio)
 
 regras:
   - "Navbar: item ativo usa *Fill; inativo usa regular."

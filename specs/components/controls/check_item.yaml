@@ -12,4 +12,4 @@ api:
   - shape: CheckShape = circle
   - color: Color? (default accent p/ circle, sage p/ square)
 details: "22-23px; check em ✓ desenhado; transição suave. Só a caixa (o rótulo fica na HairlineRow)."
-used_by: [shopping (lista/despensa)]
+used_by: [groceries (lista/despensa)]

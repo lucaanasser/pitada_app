@@ -76,7 +76,7 @@ final kitchenRadarProvider = Provider<List<RadarItem>>((ref) {
         kind: RadarKind.cook,
         title: cook.recipeName,
         detail: 'cozinha sem registro no diário',
-        route: '/learning',
+        route: '/notebook',
       ),
     );
   }
@@ -98,14 +98,14 @@ final kitchenRadarProvider = Provider<List<RadarItem>>((ref) {
         kind: RadarKind.expiry,
         title: p.name,
         expiresOn: p.expiresOn,
-        route: '/shopping',
+        route: '/groceries',
       ),
     );
   }
 
   for (final p in pantry.where((p) => p.low && !expiring.contains(p))) {
     items.add(
-      RadarItem(kind: RadarKind.low, title: p.name, route: '/shopping'),
+      RadarItem(kind: RadarKind.low, title: p.name, route: '/groceries'),
     );
   }
 

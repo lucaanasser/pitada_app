@@ -70,9 +70,9 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state, shell) => AppShell(shell: shell),
         branches: [
           _branch('/recipes', const RecipesScreen()),
-          _branch('/learning', const NotebookScreen()),
+          _branch('/notebook', const NotebookScreen()),
           _branch('/plans', const PlansScreen()),
-          _branch('/shopping', const GroceriesScreen()),
+          _branch('/groceries', const GroceriesScreen()),
           _branch('/profile', const ProfileScreen()),
         ],
       ),

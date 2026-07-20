@@ -127,7 +127,7 @@ data:
     consistencia_caderno: >
       As "versões" são as MESMAS do Caderno. O CONTEÚDO (ingredientes/passos) vem daqui
       (recipes); as NOTAS "o que mudou" continuam fonte única no Caderno
-      (RecipeVersion.timeline, learning). A tela lê versionForRecipeProvider(definitivaId)
+      (RecipeVersion.timeline, notebook). A tela lê versionForRecipeProvider(definitivaId)
       p/ mostrar a nota de cada versão no seletor. Labels casam: version N <-> 'vN'.
 
 application:
