@@ -5,7 +5,7 @@
 //            escolhe PDF, persiste a receita importada e dá o atalho p/ criar
 //            um framework (/framework/new).
 // USA:       import_controller (fases), recipe_import_service (input),
-//            recipes_providers (create), import_stage_view, import_preview,
+//            recipe_providers (create), import_stage_view, import_preview,
 //            file_picker, core/widgets, go_router.
 // USADO POR: recipes_screen (botão '+') via showImportSheet(context).
 // SPEC:      specs/features/recipes.yaml (SHEET-IMPORT)
@@ -23,7 +23,7 @@ import '../../../../core/widgets/sheets/pitada_sheet.dart';
 import '../../../../core/widgets/sheets/sheet_grip.dart';
 import '../../application/import/import_controller.dart';
 import '../../application/import/recipe_import_service.dart';
-import '../../application/recipes_providers.dart';
+import '../../application/recipe_providers.dart';
 import '../../data/models/recipe/recipe.dart';
 import '../widgets/import/import_preview.dart';
 import '../widgets/import/import_stage_view.dart';

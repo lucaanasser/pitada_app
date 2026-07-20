@@ -4,7 +4,7 @@
 //            lista os parecidos nas outras receitas, marca os que viram
 //            vínculo e unifica todos numa subreceita canônica.
 // USA:       unify_service (candidatas/escala/diffs), sub_recipe_providers
-//            (controller), recipes_providers, core/widgets (CheckItem,
+//            (controller), recipe_providers, core/widgets (CheckItem,
 //            HairlineRow, EditTextField, PitadaButton, EmptyState), core/theme.
 // USADO POR: core/router (/unify/:recipeId/:component) — via sheet de ações.
 // SPEC:      specs/features/sub_recipes.yaml (unificacao.tela)
@@ -25,7 +25,7 @@ import '../../../../../core/widgets/controls/edit_field.dart';
 import '../../../../../core/widgets/controls/pitada_button.dart';
 import '../../../../../core/widgets/layout/empty_state.dart';
 import '../../../../../core/widgets/layout/section_header.dart';
-import '../../../application/recipes_providers.dart';
+import '../../../application/recipe_providers.dart';
 import '../../../application/sub_recipe/sub_recipe_providers.dart';
 import '../../../application/sub_recipe/unify_service.dart';
 import '../../../data/models/recipe/recipe.dart';

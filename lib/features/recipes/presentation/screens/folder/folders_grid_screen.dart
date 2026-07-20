@@ -3,7 +3,7 @@
 // O QUÊ:     Todas as pastas em grade 2 colunas — a fileira horizontal da aba
 //            Receitas só mostra as primeiras; aqui dá pra ver (e abrir) todas,
 //            e também criar uma nova (ícone + no topo).
-// USA:       recipes_providers, FolderCard, core/widgets (EmptyState),
+// USA:       recipe_providers, FolderCard, core/widgets (EmptyState),
 //            core/theme (AppIcons, AppSpacing, AppType), core/utils/app_log,
 //            go_router.
 // USADO POR: core/router (/folders), via o ícone "ver todas" da RecipesScreen.
@@ -19,7 +19,7 @@ import '../../../../../core/theme/typography.dart';
 import '../../../../../core/utils/app_log.dart';
 import '../../../../../core/widgets/controls/pitada_button.dart';
 import '../../../../../core/widgets/layout/empty_state.dart';
-import '../../../application/recipes_providers.dart';
+import '../../../application/recipe_providers.dart';
 import '../../widgets/folder/folder_card.dart';
 
 /// Tela com todas as pastas em grade. Usada por: router (/folders).

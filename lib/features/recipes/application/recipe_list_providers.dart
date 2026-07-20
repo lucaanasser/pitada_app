@@ -3,7 +3,7 @@
 // O QUÊ:     Providers da LISTA da aba Receitas: busca (título/ingrediente),
 //            filtros (maestria/tempo/kcal), ordem da lista e maestria por
 //            receita ("nunca fiz → fiz N× → domino").
-// USA:       recipes_providers (fonte), notebook/application/providers (diário
+// USA:       recipe_providers (fonte), notebook/application/providers (diário
 //            e versões — atividade real), recipe_filters, recipe.dart, riverpod.
 // USADO POR: recipes_screen, RecipeListView, RecipeFilterPanel, RecipeSearchField.
 // SPEC:      specs/features/recipes.yaml (application.providers)
@@ -14,7 +14,7 @@ import '../../notebook/application/providers.dart';
 import '../../notebook/data/models/activity/diary_entry.dart';
 import '../data/models/recipe/recipe.dart';
 import 'recipe_filters.dart';
-import 'recipes_providers.dart';
+import 'recipe_providers.dart';
 
 /// Texto digitado na busca (título OU ingrediente). Usada por: recipes_screen.
 final recipeSearchQueryProvider = StateProvider<String>((ref) => '');

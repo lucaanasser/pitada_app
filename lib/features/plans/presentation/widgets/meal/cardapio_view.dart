@@ -4,7 +4,7 @@
 //            plano + botão de adicionar refeição. É lista (o que se pretende comer),
 //            não log. O resumo do dia (kcal + macros) e as abas ficam no cabeçalho
 //            compartilhado da PlansScreen, acima; o log fica em "Progresso".
-// USA:       core/widgets, plans_providers, MealCard, meal_sheet, theme/*.
+// USA:       core/widgets, plan_providers, MealCard, meal_sheet, theme/*.
 // USADO POR: plans_screen (sub-aba 0).
 // SPEC:      specs/features/plans_progress.yaml (screens_e_widgets: CardapioView)
 // ─────────────────────────────────────────────────────────────────────────────
@@ -15,7 +15,7 @@ import '../../../../../core/theme/app_icons.dart';
 import '../../../../../core/theme/spacing.dart';
 import '../../../../../core/widgets/controls/pitada_button.dart';
 import '../../../../../core/widgets/layout/pitada_scaffold.dart';
-import '../../../application/plans_providers.dart';
+import '../../../application/plan_providers.dart';
 import '../../sheets/plan/meal_sheet.dart';
 import 'meal_card.dart';
 

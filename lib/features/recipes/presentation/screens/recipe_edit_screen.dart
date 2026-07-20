@@ -2,7 +2,7 @@
 // lib/features/recipes/presentation/screens/recipe_edit_screen.dart
 // O QUÊ:     Tela de edição/criação de receita: fotos, campos, ingredientes e passos.
 //            Mantém um rascunho local (RecipeDraft) e salva via mock (AppLog + pop).
-// USA:       recipes_providers, RecipeDraft, os widgets de edição, core/widgets, theme.
+// USA:       recipe_providers, RecipeDraft, os widgets de edição, core/widgets, theme.
 // USADO POR: core/router (/recipe/:id/edit) — via ícone lápis do detalhe.
 // SPEC:      specs/features/recipes.yaml (RecipeEditScreen)
 // ─────────────────────────────────────────────────────────────────────────────
@@ -17,7 +17,7 @@ import '../../../../core/theme/typography.dart';
 import '../../../../core/utils/app_log.dart';
 import '../../../../core/widgets/layout/pitada_scaffold.dart';
 import '../../../../core/widgets/layout/section_header.dart';
-import '../../application/recipes_providers.dart';
+import '../../application/recipe_providers.dart';
 import '../../data/models/recipe/recipe.dart';
 import '../../data/models/recipe/recipe_draft.dart';
 import '../../../../core/widgets/controls/edit_field.dart';

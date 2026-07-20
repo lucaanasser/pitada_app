@@ -4,7 +4,7 @@
 //            controller de edição/vínculo — única porta de escrita.
 // USA:       sub_recipe_repository (contrato), seed_sub_recipe_repository
 //            (default offline), sub_recipe.dart, recipe.dart,
-//            recipe_component.dart, recipes_providers (porta de receita).
+//            recipe_component.dart, recipe_providers (porta de receita).
 // USADO POR: biblioteca de subreceitas, detalhe da receita (selo/edição),
 //            unify_service (unificação N->1).
 // SPEC:      specs/features/sub_recipes.yaml (application)
@@ -16,7 +16,7 @@ import '../../data/models/recipe/recipe_component.dart';
 import '../../data/models/recipe/sub_recipe.dart';
 import '../../data/repositories/sub_recipe/seed_sub_recipe_repository.dart';
 import '../../data/repositories/sub_recipe/sub_recipe_repository.dart';
-import '../recipes_providers.dart';
+import '../recipe_providers.dart';
 
 /// Instância do repositório de subreceitas. Default = seed em memória;
 /// main.dart sobrescreve com SupabaseSubRecipesRepository quando há chaves.

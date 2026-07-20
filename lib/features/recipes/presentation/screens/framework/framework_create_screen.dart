@@ -3,7 +3,7 @@
 // O QUÊ:     Criação guiada de um framework: 4 perguntas socráticas em sequência
 //            (o que se repete / o que varia / que regra aprendeu / que nome dá).
 //            As respostas da pessoa VIRAM o esqueleto — a IA nunca preenche.
-// USA:       framework_providers (controller), recipes_providers (receitas
+// USA:       framework_providers (controller), recipe_providers (receitas
 //            ligadas), core/widgets (EditTextField, PitadaButton, StepProgress).
 // USADO POR: core/router (/framework/new?recipes=a,b,c).
 // ─────────────────────────────────────────────────────────────────────────────
@@ -17,7 +17,7 @@ import '../../../../../core/theme/spacing.dart';
 import '../../../../../core/widgets/cards/step_progress.dart';
 import '../../../../../core/widgets/controls/pitada_button.dart';
 import '../../../application/framework_providers.dart';
-import '../../../application/recipes_providers.dart';
+import '../../../application/recipe_providers.dart';
 import '../../../application/technique_providers.dart';
 import '../../../data/models/framework.dart';
 import '../../../data/models/recipe/recipe.dart';

@@ -3,7 +3,7 @@
 // O QUÊ:     Linha horizontal de capas de pasta na aba Receitas (lista única):
 //            um FolderCard por pasta, o card de contorno "Nova pasta" no fim
 //            e, depois dele, a seta solta "Ver todas" (sem card).
-// USA:       recipes_providers (pastas + receitas), folder_card, core/theme,
+// USA:       recipe_providers (pastas + receitas), folder_card, core/theme,
 //            core/utils/app_log, go_router.
 // USADO POR: recipes_screen (seção Pastas).
 // ─────────────────────────────────────────────────────────────────────────────
@@ -15,7 +15,7 @@ import '../../../../../core/theme/app_icons.dart';
 import '../../../../../core/theme/pitada_colors.dart';
 import '../../../../../core/theme/spacing.dart';
 import '../../../../../core/utils/app_log.dart';
-import '../../../application/recipes_providers.dart';
+import '../../../application/recipe_providers.dart';
 import 'folder_card.dart';
 import 'folder_painter.dart';
 

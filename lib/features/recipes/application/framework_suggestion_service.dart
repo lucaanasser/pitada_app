@@ -3,7 +3,7 @@
 // O QUÊ:     Sugestão socrática da tab Frameworks: acha NO MÁXIMO um grupo de
 //            receitas parecidas e pergunta o que elas têm em comum — a IA
 //            aponta, o usuário nomeia. Heurística local, sem rede.
-// USA:       recipes_providers (acervo), framework_providers, technique_providers
+// USA:       recipe_providers (acervo), framework_providers, technique_providers
 //            (nomes das técnicas), recipe.dart, riverpod.
 // USADO POR: FrameworksTabView (via frameworkSuggestionProvider).
 // ─────────────────────────────────────────────────────────────────────────────
@@ -15,7 +15,7 @@ import '../data/models/framework.dart';
 import '../data/models/technique.dart';
 import '../data/models/recipe/recipe.dart';
 import 'framework_providers.dart';
-import 'recipes_providers.dart';
+import 'recipe_providers.dart';
 import 'technique_providers.dart';
 
 /// Um grupo de receitas parecidas + o traço que elas compartilham (a pista da

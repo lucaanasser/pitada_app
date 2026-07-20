@@ -3,7 +3,7 @@
 // O QUÊ:     Compositor do detalhe da receita: cabeçalho de identidade + seções
 //            (cada uma um widget próprio) numa rolagem + barra fixa de ações.
 //            Resolve as porções vistas (viewServingsProvider) e o fator de escala.
-// USA:       core (theme, NutritionCard), recipes_providers (viewServings),
+// USA:       core (theme, NutritionCard), recipe_providers (viewServings),
 //            recipe_quick_edit, widgets do detalhe (header/, sections/), go_router.
 // USADO POR: recipe_detail_screen (_body, já com a versão resolvida).
 // SPEC:      specs/features/recipes.yaml (RecipeDetailScreen, data.escala)
@@ -14,7 +14,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../../core/theme/spacing.dart';
 import '../../../../../core/widgets/cards/nutrition_card.dart';
-import '../../../application/recipes_providers.dart';
+import '../../../application/recipe_providers.dart';
 import '../../../data/models/recipe/recipe.dart';
 import '../../recipe_quick_edit.dart';
 import 'header/recipe_detail_header.dart';

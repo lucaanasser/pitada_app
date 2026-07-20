@@ -1,7 +1,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/recipes/presentation/screens/recipe_detail_screen.dart
 // O QUÊ:     Detalhe da receita: galeria grande, kcal, macros, ingredientes, passos.
-// USA:       recipes_providers, widgets do detalhe, core/widgets, core/theme (pit).
+// USA:       recipe_providers, widgets do detalhe, core/widgets, core/theme (pit).
 // USADO POR: core/router/router.dart (/recipe/:id).
 // SPEC:      specs/features/recipes.yaml
 // ─────────────────────────────────────────────────────────────────────────────
@@ -11,7 +11,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/theme/colors.dart';
 import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/typography.dart';
-import '../../application/recipes_providers.dart';
+import '../../application/recipe_providers.dart';
 import '../../data/models/recipe/recipe.dart';
 import '../sheets/recipe_version_sheet.dart';
 import '../widgets/detail/header/recipe_version_tag.dart';

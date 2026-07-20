@@ -1,7 +1,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/plans/presentation/widgets/meal/day_summary.dart
 // O QUÊ:     Resumo do plano (SEM caixa): total grande, status, FuelBar e macros.
-// USA:       theme/*, core/widgets/fuel_bar, utils/format, plans_providers.
+// USA:       theme/*, core/widgets/fuel_bar, utils/format, plan_providers.
 // USADO POR: plans_screen (logo abaixo do cabeçalho do plano).
 // SPEC:      specs/features/plans.yaml (DaySummary)
 // ─────────────────────────────────────────────────────────────────────────────
@@ -13,7 +13,7 @@ import '../../../../../core/theme/spacing.dart';
 import '../../../../../core/theme/typography.dart';
 import '../../../../../core/utils/format.dart';
 import '../../../../../core/widgets/cards/fuel_bar.dart';
-import '../../../application/plans_providers.dart';
+import '../../../application/plan_providers.dart';
 
 /// Resumo nutricional do plano: total/meta, status, barra e legenda de macros.
 /// Sem caixa/borda — só o plano (refeições) fica em cartões. É lista, não log.

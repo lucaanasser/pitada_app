@@ -3,7 +3,7 @@
 // O QUÊ:     Bottom sheet "Versões" — lista as versões da receita (mais recente
 //            primeiro) com a nota "o que mudou"; escolher troca a tela inteira.
 // USA:       core/widgets (pitada_sheet, sheet_grip, pitada_chip), theme/*,
-//            recipes_providers (grupo + seleção), notebook/providers
+//            recipe_providers (grupo + seleção), notebook/providers
 //            (versionForRecipeProvider — notas), notebook/recipe_version
 //            (modelo), go_router, app_log.
 // USADO POR: recipe_detail_screen (tocar na RecipeVersionTag do título).
@@ -24,7 +24,7 @@ import '../../../../core/widgets/sheets/pitada_sheet.dart';
 import '../../../../core/widgets/sheets/sheet_grip.dart';
 import '../../../notebook/application/providers.dart';
 import '../../../notebook/data/models/activity/recipe_version.dart';
-import '../../application/recipes_providers.dart';
+import '../../application/recipe_providers.dart';
 
 /// Abre o seletor de versões da receita. [definitivaId] busca a nota "o que mudou"
 /// no Caderno (fonte única). Usada por: RecipeDetailScreen.

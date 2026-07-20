@@ -1,7 +1,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/plans/presentation/sheets/plan/add_option_sheet.dart
 // O QUÊ:     Bottom sheet para escolher uma receita salva como nova opção da refeição.
-// USA:       theme/*, core/widgets (RecipeThumb, HairlineRow, EmptyState), recipes_providers.
+// USA:       theme/*, core/widgets (RecipeThumb, HairlineRow, EmptyState), recipe_providers.
 // USADO POR: MealCard ("Adicionar opção" em cada refeição).
 // SPEC:      specs/features/plans.yaml (showAddOptionSheet)
 // ─────────────────────────────────────────────────────────────────────────────
@@ -19,7 +19,7 @@ import '../../../../../core/utils/format.dart';
 import '../../../../../core/widgets/layout/empty_state.dart';
 import '../../../../../core/widgets/cards/hairline_row.dart';
 import '../../../../../core/widgets/cards/recipe_thumb.dart';
-import '../../../../recipes/application/recipes_providers.dart';
+import '../../../../recipes/application/recipe_providers.dart';
 import '../../../../recipes/data/models/recipe/recipe.dart';
 import '../../../data/models/meal.dart';
 import '../../../../../core/widgets/sheets/sheet_grip.dart';

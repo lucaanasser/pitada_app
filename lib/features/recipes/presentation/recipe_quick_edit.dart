@@ -5,7 +5,7 @@
 //            anotações). Abre a QuickEditSheet, monta o Recipe editado e salva.
 //            Partes: itens de lista (recipe_item_edit) e subreceita/vínculo
 //            (sub_recipe_quick_edit).
-// USA:       QuickEditSheet, AddOptionsSheet, recipes_providers,
+// USA:       QuickEditSheet, AddOptionsSheet, recipe_providers,
 //            sub_recipe_providers, technique_providers, modelos, go_router.
 // USADO POR: recipe_detail_body (gestos Editable de cada campo) e telas de
 //            subreceita (biblioteca).
@@ -19,7 +19,7 @@ import '../../../core/theme/app_icons.dart';
 import '../../../core/utils/scaling.dart';
 import '../../../core/utils/slug.dart';
 import '../../../core/widgets/sheets/add_options_sheet.dart';
-import '../application/recipes_providers.dart';
+import '../application/recipe_providers.dart';
 import '../application/sub_recipe/sub_recipe_providers.dart';
 import '../application/technique_providers.dart';
 import '../data/models/recipe/ingredient.dart';

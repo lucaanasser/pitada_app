@@ -2,7 +2,7 @@
 // lib/features/plans/data/models/meal_option.dart
 // O QUÊ:     Modelos de opção de cardápio de uma refeição e seus pratos (itens).
 // USA:       nada (modelos imutáveis puros).
-// USADO POR: meal.dart, plan_seed, plan_repository, plans_providers, OptionCard.
+// USADO POR: meal.dart, plan_seed, plan_repository, plan_providers, OptionCard.
 // SPEC:      specs/features/plans.yaml (data.models: MealOption, MealOptionItem)
 // ─────────────────────────────────────────────────────────────────────────────
 

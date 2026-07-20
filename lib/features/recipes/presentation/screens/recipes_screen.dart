@@ -25,7 +25,7 @@ import '../../../../core/widgets/controls/pitada_button.dart';
 import '../../../../core/widgets/tabs/pitada_tabs.dart';
 import '../../application/framework_providers.dart';
 import '../../application/recipe_list_providers.dart';
-import '../../application/recipes_providers.dart';
+import '../../application/recipe_providers.dart';
 import '../../data/models/recipe/recipe.dart';
 import '../sheets/import_sheet.dart';
 import '../widgets/folder/folder_cover_row.dart';

@@ -13,7 +13,7 @@ import '../data/models/recipe/recipe.dart';
 import '../data/models/technique.dart';
 import '../data/repositories/technique/seed_technique_repository.dart';
 import '../data/repositories/technique/technique_repository.dart';
-import 'recipes_providers.dart';
+import 'recipe_providers.dart';
 
 /// Repositório de técnicas em uso (seed no preview; Supabase via override no
 /// main.dart). Usada por: providers abaixo.

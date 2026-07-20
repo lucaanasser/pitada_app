@@ -1,7 +1,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/notebook/presentation/widgets/shared/recipe_link_row.dart
 // O QUÊ:     Linha "abrir receita" — resolve o título por id e navega p/ /recipe/<id>.
-// USA:       recipes_providers (recipeByIdProvider), core/widgets, theme/*, go_router.
+// USA:       recipe_providers (recipeByIdProvider), core/widgets, theme/*, go_router.
 // USADO POR: NoteDetailScreen, DiaryEntryScreen, VersionHistoryScreen ("Aplica/Ligado a").
 // SPEC:      specs/features/notebook.yaml (applies -> RecipeDetailScreen)
 // ─────────────────────────────────────────────────────────────────────────────
@@ -15,7 +15,7 @@ import '../../../../../core/theme/pitada_colors.dart';
 import '../../../../../core/theme/typography.dart';
 import '../../../../../core/widgets/cards/hairline_row.dart';
 import '../../../../../core/widgets/cards/recipe_thumb.dart';
-import '../../../../recipes/application/recipes_providers.dart';
+import '../../../../recipes/application/recipe_providers.dart';
 
 /// Linha que liga a uma receita: mostra o título (ou o id como fallback) e
 /// navega para /recipe/<id> ao tocar. Usada por: detalhes do Caderno.

@@ -19,7 +19,7 @@ import '../../../../../core/theme/spacing.dart';
 import '../../../../../core/theme/typography.dart';
 import '../../../../../core/utils/format.dart';
 import '../../../application/day_log_providers.dart';
-import '../../../application/plans_providers.dart';
+import '../../../application/plan_providers.dart';
 import '../../../data/models/day_log.dart';
 import '../../../data/models/meal.dart';
 import '../../../data/models/meal_option.dart';

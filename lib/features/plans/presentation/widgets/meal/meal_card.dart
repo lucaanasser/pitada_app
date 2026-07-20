@@ -1,7 +1,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/plans/presentation/widgets/meal/meal_card.dart
 // O QUÊ:     Cartão de uma refeição: cabeçalho editável + OptionCards + adicionar opção.
-// USA:       theme/*, core/widgets (OptionCard), data/meal, plans_providers, sheets, go_router.
+// USA:       theme/*, core/widgets (OptionCard), data/meal, plan_providers, sheets, go_router.
 // USADO POR: plans_screen (um card por refeição do plano).
 // SPEC:      specs/features/plans.yaml (MealCard, MealHeaderRow)
 // ─────────────────────────────────────────────────────────────────────────────
@@ -16,7 +16,7 @@ import '../../../../../core/theme/spacing.dart';
 import '../../../../../core/theme/typography.dart';
 import '../../../../../core/utils/format.dart';
 import '../../../../../core/widgets/cards/option_card.dart';
-import '../../../application/plans_providers.dart';
+import '../../../application/plan_providers.dart';
 import '../../../data/models/meal.dart';
 import '../../sheets/plan/add_option_sheet.dart';
 import '../../sheets/plan/meal_sheet.dart';

@@ -21,7 +21,7 @@ import 'features/plans/application/food_estimate_service.dart';
 import 'features/plans/application/gemini_food_estimate_service.dart';
 import 'features/recipes/application/import/gemini_recipe_import_service.dart';
 import 'features/recipes/application/import/recipe_import_service.dart';
-import 'features/recipes/application/recipes_providers.dart';
+import 'features/recipes/application/recipe_providers.dart';
 import 'features/recipes/application/sub_recipe/sub_recipe_providers.dart';
 import 'features/recipes/application/technique_providers.dart';
 import 'features/recipes/data/repositories/recipe/supabase_recipe_repository.dart';

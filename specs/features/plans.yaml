@@ -129,5 +129,5 @@ components_reutilizados: [Masthead, SectionHeader, HairlineRow, OptionCard,
   FuelBar, RecipeThumb, PitadaSearchField, PitadaButton, PitadaIconButton, EmptyState]
 
 usa_de_outras_features:
-  - recipes/application/recipes_providers.dart (recipesProvider)  # lista p/ showAddOptionSheet
+  - recipes/application/recipe_providers.dart (recipesProvider)  # lista p/ showAddOptionSheet
   - navegação a /recipe/:id (RecipeDetailScreen) em pratos linkados

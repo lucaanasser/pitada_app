@@ -3,7 +3,7 @@
 // O QUÊ:     Modo cozinhar em tela cheia: um passo por vez, com progresso no topo
 //            e navegação embaixo. Ao concluir, abre o diário rápido do Caderno
 //            (as 3 perguntas) — o registro acontece na hora, não depois.
-// USA:       recipes_providers, cook_step_view, cook_nav_bar,
+// USA:       recipe_providers, cook_step_view, cook_nav_bar,
 //            notebook/diary_quick_sheet, core/widgets (StepProgress), theme/*.
 // USADO POR: core/router (/recipe/:id/cook) — via botão "Cozinhar" do detalhe.
 // SPEC:      specs/features/recipes.yaml (CookModeScreen)
@@ -19,7 +19,7 @@ import '../../../../core/theme/spacing.dart';
 import '../../../../core/utils/app_log.dart';
 import '../../../../core/widgets/cards/step_progress.dart';
 import '../../../notebook/presentation/sheets/diary_quick_sheet.dart';
-import '../../application/recipes_providers.dart';
+import '../../application/recipe_providers.dart';
 import '../../data/models/recipe/recipe.dart';
 import '../widgets/cook/cook_nav_bar.dart';
 import '../widgets/cook/cook_step_view.dart';

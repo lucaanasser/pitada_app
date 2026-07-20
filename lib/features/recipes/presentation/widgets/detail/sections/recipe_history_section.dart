@@ -3,7 +3,7 @@
 // O QUÊ:     Seção "Histórico" do detalhe: uma linha por versão (desc) com a
 //            nota "o que mudou" do Caderno + link p/ o histórico completo.
 //            Sem grupo de versões, mostra "V1 · sem histórico ainda".
-// USA:       core (theme, SectionHeader), recipes_providers (grupo),
+// USA:       core (theme, SectionHeader), recipe_providers (grupo),
 //            notebook/providers (versionForRecipeProvider — notas), go_router.
 // USADO POR: recipe_detail_body (compositor do detalhe).
 // SPEC:      specs/features/recipes.yaml (RecipeDetailScreen: historico)
@@ -19,7 +19,7 @@ import '../../../../../../core/theme/spacing.dart';
 import '../../../../../../core/theme/typography.dart';
 import '../../../../../../core/widgets/layout/section_header.dart';
 import '../../../../../notebook/application/providers.dart';
-import '../../../../application/recipes_providers.dart';
+import '../../../../application/recipe_providers.dart';
 import '../../../../data/models/recipe/recipe.dart';
 
 /// Histórico da receita como seção de primeira classe: a versão é o ritual de

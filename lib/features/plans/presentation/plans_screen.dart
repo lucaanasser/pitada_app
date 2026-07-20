@@ -5,7 +5,7 @@
 //            "Progresso" (peso + aderência). Título e DaySummary são fixos nas duas
 //            sub-abas; o switcher fica logo abaixo dos macros. Alterna por setState.
 // USA:       core/widgets (Masthead, PitadaTabs, PitadaScaffold), theme/*,
-//            plans_providers (DaySummary), CardapioView e ProgressView.
+//            plan_providers (DaySummary), CardapioView e ProgressView.
 // USADO POR: core/router/router.dart (branch /plans).
 // SPEC:      specs/features/plans_progress.yaml (navegacao) e plans.yaml (PlansScreen)
 // ─────────────────────────────────────────────────────────────────────────────
@@ -20,7 +20,7 @@ import '../../../core/widgets/layout/masthead.dart';
 import '../../../core/widgets/controls/pitada_button.dart';
 import '../../../core/widgets/layout/pitada_scaffold.dart';
 import '../../../core/widgets/tabs/pitada_tabs.dart';
-import '../application/plans_providers.dart';
+import '../application/plan_providers.dart';
 import 'sheets/plan/plan_add_sheet.dart';
 import 'widgets/meal/cardapio_view.dart';
 import 'widgets/meal/day_summary.dart';

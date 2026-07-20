@@ -6,7 +6,7 @@
 // USA:       recipe_repository (contrato), recipe/folder, recipe_seed,
 //            recipe_versions_seed, sub_recipe_seed (bolos demo), seed_folder_store
 //            (estado das pastas), seed_sub_recipe_repository (subreceita), app_log.
-// USADO POR: recipes_providers (default do provider, quando offline).
+// USADO POR: recipe_providers (default do provider, quando offline).
 // SPEC:      specs/features/recipes.yaml (data.edicao_inline, data.versoes) +
 //            specs/features/sub_recipes.yaml (data.leitura)
 // ─────────────────────────────────────────────────────────────────────────────
@@ -30,7 +30,7 @@ final Map<String, Recipe> _recipeOverrides = {};
 final List<Recipe> _createdRecipes = [];
 
 /// Repositório de preview: dados de exemplo + edições em memória. A semântica é
-/// idêntica à versão Supabase. Usada por: recipes_providers (default offline).
+/// idêntica à versão Supabase. Usada por: recipe_providers (default offline).
 class SeedRecipesRepository implements RecipesRepository {
   const SeedRecipesRepository();
 

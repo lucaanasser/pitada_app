@@ -3,7 +3,7 @@
 // O QUÊ:     Motor de "Padrões" do Progresso: lê os dias logados (janela de 14
 //            dias) e devolve até 3 insights acionáveis (refeição mais pulada,
 //            extra mais frequente, origem das kcal extras, dia que estoura).
-// USA:       day_log.dart, food_item.dart, day_log_providers, plans_providers,
+// USA:       day_log.dart, food_item.dart, day_log_providers, plan_providers,
 //            progress_providers (foods), riverpod. Sem Flutter: a UI mapeia
 //            InsightKind -> ícone.
 // USADO POR: InsightsSection (via progressInsightsProvider).
@@ -14,7 +14,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../data/models/day_log.dart';
 import '../data/models/food_item.dart';
 import 'day_log_providers.dart';
-import 'plans_providers.dart';
+import 'plan_providers.dart';
 import 'progress_providers.dart';
 
 /// Tipo de padrão detectado — a UI escolhe o ícone por aqui. Usada por: InsightsSection.

@@ -6,7 +6,7 @@
 //            baixo e some/volta junto com o voo dos papéis — uma transição só.
 //            A faixa da pasta DESLIZA (nunca fica translúcida): é ela, sólida,
 //            que oclui os papéis entrando/saindo.
-// USA:       recipes_providers, RecipeCard, PaperFly/FolderMotion/
+// USA:       recipe_providers, RecipeCard, PaperFly/FolderMotion/
 //            BottomOpenClipper, core/widgets (EmptyState, PitadaIconButton),
 //            core/theme (pit/AppType/AppSpacing/AppIcons), AppLog, go_router.
 // USADO POR: core/router/routes.dart (/folder/:id via CustomTransitionPage).
@@ -24,7 +24,7 @@ import '../../../../../core/theme/typography.dart';
 import '../../../../../core/utils/app_log.dart';
 import '../../../../../core/widgets/layout/empty_state.dart';
 import '../../../../../core/widgets/controls/pitada_button.dart';
-import '../../../application/recipes_providers.dart';
+import '../../../application/recipe_providers.dart';
 import '../../../data/models/recipe/recipe.dart';
 import '../../widgets/folder/paper_fly.dart';
 import '../../widgets/list/recipe_card.dart';

@@ -3,7 +3,7 @@
 // O QUÊ:     Detalhe de um framework: nome, esqueleto (planta baixa), técnicas
 //            como atributo sóbrio e as receitas instância (ponte de volta).
 // USA:       framework_providers, recipe_list_providers (maestria/memória),
-//            recipes_providers, framework_skeleton_view, RecipeRow, theme/*.
+//            recipe_providers, framework_skeleton_view, RecipeRow, theme/*.
 // USADO POR: core/router (/framework/:id).
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
@@ -18,7 +18,7 @@ import '../../../../../core/theme/typography.dart';
 import '../../../../../core/widgets/layout/section_header.dart';
 import '../../../application/framework_providers.dart';
 import '../../../application/recipe_list_providers.dart';
-import '../../../application/recipes_providers.dart';
+import '../../../application/recipe_providers.dart';
 import '../../../data/models/recipe/recipe.dart';
 import '../../widgets/framework/framework_skeleton_view.dart';
 import '../../widgets/list/recipe_row.dart';

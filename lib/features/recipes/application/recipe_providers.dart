@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/recipes/application/recipes_providers.dart
+// lib/features/recipes/application/recipe_providers.dart
 // O QUÊ:     Providers Riverpod da feature Receitas (lista, pastas, filtro, detalhe).
 // USA:       recipe_repository (contrato), seed_recipe_repository (default
 //            offline), recipe.dart, folder.dart, riverpod.

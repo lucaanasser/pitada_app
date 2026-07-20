@@ -3,7 +3,7 @@
 // O QUÊ:     Providers do Progresso ligados ao LOG DO DIA: dias registrados
 //            (controller com upsert por data), aderência dos últimos 14 dias,
 //            log de hoje e sequência de dias registrando (streak).
-// USA:       day_log.dart, progress_repository, plans_providers (meta do plano),
+// USA:       day_log.dart, progress_repository, plan_providers (meta do plano),
 //            riverpod, app_log.
 // USADO POR: AdherenceSection, TodaySection, LogDaySheet.
 // SPEC:      specs/features/plans_progress.yaml (application.providers)
@@ -13,7 +13,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/utils/app_log.dart';
 import '../data/models/day_log.dart';
 import '../data/repositories/progress_repository.dart';
-import 'plans_providers.dart';
+import 'plan_providers.dart';
 import 'progress_providers.dart';
 
 /// Quantos dias da faixa de aderência são mostrados (últimas 2 semanas).

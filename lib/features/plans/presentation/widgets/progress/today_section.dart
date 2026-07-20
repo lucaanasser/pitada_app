@@ -4,7 +4,7 @@
 //            com CTA (sem registro) ou resumo do log (kcal vs meta + contagens
 //            + editar), e a sequência de dias registrando logo abaixo.
 // USA:       theme/*, utils/format, core/widgets (PitadaButton/IconButton),
-//            day_log_providers (todayLog/streak), plans_providers (meta),
+//            day_log_providers (todayLog/streak), plan_providers (meta),
 //            log_day_sheet.
 // USADO POR: ProgressView (seção 'Hoje').
 // SPEC:      specs/features/plans_progress.yaml (screens_e_widgets: TodaySection)
@@ -20,7 +20,7 @@ import '../../../../../core/theme/typography.dart';
 import '../../../../../core/utils/format.dart';
 import '../../../../../core/widgets/controls/pitada_button.dart';
 import '../../../application/day_log_providers.dart';
-import '../../../application/plans_providers.dart';
+import '../../../application/plan_providers.dart';
 import '../../../data/models/day_log.dart';
 import '../../sheets/log/log_day_sheet.dart';
 

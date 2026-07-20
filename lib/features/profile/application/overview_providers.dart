@@ -5,7 +5,7 @@
 //            pendências acionáveis (RadarItem). O Perfil é um agregador de
 //            propósito — a UI dele só lê providers desta feature.
 // USA:       notebook/hub_providers (fio, cozinha pendente), notebook/providers
-//            (diário), recipes_providers (receitas), groceries/providers
+//            (diário), recipe_providers (receitas), groceries/providers
 //            (despensa), activity_builder, activity_day, activity_entry,
 //            profile_counts, radar_item, fio_entry (modelo), riverpod.
 // USADO POR: ProfileHeader, ProfileStats, ActivityGraph e KitchenRadar.
@@ -16,7 +16,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../notebook/application/hub_providers.dart';
 import '../../notebook/application/providers.dart';
 import '../../notebook/data/models/hub/fio_entry.dart';
-import '../../recipes/application/recipes_providers.dart';
+import '../../recipes/application/recipe_providers.dart';
 import '../../groceries/application/providers.dart';
 import '../data/activity_builder.dart';
 import '../data/models/activity_day.dart';
