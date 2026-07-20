@@ -92,9 +92,9 @@ specs/design-system/typography.yaml
 specs/features/{auth,bancada,groceries,plans_progress,recipes}.yaml
 ```
 
-- [ ] Consertar os 15 (aspas no valor com `:`; achar a chave duplicada)
-- [ ] Portão que impede o 16º: um script que roda `yaml.safe_load` em `specs/**/*.yaml`
-- [ ] Só então: portão de que todo `file:` aponta p/ `.dart` vivo (hoje 78/78, mas medido por regex)
+- [x] Consertar os 15 (eram 16 — `sub_recipes.yaml` havia regredido; 20/jul/2026)
+- [x] Portão que impede o 16º: `python3 tool/spec_gate.py` (parse de `specs/**/*.yaml`)
+- [x] Portão de que todo `file:` aponta p/ `.dart` vivo (no mesmo `tool/spec_gate.py`)
 
 **Portão:** `python3 -c "import yaml,glob; [yaml.safe_load(open(p)) for p in glob.glob('specs/**/*.yaml',recursive=True)]"` sai sem erro.
 
@@ -132,8 +132,8 @@ ela é ignorável, que é o pior dos dois mundos.
 estão errados — os outros 8 (`day_log_providers`, `settings_providers`, `overview_providers`…) são
 `<entidade>_providers`, que é o padrão certo:
 
-- [ ] `recipes/application/recipes_providers.dart` → `recipe_providers.dart` (15 importadores)
-- [ ] `plans/application/plans_providers.dart` → `plan_providers.dart` (9 importadores)
+- [x] `recipes/application/recipes_providers.dart` → `recipe_providers.dart` (20/jul/2026)
+- [x] `plans/application/plans_providers.dart` → `plan_providers.dart` (20/jul/2026)
 
 Os dois estão igualmente errados: **consertar um só deixa o corpus MENOS consistente** — faça os dois
 ou nenhum. Tipos e providers de dentro (`RecipesRepository`, `recipesRepositoryProvider`) **ficam**:
@@ -145,10 +145,9 @@ o precedente travado é que o ARQUIVO de-repete e o TIPO mantém (`GroceriesRepo
 `language.md:31` é explícito: identificador pt-BR legado **é bug, não estilo**. Dois sobreviveram, e
 são irmãos — ou os dois, ou nenhum:
 
-- [ ] `CardapioView` / `cardapio_view.dart` → `MenuView` / `menu_view.dart` (+ `plans_screen.dart`,
-  e a prosa de `specs/features/plans.yaml`)
-- [ ] `fio_entry.dart`/`FioEntry`/`fio_tile.dart` → decidir o termo inglês do conceito "fio" do
-  Caderno (`thread`?) e renomear arquivo + tipo + `hub_providers` + `notebook_screen` + `overview_providers`
+- [x] `CardapioView` / `cardapio_view.dart` → `MenuView` / `menu_view.dart` (20/jul/2026)
+- [x] `fio_entry.dart`/`FioEntry`/`fio_tile.dart` → termo escolhido: **thread** (`ThreadEntry`,
+  `ThreadTile`, `ThreadKind`, `threadProvider`); "fio" segue na prosa/UI (20/jul/2026)
 
 Diferente da #3, aqui **o tipo renomeia junto** — é o ponto da regra. `language.md` manda traduzir o
 conceito, não transliterar: `Cardapio`→`Menu`, não `cardapio_view`.
@@ -160,8 +159,9 @@ Cuidado com o que NÃO é bug: "Caderno" na prosa/UI é pt-BR de produto e **fic
 As pastas viraram `notebook`/`groceries` na Fase 1, as rotas não. 6 ocorrências em
 `core/router/routes.dart` + consumidores + comentários.
 
-- [ ] `/learning` → `/notebook`, `/shopping` → `/groceries` (produtores + consumidores + prosa)
-- [ ] `AppIcons.learning`/`learningFill` → `notebook`/`notebookFill`
+- [x] `/learning` → `/notebook`, `/shopping` → `/groceries` (produtores + consumidores + prosa; 20/jul/2026)
+- [x] `AppIcons.learning`/`learningFill` → `notebook`/`notebookFill`; o glifo de caderno
+  (EmptyState) virou `AppIcons.journal` p/ desfazer a colisão de nome
 
 Decisão pendente do dono desde a Fase 1. São rotas internas (sem deep-link externo publicado), então
 o risco é baixo — mas é chamada sua.
@@ -174,7 +174,7 @@ NÃO é bug: `PhosphorIconsRegular.shoppingCartSimple` (nome de pacote de tercei
 13 specs. Renome mecânico e chato — mas **faça depois da #1**: mexer em YAML que não parseia é
 trabalhar às cegas.
 
-- [ ] `detalhes:` → `details:` nas 13, com o portão da #1 rodando depois
+- [x] `detalhes:` → `details:` nas 13 (+ `detalhes_icon_button` → `details_icon_button`; 20/jul/2026)
 
 ## 7. Números mágicos de layout em `core/widgets/` — [ ]
 
@@ -182,7 +182,8 @@ Violam `design-system.md` ("todo valor visual vem de token"). Reconferido 16/jul
 parte da anotação antiga estava desatualizada** — os `size: 34` / `height: 6` / `size: 18` citados
 não existem mais nas specs. Sobrou um:
 
-- [ ] `Colors.white` cru em `core/widgets/cards/recipe_thumb.dart:55` → token de `AppColors`
+- [x] `Colors.white` cru em `recipe_thumb.dart` → token novo `AppColors.onHero` (também
+  aplicado em `friend_avatars.dart`; o botão do `PitadaToggle` ligado virou `onAccent`; 20/jul/2026)
 
 ## 8. Duas noções de técnica até o Caderno ser refatorado — [ ]
 
