@@ -2,14 +2,15 @@
 // lib/core/widgets/cards/recipe_thumb.dart
 // O QUÊ:     Miniatura de receita — quadrado colorido com ícone. [outlined] é o
 //            modo pastel neo-brutalista (borda tinta + ícone na tinta do tema).
-// USA:       core/theme/app_icons (ícone padrão), theme/pitada_colors (tinta),
-//            theme/spacing (raio/borda).
+// USA:       core/theme/app_icons (ícone padrão), theme/colors (AppColors.onHero),
+//            theme/pitada_colors (tinta), theme/spacing (raio/borda).
 // USADO POR: recipes (RecipeRow, FrameworkRow), plans (add_option_sheet),
 //            meal pickers, listas do Caderno (modo legado, cor cheia).
 // SPEC:      specs/components/cards/recipe_thumb.yaml
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import '../../theme/app_icons.dart';
+import '../../theme/colors.dart';
 import '../../theme/pitada_colors.dart';
 import '../../theme/spacing.dart';
 
@@ -52,7 +53,7 @@ class RecipeThumb extends StatelessWidget {
         size: size * 0.4,
         color: outlined
             ? (pit.isDark ? pit.text : pit.border).withValues(alpha: 0.35)
-            : Colors.white.withValues(alpha: 0.42),
+            : AppColors.onHero.withValues(alpha: 0.42),
       ),
     );
   }

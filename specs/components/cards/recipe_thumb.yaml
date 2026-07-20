@@ -3,8 +3,8 @@ component: RecipeThumb
 file: lib/core/widgets/cards/recipe_thumb.dart
 prototype: ".rrow .th (miniatura colorida com ícone)"
 purpose: Quadrado colorido (hero_color) com ícone de prato — placeholder de foto.
-uses: [AppIcons.dish (ícone padrão), context.pit.border/text/isDark,
-  AppSpacing.radiusMd/br/borderStrong]
+uses: [AppIcons.dish (ícone padrão), AppColors.onHero (ícone no legado),
+  context.pit.border/text/isDark, AppSpacing.radiusMd/br/borderStrong]
 api:
   - color: Color                        # obrigatório; a cor vem de quem chama
   - size: double = 54

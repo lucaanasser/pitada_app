@@ -46,6 +46,7 @@ class AppColors {
   static const accent2 = Color(0xFFD98C5A); // terracota claro (links, "acima")
   static const sage = Color(0xFFA9B26C); // verde (sucesso, "dentro da meta")
   static const onAccent = Color(0xFF1F0D04); // tinta sobre o accent
+  static const onHero = Color(0xFFFFFFFF); // tinta sobre as cores hero
   static const accentSoft = Color.fromRGBO(194, 112, 63, 0.12); // fundo suave
   static const accentLine = Color.fromRGBO(194, 112, 63, 0.32); // borda suave
   static const sageSoft = Color.fromRGBO(169, 178, 108, 0.13); // fundo verde

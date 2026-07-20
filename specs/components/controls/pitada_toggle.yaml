@@ -7,7 +7,7 @@ purpose: >
   accent quando ligado. Átomo visual único — antes vivia privado no profile
   (_Toggle) e agora é reusado por SettingsSwitchRow e pela QuickEditSheet.
 uses:
-  - AppColors.accent (ligado), context.pit (surf2/border/faint), AppSpacing (radiusPill, borderStrong)
+  - AppColors.accent (fundo ligado), AppColors.onAccent (botão ligado), context.pit (surf2/border/faint), AppSpacing (radiusPill, borderStrong)
 api:
   - value: bool
   - onChanged: ValueChanged<bool>?   # null = só-visual (o pai trata o toque)

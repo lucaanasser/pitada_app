@@ -1,7 +1,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/profile/presentation/widgets/friend_avatars.dart
 // O QUÊ:     Fileira horizontal de avatares de amigos + botão "Adicionar".
-// USA:       core/theme (AppColors.heroOf, PitadaColors via context.pit, AppType,
+// USA:       core/theme (AppColors.heroOf/onHero, PitadaColors via context.pit, AppType,
 //            AppSpacing), core/utils/app_log.
 // USADO POR: ProfileScreen (seção "Amigos").
 // SPEC:      specs/features/profile.yaml (components_da_feature.FriendAvatars)
@@ -72,7 +72,7 @@ class _FriendAvatar extends StatelessWidget {
           ),
           child: Text(
             friend.initial,
-            style: AppType.on(AppType.titleSm, AppColors.text),
+            style: AppType.on(AppType.titleSm, AppColors.onHero),
           ),
         ),
         const SizedBox(height: AppSpacing.xs + 1),

@@ -41,6 +41,13 @@ hero:
 # cor de "tinta" sobre o accent (texto de botão primário)
 sobre_accent: "#1F0D04"
 
+# cor de "tinta" sobre as cores hero (ícone/inicial em miniatura cheia) — onHero
+sobre_hero: "#FFFFFF"
+
+# sombra funcional da cena de pasta — ÚNICA exceção documentada ao flat
+# (folder_painter/folder_screen; ver specs/features/recipes.yaml, faixa da pasta)
+shadow: "rgba(0,0,0,0.35)"
+
 # —— Tema claro (base CREME, nunca branco; superfícies + texto) ——
 # Repensado do zero: a base é creme quente; as superfícies são cremes mais
 # claros (jamais #FFF puro). O contraste é suave — papel, não tela branca.

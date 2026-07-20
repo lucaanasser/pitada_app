@@ -2,7 +2,7 @@
 // lib/core/widgets/controls/pitada_toggle.dart
 // O QUÊ:     Toggle liga/desliga flat do app: pílula com borda, botão que desliza,
 //            accent quando ligado. Átomo visual único (promovido do profile).
-// USA:       theme/colors (AppColors.accent), theme/pitada_colors, theme/spacing.
+// USA:       theme/colors (AppColors.accent/onAccent), theme/pitada_colors, theme/spacing.
 // USADO POR: SettingsSwitchRow (profile) e QuickEditSheet (recipes: "nova versão").
 // SPEC:      specs/components/controls/pitada_toggle.yaml
 // ─────────────────────────────────────────────────────────────────────────────
@@ -43,7 +43,7 @@ class PitadaToggle extends StatelessWidget {
           width: 16,
           height: 16,
           decoration: BoxDecoration(
-            color: value ? AppColors.text : pit.faint,
+            color: value ? AppColors.onAccent : pit.faint,
             shape: BoxShape.circle,
           ),
         ),
