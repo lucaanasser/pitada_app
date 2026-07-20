@@ -71,12 +71,12 @@ application:
   file: lib/features/groceries/application/providers.dart
   providers:
     - groceriesRepositoryProvider (Provider<GroceriesRepository>)
-    - groceryListsProvider (StateNotifierProvider<GroceryListsNotifier, List<GroceryList>>)
+    - groceryListsProvider (StateNotifierProvider<GroceryListsNotifier, List<GroceryList>>):
         acoes: ["toggleItem(listId, itemId)", "checkAll(listId)",
                 "addList(name) -> id", "togglePantry(listId)"]
     - activeListIdProvider (StateProvider<String>)   # lista selecionada no sheet de listas
     - activeListProvider (Provider<GroceryList>)     # a lista ativa (fallback: primeira)
-    - activeListItemsProvider (Provider<List<GroceryItem>>)
+    - activeListItemsProvider (Provider<List<GroceryItem>>):
         obs: "itens crus da ativa; se usePantry, aplica discountPantry(despensa)"
     - pantryProvider (FutureProvider<List<PantryItem>>)
     - listByCategoryProvider (Provider<Map<String, List<GroceryItem>>>)   # agrupa por category

@@ -13,13 +13,13 @@ purpose: >
   pra cozinha, em vez de virar outra lista esquecida.
 
 principios:              # o "porquê" — orienta cada decisão de UX abaixo
-  - Compromisso datado: dizer QUANDO vai fazer aumenta muito a chance de fazer.
-    Por isso a data-alvo é obrigatória (mas é 1 toque, nunca formulário).
-  - Escassez: teto de vagas (kBancadaMaxSlots). Lista infinita vira aterro;
-    lista com teto fica viva. Cheia => "cozinhe ou tire algo".
-  - Fricção na SAÍDA, não na entrada: entrar é fácil; nada some em silêncio —
-    itens atrasados sobem e cutucam, e passado o prazo forçam uma decisão.
-  - Fechar o ciclo dá a recompensa: cozinhou => item sai + contador do mês sobe.
+  - 'Compromisso datado: dizer QUANDO vai fazer aumenta muito a chance de fazer.
+    Por isso a data-alvo é obrigatória (mas é 1 toque, nunca formulário).'
+  - 'Escassez: teto de vagas (kBancadaMaxSlots). Lista infinita vira aterro;
+    lista com teto fica viva. Cheia => "cozinhe ou tire algo".'
+  - 'Fricção na SAÍDA, não na entrada: entrar é fácil; nada some em silêncio —
+    itens atrasados sobem e cutucam, e passado o prazo forçam uma decisão.'
+  - 'Fechar o ciclo dá a recompensa: cozinhou => item sai + contador do mês sobe.'
   - A tela RESPONDE "o que cozinho hoje?" (herói com 1 sugestão), não é catálogo.
 
 # ── "Favoritar de verdade" NÃO mora aqui ──────────────────────────────────────
@@ -88,18 +88,18 @@ application:
 
 integracoes:              # a Bancada só é útil se plugada no fluxo — estes são os ganchos
   entrada (pôr na bancada):
-    - RecipeDetailScreen barra inferior ganha o ícone-toggle AppIcons.bookmark (ativo:
+    - 'RecipeDetailScreen barra inferior ganha o ícone-toggle AppIcons.bookmark (ativo:
       bookmarkFill). Desligado + toque -> showBancadaDateSheet (escolhe data e adiciona).
       Ligado -> abre a mesma sheet em modo "remarcar / tirar da bancada". Estado vem de
-      bancadaStatusProvider(recipeId). (Ver ajuste em specs/features/recipes.yaml.)
-    - Bancada cheia ao tentar adicionar: a sheet mostra "Bancada cheia (6/6) — cozinhe
-      ou tire algo" e não adiciona.
+      bancadaStatusProvider(recipeId). (Ver ajuste em specs/features/recipes.yaml.)'
+    - 'Bancada cheia ao tentar adicionar: a sheet mostra "Bancada cheia (6/6) — cozinhe
+      ou tire algo" e não adiciona.'
   cozinhar (fechar o ciclo):
     - Ao CONCLUIR o CookModeScreen de uma receita ATIVA na bancada, o controller chama
       markCooked(recipeId) — o item sai da bancada e entra no contador do mês.
-    - A CookChatSheet (feedback pós-cozimento) ganha uma seção "Voltar pra bancada?"
+    - 'A CookChatSheet (feedback pós-cozimento) ganha uma seção "Voltar pra bancada?"
       SÓ quando a receita estava na bancada: chips de data (recria um BancadaItem novo =
-      repetir em breve) + "Não, tá feito". (Ver ajuste na CookChatSheet em recipes.yaml.)
+      repetir em breve) + "Não, tá feito". (Ver ajuste na CookChatSheet em recipes.yaml.)'
   plano (ponte, fatia futura):
     - Um item com data próxima pode oferecer "adicionar ao plano de <dia>" (usa a aba
       Plano). Fica como GANCHO documentado; v1 não implementa — evita duas listas brigando.
@@ -122,16 +122,16 @@ screens_e_widgets:        # a Bancada é uma ABA-DE-CAPÍTULO dentro da RecipesS
         pit.border), RecipeThumb pastel, título (Space Grotesk) + PitadaButton "Cozinhar"
         -> /recipe/:id/cook.
       rotulo_adaptativo:
-        - overdue/today: "Cozinhar hoje?" (chamada de ação)
-        - later (nada vencido): "Próxima: <título> · <data relativa>" (tom mais leve)
+        - 'overdue/today: "Cozinhar hoje?" (chamada de ação)'
+        - 'later (nada vencido): "Próxima: <título> · <data relativa>" (tom mais leve)'
         - bancada vazia: o card não aparece (só o EmptyState)
   - BancadaItemRow:       # presentation/widgets/bancada_item_row.dart
       o_que: linha densa de um item — RecipeThumb pastel outlined + título + data + estado
       data_relativa (Space Grotesk, texto sóbrio — nunca cápsula):
-        - overdue: "atrasada · N dias" em AppColors.accent (terracota, cutuca)
-        - today:   "hoje" em realce (accent)
-        - thisWeek: dia da semana curto ("sáb") em pit.text2
-        - later:   data curta ("12 jul") em pit.muted
+        - 'overdue: "atrasada · N dias" em AppColors.accent (terracota, cutuca)'
+        - 'today:   "hoje" em realce (accent)'
+        - 'thisWeek: dia da semana curto ("sáb") em pit.text2'
+        - 'later:   data curta ("12 jul") em pit.muted'
       forcar_decisao: >
         quando isForcingDecision (atrasada além de kBancadaOverdueGraceDays), a linha
         expande uma faixa inline "Ainda quer fazer? [Remarcar] [Tirar]" — nunca apodrece
@@ -142,8 +142,8 @@ screens_e_widgets:        # a Bancada é uma ABA-DE-CAPÍTULO dentro da RecipesS
       o_que: escolher/editar a data-alvo em 1 toque (fricção mínima na entrada)
       layout:
         - grip + título ("Quando você vai fazer?" | "Remarcar")
-        - chips de default (PitadaChip): [Hoje, Amanhã, Fim de semana, Semana que vem, Escolher data]
-              "Fim de semana" = próximo sábado; "Semana que vem" = +7 dias; "Escolher data" -> showDatePicker
+        - 'chips de default (PitadaChip): [Hoje, Amanhã, Fim de semana, Semana que vem, Escolher data];
+              "Fim de semana" = próximo sábado; "Semana que vem" = +7 dias; "Escolher data" -> showDatePicker'
         - quando current != null (item já na bancada): rodapé com PitadaButton(outline) "Tirar da bancada"
         - se a bancada estiver CHEIA ao adicionar: mostra "Bancada cheia (N/N) — cozinhe ou
               tire algo" e desabilita a confirmação

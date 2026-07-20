@@ -20,7 +20,7 @@ api:
 layout:
   - bloco de foto (altura 158; 108 em compact) com ícone de prato ao centro
   - título (máx. 2 linhas, Space Grotesk)
-  - linha de meta em texto: "tempo · kcal · dificuldade" (partes ausentes omitidas)
+  - 'linha de meta em texto: "tempo · kcal · dificuldade" (partes ausentes omitidas)'
 nota_visual: >
   Histórico (decidido em iterações com o dono): meta em pit.muted ficou APAGADA
   demais ("fora da estética"); PitadaTags coloridas ficaram CARREGADAS demais
@@ -33,5 +33,5 @@ modos_lista:
   single: 1 RecipeCard grande por linha (padrão)
   grid:   2 RecipeCard(compact) por linha
   list:   RecipeRow (linha-filete, miniatura pastel outlined)
-alternador: RecipeViewToggle (3 ícones: viewSingle/viewGrid/viewList)
+alternador: "RecipeViewToggle (3 ícones: viewSingle/viewGrid/viewList)"
 used_by: [recipes_screen]

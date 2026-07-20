@@ -7,7 +7,7 @@ uses: [AppColors.sage, AppColors.onAccent, context.pit.line2/text2/faint, AppTyp
 api:
   - steps: List<String>
   - activeIndex: int
-detalhes: >
+details: >
   Coluna de linhas: bolinha de 17px + texto. Os índices <= activeIndex aparecem
   concluídos — bolinha preenchida em sage com ícone de check (onAccent) e texto
   em pit.text2; os pendentes ficam com borda pit.line2 e texto em pit.faint.

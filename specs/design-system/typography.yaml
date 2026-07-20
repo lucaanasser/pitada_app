@@ -34,7 +34,7 @@ estilos_ui:
   labelLg: { size: 13,   weight: 700, ls: 1.6, height: 1.0, upper: true, uso: "versalete de seção em destaque (SectionHeader accent)" }
   button:  { size: 15,   weight: 600, ls: 0.0, height: 1.0, uso: "texto de botão" }
   caption: { size: 12,   weight: 500, ls: 0.0, height: 1.3, uso: "meta/muted" }
-  captionSm:{ size: 11,  weight: 500, ls: 0.0, height: 1.3, uso: "unidade minúscula" }
+  captionSm: { size: 11,  weight: 500, ls: 0.0, height: 1.3, uso: "unidade minúscula" }
 
 pesos_disponiveis:
   display: [500, 600, 700]        # + itálico 500/600

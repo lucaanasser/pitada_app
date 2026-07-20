@@ -159,9 +159,9 @@ unificacao:               # fatia 3 — o caso "4 bolos do Instagram"
 historico: fatia 4 (fast-follow) — portar versionGroupId/timeline p/ SubRecipe.
 
 seed:
-  - sub_recipe_seed.dart: kSeedSubRecipes ('cobertura-chocolate') + 2 bolos
+  - "sub_recipe_seed.dart: kSeedSubRecipes ('cobertura-chocolate') + 2 bolos
     demo (bolo-cenoura scale 1, bolo-chocolate scale 1.5) vinculando a mesma
-    cobertura — o exemplo canônico do usuário.
+    cobertura — o exemplo canônico do usuário."
   - supabase/seed.sql ganha as mesmas linhas (uuids fixos do usuário de teste).
 
 backend: specs/backend/database.yaml (0018_sub_recipes.sql)

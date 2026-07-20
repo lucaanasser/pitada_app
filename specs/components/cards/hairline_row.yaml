@@ -11,5 +11,5 @@ api:
   - onTap: VoidCallback?
   - showDivider: bool = true
   - padding: EdgeInsets = vertical 15
-detalhes: "Row com gap; divisor 1px AppColors.line embaixo (some no último via showDivider)."
+details: "Row com gap; divisor 1px AppColors.line embaixo (some no último via showDivider)."
 used_by: [recipes, learning, shopping, plans, home — quase toda lista]

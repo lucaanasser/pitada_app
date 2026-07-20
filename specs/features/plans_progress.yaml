@@ -90,11 +90,11 @@ data:
 application:
   providers:                          # lib/features/plans/application/
     - progressRepositoryProvider (Provider<ProgressRepository>)
-    - weightControllerProvider (StateNotifier<List<WeightEntry>>)
+    - weightControllerProvider (StateNotifier<List<WeightEntry>>):
         acoes: ["addWeight(kg, {date}): insere ordenado por data e loga."]
     - weightStatsProvider (Provider<WeightStats?>)   # current, start, delta (null se vazio)
     - foodsProvider (Provider<List<FoodItem>>)        # dataset curado p/ busca
-    - dayLogControllerProvider (StateNotifier<List<DayLog>>)
+    - dayLogControllerProvider (StateNotifier<List<DayLog>>):
         acoes: ["saveDay(DayLog): substitui o log do mesmo dia (upsert) e loga."]
     - adherenceProvider (Provider<List<DayAdherence>>) # últimos ~14 dias: kcal do log vs meta
     - todayLogProvider (Provider<DayLog?>)             # log de HOJE (null se não registrou)

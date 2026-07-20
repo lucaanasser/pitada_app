@@ -12,7 +12,7 @@ api:
   - value: bool
   - onChanged: ValueChanged<bool>?   # null = só-visual (o pai trata o toque)
 variants:
-  - interativo:  onChanged != null -> GestureDetector próprio (usável sozinho, ex.: na sheet)
+  - interativo: "onChanged != null -> GestureDetector próprio (usável sozinho, ex.: na sheet)"
   - so_visual:   onChanged == null -> só a pílula (o HairlineRow em volta trata o toque)
 proibicoes: [sombra, degradê]   # segue a estética flat
 used_by:

@@ -16,7 +16,7 @@ functions:
       supabase/functions/estimate-food/{index.ts, deps.ts, parser.ts, gemini.ts,
       hints.ts, aliases.ts, foods.ts, disambiguate.ts, resolve.ts} — cada <200 linhas.
     verbo: functions.invoke('estimate-food')
-    auth: exige usuário logado (verify_jwt: true — JWT do app; anon key vale p/ teste)
+    auth: "exige usuário logado (verify_jwt: true — JWT do app; anon key vale p/ teste)"
     lado_app: >
       GeminiFoodEstimateService (plans/application) chama esta função; ligado via
       override de foodEstimateServiceProvider no main.dart quando online. Offline
@@ -54,7 +54,7 @@ functions:
       via: parser | ia             # como o texto virou tokens (Tier 0 ou IA)
       breakdown:                    # 1 item por ingrediente (auditável: confere/troca)
         - {name, grams, kcal, protein, carb, fat,
-           matched: string?, matchedSource: string?, barcode: string?, score: number?,
+           matched: "string?", matchedSource: "string?", barcode: "string?", score: "number?",
            via: alias|busca|ia,     # como o MATCH foi decidido
            confidence: alta|media|baixa,
            assumed: bool,           # porção assumida (qty/unit ausentes) — conferir
@@ -72,7 +72,7 @@ functions:
   import-recipe:                    # extrai receita estruturada de uma fonte — IMPLEMENTADA
     arquivo: supabase/functions/import-recipe/index.ts
     verbo: functions.invoke('import-recipe')
-    auth: exige usuário logado (verify_jwt: true — JWT do app; anon key vale p/ teste)
+    auth: "exige usuário logado (verify_jwt: true — JWT do app; anon key vale p/ teste)"
     lado_app: >
       GeminiRecipeImportService (recipes/application) chama esta função; ligado via
       override de recipeImportServiceProvider no main.dart quando online. Offline
@@ -102,9 +102,9 @@ functions:
       time_minutes: int?
       components:                   # 1+ por receita; sem partes = 1 sem name
         - name: string?             # 'Massa', 'Cobertura' — como a receita chama
-          ingredients: [{name, grams?, human_qty?, human_unit?,
-                         flavors: [acid|umami|fat|sweet|bitter|salt|fresh]?}]
-          steps: [{text, tip?, techniques: [{name, anchor}]?}]
+          ingredients: [{name, "grams?", "human_qty?", "human_unit?",
+                         flavors: "[acid|umami|fat|sweet|bitter|salt|fresh]?"}]
+          steps: [{text, "tip?", techniques: "[{name, anchor}]?"}]
       kcal/protein/carb/fat: number?   # por porção, estimados quando possível
     resolucao_de_tecnica: >         # string livre da IA -> entidade canônica
       No APP (GeminiRecipeImportService): cada {name, anchor} vira StepTechnique
@@ -122,4 +122,4 @@ functions:
     response: {suggestion: string}
 
 segredos:
-  GEMINI_API_KEY: supabase secrets set GEMINI_API_KEY=... (local: supabase/.env, git-ignored)
+  GEMINI_API_KEY: "supabase secrets set GEMINI_API_KEY=... (local: supabase/.env, git-ignored)"

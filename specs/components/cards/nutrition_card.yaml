@@ -17,7 +17,7 @@ api:
   - protein: num
   - carb: num
   - fat: num
-detalhes: >
+details: >
   Container com borda (pit.border, borderStrong) e cantos radiusCard, clip antiAlias;
   IntrinsicHeight + Row de 3 Expanded; células 2 e 3 têm borda esquerda. Rótulo em
   versalete (pit.muted), valor '28 g' em Space Grotesk (pit.text). Sem sombra.

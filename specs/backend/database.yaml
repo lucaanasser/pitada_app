@@ -34,7 +34,7 @@ migrations:
                   kcal int not null default 0, protein numeric default 0,
                   carb numeric default 0, fat numeric default 0, difficulty text,
                   hero_color text default 'clay',
-                  photo_count int default 0, notes text, techniques text[] default '{}',
+                  photo_count int default 0, notes text, "techniques text[] default '{}'",
                   version int default 1, version_group_id uuid,
                   created_at, updated_at]
         indices: [user_id, version_group_id]
@@ -300,7 +300,7 @@ migrations:
       sub_recipe_ingredients:      # espelho de recipe_ingredients (grama é a base)
         colunas: [id, sub_recipe_id fk->sub_recipes on delete cascade, position int,
                   name text not null, grams numeric, human_qty numeric,
-                  human_unit text, flavors flavor_axis[] default '{}']
+                  human_unit text, "flavors flavor_axis[] default '{}'"]
         indice: sub_recipe_id
       sub_recipe_steps:
         colunas: [id, sub_recipe_id fk->sub_recipes on delete cascade, position int,

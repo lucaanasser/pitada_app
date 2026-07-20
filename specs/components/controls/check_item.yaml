@@ -11,5 +11,5 @@ api:
   - onChanged: ValueChanged<bool>
   - shape: CheckShape = circle
   - color: Color? (default accent p/ circle, sage p/ square)
-detalhes: "22-23px; check em ✓ desenhado; transição suave. Só a caixa (o rótulo fica na HairlineRow)."
+details: "22-23px; check em ✓ desenhado; transição suave. Só a caixa (o rótulo fica na HairlineRow)."
 used_by: [shopping (lista/despensa)]

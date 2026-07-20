@@ -39,9 +39,9 @@ presentation:                                # presentation/sign_in_screen.dart
       - Masthead (marca centralizada)
       - título "Entrar" (AppType.title, pit.text)
       - estágio email: campo de e-mail + PitadaButton "Receber código"
-      - estágio codigo: texto "enviamos um código para <email>" (body, pit.text2),
+      - 'estágio codigo: texto "enviamos um código para <email>" (body, pit.text2),
         campo do código (6 dígitos, AppType.numeral), PitadaButton "Entrar",
-        link-texto "trocar e-mail" (caption, pit.muted)
+        link-texto "trocar e-mail" (caption, pit.muted)'
       - erros em texto accent (sem vermelho novo — usa tokens existentes)
     tokens: context.pit.* + AppType.* + AppSpacing.* (zero valor chumbado)
     componentes_reutilizados: [Masthead, PitadaButton, PitadaScaffold]

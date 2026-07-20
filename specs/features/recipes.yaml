@@ -160,7 +160,7 @@ routes:                             # eu ligo no router depois; garanta nome/ass
 screens:
   - RecipesScreen:
       layout: [Masthead, thead("Receitas" + '+'), FolderCoverRow, RecipeSearchField,
-               RecipeFilterPanel (colapsado), PitadaTabs([Receitas, Frameworks]),
+               RecipeFilterPanel (colapsado), "PitadaTabs([Receitas, Frameworks])",
                lista de RecipeRow | FrameworksTabView]
       # "Receitas Salvas" removida: manuais + importadas convivem em "Receitas".
       busca_e_filtros: >
@@ -260,8 +260,8 @@ screens:
                SectionHeader "Modo de preparo" -> por componente -> StepTile
                (texto com técnica GRIFADA em accent -> /technique/:id; +WhyCallout),
                SectionHeader "Histórico" -> RecipeHistorySection,
-               "Anotações" (texto),
-               barra inferior: Cozinhar + ícones]
+               '"Anotações" (texto)',
+               "barra inferior: Cozinhar + ícones"]
       # a seção "Técnicas desta receita" (tags no rodapé) MORREU: técnica é
       # etiqueta morta fora do passo — o conhecimento encosta onde acontece.
       historico: >
@@ -342,23 +342,23 @@ screens:
         top (PitadaScaffold.top): edhead = linha "Cancelar" (esq, PitadaChip/texto -> context.pop)
               + "Editar receita"/"Nova receita" (centro) + "Salvar" (dir, accent -> salva e pop)
         child (rolável):
-          - EditPhotoStrip: fotos horizontais (RecipeThumb por foto) + tile "＋ Adicionar foto"
-                            (mock: só adiciona placeholder; câmera/galeria atrás de service depois)
+          - 'EditPhotoStrip: fotos horizontais (RecipeThumb por foto) + tile "＋ Adicionar foto"
+                            (mock: só adiciona placeholder; câmera/galeria atrás de service depois)'
           - EditFieldRow "Nome": PitadaSearchField/campo de texto (controller)
           - EditFieldRow "Pasta": abre seletor de pasta (lista de foldersProvider, multiescolha) -> PitadaChip por pasta
           - EditFieldRow "Porções": stepper − N + (usa PitadaIconButton, AppType.numeral)
           - EditFieldRow "Tempo (min)": stepper − N + ou campo numérico
-          - SectionHeader "Ingredientes" -> POR COMPONENTE (rótulo do nome quando houver)
+          - 'SectionHeader "Ingredientes" -> POR COMPONENTE (rótulo do nome quando houver)
               -> IngredientsEditor:
               por linha: nome + gramas + humanQty + humanUnit (HairlineRow com campos) + remover (ícone)
-              rodapé: PitadaButton(outline) "＋ Ingrediente"
-          - SectionHeader "Modo de preparo" -> POR COMPONENTE -> StepsEditor:
+              rodapé: PitadaButton(outline) "＋ Ingrediente"'
+          - 'SectionHeader "Modo de preparo" -> POR COMPONENTE -> StepsEditor:
               por passo: número + texto (multiline) + tip opcional ("Por quê") + remover
-              rodapé: PitadaButton(outline) "＋ Passo"
+              rodapé: PitadaButton(outline) "＋ Passo"'
           # o rascunho (RecipeDraft) guarda DraftComponent mutáveis; receita simples
           # tem 1 componente sem nome e o editor não muda nada visualmente
-      salvar: monta Recipe imutável a partir do rascunho e chama repository (mock: log via AppLog + pop);
-              AppLog.i('recipes', 'receita salva: <id>')
+      salvar: "monta Recipe imutável a partir do rascunho e chama repository (mock: log via AppLog + pop);
+              AppLog.i('recipes', 'receita salva: <id>')"
       navega: volta para RecipeDetailScreen ao salvar/cancelar (context.pop)
 
   - CookModeScreen:
@@ -370,16 +370,17 @@ screens:
       layout:
         chrome: tela cheia (Scaffold bg), sem tab bar
         top: linha "Fechar"(X -> context.pop) + StepProgress(steps rótulos curtos, activeIndex currentIndex)
-        child: CookStepView do passo atual:
-          - "Passo N de M" (AppType.label, versalete)
+        child (CookStepView do passo atual):
+          - '"Passo N de M" (AppType.label, versalete)'
           - texto do passo grande e arejado (AppType.titleSm/body)
           - WhyCallout quando o passo tem tip
-        bottom: CookNavBar:
-          - "Voltar" (PitadaButton outline; desabilitado no passo 0)
-          - "Próximo" (PitadaButton primary) que avança; no ÚLTIMO passo vira "Concluir"
-      ao_concluir: no último passo, "Concluir" chama showCookChatSheet(context, recipe: recipe)
-                   (feedback pós-cozimento); AppLog.i('recipes', 'cozimento concluído: <id>')
-                   # markCooked na bancada entra com a implementação da Bancada (bancada.yaml)
+        bottom (CookNavBar):
+          - '"Voltar" (PitadaButton outline; desabilitado no passo 0)'
+          - '"Próximo" (PitadaButton primary) que avança; no ÚLTIMO passo vira "Concluir"'
+      # markCooked na bancada entra com a implementação da Bancada (bancada.yaml)
+      ao_concluir: >
+        no último passo, "Concluir" chama showCookChatSheet(context, recipe: recipe)
+        (feedback pós-cozimento); AppLog.i('recipes', 'cozimento concluído: <id>')
 
   - FolderScreen:
       classe: FolderScreen extends ConsumerWidget      # SEM controller próprio: a rota anima
@@ -414,7 +415,7 @@ screens:
         papel_opacidade: gate curto (primeiros ~12% do próprio trecho) só para evitar
                          pop de 1 frame na boca — a oclusão real é a faixa sólida
         gesto_voltar: sem PopScope — o back do sistema já reverte a rota corretamente
-      adicionar: ícone '+' na faixa (mock: AppLog até existir o seletor de receitas)
+      adicionar: "ícone '+' na faixa (mock: AppLog até existir o seletor de receitas)"
       navega: RecipeDetailScreen (/recipe/:id)
 
 sheets:
@@ -428,7 +429,8 @@ sheets:
         (preview PC, rascunho de exemplo) e GeminiRecipeImportService (online, chama a
         Edge Function import-recipe — ver specs/backend/edge_functions.yaml). Ligado via
         override de recipeImportServiceProvider no main.dart quando online.
-      estagios (enum ImportPhase: idle/choose, loading, ready/preview, error):
+      estagios: |
+        (enum ImportPhase: idle/choose, loading, ready/preview, error)
         1. choose  -> "De onde vem a receita?" + ImportSourceGrid:
               - campo de link (PitadaSearchField) + PitadaButton "Importar link" quando há texto:
                 deduz o RecipeSource pela url (instagram/youtube/site) e chama startFrom
@@ -455,7 +457,7 @@ sheets:
       classe_interna: _CookChatSheet extends StatefulWidget  # guarda feedback + sugestão gerada
       widgets_proprios: presentation/widgets/cook_feedback_options.dart
       abre: ao concluir o CookModeScreen (última etapa)
-      layout:
+      layout: |
         - grip + título "Como ficou?" (AppType.title) + subtítulo (AppType.body, muted)
         - CookFeedbackOptions: 4 escolhas exclusivas (PitadaChip/HairlineRow com CheckItem):
               "Ficou salgado", "Faltou cozimento", "Ficou seco", "Perfeito"
@@ -474,10 +476,10 @@ sheets:
       abre: ao tocar na RecipeVersionTag do título (RecipeDetailScreen)
       layout:
         - grip + título "Versões"
-        - lista das versões, MAIS RECENTE primeiro (v3, v2, v1); cada linha:
+        - 'lista das versões, MAIS RECENTE primeiro (v3, v2, v1); cada linha:
             "V{n}" (numeralSm accent na atual, pit.text nas outras) + chip "atual" na
             definitiva + nota "o que mudou" (do changelog do Caderno, casada por label);
-            a selecionada tem realce (accentSoft). Tocar -> onSelect(n) e fecha.
+            a selecionada tem realce (accentSoft). Tocar -> onSelect(n) e fecha.'
         - rodapé (se houver changelog): HairlineRow/link "Ver histórico completo" ->
             context.push('/versions/<changelog.id>')  (VersionHistoryScreen do Caderno)
       nota: >

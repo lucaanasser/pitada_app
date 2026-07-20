@@ -19,7 +19,7 @@ api:
   - tabs: List<String>          # rótulos das abas
   - selected: int               # índice ativo
   - onSelect: ValueChanged<int> # callback de toque
-detalhes: >
+details: >
   Row horizontal rolável (SingleChildScrollView) com gap AppSpacing.xxl entre
   abas. As larguras dos rótulos são medidas com TextPainter no estilo real. Um
   AnimationController (~360ms, easeOutCubic) interpola posição/largura do

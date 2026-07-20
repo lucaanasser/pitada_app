@@ -1,7 +1,7 @@
 # specs/components/cards/option_card.yaml -> lib/core/widgets/cards/option_card.dart
 component: OptionCard
 prototype: ".opt / .ohead / .odish em pitada.html, revisado p/ soft neo-brutalismo"
-purpose: Opção de refeição (Planos): cabeçalho clicável (radio + nome + selo) + pratos linkáveis.
+purpose: "Opção de refeição (Planos): cabeçalho clicável (radio + nome + selo) + pratos linkáveis."
 uses: [context.pit.surf2/line2/text/text2/muted/faint, AppColors.accentSoft,
   AppColors.accent, AppColors.sage, AppColors.accent2, AppType.numeralSm,
   AppType.bodySm, AppType.caption, AppSpacing.radiusLg/borderStrong]
@@ -18,5 +18,5 @@ visual: >
   borda-dentro-de-borda fina. Não escolhida: fundo pit.surf2, sem borda (bloco de
   cor chapada). Escolhida: fundo accentSoft + borda sólida AppColors.accent
   (borderStrong) — o "pop" terracota. Raio radiusLg (menor que o do card, 18).
-detalhes: "Radio à esquerda; prato linkado mostra seta e é clicável."
+details: "Radio à esquerda; prato linkado mostra seta e é clicável."
 used_by: [plans (MealCard)]

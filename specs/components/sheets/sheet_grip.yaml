@@ -8,7 +8,7 @@ uses:
   - AppSpacing.md                # margem vertical
   - AppSpacing.br(3)             # raio das pontas
 api: []
-detalhes: >
+details: >
   Promovido de plans/ e recipes/ (existiam DUAS cópias iguais) para
   core/widgets — todo sheet do app usa o mesmo grip.
 used_by:
