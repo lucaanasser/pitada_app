@@ -138,7 +138,7 @@ class FolderScreen extends ConsumerWidget {
   /// caminho — e volta para dentro no pop da rota, com a coreografia de ida e
   /// volta vinda de FolderMotion. Usada por: [build].
   Widget _grid(
-      BuildContext context, List<Recipe> inFolder, Animation<double> route) {
+      BuildContext context, List<Recipe> inFolder, Animation<double> route,) {
     return LayoutBuilder(
       builder: (context, c) => ClipRect(
         clipper: const BottomOpenClipper(),

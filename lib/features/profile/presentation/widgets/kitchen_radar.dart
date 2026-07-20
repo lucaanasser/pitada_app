@@ -62,7 +62,7 @@ class KitchenRadar extends ConsumerWidget {
   /// Uma pendência: ícone pelo tipo, título, apoio e tag/seta à direita.
   /// Toque navega para a rota onde ela se resolve. Usada por: [build].
   Widget _row(BuildContext context, RadarItem item,
-      {required bool showDivider}) {
+      {required bool showDivider,}) {
     final pit = context.pit;
     return HairlineRow(
       showDivider: showDivider,

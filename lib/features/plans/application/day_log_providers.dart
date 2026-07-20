@@ -119,7 +119,7 @@ final todayLogProvider = Provider<DayLog?>((ref) {
 /// Usada por: TodaySection (linha de sequência, exibida quando >= 2).
 final logStreakProvider = Provider<int>((ref) {
   final logged = {
-    for (final d in ref.watch(dayLogControllerProvider)) _key(d.date)
+    for (final d in ref.watch(dayLogControllerProvider)) _key(d.date),
   };
   final now = DateTime.now();
   var day = DateTime(now.year, now.month, now.day);

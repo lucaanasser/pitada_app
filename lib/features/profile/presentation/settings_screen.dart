@@ -49,7 +49,7 @@ class SettingsScreen extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SectionHeader(
-                      label: 'Aparência', topGap: AppSpacing.sm),
+                      label: 'Aparência', topGap: AppSpacing.sm,),
                   const SizedBox(height: AppSpacing.sm),
                   const ThemePicker(),
                   const SectionHeader(label: 'Cozinha'),
@@ -87,7 +87,7 @@ class SettingsScreen extends ConsumerWidget {
           ),
           const SizedBox(height: AppSpacing.lg),
           Text('Configurações',
-              style: AppType.on(AppType.screenTitle, pit.text)),
+              style: AppType.on(AppType.screenTitle, pit.text),),
         ],
       ),
     );

@@ -79,7 +79,7 @@ class LessonCardsScreen extends ConsumerWidget {
                 ),
                 error: (e, _) => Center(
                   child: Text('Erro: $e',
-                      style: AppType.on(AppType.body, pit.text)),
+                      style: AppType.on(AppType.body, pit.text),),
                 ),
                 data: (lessons) => _list(context, lessons, selected),
               ),

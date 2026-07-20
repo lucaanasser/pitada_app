@@ -82,7 +82,7 @@ class _AddPantrySheetState extends ConsumerState<_AddPantrySheet> {
           children: [
             _grip(pit),
             Text('Adicionar à despensa',
-                style: AppType.on(AppType.title, pit.text)),
+                style: AppType.on(AppType.title, pit.text),),
             const SizedBox(height: AppSpacing.lg),
             if (_step == 0) _chooser(pit),
             if (_step == 1) _loading(pit),

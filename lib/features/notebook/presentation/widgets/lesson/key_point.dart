@@ -36,7 +36,7 @@ class KeyPoint extends StatelessWidget {
           ),
           Expanded(
               child: Text(text,
-                  style: AppType.on(AppType.body, context.pit.text))),
+                  style: AppType.on(AppType.body, context.pit.text),),),
         ],
       ),
     );

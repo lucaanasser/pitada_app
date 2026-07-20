@@ -17,9 +17,9 @@ import '../../theme/spacing.dart';
 /// Usada por: ListViews das telas de aba (recipes, notebook, plans, groceries,
 /// profile).
 EdgeInsets tabListPadding(BuildContext context,
-    {double respiro = AppSpacing.xxl}) {
+    {double respiro = AppSpacing.xxl,}) {
   return EdgeInsets.only(
-      bottom: respiro + MediaQuery.paddingOf(context).bottom);
+      bottom: respiro + MediaQuery.paddingOf(context).bottom,);
 }
 
 /// Estrutura de aba: [top] fica fixo no alto; [child] ocupa o resto (rolável).

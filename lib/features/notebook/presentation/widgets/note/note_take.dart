@@ -54,7 +54,7 @@ class NoteTake extends StatelessWidget {
           ),
           const SizedBox(width: AppSpacing.md),
           Expanded(
-              child: Text(text, style: AppType.on(AppType.body, pit.text))),
+              child: Text(text, style: AppType.on(AppType.body, pit.text)),),
         ],
       ),
     );

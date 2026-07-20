@@ -44,7 +44,7 @@ class MockFoodEstimateService implements FoodEstimateService {
     if (base == null) {
       final kcal = (qty * 140).round();
       AppLog.i(
-          'plans', 'estimativa mock (genérica): "$description" ~$kcal kcal');
+          'plans', 'estimativa mock (genérica): "$description" ~$kcal kcal',);
       return ExtraEntry(
         name: description.trim(),
         portion: 'estimativa',
@@ -56,7 +56,7 @@ class MockFoodEstimateService implements FoodEstimateService {
     }
     final kcal = (base.kcal * qty).round();
     AppLog.i(
-        'plans', 'estimativa mock: "$description" -> ${base.name} ~$kcal kcal');
+        'plans', 'estimativa mock: "$description" -> ${base.name} ~$kcal kcal',);
     return ExtraEntry(
       foodId: base.id,
       name: base.name,

@@ -69,7 +69,7 @@ List<ProgressInsight> buildInsights(
   ];
   return [
     for (final i in found)
-      if (i != null) i
+      if (i != null) i,
   ].take(3).toList();
 }
 
