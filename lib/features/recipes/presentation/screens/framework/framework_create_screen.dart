@@ -4,7 +4,8 @@
 //            (o que se repete / o que varia / que regra aprendeu / que nome dá).
 //            As respostas da pessoa VIRAM o esqueleto — a IA nunca preenche.
 // USA:       framework_providers (controller), recipe_providers (receitas
-//            ligadas), core/widgets (EditTextField, PitadaButton, StepProgress).
+//            ligadas), widgets/framework (FrameworkQuestionView, StepNavBar),
+//            core/widgets (StepProgress).
 // USADO POR: core/router (/framework/new?recipes=a,b,c).
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
@@ -15,7 +16,6 @@ import '../../../../../core/theme/app_icons.dart';
 import '../../../../../core/theme/pitada_colors.dart';
 import '../../../../../core/theme/spacing.dart';
 import '../../../../../core/widgets/cards/step_progress.dart';
-import '../../../../../core/widgets/controls/pitada_button.dart';
 import '../../../application/framework_providers.dart';
 import '../../../application/recipe_providers.dart';
 import '../../../application/technique_providers.dart';
@@ -23,6 +23,7 @@ import '../../../data/models/framework.dart';
 import '../../../data/models/recipe/recipe.dart';
 import '../../../data/models/technique.dart';
 import '../../widgets/framework/framework_question_view.dart';
+import '../../widgets/framework/step_nav_bar.dart';
 
 /// Tela de criação guiada de framework. [recipeIds] chega da sugestão
 /// socrática (ou vazio, criando do zero). Usada por: router (/framework/new).
@@ -178,28 +179,14 @@ class _FrameworkCreateScreenState extends ConsumerState<FrameworkCreateScreen> {
                 ),
               ),
               const SizedBox(height: AppSpacing.lg),
-              Row(
-                children: [
-                  Expanded(
-                    child: PitadaButton(
-                      label: 'Voltar',
-                      variant: PitadaButtonVariant.outline,
-                      onPressed:
-                          _step == 0 ? null : () => setState(() => _step--),
-                    ),
-                  ),
-                  const SizedBox(width: AppSpacing.md),
-                  Expanded(
-                    child: PitadaButton(
-                      label: isLast ? 'Criar framework' : 'Próximo',
-                      onPressed: !canGo
-                          ? null
-                          : isLast
-                              ? () => _create(linked)
-                              : () => setState(() => _step++),
-                    ),
-                  ),
-                ],
+              StepNavBar(
+                isLast: isLast,
+                onBack: _step == 0 ? null : () => setState(() => _step--),
+                onNext: !canGo
+                    ? null
+                    : isLast
+                        ? () => _create(linked)
+                        : () => setState(() => _step++),
               ),
             ],
           ),

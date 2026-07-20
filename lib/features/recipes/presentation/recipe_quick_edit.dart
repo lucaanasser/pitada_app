@@ -3,8 +3,8 @@
 // O QUÊ:     Orquestra a edição inline do detalhe: um método por campo (título,
 //            kcal, porções, tempo, macros, ingrediente, passo, técnicas,
 //            anotações). Abre a QuickEditSheet, monta o Recipe editado e salva.
-//            Partes: itens de lista (recipe_item_edit) e subreceita/vínculo
-//            (sub_recipe_quick_edit).
+//            Partes: itens de lista (recipe_item_edit), subreceita
+//            (sub_recipe_quick_edit) e vínculo (sub_recipe_link_edit).
 // USA:       QuickEditSheet, AddOptionsSheet, recipe_providers,
 //            sub_recipe_providers, technique_providers, modelos, go_router.
 // USADO POR: recipe_detail_body (gestos Editable de cada campo) e telas de
@@ -30,6 +30,7 @@ import '../data/models/technique.dart';
 import 'sheets/quick_edit_sheet.dart';
 
 part 'recipe_item_edit.dart';
+part 'sub_recipe_link_edit.dart';
 part 'sub_recipe_quick_edit.dart';
 
 /// Qual macro está sendo editado (célula da NutritionCard). Usada por: [RecipeQuickEdit.macro].

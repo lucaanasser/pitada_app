@@ -106,8 +106,10 @@ data:
       exports: [kSeedLessons, kSeedGuideIngredients, kSeedRatios, kSeedSubstitutions,
                 kSeedPairings]
       notes: "agrega fichas + repertório e re-exporta os seeds de atividade."
-    - file: lib/features/notebook/data/seed/lessons_seed.dart
-      exports: [kSeedTechniques, kSeedFrameworks]
+    - file: lib/features/notebook/data/seed/techniques_seed.dart
+      exports: [kSeedTechniques]              # fichas de Técnicas
+    - file: lib/features/notebook/data/seed/frameworks_seed.dart
+      exports: [kSeedFrameworks]              # fichas de Frameworks
     - file: lib/features/notebook/data/seed/guides_seed.dart
       exports: [kSeedGuideIngredients]        # guias de Ingredientes
     - file: lib/features/notebook/data/seed/flavors_seed.dart
@@ -278,7 +280,7 @@ screens:
       file: lib/features/notebook/presentation/screens/lesson/lesson_edit_screen.dart
       route: /lesson-edit
       layout: >
-        cabeçalho (Cancelar / título / Salvar), chips de categoria,
+        EditHeaderBar (Cancelar / título / Salvar), chips de categoria,
         EditField(Título), EditField(Resumo), SectionEditor por seção,
         botão "Adicionar seção"
       notes: "só formulário; ainda não persiste. Aberta pelo '+' das Fichas e do hub."
@@ -318,6 +320,7 @@ widgets:                 # lib/features/notebook/presentation/widgets/
     - DetailHeader:      # detail_header.dart — voltar + kicker + título + lead + ação
     - HintCard:          # hint_card.dart — caixa de dica discreta
     - RecipeLinkRow:     # recipe_link_row.dart — "abrir receita" (resolve título por id)
+    - EditHeaderBar:     # edit_header_bar.dart — Cancelar / título / Salvar do formulário
   lesson:
     - lessonBody:        # lesson_body.dart — função: corpo do detalhe por category
     - kickerFor:         # lesson_body.dart — função: kicker de uma LessonKind

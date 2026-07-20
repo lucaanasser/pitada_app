@@ -4,7 +4,7 @@
 //            chaves): serve o seed, guarda edições da sessão em overrides e
 //            resolve componentes VINCULADOS a cada leitura (propagação real).
 // USA:       recipe_repository (contrato), recipe/folder, recipe_seed,
-//            recipe_versions_seed, sub_recipe_seed (bolos demo), seed_folder_store
+//            recipe_versions_seed, recipe/cake_seed (bolos demo), seed_folder_store
 //            (estado das pastas), seed_sub_recipe_repository (subreceita), app_log.
 // USADO POR: recipe_providers (default do provider, quando offline).
 // SPEC:      specs/features/recipes.yaml (data.edicao_inline, data.versoes) +
@@ -15,9 +15,9 @@ import '../../models/folder.dart';
 import '../../models/recipe/recipe.dart';
 import 'recipe_repository.dart';
 import 'seed_folder_store.dart';
+import '../../seed/recipe/cake_seed.dart';
 import '../../seed/recipe_seed.dart';
 import '../../seed/recipe_versions_seed.dart';
-import '../../seed/sub_recipe_seed.dart';
 import '../../seed/unify_demo_seed.dart';
 import '../sub_recipe/seed_sub_recipe_repository.dart';
 

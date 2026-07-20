@@ -7,9 +7,10 @@
 // SPEC:      specs/features/notebook.yaml (data.seed)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'flavors_seed.dart';
+import 'frameworks_seed.dart';
 import 'guides_seed.dart';
 import 'herbs_seed.dart';
-import 'lessons_seed.dart';
+import 'techniques_seed.dart';
 import '../models/knowledge/lesson.dart';
 import '../models/knowledge/repertoire.dart';
 

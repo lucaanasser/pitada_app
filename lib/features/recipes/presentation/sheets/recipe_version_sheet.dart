@@ -2,10 +2,10 @@
 // lib/features/recipes/presentation/sheets/recipe_version_sheet.dart
 // O QUÊ:     Bottom sheet "Versões" — lista as versões da receita (mais recente
 //            primeiro) com a nota "o que mudou"; escolher troca a tela inteira.
-// USA:       core/widgets (pitada_sheet, sheet_grip, pitada_chip), theme/*,
-//            recipe_providers (grupo + seleção), notebook/providers
-//            (versionForRecipeProvider — notas), notebook/recipe_version
-//            (modelo), go_router, app_log.
+// USA:       core/widgets (pitada_sheet, sheet_grip), widgets/detail/version_row
+//            (linha do seletor), theme/*, recipe_providers (grupo + seleção),
+//            notebook/providers (versionForRecipeProvider — notas),
+//            notebook/recipe_version (modelo), go_router, app_log.
 // USADO POR: recipe_detail_screen (tocar na RecipeVersionTag do título).
 // SPEC:      specs/features/recipes.yaml (sheets.RecipeVersionSheet)
 // ─────────────────────────────────────────────────────────────────────────────
@@ -19,12 +19,12 @@ import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
 import '../../../../core/theme/typography.dart';
 import '../../../../core/utils/app_log.dart';
-import '../../../../core/widgets/controls/pitada_chip.dart';
 import '../../../../core/widgets/sheets/pitada_sheet.dart';
 import '../../../../core/widgets/sheets/sheet_grip.dart';
 import '../../../notebook/application/providers.dart';
 import '../../../notebook/data/models/activity/recipe_version.dart';
 import '../../application/recipe_providers.dart';
+import '../widgets/detail/version_row.dart';
 
 /// Abre o seletor de versões da receita. [definitivaId] busca a nota "o que mudou"
 /// no Caderno (fonte única). Usada por: RecipeDetailScreen.
@@ -90,7 +90,7 @@ class _RecipeVersionSheet extends ConsumerWidget {
             Text('Versões', style: AppType.on(AppType.title, pit.text)),
             const SizedBox(height: AppSpacing.md),
             for (final r in desc)
-              _VersionRow(
+              VersionRow(
                 version: r.version,
                 isCurrent: r.version == maxVersion,
                 isSelected: r.version == selected,
@@ -127,84 +127,6 @@ class _RecipeVersionSheet extends ConsumerWidget {
   void _openHistory(BuildContext context, String versionId) {
     Navigator.of(context).pop();
     rootContext.push('/versions/$versionId');
-  }
-}
-
-/// Uma linha do seletor: "V{n}" + chip "atual" + nota; realçada quando escolhida.
-/// Usada por: [_RecipeVersionSheet].
-class _VersionRow extends StatelessWidget {
-  const _VersionRow({
-    required this.version,
-    required this.isCurrent,
-    required this.isSelected,
-    required this.note,
-    required this.onTap,
-  });
-
-  final int version;
-  final bool isCurrent;
-  final bool isSelected;
-  final String? note;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final pit = context.pit;
-    return Padding(
-      padding: const EdgeInsets.only(bottom: AppSpacing.sm),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: onTap,
-          borderRadius: AppSpacing.br(AppSpacing.radiusLg),
-          child: Container(
-            padding: const EdgeInsets.all(AppSpacing.md),
-            decoration: BoxDecoration(
-              color: isSelected ? AppColors.accentSoft : pit.surf2,
-              borderRadius: AppSpacing.br(AppSpacing.radiusLg),
-              border: Border.all(
-                color: isSelected ? AppColors.accentLine : pit.line,
-                width: AppSpacing.borderStrong,
-              ),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      'V$version',
-                      style: AppType.on(
-                        AppType.numeralSm,
-                        isSelected ? AppColors.accent : pit.text,
-                      ),
-                    ),
-                    if (isCurrent) ...[
-                      const SizedBox(width: AppSpacing.md),
-                      const PitadaChip(
-                        label: 'atual',
-                        variant: PitadaChipVariant.accent,
-                      ),
-                    ],
-                    const Spacer(),
-                    if (isSelected)
-                      const Icon(
-                        AppIcons.check,
-                        size: 18,
-                        color: AppColors.accent,
-                      ),
-                  ],
-                ),
-                if (note != null) ...[
-                  const SizedBox(height: AppSpacing.xs),
-                  Text(note!, style: AppType.on(AppType.bodySm, pit.text2)),
-                ],
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
   }
 }
 

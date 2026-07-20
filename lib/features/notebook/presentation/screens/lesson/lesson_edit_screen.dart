@@ -2,8 +2,9 @@
 // lib/features/notebook/presentation/screens/lesson/lesson_edit_screen.dart
 // O QUÊ:     Formulário para criar/editar uma ficha: categoria (chips), nome,
 //            resumo e editor de seções. Só coleta os dados; persiste depois.
-// USA:       core/widgets (PitadaChip, PitadaButton), widgets locais, theme/*,
-//            utils/app_log, go_router (Cancelar/Salvar).
+// USA:       core/widgets (PitadaChip, PitadaButton), widgets locais
+//            (EditHeaderBar, SectionEditor), theme/*, utils/app_log,
+//            go_router (Salvar volta).
 // USADO POR: core/router (/lesson-edit).
 // SPEC:      specs/features/notebook.yaml (screens.LessonEditScreen — view-lesson-edit)
 // ─────────────────────────────────────────────────────────────────────────────
@@ -11,13 +12,13 @@ import '../../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../../core/theme/colors.dart';
 import '../../../../../core/theme/pitada_colors.dart';
 import '../../../../../core/theme/spacing.dart';
 import '../../../../../core/theme/typography.dart';
 import '../../../../../core/widgets/controls/pitada_button.dart';
 import '../../../../../core/widgets/controls/pitada_chip.dart';
 import '../../../../../core/utils/app_log.dart';
+import '../../widgets/shared/edit_header_bar.dart';
 import '../../widgets/shared/section_editor.dart';
 
 /// As categorias disponíveis para uma ficha (rótulos dos chips de seleção).
@@ -88,7 +89,7 @@ class _LessonEditScreenState extends State<LessonEditScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            _head(context, pit),
+            EditHeaderBar(title: 'Nova ficha', onSave: _save),
             Expanded(
               child: ListView(
                 padding: const EdgeInsets.fromLTRB(
@@ -132,46 +133,6 @@ class _LessonEditScreenState extends State<LessonEditScreen> {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  /// Cabeçalho do editor: Cancelar / título / Salvar. Usada por: [build].
-  Widget _head(BuildContext context, PitadaColors pit) {
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppSpacing.gutter,
-        vertical: AppSpacing.md,
-      ),
-      decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(color: pit.line, width: AppSpacing.hair),
-        ),
-      ),
-      child: Row(
-        children: [
-          GestureDetector(
-            onTap: () => context.pop(),
-            child: Text(
-              'Cancelar',
-              style: AppType.on(AppType.button, pit.muted),
-            ),
-          ),
-          Expanded(
-            child: Text(
-              'Nova ficha',
-              textAlign: TextAlign.center,
-              style: AppType.on(AppType.title, pit.text),
-            ),
-          ),
-          GestureDetector(
-            onTap: _save,
-            child: Text(
-              'Salvar',
-              style: AppType.on(AppType.button, AppColors.accent),
-            ),
-          ),
-        ],
       ),
     );
   }

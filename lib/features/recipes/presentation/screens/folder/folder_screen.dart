@@ -6,9 +6,10 @@
 //            baixo e some/volta junto com o voo dos papéis — uma transição só.
 //            A faixa da pasta DESLIZA (nunca fica translúcida): é ela, sólida,
 //            que oclui os papéis entrando/saindo.
-// USA:       recipe_providers, RecipeCard, PaperFly/FolderMotion/
-//            BottomOpenClipper, core/widgets (EmptyState, PitadaIconButton),
-//            core/theme (pit/AppType/AppSpacing/AppIcons), AppLog, go_router.
+// USA:       recipe_providers, RecipeCard, folder_edit_sheet (+ abre o editor),
+//            PaperFly/FolderMotion/BottomOpenClipper, OpenStripBar (faixa da
+//            pasta), EmptyState, core/theme (pit/AppType/AppSpacing/AppIcons),
+//            go_router.
 // USADO POR: core/router/routes.dart (/folder/:id via CustomTransitionPage).
 // SPEC:      specs/features/recipes.yaml (FolderScreen)
 // ─────────────────────────────────────────────────────────────────────────────
@@ -17,15 +18,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../../core/theme/app_icons.dart';
-import '../../../../../core/theme/colors.dart';
 import '../../../../../core/theme/pitada_colors.dart';
 import '../../../../../core/theme/spacing.dart';
 import '../../../../../core/theme/typography.dart';
-import '../../../../../core/utils/app_log.dart';
 import '../../../../../core/widgets/layout/empty_state.dart';
-import '../../../../../core/widgets/controls/pitada_button.dart';
 import '../../../application/recipe_providers.dart';
+import '../../../data/models/folder.dart';
 import '../../../data/models/recipe/recipe.dart';
+import '../../sheets/folder_edit_sheet.dart';
+import '../../widgets/folder/open_strip_bar.dart';
 import '../../widgets/folder/paper_fly.dart';
 import '../../widgets/list/recipe_card.dart';
 
@@ -42,9 +43,12 @@ class FolderScreen extends ConsumerWidget {
   static const openDuration = Duration(milliseconds: 460);
   static const closeDuration = Duration(milliseconds: 380);
 
-  /// Mock do adicionar receita — o seletor real virá com o repositório de
-  /// escrita. Usada por: [_folderStrip] (botão +).
-  void _logAdd() => AppLog.i('recipes', 'adicionar receita à pasta: $folderId');
+  /// Abre o editor desta pasta (nome, cor e receitas). Usada por: OpenStripBar (+).
+  void _openEditor(BuildContext context, String name, String hero) =>
+      showFolderEditSheet(
+        context,
+        folder: Folder(id: folderId, name: name, heroColor: hero),
+      );
 
   /// Monta fundo que dissolve por cima da aba Pastas + topo + grade animada +
   /// faixa da pasta, tudo dirigido pela animação da rota. Usada por: framework.
@@ -101,8 +105,12 @@ class FolderScreen extends ConsumerWidget {
                 ),
                 SlideTransition(
                   position: stripSlide,
-                  child:
-                      _folderStrip(context, pit, name, hero, inFolder.length),
+                  child: OpenStripBar(
+                    name: name,
+                    hero: hero,
+                    count: inFolder.length,
+                    onAdd: () => _openEditor(context, name, hero),
+                  ),
                 ),
               ],
             ),
@@ -164,63 +172,6 @@ class FolderScreen extends ConsumerWidget {
               compact: true,
               onTap: () => context.push('/recipe/${inFolder[i].id}'),
             ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  /// A PASTA no rodapé: faixa na cor pastel do hero, nome + contagem + botão
-  /// de adicionar. É o ponto fixo da cena — são os papéis que saem/entram por
-  /// trás dela. Usada por: [build].
-  Widget _folderStrip(
-    BuildContext context,
-    PitadaColors pit,
-    String name,
-    String hero,
-    int count,
-  ) {
-    final label = '$count receita${count == 1 ? '' : 's'}';
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: pit.card(hero),
-        boxShadow: const [
-          BoxShadow(
-            color: AppColors.shadow,
-            blurRadius: 10,
-            offset: Offset(0, -3),
-          ),
-        ],
-      ),
-      child: SafeArea(
-        top: false,
-        child: Padding(
-          padding: AppSpacing.screenH
-              .copyWith(top: AppSpacing.lg, bottom: AppSpacing.lg),
-          child: Row(
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      name,
-                      style: AppType.on(AppType.title, pit.text),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: AppSpacing.xs),
-                    Text(
-                      label,
-                      style: AppType.on(AppType.caption, pit.text2),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(width: AppSpacing.md),
-              PitadaIconButton(icon: AppIcons.add, onPressed: _logAdd),
-            ],
           ),
         ),
       ),

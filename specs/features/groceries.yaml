@@ -39,14 +39,18 @@ data:
     - GroceriesRepository:     # em memória (seed) hoje; Supabase depois
         file: lib/features/groceries/data/repository.dart
         api: "List<GroceryList> fetchLists() ; Future<List<PantryItem>> fetchPantry()"
-  seed:
-    file: lib/features/groceries/data/seed.dart
+  list_seed:
+    file: lib/features/groceries/data/list_seed.dart
     obs: >
       kGroceryCategories (ordem canônica das 4 categorias) + kSeedLists:
       'Semana' (usePantry=true; cruas desenhadas p/ o desconto reproduzir a
       lista clássica: cebola 6un-4un=2un etc.) e 'Praia' (usePantry=false;
       churrasco de praia: tilápia, limão, queijo coalho, pão de alho).
-      kSeedPantry é `final` (DateTime de validade).
+  pantry_seed:
+    file: lib/features/groceries/data/pantry_seed.dart
+    obs: >
+      kSeedPantry é `final` (validades DateTime relativas a hoje). Importa as
+      categorias de list_seed.dart.
 
   regra_de_soma:              # a regra canônica vive em core/utils/units.dart
     - "monta HumanQty de cada ingrediente das receitas do plano"
@@ -172,7 +176,7 @@ sheets:
       api: void showAddPantrySheet(BuildContext)
       estilo: >
         abre via showPitadaSheet (fundo pit.surf, isScrollControlled, radius topo
-        AppSpacing.radiusXxl, root navigator); grip 36x5 (line2, radius 3) próprio.
+        AppSpacing.radiusXxl, root navigator); SheetGrip compartilhado no topo.
       dados: lib/features/groceries/presentation/widgets/add_pantry_data.dart
       passos:
         - "escolher origem (HairlineRow, de kPantrySources): Código de barras,
@@ -198,7 +202,8 @@ arquivos:                    # cada .dart < 200 linhas; quebre em widgets se pas
     - grocery_item.dart           # model GroceryItem
     - pantry_item.dart            # model PantryItem
     - repository.dart             # GroceriesRepository: listas + despensa (seed)
-    - seed.dart                   # kGroceryCategories, kSeedLists, kSeedPantry
+    - list_seed.dart              # kGroceryCategories, kSeedLists
+    - pantry_seed.dart            # kSeedPantry
   application:
     - providers.dart
     - scanner_service.dart        # ScannerService abstrato + MockScannerService + scannerProvider

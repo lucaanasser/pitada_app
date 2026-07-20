@@ -107,7 +107,8 @@ ui:                       # fatia 2 — presentation/
        SubRecipe (valores BASE, não os escalados) e salva via
        SubRecipeEditController — a sheet diz 'propaga p/ N receitas' no
        título; sem switch de versão. Orquestra: sub_recipe_quick_edit.dart
-       (façade SubRecipeQuickEdit, irmã da RecipeQuickEdit)."
+       (edição que propaga) e sub_recipe_link_edit.dart (ações de vínculo),
+       parts da RecipeQuickEdit."
     - "SectionHeader 'Ingredientes' ganha action 'usar subreceita' -> seletor."
   acoes:                  # sheets REUSAM showAddOptionsSheet (nada de sheet nova)
     - "componente LOCAL nomeado: segurar o header -> opção 'Tornar subreceita'
@@ -143,7 +144,9 @@ unificacao:               # fatia 3 — o caso "4 bolos do Instagram"
     versão desta receita vira a subreceita", lista de candidatas com CheckItem
     (receita · diffs · ≈fator), rodapé PitadaButton "Unificar N em 1" ->
     SubRecipeEditController.unify -> pop. EmptyState sem candidatas (ainda
-    permite tornar subreceita simples).
+    permite tornar subreceita simples). Widgets extraídos em
+    presentation/widgets/sub_recipe/: UnifyHeader (voltar + rótulo + campo
+    nome) e UnifyCandidateRow (check + diffs + escala).
   entrada: >
     Sheet de ações do componente LOCAL nomeado ganha "Unificar parecidas"
     (além de "Tornar subreceita"). Sugestão automática pós-import: fast-follow.
@@ -159,8 +162,9 @@ unificacao:               # fatia 3 — o caso "4 bolos do Instagram"
 historico: fatia 4 (fast-follow) — portar versionGroupId/timeline p/ SubRecipe.
 
 seed:
-  - "sub_recipe_seed.dart: kSeedSubRecipes ('cobertura-chocolate') + 2 bolos
-    demo (bolo-cenoura scale 1, bolo-chocolate scale 1.5) vinculando a mesma
+  - "sub_recipe_seed.dart: só kSeedSubRecipes ('cobertura-chocolate')."
+  - "data/seed/recipe/cake_seed.dart: kSeedCakeRecipes — os 2 bolos demo
+    (bolo-cenoura scale 1, bolo-chocolate scale 1.5) vinculando a mesma
     cobertura — o exemplo canônico do usuário."
   - supabase/seed.sql ganha as mesmas linhas (uuids fixos do usuário de teste).
 

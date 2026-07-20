@@ -196,7 +196,7 @@ screens_e_widgets:
         cabeçalho compartilhado da PlansScreen, acima das abas."
 
 sheets:
-  - showLogDaySheet:                  # presentation/log_day_sheet.dart
+  - showLogDaySheet:                  # presentation/sheets/log/log_day_sheet.dart
       assinatura: "void showLogDaySheet(BuildContext context)"
       proposito: "Registrar o dia em poucos segundos."
       fluxo:
@@ -213,6 +213,8 @@ sheets:
         - "DayLogExtrasSection (widgets/day_log_extras.dart): título 'Comeu algo
            fora do plano?' + linhas de extras (nome/porção/kcal + X) + '+ Adicionar'."
         - "DayLogFooter (widgets/day_log_footer.dart): total vs meta + 'Salvar dia'."
+        - "DayLogMealListView (widgets/day_log/meal_list_view.dart): lista rolável
+           com um DayLogMealTile por refeição + a seção de extras no fim."
       nota: "É a materialização do 'fez todas as refeições?' (pulei) + 'comeu fora?' (extras), inline e rápido."
   - showLogWeightSheet:               # presentation/log_weight_sheet.dart
       assinatura: "void showLogWeightSheet(BuildContext context)"
@@ -230,6 +232,17 @@ sheets:
         - "PitadaSearchField (busca por nome)"
         - "lista (HairlineRow): nome + porção + kcal; tocar retorna o ExtraEntry e fecha"
         - "rodapé: '+ Outro' -> item livre (nome + kcal aprox) p/ o que não está no dataset"
+  - showEstimateFoodSheet:            # presentation/sheets/food/estimate_food_sheet.dart
+      assinatura: "Future<ExtraEntry?> showEstimateFoodSheet(BuildContext context)"
+      proposito: "Logar algo fora do plano: chips de 1 toque (itens comuns) +
+        linguagem natural estimada por IA; permite ajustar a kcal antes de adicionar."
+      widgets_extraidos:   # p/ manter o sheet < 200 linhas
+        - "EstimateInputView (sheets/food/estimate_input_view.dart): chips comuns +
+           campo de linguagem natural + botão 'Estimar'."
+        - "EstimateResultView (sheets/food/estimate_result_view.dart): estimativa
+           (nome/porção/kcal/macros) + ajuste de kcal + ações."
+        - "EstimateFieldView (sheets/food/estimate_field_view.dart): campo padrão do
+           sheet (surf2/line2, foco accent; variante numérica)."
 
 components_reutilizados: [Masthead, PitadaTabs, SectionHeader, PitadaButton,
   PitadaIconButton, FuelBar, HairlineRow, PitadaChip, PitadaTag, PitadaSearchField,

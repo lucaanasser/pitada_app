@@ -3,7 +3,7 @@
 // O QUÊ:     Providers de Compras: as listas (com ações), a lista ativa, os itens
 //            exibidos (crus ou com a despensa descontada) e os agrupadores.
 // USA:       repository, grocery_list, grocery_item, pantry_item,
-//            seed (categorias), riverpod, app_log.
+//            list_seed (categorias), riverpod, app_log.
 // USADO POR: grocery_list_view, pantry_view, list_header, lists_sheet e
 //            new_list_sheet (apresentação); profile/overview_providers.
 // SPEC:      specs/features/groceries.yaml (application.providers)
@@ -15,7 +15,7 @@ import '../data/pantry_item.dart';
 import '../data/grocery_item.dart';
 import '../data/grocery_list.dart';
 import '../data/repository.dart';
-import '../data/seed.dart';
+import '../data/list_seed.dart';
 
 /// Instância do repositório. Usada por: os providers abaixo.
 final groceriesRepositoryProvider =

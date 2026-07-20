@@ -2,14 +2,16 @@
 // lib/features/groceries/data/repository.dart
 // O QUÊ:     Fonte das listas de compras (várias, com itens crus) e da despensa.
 //            Hoje em memória (seed).
-// USA:       grocery_list.dart, pantry_item.dart, seed.dart, app_log.
+// USA:       grocery_list.dart, pantry_item.dart, list_seed.dart,
+//            pantry_seed.dart, app_log.
 // USADO POR: providers (application). A UI nunca chama isto direto.
 // SPEC:      specs/features/groceries.yaml (data.repository)
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../../core/utils/app_log.dart';
 import 'pantry_item.dart';
 import 'grocery_list.dart';
-import 'seed.dart';
+import 'list_seed.dart';
+import 'pantry_seed.dart';
 
 /// Repositório de compras. Implementação atual serve os dados de exemplo.
 /// Usada por: providers. Trocar por versão Supabase mantém a mesma API.

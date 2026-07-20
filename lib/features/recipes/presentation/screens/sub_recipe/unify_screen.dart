@@ -3,9 +3,10 @@
 // O QUÊ:     Reconciliação N->1: a partir de um componente local (origem),
 //            lista os parecidos nas outras receitas, marca os que viram
 //            vínculo e unifica todos numa subreceita canônica.
-// USA:       unify_service (candidatas/escala/diffs), sub_recipe_providers
-//            (controller), recipe_providers, core/widgets (CheckItem,
-//            HairlineRow, EditTextField, PitadaButton, EmptyState), core/theme.
+// USA:       unify_service (candidatas/escala), sub_recipe_providers
+//            (controller), recipe_providers, widgets/sub_recipe (UnifyHeader,
+//            UnifyCandidateRow), core/widgets (PitadaButton, EmptyState,
+//            SectionHeader), core/theme.
 // USADO POR: core/router (/unify/:recipeId/:component) — via sheet de ações.
 // SPEC:      specs/features/sub_recipes.yaml (unificacao.tela)
 // ─────────────────────────────────────────────────────────────────────────────
@@ -17,11 +18,6 @@ import '../../../../../core/theme/app_icons.dart';
 import '../../../../../core/theme/colors.dart';
 import '../../../../../core/theme/pitada_colors.dart';
 import '../../../../../core/theme/spacing.dart';
-import '../../../../../core/theme/typography.dart';
-import '../../../../../core/utils/scaling.dart';
-import '../../../../../core/widgets/cards/hairline_row.dart';
-import '../../../../../core/widgets/controls/check_item.dart';
-import '../../../../../core/widgets/controls/edit_field.dart';
 import '../../../../../core/widgets/controls/pitada_button.dart';
 import '../../../../../core/widgets/layout/empty_state.dart';
 import '../../../../../core/widgets/layout/section_header.dart';
@@ -29,6 +25,8 @@ import '../../../application/recipe_providers.dart';
 import '../../../application/sub_recipe/sub_recipe_providers.dart';
 import '../../../application/sub_recipe/unify_service.dart';
 import '../../../data/models/recipe/recipe.dart';
+import '../../widgets/sub_recipe/unify_candidate_row.dart';
+import '../../widgets/sub_recipe/unify_header.dart';
 
 /// Tela de unificação de componentes parecidos numa subreceita canônica.
 /// Usada por: router (/unify/:recipeId/:component).
@@ -61,6 +59,13 @@ class _UnifyScreenState extends ConsumerState<UnifyScreen> {
 
   /// Chave estável de uma candidata na seleção. Usada por: [build]/[_unify].
   String _key(UnifyCandidate c) => '${c.recipeId}:${c.componentIndex}';
+
+  /// Marca/desmarca a candidata da chave. Usada por: UnifyCandidateRow.
+  void _toggle(String key) => setState(
+        () => _selected.contains(key)
+            ? _selected.remove(key)
+            : _selected.add(key),
+      );
 
   /// Monta topo + nome + lista de candidatas + botão de unificar. Usada por: framework.
   @override
@@ -103,20 +108,7 @@ class _UnifyScreenState extends ConsumerState<UnifyScreen> {
             AppSpacing.xxl,
           ),
           children: [
-            _top(context, pit),
-            const SizedBox(height: AppSpacing.lg),
-            Text(
-              'Unificar em uma subreceita',
-              style: AppType.on(AppType.screenTitle, pit.text),
-            ),
-            const SizedBox(height: AppSpacing.sm),
-            Text(
-              'A versão de "${origin.title}" vira a subreceita; as marcadas '
-              'viram vínculos com a escala sugerida.',
-              style: AppType.on(AppType.caption, pit.muted),
-            ),
-            const SizedBox(height: AppSpacing.lg),
-            EditTextField(label: 'Nome', controller: _name, hint: 'Cobertura…'),
+            UnifyHeader(originTitle: origin.title, nameController: _name),
             const SectionHeader(label: 'Parecidas', accent: true),
             if (candidates.isEmpty)
               const EmptyState(
@@ -127,7 +119,12 @@ class _UnifyScreenState extends ConsumerState<UnifyScreen> {
               )
             else
               for (var i = 0; i < candidates.length; i++)
-                _candidateRow(pit, candidates[i], i == candidates.length - 1),
+                UnifyCandidateRow(
+                  candidate: candidates[i],
+                  checked: _selected.contains(_key(candidates[i])),
+                  last: i == candidates.length - 1,
+                  onToggle: () => _toggle(_key(candidates[i])),
+                ),
             const SizedBox(height: AppSpacing.xl),
             PitadaButton(
               label: count == 0
@@ -138,37 +135,6 @@ class _UnifyScreenState extends ConsumerState<UnifyScreen> {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  /// Linha de candidata: check + receita/componente + diffs e fator sugerido.
-  /// Usada por: [build].
-  Widget _candidateRow(PitadaColors pit, UnifyCandidate c, bool last) {
-    final key = _key(c);
-    final checked = _selected.contains(key);
-    void toggle() => setState(
-          () => checked ? _selected.remove(key) : _selected.add(key),
-        );
-    final details = [
-      if (c.suggestedScale != 1) '≈${formatFactor(c.suggestedScale)}',
-      ...c.diffs,
-    ];
-    return HairlineRow(
-      showDivider: !last,
-      onTap: toggle,
-      leading: CheckItem(
-        checked: checked,
-        onChanged: (_) => toggle(),
-        shape: CheckShape.square,
-      ),
-      title: Text(
-        '${c.recipeTitle} · ${c.component.name}',
-        style: AppType.on(AppType.body, pit.text),
-      ),
-      subtitle: Text(
-        details.isEmpty ? 'idêntica' : details.join(' · '),
-        style: AppType.on(AppType.caption, pit.muted),
       ),
     );
   }
@@ -191,20 +157,5 @@ class _UnifyScreenState extends ConsumerState<UnifyScreen> {
           targets,
         );
     if (mounted) context.pop();
-  }
-
-  /// Linha do topo: voltar + rótulo UNIFICAR. Usada por: [build].
-  Widget _top(BuildContext context, PitadaColors pit) {
-    return Row(
-      children: [
-        GestureDetector(
-          onTap: () => context.pop(),
-          behavior: HitTestBehavior.opaque,
-          child: Icon(AppIcons.back, size: 22, color: pit.muted),
-        ),
-        const SizedBox(width: AppSpacing.md),
-        Text('UNIFICAR', style: AppType.on(AppType.label, AppColors.accent)),
-      ],
-    );
   }
 }

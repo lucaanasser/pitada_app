@@ -2,7 +2,8 @@
 // lib/features/groceries/presentation/add_pantry_sheet.dart
 // O QUÊ:     Bottom sheet "Adicionar à despensa": escolher origem, ler nota, conferir.
 // USA:       scanner_service (scannerProvider), add_pantry_data (origens/preview),
-//            core/widgets (StepProgress, HairlineRow, PitadaButton), format+app_log, theme/*.
+//            core/widgets (SheetGrip, StepProgress, HairlineRow, PitadaButton),
+//            format+app_log, theme/*.
 // USADO POR: pantry_view (botão "Adicionar à despensa").
 // SPEC:      specs/features/groceries.yaml (sheets.showAddPantrySheet)
 // ─────────────────────────────────────────────────────────────────────────────
@@ -20,6 +21,7 @@ import '../../../core/utils/format.dart';
 import '../../../core/widgets/cards/hairline_row.dart';
 import '../../../core/widgets/controls/pitada_button.dart';
 import '../../../core/widgets/cards/step_progress.dart';
+import '../../../core/widgets/sheets/sheet_grip.dart';
 import '../application/scanner_service.dart';
 import 'widgets/add_pantry_data.dart';
 
@@ -80,7 +82,7 @@ class _AddPantrySheetState extends ConsumerState<_AddPantrySheet> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _grip(pit),
+            const SheetGrip(),
             Text('Adicionar à despensa',
                 style: AppType.on(AppType.title, pit.text),),
             const SizedBox(height: AppSpacing.lg),
@@ -88,21 +90,6 @@ class _AddPantrySheetState extends ConsumerState<_AddPantrySheet> {
             if (_step == 1) _loading(pit),
             if (_step == 2) _preview(pit),
           ],
-        ),
-      ),
-    );
-  }
-
-  /// "Grip" padrão do topo do sheet (36x5, line2). Usada por: [build].
-  Widget _grip(PitadaColors pit) {
-    return Center(
-      child: Container(
-        width: 36,
-        height: 5,
-        margin: const EdgeInsets.symmetric(vertical: AppSpacing.md),
-        decoration: BoxDecoration(
-          color: pit.line2,
-          borderRadius: AppSpacing.br(3),
         ),
       ),
     );

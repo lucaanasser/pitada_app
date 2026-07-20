@@ -95,7 +95,11 @@ data:
         RecipeVersionTag + seletor. A NOTA "o que mudou" não é criada aqui (mora no Caderno,
         fonte única) — sem nota, o seletor mostra só os rótulos das versões.
       helper_modelo: Recipe.withVersionIdentity({id, version, versionGroupId, folderIds})
-  seed: recipe_seed.dart           # DEFINITIVAS: Frango xadrez(v3), Bowl, Strogonoff(v2), Panqueca
+  seed: recipe_seed.dart           # kSeedFolders + agregador kSeedRecipes (spread const)
+  seed_grupos:                     # um seed por grupo (regra das 200 linhas)
+    - recipe/dinner_seed.dart      # kSeedDinnerRecipes: Frango xadrez(v3), Strogonoff(v2)
+    - recipe/fit_seed.dart         # kSeedFitRecipes: Bowl de quinoa, Panqueca
+    - recipe/cake_seed.dart        # kSeedCakeRecipes: bolos demo da subreceita (scale 1 / 1.5)
   seed_versions: recipe_versions_seed.dart    # snapshots ANTIGOS (Frango v1/v2, Strogonoff v1)
   seed_frameworks:                # framework_seed.dart — ANDAIME TEMPORÁRIO, apagar
     file: lib/features/recipes/data/seed/framework_seed.dart
@@ -416,7 +420,9 @@ screens:
   - FolderScreen:
       classe: FolderScreen extends ConsumerWidget      # SEM controller próprio: a rota anima
       arquivo: presentation/screens/folder/folder_screen.dart
-      widgets_proprios: presentation/widgets/paper_fly.dart   # PaperFly + FolderMotion + BottomOpenClipper
+      widgets_proprios:
+        - presentation/widgets/folder/paper_fly.dart       # PaperFly + FolderMotion + BottomOpenClipper
+        - presentation/widgets/folder/open_strip_bar.dart  # OpenStripBar (faixa da pasta no rodapé)
       construtor: FolderScreen({required String folderId})
       estado: pasta/receitas de foldersProvider + recipesProvider (filtro por folderId)
       layout:
@@ -446,8 +452,19 @@ screens:
         papel_opacidade: gate curto (primeiros ~12% do próprio trecho) só para evitar
                          pop de 1 frame na boca — a oclusão real é a faixa sólida
         gesto_voltar: sem PopScope — o back do sistema já reverte a rota corretamente
-      adicionar: "ícone '+' na faixa (mock: AppLog até existir o seletor de receitas)"
+      adicionar: "ícone '+' na faixa -> showFolderEditSheet (ver aba_pastas.editor_de_pasta)"
       navega: RecipeDetailScreen (/recipe/:id)
+
+  - FrameworkCreateScreen:
+      arquivo: presentation/screens/framework/framework_create_screen.dart
+      rota: "/framework/new?recipes=a,b,c (único ponto de criação, via ImportSheet)"
+      purpose: >
+        Criação guiada de um framework: 4 perguntas socráticas em sequência (o
+        que se repete / o que varia / que regra aprendeu / que nome dá). As
+        respostas da pessoa VIRAM o esqueleto — a IA nunca preenche.
+      widgets_proprios:
+        - presentation/widgets/framework/framework_question_view.dart  # FrameworkQuestionView
+        - presentation/widgets/framework/step_nav_bar.dart   # StepNavBar (Voltar/Próximo/Criar framework)
 
 sheets:
   - ImportSheet:
@@ -504,6 +521,7 @@ sheets:
   - RecipeVersionSheet:
       funcao: showRecipeVersionSheet(BuildContext, {versions, selected, changelog, onSelect})
       arquivo: presentation/sheets/recipe_version_sheet.dart   # showPitadaSheet + SheetGrip
+      widgets_proprios: presentation/widgets/detail/version_row.dart   # VersionRow (linha do seletor)
       abre: ao tocar na RecipeVersionTag do título (RecipeDetailScreen)
       layout:
         - grip + título "Versões"

@@ -5,7 +5,7 @@
 //            adiciona rápido o que comeu fora do plano. Salva um DayLog (upsert);
 //            se hoje já tem log, abre pré-preenchido com ele (modo editar).
 // USA:       theme/*, utils/format, data (day_log/meal), providers (dayLog/
-//            todayLog/plan), DayLogMealTile, DayLogExtrasSection, DayLogFooter,
+//            todayLog/plan), DayLogMealListView, DayLogFooter,
 //            estimate_food_sheet.
 // USADO POR: TodaySection (botões "Registrar dia" e editar).
 // SPEC:      specs/features/plans_progress.yaml (sheets: showLogDaySheet)
@@ -24,9 +24,8 @@ import '../../../data/models/day_log.dart';
 import '../../../data/models/meal.dart';
 import '../../../data/models/meal_option.dart';
 import '../food/estimate_food_sheet.dart';
-import '../../widgets/day_log/day_log_extras.dart';
 import '../../widgets/day_log/day_log_footer.dart';
-import '../../widgets/day_log/day_log_meal_tile.dart';
+import '../../widgets/day_log/meal_list_view.dart';
 import '../../../../../core/widgets/sheets/sheet_grip.dart';
 
 /// Abre o sheet de registrar/editar o dia. Usada por: TodaySection.
@@ -157,7 +156,7 @@ class _LogDaySheetState extends ConsumerState<_LogDaySheet> {
               ),
             ),
             const SizedBox(height: AppSpacing.md),
-            Expanded(child: _body(pit, plan.meals)),
+            Expanded(child: _list(plan.meals)),
             DayLogFooter(
               total: total,
               goal: plan.dailyKcalGoal,
@@ -170,37 +169,23 @@ class _LogDaySheetState extends ConsumerState<_LogDaySheet> {
   }
 
   /// Lista rolável: refeições + seção de extras. Usada por: [build].
-  Widget _body(PitadaColors pit, List<Meal> meals) {
-    return ListView(
-      padding: const EdgeInsets.only(
-        left: AppSpacing.gutter,
-        right: AppSpacing.gutter,
-        bottom: AppSpacing.lg,
-      ),
-      children: [
-        for (final m in meals) ...[
-          DayLogMealTile(
-            meal: m,
-            selectedOptionId: _skipped.contains(m.id) ? null : _selected[m.id],
-            skipped: _skipped.contains(m.id),
-            onSelect: (id) => setState(() {
-              _skipped.remove(m.id);
-              _selected[m.id] = id;
-            }),
-            onToggleSkip: () => setState(() {
-              _skipped.contains(m.id)
-                  ? _skipped.remove(m.id)
-                  : _skipped.add(m.id);
-            }),
-          ),
-          const Divider(height: AppSpacing.xl),
-        ],
-        DayLogExtrasSection(
-          extras: _extras,
-          onAdd: _addExtra,
-          onRemove: (i) => setState(() => _extras.removeAt(i)),
-        ),
-      ],
+  Widget _list(List<Meal> meals) {
+    return DayLogMealListView(
+      meals: meals,
+      selected: _selected,
+      skipped: _skipped,
+      extras: _extras,
+      onSelect: (mealId, optionId) => setState(() {
+        _skipped.remove(mealId);
+        _selected[mealId] = optionId;
+      }),
+      onToggleSkip: (mealId) => setState(() {
+        _skipped.contains(mealId)
+            ? _skipped.remove(mealId)
+            : _skipped.add(mealId);
+      }),
+      onAddExtra: _addExtra,
+      onRemoveExtra: (i) => setState(() => _extras.removeAt(i)),
     );
   }
 }
