@@ -56,29 +56,34 @@ class FolderCoverRow extends ConsumerWidget {
             padding: EdgeInsets.only(right: folders.isEmpty ? 0 : AppSpacing.lg),
             child: const SizedBox(width: _kCoverWidth, child: _NewFolderCover()),
           ),
-          if (folders.isNotEmpty)
-            // Alinhada verticalmente ao "+" do card ao lado: o corpo da pasta
-            // começa depois da aba (folderTabHeight) e ocupa o resto da altura
-            // do card — a seta centraliza nesse mesmo intervalo, sem herdar a
-            // largura de um card.
-            SizedBox(
-              height: _kCoverWidth / 1.4,
-              child: Padding(
-                padding: const EdgeInsets.only(top: folderTabHeight),
-                child: Center(
-                  child: GestureDetector(
-                    onTap: () => context.push('/folders'),
-                    behavior: HitTestBehavior.opaque,
-                    child: Icon(
-                      AppIcons.chevron,
-                      size: 20,
-                      color: context.pit.muted,
-                    ),
-                  ),
-                ),
-              ),
-            ),
+          if (folders.isNotEmpty) const _AllFoldersChevron(),
         ],
+      ),
+    );
+  }
+}
+
+/// Seta "Ver todas" ao fim da fileira, alinhada ao "+" do card ao lado: o
+/// corpo da pasta começa depois da aba (folderTabHeight) e ocupa o resto da
+/// altura do card — a seta centraliza nesse intervalo, sem herdar a largura
+/// de um card. Usada por: [FolderCoverRow].
+class _AllFoldersChevron extends StatelessWidget {
+  const _AllFoldersChevron();
+
+  /// Monta a seta tocável que navega para /folders. Usada por: framework.
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: _kCoverWidth / 1.4,
+      child: Padding(
+        padding: const EdgeInsets.only(top: folderTabHeight),
+        child: Center(
+          child: GestureDetector(
+            onTap: () => context.push('/folders'),
+            behavior: HitTestBehavior.opaque,
+            child: Icon(AppIcons.chevron, size: 20, color: context.pit.muted),
+          ),
+        ),
       ),
     );
   }
@@ -90,7 +95,9 @@ class FolderCoverRow extends ConsumerWidget {
 class _NewFolderCover extends StatelessWidget {
   const _NewFolderCover();
 
-  /// Monta a silhueta em contorno com o ícone centralizado. Usada por: framework.
+  /// Monta a silhueta em contorno com o "+" centralizado no CORPO (abaixo da
+  /// aba, folderTabHeight) — no card inteiro ele ficaria puxado p/ cima.
+  /// Usada por: framework.
   @override
   Widget build(BuildContext context) {
     final pit = context.pit;
@@ -102,8 +109,6 @@ class _NewFolderCover extends StatelessWidget {
         aspectRatio: 1.4,
         child: CustomPaint(
           painter: _FolderOutlinePainter(color: pit.line2),
-          // A aba ocupa o topo (folderTabHeight): o "+" centraliza no CORPO,
-          // não no card inteiro, senão fica puxado para cima.
           child: Padding(
             padding: const EdgeInsets.only(top: folderTabHeight),
             child: Center(
