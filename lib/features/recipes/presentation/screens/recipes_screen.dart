@@ -59,8 +59,6 @@ class RecipesScreen extends ConsumerWidget {
             child: CollectionChart(),
           ),
           const SizedBox(height: AppSpacing.xxl),
-          const FolderCoverRow(),
-          const SizedBox(height: AppSpacing.xxl),
           Padding(
             padding: AppSpacing.screenH,
             child: Column(
@@ -89,6 +87,10 @@ class RecipesScreen extends ConsumerWidget {
             onSelect: (i) =>
                 ref.read(recipesTabIndexProvider.notifier).state = i,
           ),
+          if (tab == 0) ...[
+            const SizedBox(height: AppSpacing.xl),
+            const FolderCoverRow(),
+          ],
           Padding(
             padding: AppSpacing.screenH,
             child: tab == 0 ? _recipesTab(ref) : const FrameworksTabView(),
