@@ -3,7 +3,7 @@
 // O QUÊ:     Cartão de uma refeição: cabeçalho editável + OptionCards + adicionar opção.
 // USA:       theme/*, core/widgets (OptionCard), data/meal, plan_providers, sheets, go_router.
 // USADO POR: plans_screen (um card por refeição do plano).
-// SPEC:      specs/features/plans.yaml (MealCard, MealHeaderRow)
+// SPEC:      specs/features/plans/plans.yaml (MealCard, MealHeaderRow)
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';

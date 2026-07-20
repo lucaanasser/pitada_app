@@ -7,7 +7,7 @@
 //            progress_providers (foods), riverpod. Sem Flutter: a UI mapeia
 //            InsightKind -> ícone.
 // USADO POR: InsightsSection (via progressInsightsProvider).
-// SPEC:      specs/features/plans_progress.yaml (application.insights)
+// SPEC:      specs/features/plans/progress.yaml (application.insights)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

@@ -6,7 +6,7 @@
 // USA:       day_log.dart, progress_repository, plan_providers (meta do plano),
 //            riverpod, app_log.
 // USADO POR: AdherenceSection, TodaySection, LogDaySheet.
-// SPEC:      specs/features/plans_progress.yaml (application.providers)
+// SPEC:      specs/features/plans/progress.yaml (application.providers)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

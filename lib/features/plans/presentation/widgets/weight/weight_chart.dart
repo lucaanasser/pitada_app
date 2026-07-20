@@ -5,7 +5,7 @@
 //            auto-escala com folga; x igualmente espaçado pela ordem das pesagens.
 // USA:       theme/colors, theme/pitada_colors, theme/spacing, weight_entry.
 // USADO POR: WeightSection.
-// SPEC:      specs/features/plans_progress.yaml (screens_e_widgets: WeightChart)
+// SPEC:      specs/features/plans/progress.yaml (screens_e_widgets: WeightChart)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 

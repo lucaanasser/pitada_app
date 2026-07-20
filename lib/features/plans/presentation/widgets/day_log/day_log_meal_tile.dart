@@ -5,7 +5,7 @@
 //            plano, então confirmar o dia costuma ser zero toque.
 // USA:       theme/*, core/theme/app_icons, data/meal e meal_option.
 // USADO POR: log_day_sheet (uma por refeição do plano).
-// SPEC:      specs/features/plans_progress.yaml (sheets: showLogDaySheet fluxo)
+// SPEC:      specs/features/plans/progress.yaml (sheets: showLogDaySheet fluxo)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 

@@ -6,7 +6,7 @@
 //            e escalando pela quantidade. O real (Gemini) fica em outro arquivo.
 // USA:       day_log (ExtraEntry), foods_seed (base do mock), riverpod, app_log.
 // USADO POR: EstimateFoodSheet (via foodEstimateServiceProvider).
-// SPEC:      specs/features/plans_progress.yaml (services.FoodEstimateService)
+// SPEC:      specs/features/plans/progress.yaml (services.FoodEstimateService)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

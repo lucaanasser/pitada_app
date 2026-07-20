@@ -5,7 +5,7 @@
 //            plano em um toque, sem precisão de balança. Hoje local; depois Supabase.
 // USA:       food_item.dart (modelo).
 // USADO POR: progress_repository (fetchFoods). A UI busca via foodsProvider.
-// SPEC:      specs/features/plans_progress.yaml (data.seeds: foods_seed.dart)
+// SPEC:      specs/features/plans/progress.yaml (data.seeds: foods_seed.dart)
 // ─────────────────────────────────────────────────────────────────────────────
 import '../models/food_item.dart';
 

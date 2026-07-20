@@ -8,7 +8,7 @@
 //            todayLog/plan), DayLogMealListView, DayLogFooter,
 //            estimate_food_sheet.
 // USADO POR: TodaySection (botões "Registrar dia" e editar).
-// SPEC:      specs/features/plans_progress.yaml (sheets: showLogDaySheet)
+// SPEC:      specs/features/plans/progress.yaml (sheets: showLogDaySheet)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import '../../../../../core/widgets/sheets/pitada_sheet.dart';

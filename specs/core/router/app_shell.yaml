@@ -1,4 +1,4 @@
-# specs/features/app_shell.yaml -> lib/core/router/*
+# specs/core/router/app_shell.yaml -> lib/core/router/*
 feature: AppShell
 purpose: >
   Casca de navegação com 5 abas persistentes + rotas full-screen. A aba Home

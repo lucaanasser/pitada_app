@@ -4,7 +4,7 @@
 //            line2, foco accent). Variante numérica p/ ajustar kcal.
 // USA:       theme/* (colors, pitada_colors, spacing, typography).
 // USADO POR: EstimateInputView (linguagem natural) e EstimateResultView (kcal).
-// SPEC:      specs/features/plans_progress.yaml (sheets: showEstimateFoodSheet)
+// SPEC:      specs/features/plans/progress.yaml (sheets: showEstimateFoodSheet)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

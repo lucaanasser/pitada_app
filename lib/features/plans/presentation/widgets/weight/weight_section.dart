@@ -5,7 +5,7 @@
 //            se pesar só enquanto o hábito não existe (< 3 pesagens).
 // USA:       theme/*, utils/format, plans/application (weightStats/weight), WeightChart.
 // USADO POR: ProgressView (última seção).
-// SPEC:      specs/features/plans_progress.yaml (screens_e_widgets: WeightSection)
+// SPEC:      specs/features/plans/progress.yaml (screens_e_widgets: WeightSection)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

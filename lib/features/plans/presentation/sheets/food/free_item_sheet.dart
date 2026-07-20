@@ -4,7 +4,7 @@
 //            no dataset (nome + kcal aproximada). Retorna um ExtraEntry.
 // USA:       theme/*, core/widgets (PitadaButton, SheetGrip), data/day_log, app_log.
 // USADO POR: food_search_sheet ("+ Outro").
-// SPEC:      specs/features/plans_progress.yaml (sheets: showFoodSearchSheet -> "+ Outro")
+// SPEC:      specs/features/plans/progress.yaml (sheets: showFoodSearchSheet -> "+ Outro")
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import '../../../../../core/widgets/sheets/pitada_sheet.dart';

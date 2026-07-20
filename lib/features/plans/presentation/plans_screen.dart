@@ -7,7 +7,7 @@
 // USA:       core/widgets (Masthead, PitadaTabs, PitadaScaffold), theme/*,
 //            plan_providers (DaySummary), MenuView e ProgressView.
 // USADO POR: core/router/router.dart (branch /plans).
-// SPEC:      specs/features/plans_progress.yaml (navegacao) e plans.yaml (PlansScreen)
+// SPEC:      specs/features/plans/progress.yaml (navegacao) e plans.yaml (PlansScreen)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

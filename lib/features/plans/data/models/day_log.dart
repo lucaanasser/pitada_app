@@ -4,7 +4,7 @@
 //            comeu por refeição (opção escolhida ou "pulei") + extras fora do plano.
 // USA:       food_item.dart (ExtraEntry.fromFood).
 // USADO POR: progress_seed, dayLogControllerProvider, adherenceProvider, LogDaySheet.
-// SPEC:      specs/features/plans_progress.yaml (data.models: DayLog/MealLogEntry/ExtraEntry)
+// SPEC:      specs/features/plans/progress.yaml (data.models: DayLog/MealLogEntry/ExtraEntry)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'food_item.dart';
 

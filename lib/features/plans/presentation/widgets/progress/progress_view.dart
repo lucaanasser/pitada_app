@@ -7,7 +7,7 @@
 //            TodaySection, AdherenceSection, InsightsSection, WeightSection,
 //            progress_insights e o sheet de peso.
 // USADO POR: plans_screen (sub-aba 1).
-// SPEC:      specs/features/plans_progress.yaml (screens_e_widgets: ProgressView)
+// SPEC:      specs/features/plans/progress.yaml (screens_e_widgets: ProgressView)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

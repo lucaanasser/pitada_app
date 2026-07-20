@@ -5,7 +5,7 @@
 //            a lista pronta; quem decide exibir a seção é a ProgressView.
 // USA:       theme/*, progress_insights (ProgressInsight/InsightKind).
 // USADO POR: ProgressView (seção 'Padrões', oculta quando não há insights).
-// SPEC:      specs/features/plans_progress.yaml (screens_e_widgets: InsightsSection)
+// SPEC:      specs/features/plans/progress.yaml (screens_e_widgets: InsightsSection)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 

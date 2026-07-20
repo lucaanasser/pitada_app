@@ -6,7 +6,7 @@
 // USA:       theme/*, PitadaButton, EstimateFieldView, data (day_log:
 //            ExtraEntry).
 // USADO POR: estimate_food_sheet (quando já há resultado).
-// SPEC:      specs/features/plans_progress.yaml (sheets: showEstimateFoodSheet)
+// SPEC:      specs/features/plans/progress.yaml (sheets: showEstimateFoodSheet)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 

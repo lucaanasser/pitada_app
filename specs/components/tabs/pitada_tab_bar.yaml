@@ -51,4 +51,4 @@ layout_nota: >
 proibido: [sombra, degradê, rótulos visíveis, cápsula/bloco no ativo,
            Container(alignment)/Center soltos no bottomNavigationBar]
 used_by:
-  - app_shell (dock das 5 abas — a ordem vive em specs/features/app_shell.yaml)
+  - app_shell (dock das 5 abas — a ordem vive em specs/core/router/app_shell.yaml)

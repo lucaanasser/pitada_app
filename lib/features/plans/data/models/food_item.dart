@@ -4,7 +4,7 @@
 //            Usado no log rápido do que se comeu FORA do plano.
 // USA:       nada (modelo imutável puro).
 // USADO POR: foods_seed, progress_repository, foodsProvider, FoodSearchSheet.
-// SPEC:      specs/features/plans_progress.yaml (data.models: FoodItem)
+// SPEC:      specs/features/plans/progress.yaml (data.models: FoodItem)
 // ─────────────────────────────────────────────────────────────────────────────
 
 /// Uma comida comum (parcialmente genérica) com porção humana e macros aproximados.

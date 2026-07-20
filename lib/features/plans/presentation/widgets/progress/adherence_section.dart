@@ -5,7 +5,7 @@
 //            de kcal dos dias logados) e legenda. Flat, sem sombra.
 // USA:       theme/*, utils/format, plans/application (adherenceProvider, DayAdherence).
 // USADO POR: ProgressView.
-// SPEC:      specs/features/plans_progress.yaml (screens_e_widgets: AdherenceSection)
+// SPEC:      specs/features/plans/progress.yaml (screens_e_widgets: AdherenceSection)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

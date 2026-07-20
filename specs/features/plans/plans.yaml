@@ -1,4 +1,4 @@
-# specs/features/plans.yaml -> lib/features/plans/
+# specs/features/plans/plans.yaml -> lib/features/plans/
 feature: Planos
 prototype: "TAB-PLANOS + SHEET-MEAL + SHEET-ADDMEAL em pitada.html"
 purpose: >

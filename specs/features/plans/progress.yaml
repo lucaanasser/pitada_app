@@ -1,4 +1,4 @@
-# specs/features/plans_progress.yaml -> lib/features/plans/ (sub-aba "Progresso")
+# specs/features/plans/progress.yaml -> lib/features/plans/ (sub-aba "Progresso")
 feature: Planos · Progresso
 prototype: "nova sub-aba de Planos (sem HTML ainda) — evolução do TAB-PLANOS"
 purpose: >

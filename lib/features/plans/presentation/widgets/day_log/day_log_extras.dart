@@ -4,7 +4,7 @@
 //            linhas de extras (nome/porção/kcal + remover) e o link de adicionar.
 // USA:       theme/*, core/widgets/hairline_row, data/day_log (ExtraEntry).
 // USADO POR: log_day_sheet (corpo da lista).
-// SPEC:      specs/features/plans_progress.yaml (showLogDaySheet.widgets_extraidos)
+// SPEC:      specs/features/plans/progress.yaml (showLogDaySheet.widgets_extraidos)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 

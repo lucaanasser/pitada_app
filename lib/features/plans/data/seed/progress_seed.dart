@@ -7,7 +7,7 @@
 //            semana que estoura). Hoje fica SEM registro (mostra o CTA).
 // USA:       weight_entry.dart, day_log.dart, foods_seed.dart (extras por id).
 // USADO POR: progress_repository (fetchWeights/fetchDayLogs).
-// SPEC:      specs/features/plans_progress.yaml (data.seeds: progress_seed.dart)
+// SPEC:      specs/features/plans/progress.yaml (data.seeds: progress_seed.dart)
 // ─────────────────────────────────────────────────────────────────────────────
 import '../models/day_log.dart';
 import 'foods_seed.dart';

@@ -3,7 +3,7 @@
 // O QUÊ:     Modelo de refeição do dia (Café, Almoço, Jantar, Lanche) e suas opções.
 // USA:       meal_option.dart (composição).
 // USADO POR: plan.dart, plan_seed, plan_repository, plan_providers, MealCard.
-// SPEC:      specs/features/plans.yaml (data.models: Meal)
+// SPEC:      specs/features/plans/plans.yaml (data.models: Meal)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'meal_option.dart';
 

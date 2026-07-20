@@ -6,7 +6,7 @@
 //            compartilhado da PlansScreen, acima; o log fica em "Progresso".
 // USA:       core/widgets, plan_providers, MealCard, meal_sheet, theme/*.
 // USADO POR: plans_screen (sub-aba 0).
-// SPEC:      specs/features/plans_progress.yaml (screens_e_widgets: MenuView)
+// SPEC:      specs/features/plans/progress.yaml (screens_e_widgets: MenuView)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

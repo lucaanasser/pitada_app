@@ -3,7 +3,7 @@
 // O QUÊ:     Bottom sheet para escolher uma receita salva como nova opção da refeição.
 // USA:       theme/*, core/widgets (RecipeThumb, HairlineRow, EmptyState), recipe_providers.
 // USADO POR: MealCard ("Adicionar opção" em cada refeição).
-// SPEC:      specs/features/plans.yaml (showAddOptionSheet)
+// SPEC:      specs/features/plans/plans.yaml (showAddOptionSheet)
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';

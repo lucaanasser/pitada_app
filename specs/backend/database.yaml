@@ -154,7 +154,7 @@ migrations:
 
   - 0010_bancada.sql:              # aba "Bancada" (ex-"Favoritas") — fila de rotatividade
       motivo: >
-        A Bancada é a fila do "quero cozinhar em breve" (ver specs/features/bancada.yaml).
+        A Bancada é a fila do "quero cozinhar em breve" (ver specs/features/workbench.yaml).
         NÃO é um bool na receita — é uma tabela própria, porque cada item tem DATA-ALVO,
         estado (ativo/cozinhado) e histórico (contador do mês). Um bool não daria ordem,
         cutucada de atraso nem fechamento de ciclo.

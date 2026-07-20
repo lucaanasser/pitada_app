@@ -3,7 +3,7 @@
 // O QUÊ:     Resumo do plano (SEM caixa): total grande, status, FuelBar e macros.
 // USA:       theme/*, core/widgets/fuel_bar, utils/format, plan_providers.
 // USADO POR: plans_screen (logo abaixo do cabeçalho do plano).
-// SPEC:      specs/features/plans.yaml (DaySummary)
+// SPEC:      specs/features/plans/plans.yaml (DaySummary)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 

@@ -4,7 +4,7 @@
 //            gate de auth (online sem sessão -> /entrar; offline nunca barra).
 // USA:       go_router, app_shell, routes.dart, features/auth (gate), config/env.
 // USADO POR: app.dart (routerProvider -> MaterialApp.router).
-// SPEC:      specs/features/app_shell.yaml + specs/features/auth.yaml (router_gate)
+// SPEC:      specs/core/router/app_shell.yaml + specs/features/auth.yaml (router_gate)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'dart:async';
 

@@ -3,7 +3,7 @@
 // O QUÊ:     Modelo de uma pesagem: data + peso em kg. Base do gráfico de peso.
 // USA:       nada (modelo imutável puro).
 // USADO POR: progress_seed, progress_repository, progress_providers, WeightChart.
-// SPEC:      specs/features/plans_progress.yaml (data.models: WeightEntry)
+// SPEC:      specs/features/plans/progress.yaml (data.models: WeightEntry)
 // ─────────────────────────────────────────────────────────────────────────────
 
 /// Uma pesagem do usuário (peso corporal num dia). Imutável.

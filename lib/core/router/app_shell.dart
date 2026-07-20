@@ -7,7 +7,7 @@
 // USA:       go_router (StatefulNavigationShell), core/theme/app_icons,
 //            core/theme/pitada_colors (pit.tabBg), core/widgets/tabs/pitada_tab_bar.
 // USADO POR: core/router/router.dart (StatefulShellRoute).
-// SPEC:      specs/features/app_shell.yaml
+// SPEC:      specs/core/router/app_shell.yaml
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';

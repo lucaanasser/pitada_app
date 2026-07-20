@@ -4,7 +4,7 @@
 //            Hoje em memória (seeds); depois, Supabase — mesma API.
 // USA:       weight_entry, day_log, food_item e os seeds correspondentes.
 // USADO POR: progress_providers, day_log_providers. A UI nunca chama isto direto.
-// SPEC:      specs/features/plans_progress.yaml (repository: ProgressRepository)
+// SPEC:      specs/features/plans/progress.yaml (repository: ProgressRepository)
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../../../core/utils/app_log.dart';
 import '../models/day_log.dart';

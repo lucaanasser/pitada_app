@@ -3,7 +3,7 @@
 // O QUÊ:     Plano de exemplo do protótipo ("Meu plano" 1900) para preview sem backend.
 // USA:       plan.dart, meal.dart, meal_option.dart.
 // USADO POR: plan_repository (fonte em memória enquanto não há Supabase).
-// SPEC:      specs/features/plans.yaml (seed: "Meu plano" 1900; Café/Almoço/Jantar/Lanche)
+// SPEC:      specs/features/plans/plans.yaml (seed: "Meu plano" 1900; Café/Almoço/Jantar/Lanche)
 // ─────────────────────────────────────────────────────────────────────────────
 import '../models/meal.dart';
 import '../models/meal_option.dart';

@@ -4,7 +4,7 @@
 //            (colorido quando estoura) + botão "Salvar dia".
 // USA:       theme/*, core/widgets/pitada_button.
 // USADO POR: log_day_sheet (abaixo da lista).
-// SPEC:      specs/features/plans_progress.yaml (showLogDaySheet.widgets_extraidos)
+// SPEC:      specs/features/plans/progress.yaml (showLogDaySheet.widgets_extraidos)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 

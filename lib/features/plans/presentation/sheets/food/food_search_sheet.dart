@@ -5,7 +5,7 @@
 // USA:       theme/*, core/widgets (SheetGrip, PitadaChip, PitadaSearchField,
 //            HairlineRow), foodsProvider, data (food_item/day_log), free_item_sheet.
 // USADO POR: log_day_sheet ("+ Adicionar extra").
-// SPEC:      specs/features/plans_progress.yaml (sheets: showFoodSearchSheet)
+// SPEC:      specs/features/plans/progress.yaml (sheets: showFoodSearchSheet)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import '../../../../../core/widgets/sheets/pitada_sheet.dart';

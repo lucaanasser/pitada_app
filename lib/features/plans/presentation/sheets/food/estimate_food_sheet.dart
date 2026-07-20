@@ -7,7 +7,7 @@
 //            EstimateResultView, providers (foodEstimateServiceProvider),
 //            data (day_log).
 // USADO POR: log_day_sheet ("+ Adicionar algo fora do plano").
-// SPEC:      specs/features/plans_progress.yaml (sheets: showEstimateFoodSheet)
+// SPEC:      specs/features/plans/progress.yaml (sheets: showEstimateFoodSheet)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

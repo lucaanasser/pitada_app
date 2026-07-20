@@ -3,7 +3,7 @@
 // O QUÊ:     Fonte do plano ativo. Hoje em memória (seed); depois, Supabase.
 // USA:       plan.dart, plan_seed.dart, core/utils/app_log.
 // USADO POR: plan_providers (application). A UI nunca chama isto direto.
-// SPEC:      specs/features/plans.yaml (repository: PlansRepository)
+// SPEC:      specs/features/plans/plans.yaml (repository: PlansRepository)
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../../../core/utils/app_log.dart';
 import '../models/plan.dart';

@@ -5,7 +5,7 @@
 // USA:       theme/*, PitadaChip, PitadaButton, EstimateFieldView, providers
 //            (foodsProvider), data (food_item).
 // USADO POR: estimate_food_sheet (quando ainda não há resultado).
-// SPEC:      specs/features/plans_progress.yaml (sheets: showEstimateFoodSheet)
+// SPEC:      specs/features/plans/progress.yaml (sheets: showEstimateFoodSheet)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

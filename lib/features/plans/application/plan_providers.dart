@@ -3,7 +3,7 @@
 // O QUÊ:     Providers Riverpod de Planos (plano ativo, escolha de opção, totais do dia).
 // USA:       plan_repository, plan.dart, meal.dart, meal_option.dart, riverpod, app_log.
 // USADO POR: plans_screen, DaySummary, MealCard (camada de apresentação).
-// SPEC:      specs/features/plans.yaml (application.providers)
+// SPEC:      specs/features/plans/plans.yaml (application.providers)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

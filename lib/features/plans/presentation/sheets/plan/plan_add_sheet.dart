@@ -5,7 +5,7 @@
 // USA:       core/widgets/add_options_sheet, theme/app_icons, meal_sheet,
 //            log_day_sheet, log_weight_sheet.
 // USADO POR: PlansScreen (botão '+' do cabeçalho).
-// SPEC:      specs/features/plans.yaml (sheets.showPlanAddSheet)
+// SPEC:      specs/features/plans/plans.yaml (sheets.showPlanAddSheet)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 

@@ -63,13 +63,13 @@ core_utils:                                 # -> lib/core/utils/ (funções pura
 features:                                   # -> lib/features/<f>/presentation/
   - specs/features/recipes.yaml
   - specs/features/sub_recipes.yaml         # subreceitas compartilhadas (vínculo + escala + propagação)
-  - specs/features/bancada.yaml             # fila "quero cozinhar em breve" (ex-aba "Favoritas")
+  - specs/features/workbench.yaml           # fila "quero cozinhar em breve" (ex-aba "Favoritas")
   - specs/features/notebook.yaml            # aba 'Caderno'
-  - specs/features/plans.yaml
-  - specs/features/plans_progress.yaml      # sub-aba "Progresso": peso + aderência (log rápido do dia)
+  - specs/features/plans/plans.yaml
+  - specs/features/plans/progress.yaml      # sub-aba "Progresso": peso + aderência (log rápido do dia)
   - specs/features/groceries.yaml           # aba 'Ingredientes'
   - specs/features/profile.yaml             # aba Perfil (ex-feature Home, feed abandonado)
-  - specs/features/app_shell.yaml           # shell das 5 abas + rotas (o dock tem spec própria)
+  - specs/core/router/app_shell.yaml        # shell das 5 abas + rotas (o dock tem spec própria)
   - specs/features/auth.yaml                # entrar por e-mail + código (OTP) + gate no router
 
 backend:                                    # -> supabase/ (migrations, config) — spec antes do SQL

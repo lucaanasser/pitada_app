@@ -4,7 +4,7 @@
 //            estatísticas (atual/início/variação) e o dataset de comidas p/ extras.
 // USA:       progress_repository, weight_entry, food_item, riverpod, app_log.
 // USADO POR: WeightSection, WeightChart, FoodSearchSheet, LogWeightSheet.
-// SPEC:      specs/features/plans_progress.yaml (application.providers)
+// SPEC:      specs/features/plans/progress.yaml (application.providers)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

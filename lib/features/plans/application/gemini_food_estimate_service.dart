@@ -6,7 +6,7 @@
 //            override de foodEstimateServiceProvider com esta classe.
 // USA:       core/supabase (client.functions.invoke), day_log (ExtraEntry), app_log.
 // USADO POR: foodEstimateServiceProvider (quando Env.hasSupabase — override futuro).
-// SPEC:      specs/features/plans_progress.yaml (services.GeminiFoodEstimateService)
+// SPEC:      specs/features/plans/progress.yaml (services.GeminiFoodEstimateService)
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../../core/supabase/supabase.dart';
 import '../../../core/utils/app_log.dart';

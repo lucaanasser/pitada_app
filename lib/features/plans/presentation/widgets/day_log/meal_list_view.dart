@@ -5,7 +5,7 @@
 // USA:       theme/spacing, DayLogMealTile, DayLogExtrasSection, data (meal,
 //            day_log: ExtraEntry).
 // USADO POR: log_day_sheet (corpo do sheet).
-// SPEC:      specs/features/plans_progress.yaml (sheets: showLogDaySheet)
+// SPEC:      specs/features/plans/progress.yaml (sheets: showLogDaySheet)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 

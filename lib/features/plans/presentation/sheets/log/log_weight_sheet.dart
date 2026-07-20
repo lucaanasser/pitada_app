@@ -4,7 +4,7 @@
 // USA:       theme/*, core/widgets (PitadaButton, SheetGrip), progress_providers,
 //            utils/format, app_log.
 // USADO POR: ProgressView (botão "Registrar peso").
-// SPEC:      specs/features/plans_progress.yaml (sheets: showLogWeightSheet)
+// SPEC:      specs/features/plans/progress.yaml (sheets: showLogWeightSheet)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import '../../../../../core/widgets/sheets/pitada_sheet.dart';

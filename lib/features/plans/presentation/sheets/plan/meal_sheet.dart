@@ -3,7 +3,7 @@
 // O QUÊ:     Bottom sheet para criar/editar uma refeição (nome + meta kcal).
 // USA:       theme/*, core/widgets (PitadaButton), data/meal, app_log.
 // USADO POR: plans_screen (nova refeição) e MealHeaderRow (editar refeição).
-// SPEC:      specs/features/plans.yaml (showMealSheet)
+// SPEC:      specs/features/plans/plans.yaml (showMealSheet)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import '../../../../../core/widgets/sheets/pitada_sheet.dart';

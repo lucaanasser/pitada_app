@@ -7,7 +7,7 @@
 //            day_log_providers (todayLog/streak), plan_providers (meta),
 //            log_day_sheet.
 // USADO POR: ProgressView (seção 'Hoje').
-// SPEC:      specs/features/plans_progress.yaml (screens_e_widgets: TodaySection)
+// SPEC:      specs/features/plans/progress.yaml (screens_e_widgets: TodaySection)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
