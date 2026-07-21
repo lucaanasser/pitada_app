@@ -27,33 +27,33 @@ class RecipeRow extends StatelessWidget {
     this.onTap,
     this.showDivider = true,
     this.mastery,
+    this.cooks = 0,
+    this.folderHero,
   });
 
   final Recipe recipe;
   final VoidCallback? onTap;
   final bool showDivider;
   final String? mastery;
+  final int cooks;
+  final String? folderHero;
 
   /// Monta a linha (título + meta·maestria + seta). Usada por: framework.
   @override
   Widget build(BuildContext context) {
     final pit = context.pit;
-    final hasMastery = mastery != null && mastery!.isNotEmpty;
     return HairlineRow(
       onTap: onTap,
       showDivider: showDivider,
-      leading: _BowlStamp(
-        mastery: mastery,
-        fillColor: pit.card(recipe.heroColor),
-        borderColor: mastery == null || mastery == 'nunca fiz'
-            ? pit.line2
-            : pit.border,
+      leading: _UtensilPotStamp(
+        utensils: cooks > 3 ? 3 : cooks,
+        mastered: mastery == 'domino',
+        fillColor: folderHero != null ? pit.card(folderHero!) : pit.line2,
+        borderColor: cooks == 0 && mastery != 'domino' ? pit.line2 : pit.border,
       ),
       title: Text(recipe.title, style: AppType.on(AppType.titleSm, pit.text)),
       subtitle: Text(
-        hasMastery
-            ? '${recipeMetaText(recipe)}  ·  $mastery'
-            : recipeMetaText(recipe),
+        recipeMetaText(recipe),
         style: AppType.on(AppType.caption, pit.muted),
       ),
       trailing: Icon(AppIcons.chevron, size: 16, color: pit.faint),
@@ -63,27 +63,18 @@ class RecipeRow extends StatelessWidget {
 
 const _kSlotSize = 56.0;
 
-class _BowlStamp extends StatelessWidget {
-  const _BowlStamp({
-    required this.mastery,
+class _UtensilPotStamp extends StatelessWidget {
+  const _UtensilPotStamp({
+    required this.utensils,
+    required this.mastered,
     required this.fillColor,
     required this.borderColor,
   });
 
-  final String? mastery;
+  final int utensils;
+  final bool mastered;
   final Color fillColor;
   final Color borderColor;
-
-  double get _fraction {
-    if (mastery == 'domino') return 1.0;
-    final n = int.tryParse(
-          RegExp(r'fiz (\d+)').firstMatch(mastery ?? '')?.group(1) ?? '',
-        ) ??
-        0;
-    if (n == 0) return 0;
-    final level = n / (n + 3);
-    return level > 0.75 ? 0.75 : level;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -91,85 +82,118 @@ class _BowlStamp extends StatelessWidget {
       width: _kSlotSize,
       height: _kSlotSize,
       child: CustomPaint(
-        painter: _BowlPainter(
-          fraction: _fraction,
+        painter: _UtensilPotPainter(
+          utensils: utensils,
+          filled: mastered,
           fillColor: fillColor,
           borderColor: borderColor,
-          dashed: _fraction == 0,
+          dashed: utensils == 0 && !mastered,
         ),
       ),
     );
   }
 }
 
-class _BowlPainter extends CustomPainter {
-  const _BowlPainter({
-    required this.fraction,
+class _UtensilPotPainter extends CustomPainter {
+  const _UtensilPotPainter({
+    required this.utensils,
+    required this.filled,
     required this.fillColor,
     required this.borderColor,
     required this.dashed,
   });
 
-  final double fraction;
+  final int utensils;
+  final bool filled;
   final Color fillColor;
   final Color borderColor;
   final bool dashed;
 
   @override
   void paint(Canvas canvas, Size size) {
-    final rect = Rect.fromCenter(
-      center: size.center(Offset.zero),
-      width: size.width * 0.78,
-      height: size.height * 0.54,
-    );
-    final bowl = Path()
+    final cx = size.width / 2;
+    const potTop = 30.0, potBottom = 48.0, potHalf = 13.0;
+    final pot = Path()
       ..addRRect(
         RRect.fromRectAndCorners(
-          rect,
-          topLeft: const Radius.circular(5),
-          topRight: const Radius.circular(5),
-          bottomLeft: Radius.circular(rect.width / 2),
-          bottomRight: Radius.circular(rect.width / 2),
+          Rect.fromLTRB(cx - potHalf, potTop, cx + potHalf, potBottom),
+          topLeft: const Radius.circular(4),
+          topRight: const Radius.circular(4),
+          bottomLeft: const Radius.circular(9),
+          bottomRight: const Radius.circular(9),
         ),
       );
-
-    if (fraction > 0) {
-      canvas.save();
-      canvas.clipPath(bowl);
-      canvas.drawRect(
-        Rect.fromLTRB(
-          rect.left,
-          rect.bottom - rect.height * fraction,
-          rect.right,
-          rect.bottom,
-        ),
-        Paint()..color = fillColor,
-      );
-      canvas.restore();
-    }
 
     final stroke = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = AppSpacing.borderStrong
       ..strokeCap = StrokeCap.round
       ..color = borderColor;
-    if (!dashed) {
-      canvas.drawPath(bowl, stroke);
+
+    if (dashed) {
+      const dash = 5.0, gap = 4.5;
+      for (final metric in pot.computeMetrics()) {
+        var d = 0.0;
+        while (d < metric.length) {
+          canvas.drawPath(metric.extractPath(d, d + dash), stroke);
+          d += dash + gap;
+        }
+      }
       return;
     }
-    const dash = 5.0, gap = 4.5;
-    for (final metric in bowl.computeMetrics()) {
-      var d = 0.0;
-      while (d < metric.length) {
-        canvas.drawPath(metric.extractPath(d, d + dash), stroke);
-        d += dash + gap;
+
+    const specs = [(0.0, 0.06), (-7.0, -0.30), (7.0, 0.36)];
+    for (var i = 0; i < utensils; i++) {
+      final (baseDx, angle) = specs[i];
+      canvas.save();
+      canvas.translate(cx + baseDx, potTop + 1);
+      canvas.rotate(angle);
+      canvas.drawLine(Offset.zero, const Offset(0, -14), stroke);
+      switch (i) {
+        case 0:
+          canvas.drawOval(
+            Rect.fromCenter(
+              center: const Offset(0, -17),
+              width: 7,
+              height: 9,
+            ),
+            Paint()..color = borderColor,
+          );
+        case 1:
+          canvas.drawRRect(
+            RRect.fromRectAndRadius(
+              Rect.fromCenter(
+                center: const Offset(0, -17),
+                width: 7,
+                height: 9,
+              ),
+              const Radius.circular(3),
+            ),
+            Paint()..color = borderColor,
+          );
+        case 2:
+          canvas.drawOval(
+            Rect.fromCenter(
+              center: const Offset(0, -18),
+              width: 7,
+              height: 11,
+            ),
+            stroke,
+          );
       }
+      canvas.restore();
     }
+
+    if (filled) {
+      canvas.drawPath(pot, Paint()..color = fillColor);
+    }
+    canvas.drawPath(pot, stroke);
   }
 
   @override
-  bool shouldRepaint(_BowlPainter old) =>
-      old.fraction != fraction ||
+  bool shouldRepaint(_UtensilPotPainter old) =>
+      old.utensils != utensils ||
+      old.filled != filled ||
       old.fillColor != fillColor ||
       old.borderColor != borderColor ||
       old.dashed != dashed;

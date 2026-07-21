@@ -126,3 +126,7 @@ final recipeMasteryProvider = Provider.family<String, String>((ref, id) {
   final cooks = ref.watch(_cooksByIdProvider)[id] ?? 0;
   return cooks == 0 ? 'nunca fiz' : 'fiz $cooks×';
 });
+
+final recipeCooksProvider = Provider.family<int, String>(
+  (ref, id) => ref.watch(_cooksByIdProvider)[id] ?? 0,
+);

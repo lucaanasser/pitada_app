@@ -10,6 +10,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../application/recipe_list_providers.dart';
+import '../../../application/recipe_providers.dart';
+import '../../../data/models/folder.dart';
 import '../../../data/models/recipe/recipe.dart';
 import 'recipe_row.dart';
 
@@ -23,16 +25,28 @@ class RecipeListView extends ConsumerWidget {
   /// Monta os filetes com maestria. Usada por: framework.
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final folders = ref.watch(foldersProvider).valueOrNull ?? const <Folder>[];
     return Column(
       children: [
         for (var i = 0; i < recipes.length; i++)
           RecipeRow(
             recipe: recipes[i],
             mastery: ref.watch(recipeMasteryProvider(recipes[i].id)),
+            cooks: ref.watch(recipeCooksProvider(recipes[i].id)),
+            folderHero: _folderHeroOf(recipes[i], folders),
             showDivider: i != recipes.length - 1,
             onTap: () => context.push('/recipe/${recipes[i].id}'),
           ),
       ],
     );
+  }
+
+  String? _folderHeroOf(Recipe recipe, List<Folder> folders) {
+    for (final id in recipe.folderIds) {
+      for (final f in folders) {
+        if (f.id == id) return f.heroColor;
+      }
+    }
+    return null;
   }
 }
