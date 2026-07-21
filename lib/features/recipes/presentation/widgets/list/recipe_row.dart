@@ -46,10 +46,10 @@ class RecipeRow extends StatelessWidget {
       onTap: onTap,
       showDivider: showDivider,
       leading: _UtensilPotStamp(
-        utensils: cooks > 3 ? 3 : cooks,
+        utensils: mastery == 'domino' ? 3 : (cooks > 3 ? 3 : cooks),
         mastered: mastery == 'domino',
         fillColor: folderHero != null ? pit.card(folderHero!) : pit.line2,
-        borderColor: cooks == 0 && mastery != 'domino' ? pit.line2 : pit.border,
+        borderColor: cooks == 0 && mastery != 'domino' ? pit.line2 : pit.muted,
       ),
       title: Text(recipe.title, style: AppType.on(AppType.titleSm, pit.text)),
       subtitle: Text(
@@ -112,15 +112,15 @@ class _UtensilPotPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final cx = size.width / 2;
-    const potTop = 30.0, potBottom = 48.0, potHalf = 13.0;
+    const potTop = 28.0, potBottom = 50.0, potHalf = 11.0;
     final pot = Path()
       ..addRRect(
         RRect.fromRectAndCorners(
           Rect.fromLTRB(cx - potHalf, potTop, cx + potHalf, potBottom),
-          topLeft: const Radius.circular(4),
-          topRight: const Radius.circular(4),
-          bottomLeft: const Radius.circular(9),
-          bottomRight: const Radius.circular(9),
+          topLeft: const Radius.circular(3),
+          topRight: const Radius.circular(3),
+          bottomLeft: const Radius.circular(7),
+          bottomRight: const Radius.circular(7),
         ),
       );
 
@@ -142,7 +142,7 @@ class _UtensilPotPainter extends CustomPainter {
       return;
     }
 
-    const specs = [(0.0, 0.06), (-7.0, -0.30), (7.0, 0.36)];
+    const specs = [(-6.0, -0.34), (0.0, 0.04), (6.0, 0.38)];
     for (var i = 0; i < utensils; i++) {
       final (baseDx, angle) = specs[i];
       canvas.save();
