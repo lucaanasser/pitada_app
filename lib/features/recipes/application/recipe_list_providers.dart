@@ -26,6 +26,8 @@ final recipeFiltersProvider =
 /// Painel de filtros aberto ou colapsado. Usada por: recipes_screen.
 final recipeFiltersOpenProvider = StateProvider<bool>((ref) => false);
 
+final recipeSearchOpenProvider = StateProvider<bool>((ref) => false);
+
 /// Data da última atividade real (diário/versão) por id de receita.
 /// Usada por: filteredRecipesProvider (ordenação por última atividade).
 final _activityDatesProvider = Provider<Map<String, DateTime>>((ref) {

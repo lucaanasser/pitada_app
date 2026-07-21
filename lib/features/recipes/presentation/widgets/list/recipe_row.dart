@@ -7,6 +7,8 @@
 // USADO POR: recipes_screen (via RecipeListView), framework_detail_screen.
 // SPEC:      specs/features/recipes.yaml (RecipesScreen: recipe_row)
 // ─────────────────────────────────────────────────────────────────────────────
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import '../../../../../core/theme/app_icons.dart';
@@ -14,7 +16,6 @@ import '../../../../../core/theme/pitada_colors.dart';
 import '../../../../../core/theme/spacing.dart';
 import '../../../../../core/theme/typography.dart';
 import '../../../../../core/widgets/cards/hairline_row.dart';
-import '../../../../../core/widgets/cards/recipe_thumb.dart';
 import '../../../data/models/recipe/recipe.dart';
 import 'recipe_meta_text.dart';
 
@@ -45,12 +46,7 @@ class RecipeRow extends StatelessWidget {
       showDivider: showDivider,
       leading: mastery == 'nunca fiz'
           ? _EmptySlot(color: pit.line2)
-          : RecipeThumb(
-              color: pit.card(recipe.heroColor),
-              outlined: true,
-              size: _kSlotSize,
-              radius: AppSpacing.radiusLg,
-            ),
+          : _PhotoStamp(recipeId: recipe.id, border: pit.border),
       title: Text(recipe.title, style: AppType.on(AppType.titleSm, pit.text)),
       subtitle: Text(
         hasMastery
@@ -64,6 +60,35 @@ class RecipeRow extends StatelessWidget {
 }
 
 const _kSlotSize = 56.0;
+
+class _PhotoStamp extends StatelessWidget {
+  const _PhotoStamp({required this.recipeId, required this.border});
+
+  final String recipeId;
+  final Color border;
+
+  @override
+  Widget build(BuildContext context) {
+    final seed = recipeId.codeUnits.fold(0, (a, b) => a + b);
+    final angle = (seed % 7 - 3) * pi / 180;
+    return Transform.rotate(
+      angle: angle,
+      child: Container(
+        width: _kSlotSize,
+        height: _kSlotSize,
+        clipBehavior: Clip.antiAlias,
+        decoration: BoxDecoration(
+          borderRadius: AppSpacing.br(AppSpacing.radiusLg),
+          border: Border.all(color: border, width: AppSpacing.borderStrong),
+        ),
+        child: Image.asset(
+          'assets/images/mock_dish_${seed % 4 + 1}.jpg',
+          fit: BoxFit.cover,
+        ),
+      ),
+    );
+  }
+}
 
 class _EmptySlot extends StatelessWidget {
   const _EmptySlot({required this.color});

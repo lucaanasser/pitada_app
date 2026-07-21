@@ -59,28 +59,6 @@ class RecipesScreen extends ConsumerWidget {
             child: CollectionChart(),
           ),
           const SizedBox(height: AppSpacing.xxxl),
-          Padding(
-            padding: AppSpacing.screenH,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                RecipeSearchField(
-                  hint: 'Buscar receita ou ingrediente',
-                  onChanged: (q) =>
-                      ref.read(recipeSearchQueryProvider.notifier).state = q,
-                  onToggleFilters: tab == 0
-                      ? () => ref
-                          .read(recipeFiltersOpenProvider.notifier)
-                          .update((open) => !open)
-                      : null,
-                  filtersOpen: filtersOpen,
-                  filtersActive: ref.watch(recipeFiltersProvider).isActive,
-                ),
-                if (tab == 0 && filtersOpen) const RecipeFilterPanel(),
-              ],
-            ),
-          ),
-          const SizedBox(height: AppSpacing.xxxl),
           PitadaTabs(
             tabs: const ['Receitas', 'Frameworks'],
             selected: tab,
@@ -90,6 +68,11 @@ class RecipesScreen extends ConsumerWidget {
           if (tab == 0) ...[
             const SizedBox(height: AppSpacing.xl),
             const FolderCoverRow(),
+            const SizedBox(height: AppSpacing.xl),
+            Padding(
+              padding: AppSpacing.screenH,
+              child: _searchArea(ref, filtersOpen),
+            ),
           ],
           Padding(
             padding: AppSpacing.screenH,
@@ -97,6 +80,53 @@ class RecipesScreen extends ConsumerWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _searchArea(WidgetRef ref, bool filtersOpen) {
+    final open = ref.watch(recipeSearchOpenProvider);
+    if (!open) {
+      return Consumer(
+        builder: (context, ref, _) => GestureDetector(
+          onTap: () => ref.read(recipeSearchOpenProvider.notifier).state = true,
+          behavior: HitTestBehavior.opaque,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
+            child: Row(
+              children: [
+                Icon(AppIcons.search, size: 18, color: context.pit.muted),
+                const SizedBox(width: AppSpacing.md),
+                Text(
+                  'Buscar',
+                  style: AppType.on(AppType.bodySm, context.pit.muted),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        RecipeSearchField(
+          hint: 'Buscar receita ou ingrediente',
+          autofocus: true,
+          onChanged: (q) =>
+              ref.read(recipeSearchQueryProvider.notifier).state = q,
+          onToggleFilters: () => ref
+              .read(recipeFiltersOpenProvider.notifier)
+              .update((open) => !open),
+          onClose: () {
+            ref.read(recipeSearchOpenProvider.notifier).state = false;
+            ref.read(recipeSearchQueryProvider.notifier).state = '';
+            ref.read(recipeFiltersOpenProvider.notifier).state = false;
+          },
+          filtersOpen: filtersOpen,
+          filtersActive: ref.watch(recipeFiltersProvider).isActive,
+        ),
+        if (filtersOpen) const RecipeFilterPanel(),
+      ],
     );
   }
 

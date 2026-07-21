@@ -37,7 +37,6 @@ class CollectionChart extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final pit = context.pit;
-    final waiting = total - cooked;
     final debut = _debutOf(ref);
     return Row(
       children: [
@@ -77,13 +76,6 @@ class CollectionChart extends ConsumerWidget {
                 'receitas cozinhadas',
                 style: AppType.on(AppType.body, pit.text),
               ),
-              if (waiting > 0) ...[
-                const SizedBox(height: 2),
-                Text(
-                  '$waiting esperando estreia',
-                  style: AppType.on(AppType.caption, pit.muted),
-                ),
-              ],
               if (debut != null) ...[
                 const SizedBox(height: AppSpacing.sm),
                 GestureDetector(
@@ -96,7 +88,7 @@ class CollectionChart extends ConsumerWidget {
                         child: Text(
                           'que tal estrear ${debut.title}?',
                           style: AppType.on(AppType.bodySm, AppColors.accent),
-                          maxLines: 1,
+                          maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),

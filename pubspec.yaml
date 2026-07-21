@@ -37,6 +37,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/brand/
+    - assets/images/
   fonts:
     - family: Cormorant Garamond
       fonts:

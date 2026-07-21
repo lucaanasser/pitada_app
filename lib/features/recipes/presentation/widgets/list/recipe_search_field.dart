@@ -24,12 +24,16 @@ class RecipeSearchField extends StatelessWidget {
     required this.hint,
     this.onChanged,
     this.onToggleFilters,
+    this.onClose,
+    this.autofocus = false,
     this.filtersOpen = false,
     this.filtersActive = false,
   });
 
   final String hint;
   final ValueChanged<String>? onChanged;
+  final VoidCallback? onClose;
+  final bool autofocus;
 
   /// Abre/colapsa o painel de filtros. Usada por: recipes_screen.
   final VoidCallback? onToggleFilters;
@@ -59,6 +63,7 @@ class RecipeSearchField extends StatelessWidget {
           Expanded(
             child: TextField(
               onChanged: onChanged,
+              autofocus: autofocus,
               style: AppType.on(AppType.body, pit.text),
               cursorColor: AppColors.accent,
               decoration: InputDecoration(
@@ -73,6 +78,15 @@ class RecipeSearchField extends StatelessWidget {
             ),
           ),
           if (onToggleFilters != null) _filterButton(pit),
+          if (onClose != null)
+            GestureDetector(
+              onTap: onClose,
+              behavior: HitTestBehavior.opaque,
+              child: Padding(
+                padding: const EdgeInsets.only(left: AppSpacing.sm),
+                child: Icon(AppIcons.close, size: 18, color: pit.muted),
+              ),
+            ),
         ],
       ),
     );
