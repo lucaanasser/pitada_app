@@ -7,8 +7,6 @@
 // USADO POR: recipes_screen (via RecipeListView), framework_detail_screen.
 // SPEC:      specs/features/recipes.yaml (RecipesScreen: recipe_row)
 // ─────────────────────────────────────────────────────────────────────────────
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 
 import '../../../../../core/theme/app_icons.dart';
@@ -44,9 +42,13 @@ class RecipeRow extends StatelessWidget {
     return HairlineRow(
       onTap: onTap,
       showDivider: showDivider,
-      leading: mastery == 'nunca fiz'
-          ? _EmptySlot(color: pit.line2)
-          : _PhotoStamp(recipeId: recipe.id, border: pit.border),
+      leading: _BowlStamp(
+        mastery: mastery,
+        fillColor: pit.card(recipe.heroColor),
+        borderColor: mastery == null || mastery == 'nunca fiz'
+            ? pit.line2
+            : pit.border,
+      ),
       title: Text(recipe.title, style: AppType.on(AppType.titleSm, pit.text)),
       subtitle: Text(
         hasMastery
@@ -61,78 +63,114 @@ class RecipeRow extends StatelessWidget {
 
 const _kSlotSize = 56.0;
 
-class _PhotoStamp extends StatelessWidget {
-  const _PhotoStamp({required this.recipeId, required this.border});
+class _BowlStamp extends StatelessWidget {
+  const _BowlStamp({
+    required this.mastery,
+    required this.fillColor,
+    required this.borderColor,
+  });
 
-  final String recipeId;
-  final Color border;
+  final String? mastery;
+  final Color fillColor;
+  final Color borderColor;
 
-  @override
-  Widget build(BuildContext context) {
-    final seed = recipeId.codeUnits.fold(0, (a, b) => a + b);
-    final angle = (seed % 7 - 3) * pi / 180;
-    return Transform.rotate(
-      angle: angle,
-      child: Container(
-        width: _kSlotSize,
-        height: _kSlotSize,
-        clipBehavior: Clip.antiAlias,
-        decoration: BoxDecoration(
-          borderRadius: AppSpacing.br(AppSpacing.radiusLg),
-          border: Border.all(color: border, width: AppSpacing.borderStrong),
-        ),
-        child: Image.asset(
-          'assets/images/mock_dish_${seed % 4 + 1}.jpg',
-          fit: BoxFit.cover,
-        ),
-      ),
-    );
+  double get _fraction {
+    if (mastery == 'domino') return 1.0;
+    final n = int.tryParse(
+          RegExp(r'fiz (\d+)').firstMatch(mastery ?? '')?.group(1) ?? '',
+        ) ??
+        0;
+    if (n == 0) return 0;
+    final level = n / (n + 3);
+    return level > 0.75 ? 0.75 : level;
   }
-}
-
-class _EmptySlot extends StatelessWidget {
-  const _EmptySlot({required this.color});
-
-  final Color color;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: _kSlotSize,
       height: _kSlotSize,
-      child: CustomPaint(painter: _DashedSlotPainter(color: color)),
+      child: CustomPaint(
+        painter: _BowlPainter(
+          fraction: _fraction,
+          fillColor: fillColor,
+          borderColor: borderColor,
+          dashed: _fraction == 0,
+        ),
+      ),
     );
   }
 }
 
-class _DashedSlotPainter extends CustomPainter {
-  const _DashedSlotPainter({required this.color});
+class _BowlPainter extends CustomPainter {
+  const _BowlPainter({
+    required this.fraction,
+    required this.fillColor,
+    required this.borderColor,
+    required this.dashed,
+  });
 
-  final Color color;
+  final double fraction;
+  final Color fillColor;
+  final Color borderColor;
+  final bool dashed;
 
   @override
   void paint(Canvas canvas, Size size) {
-    const dash = 5.0, gap = 4.5;
-    final source = Path()
+    final rect = Rect.fromCenter(
+      center: size.center(Offset.zero),
+      width: size.width * 0.78,
+      height: size.height * 0.54,
+    );
+    final bowl = Path()
       ..addRRect(
-        RRect.fromRectAndRadius(
-          Offset.zero & size,
-          const Radius.circular(AppSpacing.radiusLg),
+        RRect.fromRectAndCorners(
+          rect,
+          topLeft: const Radius.circular(5),
+          topRight: const Radius.circular(5),
+          bottomLeft: Radius.circular(rect.width / 2),
+          bottomRight: Radius.circular(rect.width / 2),
         ),
       );
-    final paint = Paint()
+
+    if (fraction > 0) {
+      canvas.save();
+      canvas.clipPath(bowl);
+      canvas.drawRect(
+        Rect.fromLTRB(
+          rect.left,
+          rect.bottom - rect.height * fraction,
+          rect.right,
+          rect.bottom,
+        ),
+        Paint()..color = fillColor,
+      );
+      canvas.restore();
+    }
+
+    final stroke = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = AppSpacing.borderStrong
-      ..color = color;
-    for (final metric in source.computeMetrics()) {
+      ..strokeCap = StrokeCap.round
+      ..color = borderColor;
+    if (!dashed) {
+      canvas.drawPath(bowl, stroke);
+      return;
+    }
+    const dash = 5.0, gap = 4.5;
+    for (final metric in bowl.computeMetrics()) {
       var d = 0.0;
       while (d < metric.length) {
-        canvas.drawPath(metric.extractPath(d, d + dash), paint);
+        canvas.drawPath(metric.extractPath(d, d + dash), stroke);
         d += dash + gap;
       }
     }
   }
 
   @override
-  bool shouldRepaint(_DashedSlotPainter old) => old.color != color;
+  bool shouldRepaint(_BowlPainter old) =>
+      old.fraction != fraction ||
+      old.fillColor != fillColor ||
+      old.borderColor != borderColor ||
+      old.dashed != dashed;
 }
