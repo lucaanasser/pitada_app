@@ -5,7 +5,7 @@
 //            adiciona rápido o que comeu fora do plano. Salva um DayLog (upsert);
 //            se hoje já tem log, abre pré-preenchido com ele (modo editar).
 // USA:       theme/*, utils/format, data (day_log/meal), providers (dayLog/
-//            todayLog/plan), DayLogMealListView, DayLogFooter,
+//            todayLog/plan), DayLogMealListView, DayLogFooterBar,
 //            estimate_food_sheet.
 // USADO POR: TodaySection (botões "Registrar dia" e editar).
 // SPEC:      specs/features/plans/progress.yaml (sheets: showLogDaySheet)
@@ -24,7 +24,7 @@ import '../../../data/models/day_log.dart';
 import '../../../data/models/meal.dart';
 import '../../../data/models/meal_option.dart';
 import '../food/estimate_food_sheet.dart';
-import '../../widgets/day_log/day_log_footer.dart';
+import '../../widgets/day_log/day_log_footer_bar.dart';
 import '../../widgets/day_log/meal_list_view.dart';
 import '../../../../../core/widgets/sheets/sheet_grip.dart';
 
@@ -157,7 +157,7 @@ class _LogDaySheetState extends ConsumerState<_LogDaySheet> {
             ),
             const SizedBox(height: AppSpacing.md),
             Expanded(child: _list(plan.meals)),
-            DayLogFooter(
+            DayLogFooterBar(
               total: total,
               goal: plan.dailyKcalGoal,
               onSave: () => _save(plan.meals),

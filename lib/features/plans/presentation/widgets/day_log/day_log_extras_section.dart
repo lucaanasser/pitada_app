@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/plans/presentation/widgets/day_log/day_log_extras.dart
+// lib/features/plans/presentation/widgets/day_log/day_log_extras_section.dart
 // O QUÊ:     Seção "Comeu algo fora do plano?" do sheet de registrar dia:
 //            linhas de extras (nome/porção/kcal + remover) e o link de adicionar.
 // USA:       theme/*, core/widgets/hairline_row, data/day_log (ExtraEntry).

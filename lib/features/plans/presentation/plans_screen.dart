@@ -2,10 +2,10 @@
 // lib/features/plans/presentation/plans_screen.dart
 // O QUÊ:     Aba Plano: cabeçalho compartilhado (marca + título 'Plano' + resumo do
 //            dia em kcal + macros) e, logo abaixo, sub-abas "Cardápio" (refeições) e
-//            "Progresso" (peso + aderência). Título e DaySummary são fixos nas duas
+//            "Progresso" (peso + aderência). Título e DaySummaryView são fixos nas duas
 //            sub-abas; o switcher fica logo abaixo dos macros. Alterna por setState.
 // USA:       core/widgets (Masthead, PitadaTabs, PitadaScaffold), theme/*,
-//            plan_providers (DaySummary), MenuView e ProgressView.
+//            plan_providers (DaySummaryView), MenuView e ProgressView.
 // USADO POR: core/router/router.dart (branch /plans).
 // SPEC:      specs/features/plans/progress.yaml (navegacao) e plans.yaml (PlansScreen)
 // ─────────────────────────────────────────────────────────────────────────────
@@ -23,7 +23,7 @@ import '../../../core/widgets/tabs/pitada_tabs.dart';
 import '../application/plan_providers.dart';
 import 'sheets/plan/plan_add_sheet.dart';
 import 'widgets/meal/menu_view.dart';
-import 'widgets/meal/day_summary.dart';
+import 'widgets/meal/day_summary_view.dart';
 import 'widgets/progress/progress_view.dart';
 
 /// Tela principal de Plano com cabeçalho compartilhado + sub-abas. Usada por: router (/plans).
@@ -100,7 +100,7 @@ class _PlansScreenState extends ConsumerState<PlansScreen> {
         AppSpacing.gutter,
         AppSpacing.xl,
       ),
-      child: DaySummary(goalKcal: plan.dailyKcalGoal, totals: totals),
+      child: DaySummaryView(goalKcal: plan.dailyKcalGoal, totals: totals),
     );
   }
 }

@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/plans/presentation/widgets/day_log/day_log_footer.dart
+// lib/features/plans/presentation/widgets/day_log/day_log_footer_bar.dart
 // O QUÊ:     Rodapé fixo do sheet de registrar dia: total do dia vs meta
 //            (colorido quando estoura) + botão "Salvar dia".
 // USA:       theme/*, core/widgets/pitada_button.
@@ -15,8 +15,8 @@ import '../../../../../core/theme/typography.dart';
 import '../../../../../core/widgets/controls/pitada_button.dart';
 
 /// Rodapé do LogDaySheet: total vs meta + salvar. Usada por: LogDaySheet.
-class DayLogFooter extends StatelessWidget {
-  const DayLogFooter({
+class DayLogFooterBar extends StatelessWidget {
+  const DayLogFooterBar({
     super.key,
     required this.total,
     required this.goal,

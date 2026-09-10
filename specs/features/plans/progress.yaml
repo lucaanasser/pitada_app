@@ -22,11 +22,11 @@ navegacao:
     exibe seu nome interno (nada de 'Cutting').
   plans_screen_vira: >
     Casca com CABEÇALHO COMPARTILHADO fixo (aparece nas duas sub-abas): Masthead +
-    título 'Plano' (screenTitle) + DaySummary (kcal grande + status + FuelBar +
+    título 'Plano' (screenTitle) + DaySummaryView (kcal grande + status + FuelBar +
     macros) + PitadaTabs. O switcher fica abaixo dos macros (respiro xl),
     alinhado à ESQUERDA como nas outras telas. selected=0 ->
     MenuView (só a lista de refeições + 'Adicionar refeição', sem título nem
-    DaySummary), selected=1 -> ProgressView. Estado da aba em setState local
+    DaySummaryView), selected=1 -> ProgressView. Estado da aba em setState local
     (StatefulWidget), como recipes.
 
 data:
@@ -158,7 +158,7 @@ screens_e_widgets:
           - "PitadaButton(primary) 'Registrar dia' (icon logDay) -> showLogDaySheet"
         registrado:
           - "card igual; topo: Row[ '<kcal> kcal' (numeralLg, pit.text) + '/ meta' (numeralSm, muted) ... PitadaIconButton(edit) -> showLogDaySheet ]"
-          - "status colorido (caption): dentro (sage) / acima (accent2), como o DaySummary"
+          - "status colorido (caption): dentro (sage) / acima (accent2), como o DaySummaryView"
           - "linha de contagem (caption, muted): 'N refeições · N pulada(s) · N extra(s)'"
       sequencia: >
         Abaixo do card, quando logStreak >= 2: número em Space Grotesk
@@ -168,7 +168,7 @@ screens_e_widgets:
       layout:
         - "resumo: 'N de M dias dentro da meta' + '· média de X kcal' (linha única, body)"
         - "faixa de barras verticais (uma por dia): altura = kcalLog/meta; cor sage=dentro,
-           accent2=acima, surf2=sem log. Estilo chapado (como ActivityGraph, sem sombra)."
+           accent2=acima, surf2=sem log. Estilo chapado (como ActivityChart, sem sombra)."
         - "legenda (Dentro / Acima / Sem registro)"
   - InsightsSection:                  # presentation/widgets/insights_section.dart
       proposito: "1 card com borda por insight. Widget burro: recebe List<ProgressInsight>;
@@ -192,7 +192,7 @@ screens_e_widgets:
       eixos: "y auto-escala (min/max com folga); x pela ordem/tempo. Rótulos min/max discretos."
   - MenuView:                     # presentation/widgets/menu_view.dart
       proposito: "Sub-aba 'Cardápio': só a lista reordenável de MealCards + botão
-        'Adicionar refeição'. Sem título de plano e sem DaySummary — ambos vivem no
+        'Adicionar refeição'. Sem título de plano e sem DaySummaryView — ambos vivem no
         cabeçalho compartilhado da PlansScreen, acima das abas."
 
 sheets:
@@ -210,9 +210,9 @@ sheets:
            (abre showFoodSearchSheet). Cada extra mostra nome/porção/kcal e um X p/ remover."
         - "rodapé fixo: total do dia (kcal) + PitadaButton 'Salvar dia' -> dayLogController.saveDay"
       widgets_extraidos:   # p/ manter o sheet < 200 linhas
-        - "DayLogExtrasSection (widgets/day_log_extras.dart): título 'Comeu algo
+        - "DayLogExtrasSection (widgets/day_log_extras_section.dart): título 'Comeu algo
            fora do plano?' + linhas de extras (nome/porção/kcal + X) + '+ Adicionar'."
-        - "DayLogFooter (widgets/day_log_footer.dart): total vs meta + 'Salvar dia'."
+        - "DayLogFooterBar (widgets/day_log_footer_bar.dart): total vs meta + 'Salvar dia'."
         - "DayLogMealListView (widgets/day_log/meal_list_view.dart): lista rolável
            com um DayLogMealTile por refeição + a seção de extras no fim."
       nota: "É a materialização do 'fez todas as refeições?' (pulei) + 'comeu fora?' (extras), inline e rápido."

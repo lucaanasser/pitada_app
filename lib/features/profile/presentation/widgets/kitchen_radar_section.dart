@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/profile/presentation/widgets/kitchen_radar.dart
+// lib/features/profile/presentation/widgets/kitchen_radar_section.dart
 // O QUÊ:     Radar do perfil: pendências acionáveis da cozinha (cozinha sem
 //            registro no diário, itens vencendo/acabando na despensa e
 //            "refazer pendente"). Cada linha navega para onde se resolve.
@@ -7,7 +7,7 @@
 //            core/widgets (HairlineRow, ExpiryTag), core/utils/app_log,
 //            overview_providers (kitchenRadarProvider), RadarItem, go_router.
 // USADO POR: ProfileScreen (seção "No radar").
-// SPEC:      specs/features/profile.yaml (components_da_feature.KitchenRadar)
+// SPEC:      specs/features/profile.yaml (components_da_feature.KitchenRadarSection)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -26,8 +26,8 @@ import '../../data/models/radar_item.dart';
 
 /// Lista de pendências acionáveis (máx. 5) ou a linha calma de "tudo em dia".
 /// Usada por: ProfileScreen.
-class KitchenRadar extends ConsumerWidget {
-  const KitchenRadar({super.key});
+class KitchenRadarSection extends ConsumerWidget {
+  const KitchenRadarSection({super.key});
 
   /// Lê o radar agregado e monta as linhas. Usada por: framework.
   @override

@@ -3,7 +3,7 @@
 // O QUÊ:     Renderiza uma LessonSection conforme o kind (text/pairs/keys/tip).
 //            Usada pelos guias e para reaproveitar os pontos-chave.
 // USA:       core/widgets (SectionHeader, PitadaChip, WhyCallout), theme/*,
-//            KeyPoint (lista numerada), data (LessonSection).
+//            KeyPointTile (lista numerada), data (LessonSection).
 // USADO POR: LessonDetailScreen (guias) e as seções das técnicas/frameworks.
 // SPEC:      specs/features/notebook.yaml (LessonSection.render)
 // ─────────────────────────────────────────────────────────────────────────────
@@ -16,7 +16,7 @@ import '../../../../../core/widgets/controls/pitada_chip.dart';
 import '../../../../../core/widgets/layout/section_header.dart';
 import '../../../../../core/widgets/cards/why_callout.dart';
 import '../../../data/models/knowledge/lesson_section.dart';
-import 'key_point.dart';
+import 'key_point_tile.dart';
 
 /// Renderiza uma [section] com seu cabeçalho e o corpo conforme o [SectionKind].
 /// [tipLabel] troca o rótulo do callout (ex.: 'Erro comum', 'Dica').
@@ -71,7 +71,7 @@ class LessonSectionView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             for (var i = 0; i < section.body.length; i++)
-              KeyPoint(number: i + 1, text: section.body[i]),
+              KeyPointTile(number: i + 1, text: section.body[i]),
           ],
         );
       case SectionKind.text:

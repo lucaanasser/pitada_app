@@ -19,7 +19,7 @@ import '../../../../core/widgets/layout/section_header.dart';
 import '../../application/providers.dart';
 import '../../data/models/knowledge/repertoire.dart';
 import '../widgets/shared/detail_header.dart';
-import '../widgets/repertoire/pairing_legend.dart';
+import '../widgets/repertoire/pairing_legend_view.dart';
 
 /// Tela de detalhe de uma harmonização. Usada por: router (/pairing/:id).
 class PairingDetailScreen extends ConsumerWidget {
@@ -68,7 +68,7 @@ class PairingDetailScreen extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: AppSpacing.md),
-              const PairingLegend(),
+              const PairingLegendView(),
               const SizedBox(height: AppSpacing.xl),
               Wrap(
                 spacing: AppSpacing.sm + 1,

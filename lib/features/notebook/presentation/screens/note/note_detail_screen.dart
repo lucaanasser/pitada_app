@@ -1,7 +1,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/notebook/presentation/screens/note/note_detail_screen.dart
 // O QUÊ:     Detalhe de uma nota de fonte: kicker, título, meta, "O que fica", "Aplica em".
-// USA:       providers (noteByIdProvider), DetailHeader, NoteTake,
+// USA:       providers (noteByIdProvider), DetailHeader, NoteTakeTile,
 //            RecipeLinkRow, PitadaChip, SectionHeader, core/widgets, theme/*.
 // USADO POR: core/router/routes.dart (/note/:id).
 // SPEC:      specs/features/notebook.yaml (screens.NoteDetailScreen)
@@ -19,7 +19,7 @@ import '../../../../../core/widgets/layout/section_header.dart';
 import '../../../application/providers.dart';
 import '../../../data/models/activity/source_note.dart';
 import '../../widgets/shared/detail_header.dart';
-import '../../widgets/note/note_take.dart';
+import '../../widgets/note/note_take_tile.dart';
 import '../../widgets/shared/recipe_link_row.dart';
 
 /// Tela de detalhe de uma nota de fonte. Usada por: router (/note/:id).
@@ -75,7 +75,7 @@ class NoteDetailScreen extends ConsumerWidget {
               if (note.takeaways.isNotEmpty) ...[
                 const SectionHeader(label: 'O que fica'),
                 for (var i = 0; i < note.takeaways.length; i++)
-                  NoteTake(
+                  NoteTakeTile(
                     number: i + 1,
                     text: note.takeaways[i],
                     showDivider: i != note.takeaways.length - 1,

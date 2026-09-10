@@ -1,8 +1,8 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/notebook/presentation/widgets/lesson/lesson_body.dart
+// lib/features/notebook/presentation/widgets/lesson/lesson_body_view.dart
 // O QUÊ:     Monta o corpo do detalhe de uma ficha conforme o kind (técnica,
 //            framework, guia): kicker, título, abertura e as seções.
-// USA:       theme/*, LessonSectionView, PrincipleQuote, data (Lesson).
+// USA:       theme/*, LessonSectionView, PrincipleQuoteView, data (Lesson).
 // USADO POR: LessonDetailScreen (delega a construção das seções por kind).
 // SPEC:      specs/features/notebook.yaml (LessonDetailScreen.layout_por_kind)
 // ─────────────────────────────────────────────────────────────────────────────
@@ -15,9 +15,9 @@ import '../../../../../core/theme/typography.dart';
 import '../../../data/models/knowledge/lesson.dart';
 import '../../../data/models/knowledge/lesson_section.dart';
 import 'lesson_section_view.dart';
-import 'principle_quote.dart';
+import 'principle_quote_view.dart';
 
-/// Rótulo (kicker) da ficha por categoria. Usada por: [lessonBody].
+/// Rótulo (kicker) da ficha por categoria. Usada por: [lessonBodyView].
 String kickerFor(LessonKind category) {
   switch (category) {
     case LessonKind.technique:
@@ -36,7 +36,7 @@ String kickerFor(LessonKind category) {
 /// Constrói os widgets do detalhe de [lesson] de cima para baixo, por kind.
 /// technique -> princípio + pontos-chave + erro comum; framework -> descrição +
 /// fórmula/ordem; guide -> lead + N seções livres. Usada por: LessonDetailScreen.
-List<Widget> lessonBody(PitadaColors pit, Lesson lesson) {
+List<Widget> lessonBodyView(PitadaColors pit, Lesson lesson) {
   final header = <Widget>[
     Text(
       kickerFor(lesson.category).toUpperCase(),
@@ -51,7 +51,7 @@ List<Widget> lessonBody(PitadaColors pit, Lesson lesson) {
     case LessonKind.technique:
       return [
         ...header,
-        PrincipleQuote(text: lesson.summary),
+        PrincipleQuoteView(text: lesson.summary),
         ..._sections(lesson.sections),
       ];
     case LessonKind.framework:
@@ -77,7 +77,7 @@ List<Widget> lessonBody(PitadaColors pit, Lesson lesson) {
 }
 
 /// Renderiza cada seção; o callout de técnica leva o rótulo 'Erro comum'.
-/// Usada por: [lessonBody].
+/// Usada por: [lessonBodyView].
 List<Widget> _sections(List<LessonSection> sections) {
   return [
     for (final section in sections)

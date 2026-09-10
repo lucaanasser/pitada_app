@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/groceries/presentation/widgets/category_group.dart
+// lib/features/groceries/presentation/widgets/category_section.dart
 // O QUÊ:     Grupo de uma categoria: rótulo em versalete + linhas filhas (filete).
 // USA:       core/widgets/layout/section_header, theme/spacing.
 // USADO POR: grocery_list_view e pantry_view (agrupam itens por categoria).
@@ -13,8 +13,8 @@ import '../../../../core/widgets/layout/section_header.dart';
 /// Bloco de uma categoria: [label] como SectionHeader + [children] em coluna.
 /// Reutilizado entre a Lista de compras e a Despensa (evita duplicar o layout).
 /// Usada por: grocery_list_view e pantry_view.
-class CategoryGroup extends StatelessWidget {
-  const CategoryGroup({
+class CategorySection extends StatelessWidget {
+  const CategorySection({
     super.key,
     required this.label,
     required this.children,

@@ -5,6 +5,7 @@
 // USA:       theme/*, core/widgets (SectionHeader não; usa filete próprio).
 // USADO POR: LessonEditScreen.
 // SPEC:      specs/features/notebook.yaml (LessonEditScreen "editor de Seções")
+// SUFIXO:    isento — _editor fora do vocab pela regra dos 2+; promover quando a família de edição de recipes normalizar (architecture.md)
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';

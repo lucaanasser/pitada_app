@@ -2,7 +2,7 @@
 // lib/features/notebook/data/models/knowledge/lesson_section.dart
 // O QUÊ:     Bloco de conteúdo de uma Lesson (ficha). Renderizado conforme o kind.
 // USA:       nada (modelo imutável puro).
-// USADO POR: lesson.dart, os seeds de fichas, LessonBody e LessonSectionView
+// USADO POR: lesson.dart, os seeds de fichas, LessonBodyView e LessonSectionView
 //            (presentation).
 // SPEC:      specs/features/notebook.yaml (data.models.LessonSection)
 // ─────────────────────────────────────────────────────────────────────────────

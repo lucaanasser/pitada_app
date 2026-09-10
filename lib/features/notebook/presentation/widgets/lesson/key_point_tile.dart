@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/notebook/presentation/widgets/lesson/key_point.dart
+// lib/features/notebook/presentation/widgets/lesson/key_point_tile.dart
 // O QUÊ:     Item de lista numerada do Caderno: número em serifa (accent) + texto.
 // USA:       theme/* (AppType.numeralSm, cores, espaços).
 // USADO POR: LessonDetailScreen (pontos-chave de técnica, "cuidados" de guia).
@@ -14,8 +14,8 @@ import '../../../../../core/theme/typography.dart';
 
 /// Um ponto-chave numerado: [number] em Cormorant/accent à esquerda, [text] ao lado.
 /// Usada por: as seções "keys" das fichas (pontos-chave, cuidados).
-class KeyPoint extends StatelessWidget {
-  const KeyPoint({super.key, required this.number, required this.text});
+class KeyPointTile extends StatelessWidget {
+  const KeyPointTile({super.key, required this.number, required this.text});
 
   final int number;
   final String text;

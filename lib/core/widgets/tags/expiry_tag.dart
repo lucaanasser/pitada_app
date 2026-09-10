@@ -3,7 +3,7 @@
 // O QUÊ:     Tag de validade em contorno, sem ícone (discreta). Avisa perto de vencer.
 // USA:       theme/colors, theme/pitada_colors, theme/spacing, theme/typography.
 // USADO POR: groceries (pantry_view) — status de validade de cada item — e
-//            profile (kitchen_radar).
+//            profile (kitchen_radar_section).
 // SPEC:      specs/components/tags/expiry_tag.yaml
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';

@@ -9,7 +9,7 @@ import 'meal.dart';
 
 /// O plano ativo do usuário: nome, meta diária de kcal e as refeições do dia.
 /// Imutável — mudanças (escolher opção) geram uma cópia via copyWith.
-/// Usada por: PlanController (estado), PlansScreen, DaySummary.
+/// Usada por: PlanController (estado), PlansScreen, DaySummaryView.
 class Plan {
   final String id;
   final String name;

@@ -111,7 +111,7 @@ screens:
              CheckItem(square); subtitle explica o estado ('O que já está na
              despensa sai da conta' / 'Mostrando tudo, sem descontar') — substitui
              a legenda solta. Desligado = caso praia."
-          - "CategoryGroup por categoria (Hortifrúti, Açougue, Laticínios & ovos,
+          - "CategorySection por categoria (Hortifrúti, Açougue, Laticínios & ovos,
              Mercearia) — SectionHeader + linhas"
           - "_GroceryRow (privado, HairlineRow): leading CheckItem(shape circle)
              marca comprado (nome riscado); title nome; trailing quantidade somada
@@ -126,7 +126,7 @@ screens:
         itens:
           - "legenda sóbria: 'Adicione por código de barras ou foto da nota — a
              validade entra junto' (caption, muted)"
-          - "CategoryGroup por categoria"
+          - "CategorySection por categoria"
           - "_PantryRow (privado, HairlineRow): title nome; subtitle validade
              ('Validade ' + formatDayMonth(expiresOn)); trailing estoque em
              AppType.numeral (MESMO tamanho da Lista — pedido do dono; formatGrams
@@ -216,5 +216,5 @@ arquivos:                    # cada .dart < 200 linhas; quebre em widgets se pas
     - widgets/list_header.dart
     - widgets/grocery_list_view.dart
     - widgets/pantry_view.dart
-    - widgets/category_group.dart
+    - widgets/category_section.dart
     - widgets/add_pantry_data.dart

@@ -1,9 +1,9 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/recipes/presentation/widgets/framework/framework_row.dart
 // O QUÊ:     Linha de framework na lista, irmã do RecipeRow (mesmo ritmo):
-//            tipografia pura — nome + lacunas em texto + seta, sem miniatura.
+//            capitular neutra + nome + lacunas em texto + seta, sem miniatura.
 // USA:       core/theme (AppIcons, PitadaColors, AppType),
-//            core/widgets (HairlineRow), Framework.
+//            core/widgets (HairlineRow), recipe_row (InitialStamp), Framework.
 // USADO POR: frameworks_tab_view.
 // SPEC:      specs/features/recipes.yaml (RecipesScreen: framework_row)
 // ─────────────────────────────────────────────────────────────────────────────
@@ -14,6 +14,7 @@ import '../../../../../core/theme/pitada_colors.dart';
 import '../../../../../core/theme/typography.dart';
 import '../../../../../core/widgets/cards/hairline_row.dart';
 import '../../../data/models/framework.dart';
+import '../list/recipe_row.dart';
 
 /// Um framework como linha de lista, no mesmo ritmo do RecipeRow: as lacunas
 /// (slots) são o subtítulo; sem slots, entra "N passos · N receitas".
@@ -43,6 +44,7 @@ class FrameworkRow extends StatelessWidget {
     return HairlineRow(
       onTap: onTap,
       showDivider: showDivider,
+      leading: InitialStamp(text: framework.name, tint: pit.muted),
       title: Text(framework.name, style: AppType.on(AppType.titleSm, pit.text)),
       subtitle: Text(
         subtitle,

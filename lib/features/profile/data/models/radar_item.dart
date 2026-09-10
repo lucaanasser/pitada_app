@@ -3,17 +3,17 @@
 // O QUÊ:     Modelo de uma pendência acionável do radar do perfil (cozinha sem
 //            registro, item vencendo/acabando na despensa, refazer pendente).
 // USA:       nada (classe pura imutável, sem dependências).
-// USADO POR: overview_providers (monta a lista) e KitchenRadar (exibe as linhas).
+// USADO POR: overview_providers (monta a lista) e KitchenRadarSection (exibe as linhas).
 // SPEC:      specs/features/profile.yaml (models.RadarItem)
 // ─────────────────────────────────────────────────────────────────────────────
 
-/// Tipo da pendência — define ícone e tag da linha no KitchenRadar.
+/// Tipo da pendência — define ícone e tag da linha no KitchenRadarSection.
 enum RadarKind { cook, expiry, low, redo }
 
 /// Uma pendência do radar: o quê, detalhe opcional e para onde o toque navega.
 /// [expiresOn] alimenta a ExpiryTag quando [kind] é expiry. [push] separa rota
 /// full-screen (push, volta cai no Perfil) de troca de aba (go).
-/// Usada por: KitchenRadar (via kitchenRadarProvider).
+/// Usada por: KitchenRadarSection (via kitchenRadarProvider).
 class RadarItem {
   final RadarKind kind;
   final String title;

@@ -3,7 +3,7 @@
 // O QUÊ:     Aba Lista: cabeçalho da lista ativa (nome + caret), toggle
 //            "descontar a despensa" em HairlineRow (o caso praia = desligado),
 //            grupos por categoria e "Comprei tudo". Quantidades já derivadas.
-// USA:       providers, list_header, category_group, core/widgets
+// USA:       providers, list_header, category_section, core/widgets
 //            (HairlineRow, CheckItem, PitadaButton, EmptyState), utils/format, theme/*.
 // USADO POR: groceries_screen (corpo da aba Lista).
 // SPEC:      specs/features/groceries.yaml (screens.GroceriesScreen.lista)
@@ -24,7 +24,7 @@ import '../../../../core/widgets/layout/pitada_scaffold.dart';
 import '../../application/providers.dart';
 import '../../data/grocery_item.dart';
 import '../../data/grocery_list.dart';
-import 'category_group.dart';
+import 'category_section.dart';
 import 'list_header.dart';
 
 /// Corpo da aba Lista: seletor de listas, toggle da despensa e itens agrupados.
@@ -56,7 +56,7 @@ class GroceryListView extends ConsumerWidget {
           )
         else ...[
           for (var c = 0; c < categories.length; c++)
-            CategoryGroup(
+            CategorySection(
               label: categories[c],
               topGap: c == 0 ? AppSpacing.xl : AppSpacing.xxxl,
               children: [

@@ -39,7 +39,7 @@ data:
         render:
           text:  "parágrafo (AppType.body)"
           pairs: "linha de PitadaChip"
-          keys:  "lista numerada (KeyPoint: numeralSm + texto)"
+          keys:  "lista numerada (KeyPointTile: numeralSm + texto)"
           tip:   "WhyCallout(label:'Dica')"
     - SourceNote:        # nota de fonte (livro/vídeo/curso/chef)
         file: lib/features/notebook/data/models/activity/source_note.dart
@@ -182,7 +182,7 @@ screens:
       route: /lesson/:id
       layout: >
         barra (voltar + PitadaIconButton editar), corpo montado por lessonBody()
-        conforme a category: kicker, título, abertura (PrincipleQuote na técnica /
+        conforme a category: kicker, título, abertura (PrincipleQuoteView na técnica /
         lead no guia) e as seções via LessonSectionView
       providers: [lessonByIdProvider]
       navigates_to: [LessonEditScreen]
@@ -197,7 +197,7 @@ screens:
       route: /note/:id
       layout: >
         DetailHeader(kicker do kind, título, meta),
-        SectionHeader "O que fica" -> NoteTake numeradas (takeaways),
+        SectionHeader "O que fica" -> NoteTakeTile numeradas (takeaways),
         SectionHeader "Aplica em" -> RecipeLinkRow por recipeIds
       providers: [noteByIdProvider]
       navigates_to: [RecipeDetailScreen]
@@ -269,7 +269,7 @@ screens:
       route: /pairing/:id
       layout: >
         DetailHeader(kicker "Harmonização", título = ingrediente),
-        PairingLegend (adoro/testei/clássico),
+        PairingLegendView (adoro/testei/clássico),
         nuvem de chips colorida por PairingRating,
         "Aplica em" -> receita ligada (recipeIds)
       providers: [pairingByIdProvider]
@@ -322,24 +322,24 @@ widgets:                 # lib/features/notebook/presentation/widgets/
     - RecipeLinkRow:     # recipe_link_row.dart — "abrir receita" (resolve título por id)
     - EditHeaderBar:     # edit_header_bar.dart — Cancelar / título / Salvar do formulário
   lesson:
-    - lessonBody:        # lesson_body.dart — função: corpo do detalhe por category
-    - kickerFor:         # lesson_body.dart — função: kicker de uma LessonKind
+    - lessonBodyView:    # lesson_body_view.dart — função: corpo do detalhe por category
+    - kickerFor:         # lesson_body_view.dart — função: kicker de uma LessonKind
     - LessonCardRow:     # lesson_card_row.dart — linha de ficha na lista
     - LessonSectionView: # lesson_section_view.dart — renderiza uma LessonSection por kind
-    - KeyPoint:          # key_point.dart — item de lista numerada
-    - PrincipleQuote:    # principle_quote.dart — princípio da técnica (AppType.quote)
+    - KeyPointTile:      # key_point_tile.dart — item de lista numerada
+    - PrincipleQuoteView: # principle_quote_view.dart — princípio da técnica (AppType.quote)
     - EditField:         # section_editor.dart — campo de texto do formulário
     - SectionEditor:     # section_editor.dart — editor de uma seção da ficha
   lists:
     - NoteRow:           # note_row.dart
-    - NoteTake:          # note_take.dart — item numerado de "O que fica"
+    - NoteTakeTile:      # note_take_tile.dart — item numerado de "O que fica"
     - DiaryRow:          # diary_row.dart
     - VersionRow:        # version_row.dart
     - VersionStepTile:   # version_step_tile.dart — nó da linha do tempo
     - LogParamCell:      # log_param.dart — parâmetro (valor grande + rótulo)
     - LogStepRow:        # log_param.dart — evento da linha do tempo
     - RepertoireRow:     # repertoire_row.dart — nome + detalhe / valor
-    - PairingLegend:     # pairing_legend.dart — legenda + mapa de cor por PairingRating
+    - PairingLegendView: # pairing_legend_view.dart — legenda + mapa de cor por PairingRating
 
 reused_components: [Masthead, PitadaScaffold, SectionHeader, PitadaTabs, HairlineRow,
   RecipeThumb, PitadaChip, PitadaTag, WhyCallout, PitadaButton, PitadaIconButton,

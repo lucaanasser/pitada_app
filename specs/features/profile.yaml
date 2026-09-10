@@ -14,7 +14,7 @@ historia: >
   significado; o readout do dia dizia QUANTOS registros mas não QUAIS; amigos
   não era para ter saído; o radar foi aprovado. Resultado: stats flat, gráfico
   sem card, sequência sem pílula, atividade derivada do fio real (drill-down
-  navegável), FriendAvatars de volta e radar ampliado com "refazer pendente".
+  navegável), FriendAvatarRow de volta e radar ampliado com "refazer pendente".
   Na 2ª reforma já tinham saído bio, contadores estáticos e o resumo
   "Sua cozinha ultimamente" (KitchenSummary segue apagado).
 
@@ -123,21 +123,21 @@ screens:
         - "ProfileHeader: identidade compacta — avatar quadrado pastel (56) +
            nome + linha de sequência SEM pílula (chama accent2 + texto caption,
            currentStreak real; some enquanto a atividade carrega)"
-        - "ProfileStats: 3 números REAIS FLAT (sem caixa) — numeral Space
+        - "StatsBar: 3 números REAIS FLAT (sem caixa) — numeral Space
            Grotesk + rótulo caption, tocáveis: receitas -> go(/recipes),
            capturas -> go(/notebook), preparos -> push(/notebook/diary)"
         - SectionHeader "Seu semestre na cozinha"
-        - "ActivityGraph — SEM card: grade 22 semanas (meses no topo, seg/qua/
+        - "ActivityChart — SEM card: grade 22 semanas (meses no topo, seg/qua/
            sex à esquerda, rola até a semana atual), linha de rodapé 'X dias
            ativos · recorde N' à esquerda + rampa 'menos → mais' à direita,
            e o DETALHE do dia tocado: data + nº de registros e a LISTA deles
            (label do tipo + título, toque -> push da rota do registro);
            dia de preenchimento mostra 'histórico de exemplo'"
         - SectionHeader "No radar"
-        - "KitchenRadar — pendências acionáveis (HairlineRow por item, toque
+        - "KitchenRadarSection — pendências acionáveis (HairlineRow por item, toque
            navega go/push conforme o item): cozinha sem registro, validade,
            acabando, refazer pendente. Vazio = linha calma."
-        - SectionHeader "Amigos" (action "ver todos") -> FriendAvatars
+        - SectionHeader "Amigos" (action "ver todos") -> FriendAvatarRow
       sem_voltar: é aba — não tem botão de voltar
       navega: [SettingsScreen (/profile/settings), /recipes, /notebook,
         /notebook/diary, /groceries, rotas de detalhe do fio (push)]
@@ -174,17 +174,17 @@ screens:
 components_da_feature:        # em presentation/widgets/ (exclusivos, <200 linhas)
   - ProfileHeader: identidade compacta — avatar quadrado pastel com borda +
       nome + linha de sequência (ícone de chama + caption; SEM pílula)
-  - ProfileStats: 3 números reais FLAT (sem caixa), numeral Space Grotesk +
+  - StatsBar: 3 números reais FLAT (sem caixa), numeral Space Grotesk +
       rótulo caption, tocáveis (navegam para a origem do número)
-  - ActivityGraph: grade + rodapé (stats à esquerda, rampa à direita) + detalhe
+  - ActivityChart: grade + rodapé (stats à esquerda, rampa à direita) + detalhe
       do dia selecionado com a lista de registros navegável — tudo SEM card
   - ActivityGrid: a grade em si — rótulos de mês (Stack posicionado por coluna),
       rótulos seg/qua/sex fixos, células tocáveis (selecionada ganha borda accent),
       rolagem horizontal reversa; expõe activityColor(intensity) — cor única
-  - KitchenRadar: pendências acionáveis (kitchenRadarProvider) — HairlineRow
+  - KitchenRadarSection: pendências acionáveis (kitchenRadarProvider) — HairlineRow
       com ícone por tipo, ExpiryTag para validade/acabando, toque navega
       (go para abas, push para detalhe); estado vazio = linha calma
-  - FriendAvatars: fileira horizontal de avatares (seed local) + botão "Adicionar"
+  - FriendAvatarRow: fileira horizontal de avatares (seed local) + botão "Adicionar"
   - ThemePicker: seletor visual de tema com mini-previews (settings)
   - SettingsRows: SettingsSwitchRow (toggle flat com borda, sem sombra),
       SettingsStepperRow (− valor +) e SettingsLinkRow (chevron) (settings)

@@ -1,9 +1,9 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/plans/presentation/widgets/meal/day_summary.dart
+// lib/features/plans/presentation/widgets/meal/day_summary_view.dart
 // O QUÊ:     Resumo do plano (SEM caixa): total grande, status, FuelBar e macros.
 // USA:       theme/*, core/widgets/fuel_bar, utils/format, plan_providers.
 // USADO POR: plans_screen (logo abaixo do cabeçalho do plano).
-// SPEC:      specs/features/plans/plans.yaml (DaySummary)
+// SPEC:      specs/features/plans/plans.yaml (DaySummaryView)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 
@@ -19,8 +19,8 @@ import '../../../application/plan_providers.dart';
 /// Sem caixa/borda — só o plano (refeições) fica em cartões. É lista, não log.
 /// [goalKcal] é a meta diária do plano; [totals] são as opções escolhidas.
 /// Usada por: plans_screen.
-class DaySummary extends StatelessWidget {
-  const DaySummary({super.key, required this.goalKcal, required this.totals});
+class DaySummaryView extends StatelessWidget {
+  const DaySummaryView({super.key, required this.goalKcal, required this.totals});
 
   final int goalKcal;
   final DayTotals totals;

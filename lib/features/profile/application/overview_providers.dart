@@ -8,7 +8,7 @@
 //            (diário), recipe_providers (receitas), groceries/providers
 //            (despensa), activity_builder, activity_day, activity_entry,
 //            profile_counts, radar_item, thread_entry (modelo), riverpod.
-// USADO POR: ProfileHeader, ProfileStats, ActivityGraph e KitchenRadar.
+// USADO POR: ProfileHeader, StatsBar, ActivityChart e KitchenRadarSection.
 // SPEC:      specs/features/profile.yaml (application.providers — agregadores)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -35,7 +35,7 @@ String _fioLabel(ThreadKind kind) => switch (kind) {
 /// Atividade da cozinha (22 semanas) derivada do fio REAL do Caderno: agrupa
 /// os registros por dia e completa o passado pré-registro com o padrão de
 /// exemplo. Fonte do gráfico, do streak e do drill-down por dia.
-/// Usada por: ActivityGraph, ActivityGrid e ProfileHeader.
+/// Usada por: ActivityChart, ActivityGrid e ProfileHeader.
 final activityProvider = Provider<List<ActivityDay>>((ref) {
   final byDate = <DateTime, List<ActivityEntry>>{};
   for (final e in ref.watch(threadProvider)) {
@@ -53,7 +53,7 @@ final activityProvider = Provider<List<ActivityDay>>((ref) {
 
 /// Números reais do perfil, um por feature dona do dado: receitas salvas,
 /// capturas no caderno (diário+notas+versões+logs) e preparos no diário.
-/// Enquanto as fontes carregam, os contadores valem 0. Usada por: ProfileStats.
+/// Enquanto as fontes carregam, os contadores valem 0. Usada por: StatsBar.
 final profileCountsProvider = Provider<ProfileCounts>((ref) {
   return ProfileCounts(
     recipes: (ref.watch(recipesProvider).valueOrNull ?? const []).length,
@@ -65,7 +65,7 @@ final profileCountsProvider = Provider<ProfileCounts>((ref) {
 /// Pendências acionáveis do radar, em ordem: cozinha sem registro no diário ->
 /// itens vencendo em ≤5 dias (mesmo limiar da ExpiryTag, mais urgente
 /// primeiro) -> itens acabando -> refazer pendente (label "Refazer" há >5
-/// dias). Máx. 5 (usabilidade > completude). Usada por: KitchenRadar.
+/// dias). Máx. 5 (usabilidade > completude). Usada por: KitchenRadarSection.
 final kitchenRadarProvider = Provider<List<RadarItem>>((ref) {
   final items = <RadarItem>[];
 

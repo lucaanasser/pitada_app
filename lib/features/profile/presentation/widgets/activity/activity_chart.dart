@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/profile/presentation/widgets/activity/activity_graph.dart
+// lib/features/profile/presentation/widgets/activity/activity_chart.dart
 // O QUÊ:     Gráfico de atividade estilo GitHub, SEM card: grade em cor única,
 //            rodapé (dias ativos · recorde + rampa "menos → mais") e o detalhe
 //            do dia tocado com a LISTA de registros (navegável).
@@ -8,7 +8,7 @@
 //            overview_providers (atividade), activity_stats, ActivityGrid,
 //            go_router (abrir registro).
 // USADO POR: ProfileScreen (bloco "Seu semestre na cozinha").
-// SPEC:      specs/features/profile.yaml (components_da_feature.ActivityGraph)
+// SPEC:      specs/features/profile.yaml (components_da_feature.ActivityChart)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -30,8 +30,8 @@ import 'activity_grid.dart';
 
 /// Gráfico de atividade da cozinha (grade + rodapé + detalhe do dia), assentado
 /// direto no fundo da aba — sem moldura. Usada por: ProfileScreen.
-class ActivityGraph extends ConsumerWidget {
-  const ActivityGraph({super.key});
+class ActivityChart extends ConsumerWidget {
+  const ActivityChart({super.key});
 
   /// Lê atividade e seleção; monta grade, rodapé e detalhe. Usada por: framework.
   @override
@@ -92,7 +92,7 @@ class ActivityGraph extends ConsumerWidget {
 
 /// Detalhe do dia selecionado: data + total e a lista de registros (cada linha
 /// abre o detalhe do registro). Dia de preenchimento explica que é exemplo.
-/// Usada por: [ActivityGraph].
+/// Usada por: [ActivityChart].
 class _DayDetail extends StatelessWidget {
   const _DayDetail({required this.day});
 

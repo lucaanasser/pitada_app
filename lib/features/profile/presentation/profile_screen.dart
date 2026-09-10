@@ -5,7 +5,7 @@
 //            drill-down por dia), radar de pendências e amigos.
 // USA:       core/widgets (PitadaScaffold, Masthead, SectionHeader,
 //            PitadaIconButton, EmptyState), profile_providers, ProfileHeader,
-//            ProfileStats, ActivityGraph, KitchenRadar, FriendAvatars,
+//            StatsBar, ActivityChart, KitchenRadarSection, FriendAvatarRow,
 //            core/theme, app_log.
 // USADO POR: core/router/router.dart (branch /profile, aba 4).
 // SPEC:      specs/features/profile.yaml (screens.ProfileScreen)
@@ -27,11 +27,11 @@ import '../../../core/widgets/layout/pitada_scaffold.dart';
 import '../../../core/widgets/layout/section_header.dart';
 import '../application/profile_providers.dart';
 import '../data/models/profile.dart';
-import 'widgets/activity/activity_graph.dart';
-import 'widgets/friend_avatars.dart';
-import 'widgets/kitchen_radar.dart';
+import 'widgets/activity/activity_chart.dart';
+import 'widgets/friend_avatar_row.dart';
+import 'widgets/kitchen_radar_section.dart';
 import 'widgets/profile_header.dart';
-import 'widgets/profile_stats.dart';
+import 'widgets/stats_bar.dart';
 
 /// Aba Perfil — painel da cozinha do usuário. Usada por: router (/profile).
 class ProfileScreen extends ConsumerWidget {
@@ -72,17 +72,17 @@ class ProfileScreen extends ConsumerWidget {
             children: [
               ProfileHeader(profile: p),
               const SizedBox(height: AppSpacing.xxl),
-              const ProfileStats(),
+              const StatsBar(),
               const SectionHeader(label: 'Seu semestre na cozinha'),
-              const ActivityGraph(),
+              const ActivityChart(),
               const SectionHeader(label: 'No radar'),
-              const KitchenRadar(),
+              const KitchenRadarSection(),
               SectionHeader(
                 label: 'Amigos',
                 action: 'ver todos',
                 onAction: () => AppLog.i('profile', 'ver todos os amigos'),
               ),
-              const FriendAvatars(),
+              const FriendAvatarRow(),
             ],
           ),
         ),

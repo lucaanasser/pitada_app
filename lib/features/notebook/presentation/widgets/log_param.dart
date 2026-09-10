@@ -5,6 +5,7 @@
 // USA:       core/widgets (HairlineRow), theme/*, ProcessLog (LogEvent).
 // USADO POR: ProcessLogScreen (Parâmetros e Linha do tempo).
 // SPEC:      specs/features/notebook.yaml (ProcessLogScreen "Parâmetros"/"Linha do tempo")
+// SUFIXO:    isento — arquivo de peças (LogParamCell + LogStepRow), sem papel único (architecture.md, válvula de escape)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 

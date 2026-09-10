@@ -2,8 +2,8 @@
 // lib/features/recipes/presentation/screens/technique_detail_screen.dart
 // O QUÊ:     Página de uma técnica no desenho do framework: rótulo TÉCNICA +
 //            nome + noção (editável; convite quando vazia) + receitas onde usei.
-// USA:       technique_providers, recipe_list_providers (maestria),
-//            quick_edit_sheet, RecipeRow, core/widgets, theme.
+// USA:       technique_providers, quick_edit_sheet, RecipeRow, core/widgets,
+//            theme.
 // USADO POR: core/router (/technique/:id) — via grifo no passo.
 // SPEC:      specs/features/recipes.yaml (TechniqueDetailScreen)
 // ─────────────────────────────────────────────────────────────────────────────
@@ -18,7 +18,6 @@ import '../../../../core/theme/spacing.dart';
 import '../../../../core/theme/typography.dart';
 import '../../../../core/widgets/controls/editable.dart';
 import '../../../../core/widgets/layout/section_header.dart';
-import '../../application/recipe_list_providers.dart';
 import '../../application/technique_providers.dart';
 import '../../data/models/recipe/recipe.dart';
 import '../../data/models/technique.dart';
@@ -79,7 +78,6 @@ class TechniqueDetailScreen extends ConsumerWidget {
               for (var i = 0; i < recipes.length; i++)
                 RecipeRow(
                   recipe: recipes[i],
-                  mastery: ref.watch(recipeMasteryProvider(recipes[i].id)),
                   showDivider: i != recipes.length - 1,
                   onTap: () => context.push('/recipe/${recipes[i].id}'),
                 ),

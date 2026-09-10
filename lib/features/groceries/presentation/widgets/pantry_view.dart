@@ -1,7 +1,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/groceries/presentation/widgets/pantry_view.dart
 // O QUÊ:     Aba Despensa: legenda, grupos por categoria (estoque + validade/tag) e ação.
-// USA:       providers, category_group, add_pantry_sheet, core/widgets
+// USA:       providers, category_section, add_pantry_sheet, core/widgets
 //            (HairlineRow, ExpiryTag, PitadaButton, EmptyState), utils/format, theme/*.
 // USADO POR: groceries_screen (corpo da aba Despensa).
 // SPEC:      specs/features/groceries.yaml (screens.GroceriesScreen.despensa)
@@ -22,7 +22,7 @@ import '../../../../core/widgets/layout/pitada_scaffold.dart';
 import '../../application/providers.dart';
 import '../../data/pantry_item.dart';
 import '../add_pantry_sheet.dart';
-import 'category_group.dart';
+import 'category_section.dart';
 
 /// Corpo da aba Despensa: legenda, itens agrupados com validade e botão de adicionar.
 /// Usada por: groceries_screen (aba 1).
@@ -66,7 +66,7 @@ class PantryView extends ConsumerWidget {
       children: [
         _legend(pit),
         for (var c = 0; c < categories.length; c++)
-          CategoryGroup(
+          CategorySection(
             label: categories[c],
             topGap: c == 0 ? AppSpacing.xl : AppSpacing.xxxl,
             children: [

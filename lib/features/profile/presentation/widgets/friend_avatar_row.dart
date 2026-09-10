@@ -1,10 +1,10 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/profile/presentation/widgets/friend_avatars.dart
+// lib/features/profile/presentation/widgets/friend_avatar_row.dart
 // O QUÊ:     Fileira horizontal de avatares de amigos + botão "Adicionar".
 // USA:       core/theme (AppColors.heroOf/onHero, PitadaColors via context.pit, AppType,
 //            AppSpacing), core/utils/app_log.
 // USADO POR: ProfileScreen (seção "Amigos").
-// SPEC:      specs/features/profile.yaml (components_da_feature.FriendAvatars)
+// SPEC:      specs/features/profile.yaml (components_da_feature.FriendAvatarRow)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 
@@ -16,7 +16,7 @@ import '../../../../core/theme/typography.dart';
 import '../../../../core/utils/app_log.dart';
 
 /// Amigos de exemplo (inicial + cor hero). Determinístico, sem random.
-/// Usada por: [FriendAvatars].
+/// Usada por: [FriendAvatarRow].
 const _kFriends = <_Friend>[
   _Friend('Marina', 'M', 'terra'),
   _Friend('Rafael', 'R', 'clay'),
@@ -27,8 +27,8 @@ const _kFriends = <_Friend>[
 
 /// Fileira de avatares de amigos, terminando no botão "Adicionar".
 /// Usada por: ProfileScreen.
-class FriendAvatars extends StatelessWidget {
-  const FriendAvatars({super.key});
+class FriendAvatarRow extends StatelessWidget {
+  const FriendAvatarRow({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +51,7 @@ class FriendAvatars extends StatelessWidget {
 }
 
 /// Avatar de um amigo: círculo com inicial + primeiro nome abaixo.
-/// Usada por: [FriendAvatars].
+/// Usada por: [FriendAvatarRow].
 class _FriendAvatar extends StatelessWidget {
   const _FriendAvatar({required this.friend});
 
@@ -85,7 +85,7 @@ class _FriendAvatar extends StatelessWidget {
   }
 }
 
-/// Botão redondo tracejado "Adicionar" no fim da fileira. Usada por: [FriendAvatars].
+/// Botão redondo tracejado "Adicionar" no fim da fileira. Usada por: [FriendAvatarRow].
 class _AddFriend extends StatelessWidget {
   const _AddFriend();
 
@@ -119,7 +119,7 @@ class _AddFriend extends StatelessWidget {
   }
 }
 
-/// Um amigo do perfil (dados de exemplo). Usada por: [FriendAvatars].
+/// Um amigo do perfil (dados de exemplo). Usada por: [FriendAvatarRow].
 class _Friend {
   final String name;
   final String initial;

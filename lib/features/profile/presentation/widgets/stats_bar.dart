@@ -1,11 +1,11 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/profile/presentation/widgets/profile_stats.dart
+// lib/features/profile/presentation/widgets/stats_bar.dart
 // O QUÊ:     Fileira FLAT (sem caixa) dos números reais do perfil: numeral
 //            Space Grotesk + rótulo, tocáveis — cada um navega para a origem.
 // USA:       core/theme (context.pit, AppType, AppSpacing), core/utils/app_log,
 //            overview_providers (profileCountsProvider), go_router.
 // USADO POR: ProfileScreen (logo abaixo da identidade).
-// SPEC:      specs/features/profile.yaml (components_da_feature.ProfileStats)
+// SPEC:      specs/features/profile.yaml (components_da_feature.StatsBar)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -19,8 +19,8 @@ import '../../application/overview_providers.dart';
 
 /// Números reais em linha, sem caixa — o peso fica no numeral, não na moldura.
 /// Usada por: ProfileScreen.
-class ProfileStats extends ConsumerWidget {
-  const ProfileStats({super.key});
+class StatsBar extends ConsumerWidget {
+  const StatsBar({super.key});
 
   /// Lê os contadores agregados e monta os 3 números. Usada por: framework.
   @override
@@ -55,7 +55,7 @@ class ProfileStats extends ConsumerWidget {
   }
 }
 
-/// Um número flat: numeral grande + rótulo caption, tocável. Usada por: [ProfileStats].
+/// Um número flat: numeral grande + rótulo caption, tocável. Usada por: [StatsBar].
 class _Stat extends StatelessWidget {
   const _Stat({required this.value, required this.label, required this.onTap});
 

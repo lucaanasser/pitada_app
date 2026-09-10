@@ -7,6 +7,7 @@
 //            core/widgets (hairline_row, pitada_toggle).
 // USADO POR: SettingsScreen (seções Cozinha / Notificações / Sobre).
 // SPEC:      specs/features/profile.yaml (components_da_feature.SettingsRows)
+// SUFIXO:    isento — coleção de linhas de settings (SettingsSwitchRow/StepperRow/LinkRow), sem papel único (architecture.md, válvula de escape)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 

@@ -90,7 +90,7 @@ String formatMonthAbbr(DateTime date) => _kMonthsAbbr[date.month - 1];
 String formatWeekdayAbbr(DateTime date) => kWeekdaysAbbr[date.weekday - 1];
 
 /// Rótulo completo de um dia. Ex.: 2026-07-14 -> "ter · 14 jul".
-/// Usada por: ActivityGraph (readout do dia selecionado).
+/// Usada por: ActivityChart (readout do dia selecionado).
 String formatDayLabel(DateTime date) =>
     '${formatWeekdayAbbr(date)} · ${date.day} ${formatMonthAbbr(date)}';
 

@@ -2,8 +2,8 @@
 // lib/features/recipes/presentation/screens/framework/framework_detail_screen.dart
 // O QUÊ:     Detalhe de um framework: nome, esqueleto (planta baixa), técnicas
 //            como atributo sóbrio e as receitas instância (ponte de volta).
-// USA:       framework_providers, recipe_list_providers (maestria/memória),
-//            recipe_providers, framework_skeleton_view, RecipeRow, theme/*.
+// USA:       framework_providers, recipe_providers, framework_skeleton_view,
+//            RecipeRow, theme/*.
 // USADO POR: core/router (/framework/:id).
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
@@ -17,7 +17,6 @@ import '../../../../../core/theme/spacing.dart';
 import '../../../../../core/theme/typography.dart';
 import '../../../../../core/widgets/layout/section_header.dart';
 import '../../../application/framework_providers.dart';
-import '../../../application/recipe_list_providers.dart';
 import '../../../application/recipe_providers.dart';
 import '../../../data/models/recipe/recipe.dart';
 import '../../widgets/framework/framework_skeleton_view.dart';
@@ -85,7 +84,6 @@ class FrameworkDetailScreen extends ConsumerWidget {
               for (var i = 0; i < instances.length; i++)
                 RecipeRow(
                   recipe: instances[i],
-                  mastery: ref.watch(recipeMasteryProvider(instances[i].id)),
                   showDivider: i != instances.length - 1,
                   onTap: () => context.push('/recipe/${instances[i].id}'),
                 ),

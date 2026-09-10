@@ -64,7 +64,7 @@ screens:
         - Masthead
         - "título fixo 'Plano' (AppType.screenTitle) + PitadaIconButton '+' (filled,
            iconButtonSm) à direita -> showPlanAddSheet (mesmo padrão de Receitas/Caderno)"
-        - "DaySummary (SEM caixa/borda, no cabeçalho fixo, acima das abas): total grande
+        - "DaySummaryView (SEM caixa/borda, no cabeçalho fixo, acima das abas): total grande
            '1.718 / 1.900 kcal' (sem 'hoje' — é lista, não log), status 'Dentro da meta · sobram
            182 kcal', FuelBar(progress=total/meta, over=total>meta), macros Prot 128g / Carb 142g / Gord 47g.
            SEM título de plano — começa direto no número."
@@ -83,7 +83,7 @@ screens:
            As opções dentro são blocos flat surf2 (ver specs/components/cards/option_card.yaml)."
         - "PitadaButton(outline) 'Adicionar refeição' -> showMealSheet(novo)"
       widgets_da_feature:   # em presentation/widgets/ (tela > 200 linhas => quebrar)
-        - DaySummary          # total + status + FuelBar + legenda de macros (sem caixa)
+        - DaySummaryView          # total + status + FuelBar + legenda de macros (sem caixa)
         - MealCard            # cabeçalho da refeição + OptionCards + 'Adicionar opção'
         - MealHeaderRow       # nome editável (toca -> showMealSheet) + pega de arrastar + meta em kcal
       navega: RecipeDetailScreen (/recipe/:id)  # ao tocar prato linkado numa OptionCard

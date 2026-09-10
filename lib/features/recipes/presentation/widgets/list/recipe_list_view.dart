@@ -1,28 +1,27 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/recipes/presentation/widgets/list/recipe_list_view.dart
-// O QUÊ:     Renderiza a lista de receitas como filetes, cada item com maestria
-//            ("nunca fiz → fiz N× → domino").
-// USA:       recipe_list_providers (maestria), recipe_row, go_router.
+// O QUÊ:     Renderiza a lista de receitas como filetes, cada item com a
+//            capitular na cor da pasta.
+// USA:       recipe_providers (pastas), recipe_row, go_router.
 // USADO POR: recipes_screen (tab Receitas).
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../application/recipe_list_providers.dart';
 import '../../../application/recipe_providers.dart';
 import '../../../data/models/folder.dart';
 import '../../../data/models/recipe/recipe.dart';
 import 'recipe_row.dart';
 
-/// Lista de receitas em filetes, com maestria por item.
+/// Lista de receitas em filetes, com capitular por item.
 /// Usada por: recipes_screen.
 class RecipeListView extends ConsumerWidget {
   const RecipeListView({super.key, required this.recipes});
 
   final List<Recipe> recipes;
 
-  /// Monta os filetes com maestria. Usada por: framework.
+  /// Monta os filetes com a capitular por item. Usada por: framework.
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final folders = ref.watch(foldersProvider).valueOrNull ?? const <Folder>[];
@@ -31,8 +30,6 @@ class RecipeListView extends ConsumerWidget {
         for (var i = 0; i < recipes.length; i++)
           RecipeRow(
             recipe: recipes[i],
-            mastery: ref.watch(recipeMasteryProvider(recipes[i].id)),
-            cooks: ref.watch(recipeCooksProvider(recipes[i].id)),
             folderHero: _folderHeroOf(recipes[i], folders),
             showDivider: i != recipes.length - 1,
             onTap: () => context.push('/recipe/${recipes[i].id}'),
@@ -41,6 +38,7 @@ class RecipeListView extends ConsumerWidget {
     );
   }
 
+  /// Cor hero da primeira pasta da receita (para a capitular). Usada por: [build].
   String? _folderHeroOf(Recipe recipe, List<Folder> folders) {
     for (final id in recipe.folderIds) {
       for (final f in folders) {

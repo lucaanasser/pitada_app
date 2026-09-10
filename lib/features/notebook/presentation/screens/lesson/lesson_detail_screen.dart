@@ -3,7 +3,7 @@
 // O QUÊ:     Detalhe de uma ficha — renderiza por kind (técnica/framework/guia).
 //            Cabeçalho com voltar e botão editar (lápis).
 // USA:       core/widgets (PitadaIconButton), theme/*, providers,
-//            lessonBody (corpo por kind), go_router (voltar/editar).
+//            lessonBodyView (corpo por kind), go_router (voltar/editar).
 // USADO POR: core/router/routes.dart (/lesson/:id).
 // SPEC:      specs/features/notebook.yaml (screens.LessonDetailScreen)
 // ─────────────────────────────────────────────────────────────────────────────
@@ -19,7 +19,7 @@ import '../../../../../core/theme/typography.dart';
 import '../../../../../core/widgets/controls/pitada_button.dart';
 import '../../../application/providers.dart';
 import '../../../data/models/knowledge/lesson.dart';
-import '../../widgets/lesson/lesson_body.dart';
+import '../../widgets/lesson/lesson_body_view.dart';
 
 /// Tela de detalhe de uma ficha. Usada por: router (/lesson/:id).
 class LessonDetailScreen extends ConsumerWidget {
@@ -69,7 +69,7 @@ class LessonDetailScreen extends ConsumerWidget {
               AppSpacing.gutter,
               AppSpacing.xxxl,
             ),
-            children: lessonBody(context.pit, lesson),
+            children: lessonBodyView(context.pit, lesson),
           ),
         ),
       ],

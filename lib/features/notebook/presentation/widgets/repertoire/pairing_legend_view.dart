@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/notebook/presentation/widgets/repertoire/pairing_legend.dart
+// lib/features/notebook/presentation/widgets/repertoire/pairing_legend_view.dart
 // O QUÊ:     Legenda de níveis de harmonização (adoro/testei/clássico) e o mapa
 //            de cor por nível usado pelos chips do detalhe.
 // USA:       theme/colors, theme/spacing, theme/typography, PairingRating.
@@ -24,8 +24,8 @@ Color pairingColor(PitadaColors pit, PairingRating rating) => switch (rating) {
 
 /// Legenda horizontal (ponto colorido + rótulo) dos três níveis de harmonização.
 /// Usada por: PairingDetailScreen (abaixo do título).
-class PairingLegend extends StatelessWidget {
-  const PairingLegend({super.key});
+class PairingLegendView extends StatelessWidget {
+  const PairingLegendView({super.key});
 
   /// Renderiza os três itens da legenda lado a lado. Usada por: PairingDetailScreen.
   @override
@@ -42,7 +42,7 @@ class PairingLegend extends StatelessWidget {
   }
 }
 
-/// Um item da legenda: ponto na cor do nível + rótulo. Usada por: [PairingLegend].
+/// Um item da legenda: ponto na cor do nível + rótulo. Usada por: [PairingLegendView].
 class _LegendItem extends StatelessWidget {
   const _LegendItem({required this.rating, required this.label});
 

@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import '../../../../../core/theme/spacing.dart';
 import '../../../data/models/day_log.dart';
 import '../../../data/models/meal.dart';
-import 'day_log_extras.dart';
+import 'day_log_extras_section.dart';
 import 'day_log_meal_tile.dart';
 
 /// Refeições + extras do dia em edição. [selected] e [skipped] refletem o

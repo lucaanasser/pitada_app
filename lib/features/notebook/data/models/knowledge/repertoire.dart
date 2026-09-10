@@ -3,7 +3,7 @@
 // O QUÊ:     Repertório para cozinhar sem receita: rácios, substituições e harmonizações.
 // USA:       nada (modelos imutáveis puros).
 // USADO POR: seed, repository, providers, RepertoireScreen, PairingDetailScreen,
-//            PairingLegend.
+//            PairingLegendView.
 // SPEC:      specs/features/notebook.yaml (data.models.Ratio/Substitution/Pairing)
 // ─────────────────────────────────────────────────────────────────────────────
 

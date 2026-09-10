@@ -2,7 +2,7 @@
 // lib/features/plans/application/plan_providers.dart
 // O QUÊ:     Providers Riverpod de Planos (plano ativo, escolha de opção, totais do dia).
 // USA:       plan_repository, plan.dart, meal.dart, meal_option.dart, riverpod, app_log.
-// USADO POR: plans_screen, DaySummary, MealCard (camada de apresentação).
+// USADO POR: plans_screen, DaySummaryView, MealCard (camada de apresentação).
 // SPEC:      specs/features/plans/plans.yaml (application.providers)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,7 +14,7 @@ import '../data/models/plan.dart';
 import '../data/repositories/plan_repository.dart';
 
 /// Totais nutricionais agregados de um dia (opções escolhidas). Imutável.
-/// Usada por: dayTotalsProvider, DaySummary (legenda de macros).
+/// Usada por: dayTotalsProvider, DaySummaryView (legenda de macros).
 class DayTotals {
   final int kcal;
   final num protein;
@@ -97,7 +97,7 @@ final planControllerProvider =
 });
 
 /// Totais nutricionais do dia (kcal + macros das opções escolhidas).
-/// Usada por: DaySummary (total grande, FuelBar, legenda de macros).
+/// Usada por: DaySummaryView (total grande, FuelBar, legenda de macros).
 final dayTotalsProvider = Provider<DayTotals>((ref) {
   final plan = ref.watch(planControllerProvider);
   var kcal = 0;

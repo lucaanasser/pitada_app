@@ -184,13 +184,22 @@ screens:
                RecipeFilterPanel (colapsado), "PitadaTabs([Receitas, Frameworks])",
                lista de RecipeRow | FrameworksTabView]
       collection_chart: >
-        A rosca da coleção — o único gráfico-herói da aba. Anel (CustomPainter,
-        traço accent sobre trilho pit.line2, flat, sem sombra) + "N de M" em
-        Space Grotesk + "receitas cozinhadas" + linha-convite amigável para as
-        dormentes ("K esperando estreia" em pit.muted — convite, nunca dívida:
-        sem vermelho, sem "faltam"). Espelho anti-acúmulo: a parte cheia só
-        sobe, o teto é o que a própria pessoa salva. HOJE só frontend com
-        dados mockados; TODO(pitada) liga ao diário real.
+        O jarro da coleção — o único gráfico-herói da aba. Jarra medidora
+        AUTORAL desenhada em CustomPainter (jug_chart.dart) na MESMA linguagem
+        das pastas (folder_painter): massas chapadas SEM contorno, separação só
+        por cor, cantos generosos. Silhueta alta e afunilada com bico curvo,
+        alça como anel preenchido (even-odd), vidro em pit.line2 (a família
+        cinza dos ícones Phosphor), LÍQUIDO accent com onda suave recortado
+        pela silhueta na fração cozinhada, e 3 marcações como barrinhas
+        arredondadas na cor do fundo (o mesmo gesto das linhas dos papéis das
+        pastas). Flat, sem sombra, tema-ciente por tokens (nada de SVG tingido —
+        3 cores por tema não cabem num mono srcIn). "N de M" em Space Grotesk +
+        "receitas cozinhadas" ao lado (o miolo do jarro é das marcações, não dos
+        números) + linha-convite amigável para as dormentes ("K esperando
+        estreia" em pit.muted — convite, nunca dívida: sem vermelho, sem
+        "faltam"). Espelho anti-acúmulo: o líquido só sobe, o teto é o que a
+        própria pessoa salva. HOJE só frontend com dados mockados; TODO(pitada)
+        liga ao diário real.
       # "Receitas Salvas" removida: manuais + importadas convivem em "Receitas".
       busca_e_filtros: >
         RecipeSearchField é lupa + campo sobre filete (sem caixa), e carrega no FIM
@@ -223,14 +232,22 @@ screens:
         usuário. A BANCADA (fila "quero cozinhar em breve") tem desenho em
         specs/features/bancada.yaml; entra quando a Bancada for implementada.
       recipe_row: >
-        Linha da lista densa SEM âncora visual — a miniatura (RecipeThumb) saiu
-        de propósito: o app não é catálogo, e o bloco de "foto" premiava salvar
-        em vez de cozinhar (ver .claude/tese.md). Tipografia pura: título em
-        titleSm + meta·maestria em caption muted + seta. O único gráfico da aba
-        é a rosca (collection_chart) lá em cima.
+        Linha da lista densa. A miniatura (RecipeThumb) saiu de propósito — o app
+        não é catálogo, e o bloco de "foto" premiava salvar em vez de cozinhar
+        (ver .claude/tese.md). A âncora à esquerda é uma CAPITULAR (InitialStamp):
+        a inicial do título em Space Grotesk pesada (AppType.numeralLg), SEM
+        caixa — linguagem de livro, não de agenda de contatos. Slot de largura
+        fixa para alinhar os títulos; cor = AppColors.heroOf da primeira pasta
+        (pit.muted quando a receita não está em pasta). A capitular tem UMA
+        função só — ancorar a leitura da lista; a variedade vem de graça das
+        iniciais, então não vira papel de parede. Maestria NÃO mora aqui
+        (o selo porta-utensílios foi abandonado; maestria fica no detalhe até
+        ganhar uma marca própria). Título em titleSm + meta em caption muted +
+        seta. O único gráfico da aba é o jarro (collection_chart) lá em cima.
       framework_row: >
         Linha da tab Frameworks, IRMÃ do RecipeRow — mesmo HairlineRow, mesmo
-        respiro vertical e, como ela, SEM miniatura (tipografia pura). Nome em
+        respiro vertical e a MESMA capitular (InitialStamp de recipe_row):
+        inicial do nome em pit.muted, já que framework não tem pasta. Nome em
         titleSm e UMA linha de lacunas em caption muted ("proteína · aromático
         · líquido"); sem slots, "N passos · N receitas". Sem kicker FRAMEWORK
         (a aba já diz isso) e as pílulas de lacuna (FrameworkSlotPill) ficam SÓ

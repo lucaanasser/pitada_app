@@ -3,7 +3,7 @@
 // O QUÊ:     Providers Riverpod da feature Perfil (identidade e seleção no
 //            gráfico). A atividade em si deriva do fio em overview_providers.
 // USA:       profile_repository, profile.dart, activity_day.dart, riverpod.
-// USADO POR: profile_screen, ProfileHeader, ActivityGraph/ActivityGrid.
+// USADO POR: profile_screen, ProfileHeader, ActivityChart/ActivityGrid.
 // SPEC:      specs/features/profile.yaml (application.providers)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -23,5 +23,5 @@ final profileProvider = FutureProvider<Profile>((ref) {
 
 /// Dia tocado no gráfico de atividade (null = nenhum). O detalhe abaixo da
 /// grade mostra os registros deste dia. Usada por: ActivityGrid (escreve),
-/// ActivityGraph (lê).
+/// ActivityChart (lê).
 final selectedActivityDayProvider = StateProvider<ActivityDay?>((ref) => null);

@@ -4,6 +4,7 @@
 // USA:       pantry_item (modelo), material (IconData).
 // USADO POR: add_pantry_sheet (mantém o sheet enxuto, < 200 linhas).
 // SPEC:      specs/features/groceries.yaml (sheets.showAddPantrySheet)
+// SUFIXO:    isento — dado estático de apresentação (PantrySource), não é widget (architecture.md, válvula de escape)
 // ─────────────────────────────────────────────────────────────────────────────
 import '../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';

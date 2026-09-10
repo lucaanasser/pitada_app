@@ -4,7 +4,7 @@
 //            GitHub): data + posição na grade + intensidade + registros do dia.
 // USA:       activity_entry.dart (os registros do dia).
 // USADO POR: activity_builder, activity_stats, profile_providers (seleção) e
-//            os widgets ActivityGraph/ActivityGrid.
+//            os widgets ActivityChart/ActivityGrid.
 // SPEC:      specs/features/profile.yaml (models.ActivityDay)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'activity_entry.dart';
@@ -15,7 +15,7 @@ import 'activity_entry.dart';
 /// GitHub): a intensidade deriva de [intensity] — nº de registros no dia.
 /// Dia real carrega os registros em [entries]; dia de preenchimento histórico
 /// tem intensity > 0 e entries vazio (a UI o rotula "histórico de exemplo").
-/// Usada por: ActivityGrid (pintar/tocar), ActivityGraph (detalhe do dia).
+/// Usada por: ActivityGrid (pintar/tocar), ActivityChart (detalhe do dia).
 class ActivityDay {
   final DateTime date;
   final int weekIndex;

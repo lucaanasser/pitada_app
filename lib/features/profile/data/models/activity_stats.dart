@@ -3,13 +3,13 @@
 // O QUÊ:     Estatísticas derivadas da lista de atividade (dias ativos, melhor
 //            sequência, sequência atual) — função pura, sem estado.
 // USA:       activity_day.dart (modelo).
-// USADO POR: ActivityGraph (linha de stats) e ProfileHeader (tag de sequência).
+// USADO POR: ActivityChart (linha de stats) e ProfileHeader (tag de sequência).
 // SPEC:      specs/features/profile.yaml (models.ActivityStats)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'activity_day.dart';
 
 /// Números derivados do gráfico de atividade. Classe pura imutável.
-/// Usada por: ActivityGraph ("X dias ativos · recorde N") e ProfileHeader
+/// Usada por: ActivityChart ("X dias ativos · recorde N") e ProfileHeader
 /// (PitadaTag "currentStreak dias seguidos").
 class ActivityStats {
   final int activeDays;
@@ -27,7 +27,7 @@ class ActivityStats {
 
 /// Calcula dias ativos, melhor sequência e sequência atual a partir das células.
 /// A sequência atual tolera a última célula (hoje) sem registro sem quebrar.
-/// Usada por: ActivityGraph e ProfileHeader.
+/// Usada por: ActivityChart e ProfileHeader.
 ActivityStats computeActivityStats(List<ActivityDay> days) {
   var active = 0;
   var best = 0;

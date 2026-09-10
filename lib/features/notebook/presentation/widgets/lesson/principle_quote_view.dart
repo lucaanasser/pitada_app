@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/notebook/presentation/widgets/lesson/principle_quote.dart
+// lib/features/notebook/presentation/widgets/lesson/principle_quote_view.dart
 // O QUÊ:     Princípio de uma técnica: citação (AppType.quote) com filete accent
 //            à esquerda — o "por que" central da ficha.
 // USA:       theme/* (cores, espaços, AppType.quote).
@@ -14,8 +14,8 @@ import '../../../../../core/theme/spacing.dart';
 import '../../../../../core/theme/typography.dart';
 
 /// Citação de princípio com barra accent à esquerda. Usada por: técnicas (detalhe).
-class PrincipleQuote extends StatelessWidget {
-  const PrincipleQuote({super.key, required this.text});
+class PrincipleQuoteView extends StatelessWidget {
+  const PrincipleQuoteView({super.key, required this.text});
 
   final String text;
 

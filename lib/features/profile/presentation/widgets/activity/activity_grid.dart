@@ -6,7 +6,7 @@
 // USA:       core/theme (AppColors, context.pit, AppSpacing, AppType),
 //            core/utils/format (meses/dias pt-BR), profile_providers (seleção),
 //            ActivityDay (modelo).
-// USADO POR: ActivityGraph (dentro do card do gráfico).
+// USADO POR: ActivityChart (dentro do card do gráfico).
 // SPEC:      specs/features/profile.yaml (components_da_feature.ActivityGrid)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
@@ -28,12 +28,12 @@ const double _kCol = _kCell + _kGap;
 /// Cor de uma célula ativa pela intensidade 1..4 — rampa de COR ÚNICA estilo
 /// GitHub: sempre accent2, só o alpha varia (0.28..0.94). Um dia pode misturar
 /// receitas+caderno+cozinha, então categoria não escolhe cor.
-/// Usada por: células da grade e rampa "menos → mais" do ActivityGraph.
+/// Usada por: células da grade e rampa "menos → mais" do ActivityChart.
 Color activityColor(int intensity) => AppColors.accent2
     .withValues(alpha: 0.28 + (intensity.clamp(1, 4) - 1) * 0.22);
 
 /// Grade 22 semanas x 7 dias com meses e dias reais. Tocar num dia grava a
-/// seleção em selectedActivityDayProvider. Usada por: ActivityGraph.
+/// seleção em selectedActivityDayProvider. Usada por: ActivityChart.
 class ActivityGrid extends ConsumerWidget {
   const ActivityGrid({super.key, required this.days});
 

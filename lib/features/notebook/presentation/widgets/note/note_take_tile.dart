@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/features/notebook/presentation/widgets/note/note_take.dart
+// lib/features/notebook/presentation/widgets/note/note_take_tile.dart
 // O QUÊ:     Item numerado de "O que fica" (numeral em serifa + texto do aprendizado).
 // USA:       theme/* (AppType.numeralSm, AppSpacing). Sem dependências externas.
 // USADO POR: NoteDetailScreen (lista de takeaways).
@@ -14,8 +14,8 @@ import '../../../../../core/theme/typography.dart';
 
 /// Um aprendizado numerado: [number] em serifa (accent) + [text] em corpo.
 /// Usada por: NoteDetailScreen para renderizar cada takeaway.
-class NoteTake extends StatelessWidget {
-  const NoteTake({
+class NoteTakeTile extends StatelessWidget {
+  const NoteTakeTile({
     super.key,
     required this.number,
     required this.text,

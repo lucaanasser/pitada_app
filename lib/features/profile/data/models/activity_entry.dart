@@ -4,13 +4,13 @@
 //            (o que responde "quais registros fiz naquele dia").
 // USA:       nada (classe pura imutável, sem dependências).
 // USADO POR: activity_day (lista do dia), activity_builder, overview_providers
-//            (conversão fio -> registro) e ActivityGraph (detalhe do dia).
+//            (conversão fio -> registro) e ActivityChart (detalhe do dia).
 // SPEC:      specs/features/profile.yaml (models.ActivityEntry)
 // ─────────────────────────────────────────────────────────────────────────────
 
 /// Um registro de um dia: tipo legível, título e a rota do detalhe.
 /// Vem do fio do Caderno (diário/nota/versão/log) via overview_providers.
-/// Usada por: ActivityGraph (lista do dia selecionado, toque navega).
+/// Usada por: ActivityChart (lista do dia selecionado, toque navega).
 class ActivityEntry {
   final String label;
   final String title;
