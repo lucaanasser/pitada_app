@@ -1,10 +1,9 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/groceries/presentation/widgets/cart_header.dart
-// O QUÊ:     Topo fixo do card-pasta: nome do carrinho + ⋯ (menu futuro),
-//            'X de Y itens comprados' com barra de progresso e o toggle verde
-//            'Descontar despensa'. Contagem e barra somem com o carrinho vazio.
-// USA:       providers (carrinho ativo + itens exibidos), FuelBar, PitadaToggle,
-//            theme/*.
+// O QUÊ:     Linha fixa e discreta no topo do card: toggle verde 'Descontar
+//            despensa' + ⋯ (menu futuro). Sem título (o nome já está na aba)
+//            e sem contagem (ela vive no rodapé) — o foco é a lista.
+// USA:       providers (carrinho ativo), PitadaToggle, theme/*.
 // USADO POR: grocery_list_view (dentro do card, acima do miolo rolável).
 // SPEC:      specs/features/groceries.yaml (screens.compras: CartHeader)
 // ─────────────────────────────────────────────────────────────────────────────
@@ -16,83 +15,51 @@ import '../../../../core/theme/colors.dart';
 import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/spacing.dart';
 import '../../../../core/theme/typography.dart';
-import '../../../../core/widgets/cards/fuel_bar.dart';
 import '../../../../core/widgets/controls/pitada_toggle.dart';
 import '../../application/providers.dart';
 
-/// Cabeçalho fixo do carrinho: título, progresso da compra e toggle da despensa.
+/// Linha compacta do carrinho: toggle da despensa à esquerda, ⋯ à direita.
 /// Usada por: grocery_list_view.
 class CartHeader extends ConsumerWidget {
   const CartHeader({super.key});
 
-  /// Monta título + ⋯, contagem/barra (se há itens) e o toggle. Usada por:
-  /// grocery_list_view.
+  /// Monta o toggle com rótulo sóbrio e o ⋯ sem ação (menu fica p/ depois).
+  /// Usada por: grocery_list_view.
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final pit = context.pit;
     final list = ref.watch(activeListProvider);
-    final items = ref.watch(activeListItemsProvider);
-    final bought = items.where((i) => i.checked).length;
-    final total = items.length;
+    void flip() =>
+        ref.read(groceryListsProvider.notifier).togglePantry(list.id);
     return Padding(
       padding: const EdgeInsets.fromLTRB(
         AppSpacing.xl,
+        AppSpacing.lg,
         AppSpacing.xl,
-        AppSpacing.xl,
-        AppSpacing.sm,
+        AppSpacing.xs,
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Row(
         children: [
-          Row(
-            children: [
-              Expanded(
-                child: Text(
-                  list.name,
-                  style: AppType.on(AppType.title, pit.text),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              const SizedBox(width: AppSpacing.md),
-              Icon(AppIcons.more, size: 22, color: pit.text2),
-            ],
-          ),
-          if (total > 0) ...[
-            const SizedBox(height: AppSpacing.sm),
-            Text(
-              '$bought de $total ${total == 1 ? 'item comprado' : 'itens comprados'}',
-              style: AppType.on(AppType.bodySm, pit.text2),
-            ),
-            const SizedBox(height: AppSpacing.md),
-            FuelBar(
-              progress: bought / total,
-              color: AppColors.accent,
-              height: AppSpacing.sm,
-            ),
-          ],
-          const SizedBox(height: AppSpacing.lg),
           GestureDetector(
-            onTap: () =>
-                ref.read(groceryListsProvider.notifier).togglePantry(list.id),
+            onTap: flip,
             behavior: HitTestBehavior.opaque,
             child: Row(
               children: [
                 PitadaToggle(
                   value: list.usePantry,
                   activeColor: AppColors.sage,
-                  onChanged: (_) => ref
-                      .read(groceryListsProvider.notifier)
-                      .togglePantry(list.id),
+                  onChanged: (_) => flip(),
                 ),
                 const SizedBox(width: AppSpacing.md),
                 Text(
                   'Descontar despensa',
-                  style: AppType.on(AppType.body, pit.text),
+                  style: AppType.on(AppType.bodySm, pit.text2),
                 ),
               ],
             ),
           ),
+          const Spacer(),
+          Icon(AppIcons.more, size: 22, color: pit.text2),
         ],
       ),
     );

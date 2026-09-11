@@ -2,7 +2,8 @@
 // lib/core/widgets/cards/fuel_bar.dart
 // O QUÊ:     Barra de progresso fina — % da meta (Plano) ou da compra (Ingredientes).
 // USA:       theme/colors, theme/spacing.
-// USADO POR: plans_screen (resumo do dia) e cart_header (progresso da compra).
+// USADO POR: plans_screen (resumo do dia) e grocery_list_view (rodapé do card
+//            de compras).
 // SPEC:      specs/components/cards/fuel_bar.yaml
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
@@ -12,7 +13,8 @@ import '../../theme/spacing.dart';
 
 /// Barra de combustível: preenche [progress] (0..1) na cor [color] (padrão
 /// sage); [over] pinta de terracota e vence o [color]. [height] engrossa o
-/// trilho (8 no card de compras). Usada por: plans_screen, cart_header.
+/// trilho quando a barra precisa de mais presença.
+/// Usada por: plans_screen, grocery_list_view.
 class FuelBar extends StatelessWidget {
   const FuelBar({
     super.key,

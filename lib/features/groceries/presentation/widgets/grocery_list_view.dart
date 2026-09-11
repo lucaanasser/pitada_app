@@ -1,11 +1,13 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/groceries/presentation/widgets/grocery_list_view.dart
 // O QUÊ:     Aba Compras: 'Meus carrinhos' + abas-pasta (CartTabBar) e o
-//            card-pasta do carrinho ativo — CartHeader fixo, miolo ROLÁVEL
-//            (categorias em destaque + GroceryRow + 'Adicionar ingrediente') e
-//            rodapé fixo ('N itens restantes' + 'Concluir compra').
+//            card-pasta do carrinho ativo — cabeçalho discreto (toggle + ⋯),
+//            miolo ROLÁVEL (categorias em destaque + GroceryRow + 'Adicionar
+//            ingrediente') e rodapé fixo sóbrio (FuelBar + restantes + botão
+//            compacto). O foco é a lista.
 // USA:       providers, cart_tab_bar, cart_header, grocery_row, add_item_sheet,
-//            core/widgets (HairlineRow, PitadaButton, EmptyState), theme/*.
+//            core/widgets (HairlineRow, PitadaButton, FuelBar, EmptyState),
+//            theme/*.
 // USADO POR: groceries_screen (corpo da aba Compras).
 // SPEC:      specs/features/groceries.yaml (screens.GroceriesScreen.compras)
 // ─────────────────────────────────────────────────────────────────────────────
@@ -17,10 +19,12 @@ import '../../../../core/theme/pitada_colors.dart';
 import '../../../../core/theme/colors.dart';
 import '../../../../core/theme/spacing.dart';
 import '../../../../core/theme/typography.dart';
+import '../../../../core/widgets/cards/fuel_bar.dart';
 import '../../../../core/widgets/cards/hairline_row.dart';
 import '../../../../core/widgets/controls/pitada_button.dart';
 import '../../../../core/widgets/layout/empty_state.dart';
 import '../../application/providers.dart';
+import '../../data/grocery_item.dart';
 import '../../data/grocery_list.dart';
 import '../add_item_sheet.dart';
 import 'cart_header.dart';
@@ -37,9 +41,6 @@ class GroceryListView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final pit = context.pit;
-    final lists = ref.watch(groceryListsProvider);
-    final activeId = ref.watch(activeListIdProvider);
-    final activeIsFirst = lists.indexWhere((l) => l.id == activeId) <= 0;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -52,23 +53,16 @@ class GroceryListView extends ConsumerWidget {
         ),
         const SizedBox(height: AppSpacing.md),
         const CartTabBar(),
-        Expanded(child: _card(context, ref, pit, activeIsFirst)),
+        Expanded(child: _card(context, ref, pit)),
       ],
     );
   }
 
-  /// O card-pasta: emenda na aba ativa (canto reto quando ela é a primeira),
-  /// cabeçalho e rodapé fixos, miolo rolável. Usada por: [build].
-  Widget _card(
-    BuildContext context,
-    WidgetRef ref,
-    PitadaColors pit,
-    bool activeIsFirst,
-  ) {
+  /// O card-pasta: topo reto (as abas são o topo), cabeçalho e rodapé fixos,
+  /// miolo rolável. Usada por: [build].
+  Widget _card(BuildContext context, WidgetRef ref, PitadaColors pit) {
     final list = ref.watch(activeListProvider);
     final shown = ref.watch(activeListItemsProvider);
-    final remaining = shown.where((i) => !i.checked).length;
-    const radius = Radius.circular(AppSpacing.radiusCard);
     return Container(
       margin: EdgeInsets.fromLTRB(
         AppSpacing.gutter,
@@ -78,11 +72,8 @@ class GroceryListView extends ConsumerWidget {
       ),
       decoration: BoxDecoration(
         color: pit.surf,
-        borderRadius: BorderRadius.only(
-          topLeft: activeIsFirst ? Radius.zero : radius,
-          topRight: radius,
-          bottomLeft: radius,
-          bottomRight: radius,
+        borderRadius: const BorderRadius.vertical(
+          bottom: Radius.circular(AppSpacing.radiusCard),
         ),
       ),
       child: Column(
@@ -100,7 +91,7 @@ class GroceryListView extends ConsumerWidget {
                   )
                 : _body(context, ref, pit),
           ),
-          if (shown.isNotEmpty) _footer(context, ref, pit, list, remaining),
+          if (shown.isNotEmpty) _footer(context, ref, pit, list, shown),
         ],
       ),
     );
@@ -155,21 +146,23 @@ class GroceryListView extends ConsumerWidget {
     );
   }
 
-  /// Rodapé fixo do card: filete, 'N itens restantes' e 'Concluir compra'.
+  /// Rodapé fixo e sóbrio: barra de progresso da compra e, na mesma linha,
+  /// 'N itens restantes' + botão compacto — a contagem vive só aqui.
   /// Usada por: [_card].
   Widget _footer(
     BuildContext context,
     WidgetRef ref,
     PitadaColors pit,
     GroceryList list,
-    int remaining,
+    List<GroceryItem> shown,
   ) {
+    final remaining = shown.where((i) => !i.checked).length;
     return Container(
       padding: const EdgeInsets.fromLTRB(
         AppSpacing.xl,
         AppSpacing.lg,
         AppSpacing.xl,
-        AppSpacing.xl,
+        AppSpacing.lg,
       ),
       decoration: BoxDecoration(
         border: Border(
@@ -177,25 +170,35 @@ class GroceryListView extends ConsumerWidget {
         ),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(
-            '$remaining ${remaining == 1 ? 'item restante' : 'itens restantes'}',
-            style: AppType.on(AppType.title, pit.text),
+          FuelBar(
+            progress: (shown.length - remaining) / shown.length,
+            color: AppColors.accent,
           ),
-          const SizedBox(height: AppSpacing.lg),
-          PitadaButton(
-            label: 'Concluir compra',
-            onPressed: () {
-              ref.read(groceryListsProvider.notifier).checkAll(list.id);
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Guardado na despensa')),
-              );
-            },
+          const SizedBox(height: AppSpacing.md),
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  '$remaining ${remaining == 1 ? 'item restante' : 'itens restantes'}',
+                  style: AppType.on(AppType.bodySm, pit.text2),
+                ),
+              ),
+              PitadaButton(
+                label: 'Concluir compra',
+                expand: false,
+                onPressed: () {
+                  ref.read(groceryListsProvider.notifier).checkAll(list.id);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Guardado na despensa')),
+                  );
+                },
+              ),
+            ],
           ),
         ],
       ),
     );
   }
-
 }

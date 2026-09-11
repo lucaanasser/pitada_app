@@ -118,20 +118,23 @@ screens:
         file: lib/features/groceries/presentation/widgets/grocery_list_view.dart
         itens:
           - "rótulo 'Meus carrinhos' (bodyLg, pit.text)"
-          - "CartTabBar (widgets/cart_tab_bar.dart): abas-pasta dos carrinhos
-             (trapézio de topo arredondado, CustomPaint) + aba '+' que cai em
-             createAndSelectList. Ativa = mesmo surf do card, texto pit.text,
-             colada no card (sem filete embaixo); inativa = fundo pit.bg com
-             contorno pit.line2 e texto pit.muted"
-          - "card-pasta (Container pit.surf, radiusCard; canto sup. ESQ. reto
-             quando o 1º carrinho está ativo — a aba emenda no corpo): dentro,
-             CartHeader fixo + miolo ROLÁVEL + rodapé fixo. Margem screenH; em
-             baixo, MediaQuery.padding.bottom + sm (respira sobre a dock)"
-          - "CartHeader (widgets/cart_header.dart): nome do carrinho (title) +
-             ícone ⋯ (AppIcons.more, pit.text2 — SEM ação por enquanto, menu de
-             opções fica p/ depois); 'X de Y itens comprados' (bodySm, text2);
-             FuelBar(accent, 8px); linha PitadaToggle(sage) + 'Descontar
-             despensa' (body). Contagem/barra somem com o carrinho vazio."
+          - "CartTabBar (widgets/cart_tab_bar.dart): abas-pasta LARGAS que
+             DIVIDEM a largura do card (Expanded; a '+' é estreita, no fim) —
+             como as abas de uma pasta de arquivo de verdade. Trapézio de topo
+             arredondado; a lateral EXTERNA da primeira e da última é RETA
+             (vira o próprio canto do card), as internas são inclinadas e as
+             bases se encostam (sem vão). Ativa = surf do card, texto button
+             pit.text, emenda sem costura; inativa = pit.bg com contorno
+             pit.line2 e texto muted. '+' cai em createAndSelectList."
+          - "card-pasta (Container pit.surf; topo RETO — as abas SÃO o topo —
+             e base radiusCard): dentro, CartHeader fixo + miolo ROLÁVEL +
+             rodapé fixo. Margem screenH; embaixo, MediaQuery.padding.bottom +
+             sm (respira sobre a dock). SEM título dentro do card: o nome já
+             está evidenciado na aba."
+          - "CartHeader (widgets/cart_header.dart): UMA linha compacta —
+             PitadaToggle(sage) + 'Descontar despensa' (bodySm) + ⋯ à direita
+             (AppIcons.more, pit.text2 — SEM ação por enquanto, menu fica p/
+             depois)."
           - "miolo (ListView): por categoria, título em DESTAQUE (titleSm,
              pit.text — sem versalete) + GroceryRow; fecha com a linha
              '+ Adicionar ingrediente' (accent) -> showAddItemSheet"
@@ -142,9 +145,12 @@ screens:
              (formatHuman/numeral; muted quando comprado)"
           - "EmptyState no miolo quando não há nada a exibir: 'Lista vazia'
              (sem itens) ou 'Nada a comprar' (a despensa cobriu tudo)"
-          - "rodapé FIXO do card (filete pit.line em cima): 'N itens restantes'
-             (title) + PitadaButton('Concluir compra') -> checkAll + SnackBar
-             'Guardado na despensa'"
+          - "rodapé FIXO do card (filete pit.line em cima): FuelBar(accent) e,
+             na MESMA linha, 'N itens restantes' SÓBRIO (bodySm, text2) +
+             PitadaButton compacto (expand: false) 'Concluir compra' ->
+             checkAll + SnackBar 'Guardado na despensa'. A contagem vive SÓ
+             aqui — nada de 'X de Y' repetido no topo. O FOCO da tela é a
+             LISTA: toggle, barra e botão são moldura discreta."
       despensa:              # aba 1
         file: lib/features/groceries/presentation/widgets/pantry_view.dart
         itens:
