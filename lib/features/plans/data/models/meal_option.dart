@@ -2,14 +2,14 @@
 // lib/features/plans/data/models/meal_option.dart
 // O QUÊ:     Modelos de opção de cardápio de uma refeição e seus pratos (itens).
 // USA:       nada (modelos imutáveis puros).
-// USADO POR: meal.dart, plan_seed, plan_repository, plan_providers, OptionCard.
+// USADO POR: meal.dart, plan_seed, plan_repository, plan_providers, MealOptionPanel.
 // SPEC:      specs/features/plans/plans.yaml (data.models: MealOption, MealOptionItem)
 // ─────────────────────────────────────────────────────────────────────────────
 
 /// Um prato dentro de uma opção de refeição.
 /// `recipeId != null` => prato linkado (abrível na tela de detalhe da receita).
 /// Macros (protein/carb/fat) alimentam o agregado do dia; kcal é a base do encaixe.
-/// Usada por: MealOption, plan_seed, OptionCard (mapeado p/ OptionDish).
+/// Usada por: MealOption, plan_seed, MealOptionPanel (lista de pratos).
 class MealOptionItem {
   final String name;
   final int kcal;
@@ -27,15 +27,17 @@ class MealOptionItem {
     this.fat = 0,
   });
 
-  /// true quando o prato aponta para uma receita salva. Usada por: OptionCard.
+  /// true quando o prato aponta para uma receita salva. Usada por: MealOptionPanel.
   bool get linked => recipeId != null;
 }
 
-/// Uma alternativa de cardápio ("Opção N") para uma refeição.
-/// `chosen` marca a opção ativa; `fits`/`fitLabel` descrevem o encaixe na meta.
-/// Usada por: Meal, plan_seed, plan_repository, OptionCard.
+/// Uma alternativa de cardápio para uma refeição, exibida como uma aba.
+/// `name` é o rótulo livre da aba (vazio => a UI cai em "Opção N"); `chosen` marca
+/// a opção ativa (leva o selo "Hoje"); `fits`/`fitLabel` descrevem o encaixe na meta.
+/// Usada por: Meal, plan_seed, plan_repository, MealOptionTabs, MealOptionPanel.
 class MealOption {
   final String id;
+  final String name;
   final bool fits;
   final String fitLabel;
   final bool chosen;
@@ -43,13 +45,14 @@ class MealOption {
 
   const MealOption({
     required this.id,
+    this.name = '',
     required this.fits,
     required this.fitLabel,
     this.chosen = false,
     this.items = const [],
   });
 
-  /// Soma das kcal dos itens da opção. Usada por: total do dia e OptionCard.
+  /// Soma das kcal dos itens da opção. Usada por: total do dia e MealOptionPanel.
   int get totalKcal {
     var sum = 0;
     for (final item in items) {
@@ -58,9 +61,10 @@ class MealOption {
     return sum;
   }
 
-  /// Cópia com campos trocados (imutável). Usada por: PlanController.chooseOption.
-  MealOption copyWith({bool? chosen}) => MealOption(
+  /// Cópia com campos trocados (imutável). Usada por: PlanController (escolher/renomear).
+  MealOption copyWith({String? name, bool? chosen}) => MealOption(
         id: id,
+        name: name ?? this.name,
         fits: fits,
         fitLabel: fitLabel,
         chosen: chosen ?? this.chosen,

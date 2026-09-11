@@ -15,6 +15,9 @@ const kSeedPlan = Plan(
   id: 'cutting',
   name: 'Meu plano',
   dailyKcalGoal: 1900,
+  proteinGoal: 150,
+  carbGoal: 200,
+  fatGoal: 90,
   meals: [
     Meal(
       id: 'cafe',
@@ -23,6 +26,7 @@ const kSeedPlan = Plan(
       options: [
         MealOption(
           id: 'cafe-opt1',
+          name: 'Clássico',
           fits: true,
           fitLabel: 'cabe',
           chosen: true,
@@ -52,6 +56,7 @@ const kSeedPlan = Plan(
         ),
         MealOption(
           id: 'cafe-opt2',
+          name: 'Aveia',
           fits: true,
           fitLabel: 'cabe',
           items: [

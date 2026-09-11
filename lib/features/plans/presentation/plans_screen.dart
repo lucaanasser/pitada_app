@@ -1,9 +1,9 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/plans/presentation/plans_screen.dart
-// O QUÊ:     Aba Plano: cabeçalho compartilhado (marca + título 'Plano' + resumo do
-//            dia em kcal + macros) e, logo abaixo, sub-abas "Cardápio" (refeições) e
+// O QUÊ:     Aba Plano: cabeçalho compartilhado (marca + título 'Plano' + anel de
+//            macros do dia) e, logo abaixo, sub-abas "Cardápio" (refeições) e
 //            "Progresso" (peso + aderência). Título e DaySummaryView são fixos nas duas
-//            sub-abas; o switcher fica logo abaixo dos macros. Alterna por setState.
+//            sub-abas; o switcher fica logo abaixo do anel. Alterna por setState.
 // USA:       core/widgets (Masthead, PitadaTabs, PitadaScaffold), theme/*,
 //            plan_providers (DaySummaryView), MenuView e ProgressView.
 // USADO POR: core/router/router.dart (branch /plans).
@@ -88,7 +88,7 @@ class _PlansScreenState extends ConsumerState<PlansScreen> {
     );
   }
 
-  /// Resumo do dia (kcal grande + status + FuelBar + macros), fixo entre o título
+  /// Resumo do dia (anel de macros concêntrico interativo), fixo entre o título
   /// e as sub-abas (é o 1º conteúdo abaixo do título). Usada por: [build].
   Widget _daySummary() {
     final plan = ref.watch(planControllerProvider);
@@ -100,7 +100,13 @@ class _PlansScreenState extends ConsumerState<PlansScreen> {
         AppSpacing.gutter,
         AppSpacing.xl,
       ),
-      child: DaySummaryView(goalKcal: plan.dailyKcalGoal, totals: totals),
+      child: DaySummaryView(
+        goalKcal: plan.dailyKcalGoal,
+        proteinGoal: plan.proteinGoal,
+        carbGoal: plan.carbGoal,
+        fatGoal: plan.fatGoal,
+        totals: totals,
+      ),
     );
   }
 }

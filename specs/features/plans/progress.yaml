@@ -22,8 +22,8 @@ navegacao:
     exibe seu nome interno (nada de 'Cutting').
   plans_screen_vira: >
     Casca com CABEÇALHO COMPARTILHADO fixo (aparece nas duas sub-abas): Masthead +
-    título 'Plano' (screenTitle) + DaySummaryView (kcal grande + status + FuelBar +
-    macros) + PitadaTabs. O switcher fica abaixo dos macros (respiro xl),
+    título 'Plano' (screenTitle) + DaySummaryView (anel de macros concêntrico
+    interativo) + PitadaTabs. O switcher fica abaixo do anel (respiro xl),
     alinhado à ESQUERDA como nas outras telas. selected=0 ->
     MenuView (só a lista de refeições + 'Adicionar refeição', sem título nem
     DaySummaryView), selected=1 -> ProgressView. Estado da aba em setState local
@@ -245,7 +245,7 @@ sheets:
            sheet (surf2/line2, foco accent; variante numérica)."
 
 components_reutilizados: [Masthead, PitadaTabs, SectionHeader, PitadaButton,
-  PitadaIconButton, FuelBar, HairlineRow, PitadaChip, PitadaTag, PitadaSearchField,
+  PitadaIconButton, HairlineRow, PitadaChip, PitadaTag, PitadaSearchField,
   SheetGrip, EmptyState, PitadaScaffold]
 
 icones:

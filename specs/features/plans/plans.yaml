@@ -13,6 +13,9 @@ data:
           - id: String
           - name: String            # rótulo interno ("Meu plano"); NÃO exibido na tela
           - dailyGoalKcal: int      # 1900
+          - proteinGoal: int        # meta diária de proteína em gramas (150)
+          - carbGoal: int           # meta diária de carboidrato em gramas (200)
+          - fatGoal: int            # meta diária de gordura em gramas (90)
           - meals: List<Meal>
     - Meal:            # uma refeição do dia (Café, Almoço, Jantar, Lanche)
         campos:
@@ -21,8 +24,11 @@ data:
           - goalKcal: int           # meta da refeição (650)
           - chosenIndex: int        # opção escolhida; -1 = nenhuma
           - options: List<MealOption>
-    - MealOption:      # uma alternativa de cardápio p/ a refeição ("Opção N")
+    - MealOption:      # uma alternativa de cardápio p/ a refeição
         campos:
+          - id: String
+          - name: String            # rótulo livre da aba; vazio => cai em "Opção N" na UI
+          - chosen: bool            # a opção do dia (leva o selo "Hoje")
           - items: List<MealOptionItem>
         derivado: "totalKcal = soma dos items.kcal"
     - MealOptionItem:  # um prato dentro da opção
@@ -43,7 +49,10 @@ application:
     - dayTotalKcalProvider (Provider<int>)            # soma das opções escolhidas do dia
     - dayMacrosProvider (Provider<DayMacros>)         # Prot/Carb/Gord agregados (record simples)
   acoes:
-    - "PlanController.chooseOption(mealId, optionIndex): marca a opção escolhida."
+    - "PlanController.chooseOption(mealId, optionIndex): marca a opção escolhida (a
+       aba ativa = a opção escolhida; tocar numa aba escolhe aquela opção)."
+    - "PlanController.renameOption(mealId, optionIndex, name): renomeia a opção
+       (rótulo livre da aba). name vazio => a UI cai em 'Opção N'."
     - "PlanController.reorderMeals(oldIndex, newIndex): move a refeição para a
        posição final newIndex na lista do dia (arrastar-para-reordenar). Índices
        fora do intervalo são ignorados (aviso no log). Ligado ao
@@ -64,10 +73,13 @@ screens:
         - Masthead
         - "título fixo 'Plano' (AppType.screenTitle) + PitadaIconButton '+' (filled,
            iconButtonSm) à direita -> showPlanAddSheet (mesmo padrão de Receitas/Caderno)"
-        - "DaySummaryView (SEM caixa/borda, no cabeçalho fixo, acima das abas): total grande
-           '1.718 / 1.900 kcal' (sem 'hoje' — é lista, não log), status 'Dentro da meta · sobram
-           182 kcal', FuelBar(progress=total/meta, over=total>meta), macros Prot 128g / Carb 142g / Gord 47g.
-           SEM título de plano — começa direto no número."
+        - "DaySummaryView (SEM caixa/borda, no cabeçalho fixo, acima das abas): anel de
+           macros — 4 anéis concêntricos (de fora p/ dentro: Calorias/accent,
+           Proteína/terra, Carbo/ochre, Gordura/teal), cada um preenchido por valor/meta.
+           O anel SELECIONADO acende (cor cheia, traço mais grosso), os demais esmaecem;
+           o centro mostra as informações dele (rótulo + número + '/ meta unidade').
+           Começa em Calorias. SEM legenda verbosa: uma fileira mínima de 4 pontos+rótulo
+           abaixo do anel também serve de alvo de toque (tocar no anel ou no ponto seleciona)."
         - "PitadaTabs ['Cardápio', 'Progresso'] abaixo dos macros, alinhadas à
            ESQUERDA (como nas demais telas) e com respiro xl após os macros"
         - "sub-aba 0 = MenuView; sub-aba 1 = ProgressView (peso + aderência, ver plans_progress.yaml)"
@@ -75,18 +87,30 @@ screens:
         - "lista REORDENÁVEL de MealCard (ReorderableListView shrinkWrap dentro do ListView da tela;
            buildDefaultDragHandles=false, proxyDecorator flat/sem sombra): um por Meal, ESTES sim em
            caixa/borda: cabeçalho editável (nome + lápis + pega de arrastar AppIcons.dragHandle à direita +
-           'meta N kcal'), OptionCard por MealOption, HairlineRow/botão 'Adicionar opção' (abre showAddOptionSheet).
-           Arrastar pela pega reordena via PlanController.reorderMeals."
+           'meta N kcal'), fita de ABAS (uma por MealOption + aba '+') sobre um painel, e não mais
+           OptionCards empilhados. Arrastar pela pega reordena via PlanController.reorderMeals."
         - "VISUAL do MealCard (soft neo-brutalismo, igual ao RecipeCard/NutritionCard):
            fundo pit.surf + borda TINTA (pit.border, AppSpacing.borderStrong) + raio
-           AppSpacing.radiusCard. Nada de filete fino (pit.line) como borda de caixa.
-           As opções dentro são blocos flat surf2 (ver specs/components/cards/option_card.yaml)."
+           AppSpacing.radiusCard. Nada de filete fino (pit.line) como borda de caixa."
+        - "MealOptionTabs (option_tabs.dart): fita de abas estilo pasta. A aba ativa =
+           opção escolhida (chosen), conecta-se ao painel abaixo (mesmo fundo surf2, sem
+           filete embaixo) e leva o selo 'Hoje' (PitadaTag sage). Abas inativas ficam
+           fechadas/muted. Tocar numa aba => chooseOption; segurar/duplo-clique na aba
+           ativa => showOptionNameSheet (renomear). Aba '+' => showAddOptionSheet.
+           Rótulo da aba = option.name ou 'Opção N' se vazio."
+        - "MealOptionPanel (option_panel.dart): painel da opção ativa (surf2, borda line2):
+           lista de pratos (nome + kcal + chevron se linkado -> /recipe/:id) e rodapé
+           (totalKcal grande + fitLabel sage/accent2 + linha de macros P/C/G). SEM botão
+           de registrar consumo. Refeição sem opções => só a ação 'Adicionar opção'."
         - "PitadaButton(outline) 'Adicionar refeição' -> showMealSheet(novo)"
-      widgets_da_feature:   # em presentation/widgets/ (tela > 200 linhas => quebrar)
-        - DaySummaryView          # total + status + FuelBar + legenda de macros (sem caixa)
-        - MealCard            # cabeçalho da refeição + OptionCards + 'Adicionar opção'
+      widgets_da_feature:   # em presentation/widgets/meal/ (tela > 200 linhas => quebrar)
+        - DaySummaryView      # anel de macros interativo (4 anéis + centro + legenda mínima), sem caixa
+        - MacroRingPainter    # CustomPainter dos anéis concêntricos (macro_ring_painter.dart)
+        - MealCard            # cabeçalho da refeição + MealOptionTabs + MealOptionPanel
+        - MealOptionTabs      # fita de abas (pasta) das opções + aba '+'
+        - MealOptionPanel     # painel da opção ativa (pratos + rodapé)
         - MealHeaderRow       # nome editável (toca -> showMealSheet) + pega de arrastar + meta em kcal
-      navega: RecipeDetailScreen (/recipe/:id)  # ao tocar prato linkado numa OptionCard
+      navega: RecipeDetailScreen (/recipe/:id)  # ao tocar prato linkado no painel da opção
 
 sheets:
   - showPlanAddSheet:
@@ -124,9 +148,17 @@ sheets:
            outlined) /HairlineRow com nome, kcal e
            selo de encaixe: 'cabe' (sage) se recipe.kcal<=meta.goalKcal, senão '+N' (accent2)"
         - "tocar => adiciona MealOption com o item da receita e fecha"
+  - showOptionNameSheet:
+      file: lib/features/plans/presentation/sheets/plan/option_name_sheet.dart
+      assinatura: "void showOptionNameSheet(BuildContext context, {required String mealId, required int optionIndex, required String currentName})"
+      proposito: "Renomear a aba de uma opção (rótulo livre)."
+      conteudo:
+        - grip
+        - "título 'Nome da opção' + campo de texto (hint 'Ex.: Clássico')"
+        - "PitadaButton(primary) 'Salvar' -> PlanController.renameOption; vazio volta a 'Opção N'"
 
-components_reutilizados: [Masthead, SectionHeader, HairlineRow, OptionCard,
-  FuelBar, RecipeThumb, PitadaSearchField, PitadaButton, PitadaIconButton, EmptyState]
+components_reutilizados: [Masthead, SectionHeader, HairlineRow, PitadaTag,
+  RecipeThumb, PitadaSearchField, PitadaButton, PitadaIconButton, Editable, EmptyState]
 
 usa_de_outras_features:
   - recipes/application/recipe_providers.dart (recipesProvider)  # lista p/ showAddOptionSheet

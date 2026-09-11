@@ -1,7 +1,8 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/plans/presentation/widgets/meal/meal_card.dart
-// O QUÊ:     Cartão de uma refeição: cabeçalho editável + OptionCards + adicionar opção.
-// USA:       theme/*, core/widgets (OptionCard), data/meal, plan_providers, sheets, go_router.
+// O QUÊ:     Cartão de uma refeição: cabeçalho editável + fita de abas das opções
+//            (MealOptionTabs sobre MealOptionPanel) ou, se vazia, "Adicionar opção".
+// USA:       theme/*, data/meal, plan_providers, sheets, option_tabs, option_panel, go_router.
 // USADO POR: plans_screen (um card por refeição do plano).
 // SPEC:      specs/features/plans/plans.yaml (MealCard, MealHeaderRow)
 // ─────────────────────────────────────────────────────────────────────────────
@@ -15,14 +16,16 @@ import '../../../../../core/theme/pitada_colors.dart';
 import '../../../../../core/theme/spacing.dart';
 import '../../../../../core/theme/typography.dart';
 import '../../../../../core/utils/format.dart';
-import '../../../../../core/widgets/cards/option_card.dart';
 import '../../../application/plan_providers.dart';
 import '../../../data/models/meal.dart';
 import '../../sheets/plan/add_option_sheet.dart';
 import '../../sheets/plan/meal_sheet.dart';
+import '../../sheets/plan/option_name_sheet.dart';
+import 'option_panel.dart';
+import 'option_tabs.dart';
 
-/// Cartão de uma refeição: cabeçalho (nome + meta), opções e "Adicionar opção".
-/// Tocar numa opção a escolhe; prato linkado abre a receita. Usada por: plans_screen.
+/// Cartão de uma refeição: cabeçalho (nome + meta) e as opções como abas de pasta.
+/// A aba ativa é a opção escolhida; tocar noutra a escolhe. Usada por: plans_screen.
 class MealCard extends ConsumerWidget {
   const MealCard({super.key, required this.meal, required this.index});
 
@@ -31,7 +34,7 @@ class MealCard extends ConsumerWidget {
   /// Posição da refeição na lista — usada pela pega de arrastar (reordenar).
   final int index;
 
-  /// Monta o cabeçalho + a lista de OptionCards + a ação de adicionar opção.
+  /// Monta o cabeçalho + as abas/painel das opções (ou o atalho de adicionar).
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final pit = context.pit;
@@ -48,38 +51,43 @@ class MealCard extends ConsumerWidget {
         children: [
           MealHeaderRow(meal: meal, index: index),
           const SizedBox(height: AppSpacing.md),
-          for (var i = 0; i < meal.options.length; i++)
-            _option(context, ref, i),
-          _addOption(context),
+          if (meal.options.isEmpty)
+            _addOption(context)
+          else
+            _folder(context, ref),
         ],
       ),
     );
   }
 
-  /// Renderiza a opção [i] como OptionCard, ligando escolha e pratos linkados.
+  /// Fita de abas + painel da opção ativa (índice = opção escolhida, ou a 1ª).
   /// Usada por: [build].
-  Widget _option(BuildContext context, WidgetRef ref, int i) {
-    final option = meal.options[i];
-    final dishes = [
-      for (final item in option.items)
-        OptionDish(name: item.name, kcal: item.kcal, linked: item.linked),
-    ];
-    return OptionCard(
-      name: 'Opção ${i + 1}',
-      dishes: dishes,
-      chosen: option.chosen,
-      fits: option.fits,
-      fitLabel: option.fitLabel,
-      onChoose: () =>
+  Widget _folder(BuildContext context, WidgetRef ref) {
+    final chosen = meal.options.indexWhere((o) => o.chosen);
+    final active = chosen >= 0 ? chosen : 0;
+    return MealOptionTabs(
+      options: meal.options,
+      active: active,
+      onChoose: (i) =>
           ref.read(planControllerProvider.notifier).chooseOption(meal.id, i),
-      onTapDish: (di) {
-        final id = option.items[di].recipeId;
-        if (id != null) context.push('/recipe/$id');
-      },
+      onRename: (i) => showOptionNameSheet(
+        context,
+        mealId: meal.id,
+        optionIndex: i,
+        currentName: meal.options[i].name,
+      ),
+      onAdd: () => showAddOptionSheet(context, meal: meal),
+      panel: MealOptionPanel(
+        option: meal.options[active],
+        onTapDish: (di) {
+          final id = meal.options[active].items[di].recipeId;
+          if (id != null) context.push('/recipe/$id');
+        },
+      ),
     );
   }
 
-  /// Linha/botão "Adicionar opção" que abre o seletor de receitas. Usada por: [build].
+  /// Atalho "Adicionar opção" para refeições ainda sem opções. Usada por: [build].
   Widget _addOption(BuildContext context) {
     return GestureDetector(
       onTap: () => showAddOptionSheet(context, meal: meal),

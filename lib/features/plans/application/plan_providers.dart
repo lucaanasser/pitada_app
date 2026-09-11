@@ -14,7 +14,7 @@ import '../data/models/plan.dart';
 import '../data/repositories/plan_repository.dart';
 
 /// Totais nutricionais agregados de um dia (opções escolhidas). Imutável.
-/// Usada por: dayTotalsProvider, DaySummaryView (legenda de macros).
+/// Usada por: dayTotalsProvider, DaySummaryView (anéis de macro).
 class DayTotals {
   final int kcal;
   final num protein;
@@ -40,7 +40,7 @@ class PlanController extends StateNotifier<Plan> {
 
   /// Marca `optionIndex` como escolhida na refeição `mealId` e recalcula o estado.
   /// Índice inválido ou refeição inexistente => nenhuma mudança (com aviso no log).
-  /// Usada por: OptionCard.onChoose em MealCard.
+  /// Usada por: MealOptionTabs (tocar numa aba escolhe aquela opção).
   void chooseOption(String mealId, int optionIndex) {
     final meals = [
       for (final meal in state.meals)
@@ -48,6 +48,20 @@ class PlanController extends StateNotifier<Plan> {
     ];
     state = state.copyWith(meals: meals);
     AppLog.i('plans', 'opção escolhida: $mealId #$optionIndex');
+  }
+
+  /// Renomeia a opção `optionIndex` da refeição `mealId` (rótulo livre da aba).
+  /// name em branco volta a opção ao padrão "Opção N" (a UI resolve o vazio).
+  /// Índice/refeição inválidos => nenhuma mudança (aviso no log).
+  /// Usada por: showOptionNameSheet (segurar/duplo-clique na aba ativa).
+  void renameOption(String mealId, int optionIndex, String name) {
+    final trimmed = name.trim();
+    final meals = [
+      for (final meal in state.meals)
+        if (meal.id != mealId) meal else _applyRename(meal, optionIndex, trimmed),
+    ];
+    state = state.copyWith(meals: meals);
+    AppLog.i('plans', 'opção renomeada: $mealId #$optionIndex -> "$trimmed"');
   }
 
   /// Move a refeição de `oldIndex` para a posição final `newIndex` na lista do dia.
@@ -86,6 +100,23 @@ class PlanController extends StateNotifier<Plan> {
     return meal.copyWith(options: options);
   }
 
+  /// Retorna a refeição com o nome da opção `optionIndex` trocado por `name`.
+  /// Fora do intervalo => devolve a refeição intacta. Usada por: renameOption.
+  Meal _applyRename(Meal meal, int optionIndex, String name) {
+    if (optionIndex < 0 || optionIndex >= meal.options.length) {
+      AppLog.w('plans', 'índice de opção inválido em ${meal.id}: $optionIndex');
+      return meal;
+    }
+    final options = <MealOption>[
+      for (var i = 0; i < meal.options.length; i++)
+        if (i == optionIndex)
+          meal.options[i].copyWith(name: name)
+        else
+          meal.options[i],
+    ];
+    return meal.copyWith(options: options);
+  }
+
   /// Total de kcal do dia (soma das opções escolhidas). Usada por: dayTotalsProvider.
   int get dayTotalKcal => state.chosenKcal;
 }
@@ -97,7 +128,7 @@ final planControllerProvider =
 });
 
 /// Totais nutricionais do dia (kcal + macros das opções escolhidas).
-/// Usada por: DaySummaryView (total grande, FuelBar, legenda de macros).
+/// Usada por: DaySummaryView (anéis de macro concêntricos).
 final dayTotalsProvider = Provider<DayTotals>((ref) {
   final plan = ref.watch(planControllerProvider);
   var kcal = 0;
