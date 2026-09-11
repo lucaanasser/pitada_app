@@ -58,7 +58,10 @@ class PlanController extends StateNotifier<Plan> {
     final trimmed = name.trim();
     final meals = [
       for (final meal in state.meals)
-        if (meal.id != mealId) meal else _applyRename(meal, optionIndex, trimmed),
+        if (meal.id != mealId)
+          meal
+        else
+          _applyRename(meal, optionIndex, trimmed),
     ];
     state = state.copyWith(meals: meals);
     AppLog.i('plans', 'opção renomeada: $mealId #$optionIndex -> "$trimmed"');
@@ -84,6 +87,18 @@ class PlanController extends StateNotifier<Plan> {
       'plans',
       'refeição reordenada: ${moved.id} $oldIndex -> $newIndex',
     );
+  }
+
+  /// Troca as metas diárias do plano (kcal + macros em gramas). Valores nulos
+  /// ou <= 0 mantêm a meta atual. Usada por: showGoalSheet ('Editar metas').
+  void updateGoals({int? kcal, int? protein, int? carb, int? fat}) {
+    state = state.copyWith(
+      dailyKcalGoal: (kcal ?? 0) > 0 ? kcal : null,
+      proteinGoal: (protein ?? 0) > 0 ? protein : null,
+      carbGoal: (carb ?? 0) > 0 ? carb : null,
+      fatGoal: (fat ?? 0) > 0 ? fat : null,
+    );
+    AppLog.i('plans', 'metas atualizadas: $kcal kcal P$protein C$carb G$fat');
   }
 
   /// Retorna a refeição com apenas a opção `optionIndex` marcada como escolhida.

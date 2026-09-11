@@ -28,6 +28,13 @@ marca:
   accentLine:  "rgba(194,112,63,0.32)"   # borda suave terracota
   sageSoft:    "rgba(169,178,108,0.13)"  # fundo suave verde
 
+# anéis de macro do Plano (arco cheio sobre trilho neutro; iguais nos 2 temas).
+# Calorias usa accent e Proteína usa sage; carbo/gordura ganham pastel próprio
+# porque os heros escuros (ochre/plum) somem sobre o grafite.
+macro_rings:
+  macroCarb: "#C7B45E"   # amarelo-khaki pastel (Carboidratos)
+  macroFat:  "#C79FB4"   # rosa pastel (Gorduras)
+
 # cores de miniatura editorial (hero das receitas / pontos de macro)
 hero:
   clay:  "#8A5A43"

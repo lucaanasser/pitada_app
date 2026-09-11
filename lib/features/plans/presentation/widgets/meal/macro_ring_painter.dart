@@ -1,8 +1,8 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/plans/presentation/widgets/meal/macro_ring_painter.dart
-// O QUÊ:     Anéis concêntricos de macro (CustomPaint, sem lib externa). Cada anel
-//            é preenchido por valor/meta; o anel selecionado acende (cor cheia,
-//            traço mais grosso) e os demais esmaecem. Flat: sem sombra/gradiente.
+// O QUÊ:     Anéis concêntricos de macro (CustomPaint, sem lib externa). Arco
+//            sempre em cor cheia sobre trilho NEUTRO; o anel selecionado ganha
+//            traço mais grosso e trilho mais visível. Flat: sem sombra/gradiente.
 // USA:       material (Canvas), dart:math (arco).
 // USADO POR: DaySummaryView (resumo do dia como anel de macros).
 // SPEC:      specs/features/plans/plans.yaml (widgets_da_feature: MacroRingPainter)
@@ -11,11 +11,10 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
-/// Dado de um anel: rótulo, valor atual, meta e cor. Imutável.
+/// Dado de um anel: rótulo, valor atual, meta, cor e unidade. Imutável.
 /// Usada por: DaySummaryView (monta a lista) e MacroRingPainter (pinta).
 class MacroRing {
   final String label;
-  final String short;
   final num value;
   final num goal;
   final Color color;
@@ -23,7 +22,6 @@ class MacroRing {
 
   const MacroRing({
     required this.label,
-    required this.short,
     required this.value,
     required this.goal,
     required this.color,
@@ -35,18 +33,27 @@ class MacroRing {
       goal <= 0 ? 0 : (value / goal).clamp(0.0, 1.0).toDouble();
 }
 
-/// Pinta anéis concêntricos (índice 0 = mais externo). O anel [selected] acende
-/// (cor cheia, traço mais grosso); os demais ficam a 38%. Trilho = cor a 14%.
-/// A geometria (traço, raio, faixa) é estática p/ o toque reusar. Usada por: DaySummaryView.
+/// Pinta anéis concêntricos (índice 0 = mais externo) com arco em cor cheia
+/// sobre trilho neutro: [track] no anel [selected] (traço mais grosso), [trackDim]
+/// nos demais (traço mais fino). A geometria (traço, raio, furo) é estática p/
+/// o toque e o centro reusarem. Usada por: DaySummaryView.
 class MacroRingPainter extends CustomPainter {
-  MacroRingPainter({required this.rings, required this.selected});
+  MacroRingPainter({
+    required this.rings,
+    required this.selected,
+    required this.track,
+    required this.trackDim,
+  });
 
   final List<MacroRing> rings;
   final int selected;
+  final Color track;
+  final Color trackDim;
 
-  static const double _strokeF = 0.052;
-  static const double _gapF = 0.028;
-  static const double _selExtra = 4;
+  static const double _strokeF = 0.045;
+  static const double _gapF = 0.026;
+  static const double _selExtra = 3;
+  static const double _dimF = 0.78;
 
   /// Espessura base do traço (px) para um quadrado de lado [side]. Usada por: paint, ringAtOffset.
   static double strokeOf(double side) => side * _strokeF;
@@ -58,6 +65,11 @@ class MacroRingPainter extends CustomPainter {
     final outer = side / 2 - (stroke + _selExtra) / 2;
     return outer - i * (stroke + side * _gapF);
   }
+
+  /// Raio do furo central livre de anéis num quadrado de lado [side] — limite
+  /// do conteúdo do centro (nada pode vazar). Usada por: DaySummaryView.
+  static double holeRadius(double side, int count) =>
+      radiusOf(side, count - 1) - (strokeOf(side) + _selExtra) / 2 - 2;
 
   /// Índice do anel sob o ponto [p] num quadrado de lado [side] (ou null se o
   /// toque cair fora das faixas). Usada por: DaySummaryView (tocar no anel seleciona).
@@ -77,7 +89,8 @@ class MacroRingPainter extends CustomPainter {
     return bestDelta <= tol ? best : null;
   }
 
-  /// Pinta trilho + arco de cada anel, do externo ao interno. Usada por: framework.
+  /// Pinta trilho neutro + arco cheio de cada anel, do externo ao interno.
+  /// Usada por: framework.
   @override
   void paint(Canvas canvas, Size size) {
     final side = size.shortestSide;
@@ -87,14 +100,14 @@ class MacroRingPainter extends CustomPainter {
       final ring = rings[i];
       final sel = i == selected;
       final r = radiusOf(side, i);
-      final w = sel ? stroke + _selExtra : stroke;
+      final w = sel ? stroke + _selExtra : stroke * _dimF;
       canvas.drawCircle(
         center,
         r,
         Paint()
           ..style = PaintingStyle.stroke
           ..strokeWidth = w
-          ..color = ring.color.withValues(alpha: 0.14),
+          ..color = sel ? track : trackDim,
       );
       if (ring.fraction <= 0) continue;
       canvas.drawArc(
@@ -106,12 +119,15 @@ class MacroRingPainter extends CustomPainter {
           ..style = PaintingStyle.stroke
           ..strokeCap = StrokeCap.round
           ..strokeWidth = w
-          ..color = ring.color.withValues(alpha: sel ? 1.0 : 0.38),
+          ..color = ring.color,
       );
     }
   }
 
   @override
   bool shouldRepaint(MacroRingPainter old) =>
-      old.selected != selected || old.rings != rings;
+      old.selected != selected ||
+      old.rings != rings ||
+      old.track != track ||
+      old.trackDim != trackDim;
 }

@@ -51,6 +51,10 @@ class AppColors {
   static const accentLine = Color.fromRGBO(194, 112, 63, 0.32); // borda suave
   static const sageSoft = Color.fromRGBO(169, 178, 108, 0.13); // fundo verde
 
+  static const macroCarb =
+      Color(0xFFC7B45E); // anel de carboidratos (khaki pastel)
+  static const macroFat = Color(0xFFC79FB4); // anel de gorduras (rosa pastel)
+
   static const clay = Color(0xFF8A5A43);
   static const moss = Color(0xFF5E6B45);
   static const ochre = Color(0xFF9A7B3C);

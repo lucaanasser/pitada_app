@@ -40,14 +40,22 @@ class Plan {
     return sum;
   }
 
-  /// Cópia com as refeições trocadas (imutável). Usada por: PlanController.chooseOption.
-  Plan copyWith({List<Meal>? meals}) => Plan(
+  /// Cópia com refeições e/ou metas trocadas (imutável).
+  /// Usada por: PlanController (chooseOption, updateGoals).
+  Plan copyWith({
+    List<Meal>? meals,
+    int? dailyKcalGoal,
+    int? proteinGoal,
+    int? carbGoal,
+    int? fatGoal,
+  }) =>
+      Plan(
         id: id,
         name: name,
-        dailyKcalGoal: dailyKcalGoal,
-        proteinGoal: proteinGoal,
-        carbGoal: carbGoal,
-        fatGoal: fatGoal,
+        dailyKcalGoal: dailyKcalGoal ?? this.dailyKcalGoal,
+        proteinGoal: proteinGoal ?? this.proteinGoal,
+        carbGoal: carbGoal ?? this.carbGoal,
+        fatGoal: fatGoal ?? this.fatGoal,
         meals: meals ?? this.meals,
       );
 }

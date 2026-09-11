@@ -36,8 +36,9 @@ data:
           - name: String
           - kcal: int
           - recipeId: String?       # preenchido => prato linkado (abrível)
+          - portion: String?        # referência humana exibida ("1 porção", "1 xícara")
   repository: PlansRepository        # em memória (seed) hoje; Supabase depois
-  seed: plan_seed.dart               # "Meu plano" 1900; Café/Almoço/Jantar/Lanche (ver PLAN no protótipo)
+  seed: plan_seed.dart               # "Meu plano" 1900; Café da manhã/Almoço/Jantar/Lanche (opções sem nome => 'Opção N', como na foto de referência)
   regras:
     - "Modelos: classes puras imutáveis, const constructor (como Recipe). Sem freezed/json."
     - "MealOptionItem.recipeId != null => item linkado (OptionDish.linked = true)."
@@ -57,11 +58,14 @@ application:
        posição final newIndex na lista do dia (arrastar-para-reordenar). Índices
        fora do intervalo são ignorados (aviso no log). Ligado ao
        ReorderableListView.onReorderItem (já entrega o índice final ajustado)."
+    - "PlanController.updateGoals(kcal, protein, carb, fat): troca as metas diárias
+       do plano (usado pelo sheet 'Editar metas'). Valores <= 0 são ignorados."
   notas:
     - "Sem dias/log: a aba é só a lista do plano (o que se pretende comer), não um diário."
     - "dayTotalKcal soma optionTotal(chosenIndex) de cada Meal com chosenIndex >= 0."
     - "status do plano: 'Dentro da meta · sobram N kcal' se total<=meta; senão 'Acima da meta · N kcal a mais'."
-    - "Números formatados via core/utils/format (formatKcal) e locale pt-BR (1.718)."
+    - "Números formatados via core/utils/format (formatKcal) e locale pt-BR: formatKcal
+       aplica separador de milhar com ponto (1718 -> '1.718')."
 
 screens:
   - PlansScreen:
@@ -71,45 +75,60 @@ screens:
       fundo: pit.tabBg(2)   # pastel da aba — casa com a faixa do shell atrás do dock
       layout:   # de cima pra baixo — CABEÇALHO COMPARTILHADO + sub-abas (ver plans_progress.yaml)
         - Masthead
-        - "título fixo 'Plano' (AppType.screenTitle) + PitadaIconButton '+' (filled,
-           iconButtonSm) à direita -> showPlanAddSheet (mesmo padrão de Receitas/Caderno)"
-        - "DaySummaryView (SEM caixa/borda, no cabeçalho fixo, acima das abas): anel de
-           macros — 4 anéis concêntricos (de fora p/ dentro: Calorias/accent,
-           Proteína/terra, Carbo/ochre, Gordura/teal), cada um preenchido por valor/meta.
-           O anel SELECIONADO acende (cor cheia, traço mais grosso), os demais esmaecem;
-           o centro mostra as informações dele (rótulo + número + '/ meta unidade').
-           Começa em Calorias. SEM legenda verbosa: uma fileira mínima de 4 pontos+rótulo
-           abaixo do anel também serve de alvo de toque (tocar no anel ou no ponto seleciona)."
+        - "título fixo 'Plano' (AppType.screenTitle) + subtítulo 'Hoje, D mmm'
+           (formatTodayLabel, pit.muted) embaixo + PitadaIconButton calendário
+           (AppIcons.calendarPattern, filled, iconButtonSm) à direita -> showPlanAddSheet"
+        - "DaySummaryView (SEM caixa/borda): anel de macros COMPACTO à ESQUERDA
+           (lado máx ~170 — destaque moderado, sem roubar espaço das refeições) +
+           legenda DISCRETA à direita. 4 anéis concêntricos (de fora p/ dentro:
+           Calorias/accent, Proteína/sage, Carboidratos/macroCarb, Gorduras/macroFat),
+           arco SEMPRE em cor cheia sobre trilho NEUTRO (pit.line2 no selecionado,
+           pit.line nos demais — nunca a cor esmaecida). O selecionado engrossa o
+           traço; o centro mostra SÓ o número grande + unidade dele, limitado ao
+           miolo (NUNCA vaza sobre os anéis). Legenda quase invisível: bolinha
+           pequena + rótulo (caption text2) + 'valor / meta' (captionSm muted);
+           toque seleciona (no item ou no próprio anel). Começa em Calorias."
+        - "linha abaixo do anel (mesmo gutter): 'Restam N kcal' (pit.muted) à esquerda
+           e 'Editar metas' (pit.text2) à direita -> showGoalSheet"
         - "PitadaTabs ['Cardápio', 'Progresso'] abaixo dos macros, alinhadas à
            ESQUERDA (como nas demais telas) e com respiro xl após os macros"
         - "sub-aba 0 = MenuView; sub-aba 1 = ProgressView (peso + aderência, ver plans_progress.yaml)"
       menu_view:   # presentation/widgets/menu_view.dart — corpo da sub-aba 0
-        - "lista REORDENÁVEL de MealCard (ReorderableListView shrinkWrap dentro do ListView da tela;
-           buildDefaultDragHandles=false, proxyDecorator flat/sem sombra): um por Meal, ESTES sim em
-           caixa/borda: cabeçalho editável (nome + lápis + pega de arrastar AppIcons.dragHandle à direita +
-           'meta N kcal'), fita de ABAS (uma por MealOption + aba '+') sobre um painel, e não mais
-           OptionCards empilhados. Arrastar pela pega reordena via PlanController.reorderMeals."
-        - "VISUAL do MealCard (soft neo-brutalismo, igual ao RecipeCard/NutritionCard):
-           fundo pit.surf + borda TINTA (pit.border, AppSpacing.borderStrong) + raio
-           AppSpacing.radiusCard. Nada de filete fino (pit.line) como borda de caixa."
-        - "MealOptionTabs (option_tabs.dart): fita de abas estilo pasta. A aba ativa =
-           opção escolhida (chosen), conecta-se ao painel abaixo (mesmo fundo surf2, sem
-           filete embaixo) e leva o selo 'Hoje' (PitadaTag sage). Abas inativas ficam
-           fechadas/muted. Tocar numa aba => chooseOption; segurar/duplo-clique na aba
-           ativa => showOptionNameSheet (renomear). Aba '+' => showAddOptionSheet.
-           Rótulo da aba = option.name ou 'Opção N' se vazio."
-        - "MealOptionPanel (option_panel.dart): painel da opção ativa (surf2, borda line2):
-           lista de pratos (nome + kcal + chevron se linkado -> /recipe/:id) e rodapé
-           (totalKcal grande + fitLabel sage/accent2 + linha de macros P/C/G). SEM botão
-           de registrar consumo. Refeição sem opções => só a ação 'Adicionar opção'."
+        - "lista REORDENÁVEL de refeições (ReorderableListView shrinkWrap dentro do ListView
+           da tela; buildDefaultDragHandles=false, proxyDecorator flat/sem sombra), cada uma
+           como SEÇÃO direto no fundo da aba — NADA de card sobre card. Cabeçalho: nome
+           (AppType.title; toque -> showMealSheet; SEGURAR o nome arrasta p/ reordenar via
+           ReorderableDelayedDragStartListener, sem pega visível) + 'Meta N kcal' + lápis
+           à direita (toque -> showMealSheet)."
+        - "MealOptionTabs (option_tabs.dart): fita de abas de pasta como as abas
+           Ingredientes/Preparo/Histórico do detalhe da receita na referência:
+           abas de LARGURA IGUAL preenchendo toda a fita (Expanded), retângulo de
+           topo arredondado (radiusMd), SEM borda e SEM curva S. Ativa: cor do
+           corpo (pit.surf2), texto pit.text — funde com o corpo sem emenda;
+           inativas: pit.surf, texto muted. SEM selo 'Hoje' na aba (a ativa JÁ é a
+           escolhida). Tocar numa aba => chooseOption; segurar/duplo-clique na
+           ativa => showOptionNameSheet. Aba '+' estreita fixa => showAddOptionSheet.
+           Rótulo = option.name ou 'Opção N' se vazio."
+        - "MealOptionPanel (option_panel.dart): corpo da pasta (pit.surf2, raio
+           radiusCard SÓ nos cantos de baixo — as abas cobrem todo o topo; SEM
+           borda): um HairlineRow por prato —
+           leading = RecipeMark (o MESMO marca-página da lista de Receitas) quando linkado,
+           bolinha pit.muted quando avulso; título + porção (portion) embaixo; kcal +
+           chevron à direita (toque só nos linkados -> /recipe/:id). Depois: linha
+           '+ Receita ou alimento' (accent) -> showAddOptionSheet; filete; rodapé
+           (totalKcal grande + 'Dentro da meta' sage ou '+N kcal' accent2 + linha P/C/G
+           com valores pit.text e letras pit.muted). SEM botão de registrar consumo.
+           Refeição sem opções => só a ação 'Adicionar opção'."
+        - "abaixo da pasta: 'Comparar opções ->' (accent2) -> showCompareOptionsSheet
+           (aparece só com 2+ opções)"
         - "PitadaButton(outline) 'Adicionar refeição' -> showMealSheet(novo)"
       widgets_da_feature:   # em presentation/widgets/meal/ (tela > 200 linhas => quebrar)
-        - DaySummaryView      # anel de macros interativo (4 anéis + centro + legenda mínima), sem caixa
+        - DaySummaryView      # anel de macros interativo (anel à esquerda + legenda com valores à direita), sem caixa
         - MacroRingPainter    # CustomPainter dos anéis concêntricos (macro_ring_painter.dart)
-        - MealCard            # cabeçalho da refeição + MealOptionTabs + MealOptionPanel
+        - MealCard            # seção da refeição (cabeçalho + pasta de opções + comparar), sem caixa
         - MealOptionTabs      # fita de abas (pasta) das opções + aba '+'
-        - MealOptionPanel     # painel da opção ativa (pratos + rodapé)
-        - MealHeaderRow       # nome editável (toca -> showMealSheet) + pega de arrastar + meta em kcal
+        - MealOptionPanel     # corpo da pasta (pratos + adicionar + rodapé)
+        - MealHeaderRow       # nome (toca -> showMealSheet; segurar arrasta) + 'Meta N kcal' + lápis
       navega: RecipeDetailScreen (/recipe/:id)  # ao tocar prato linkado no painel da opção
 
 sheets:
@@ -156,10 +175,31 @@ sheets:
         - grip
         - "título 'Nome da opção' + campo de texto (hint 'Ex.: Clássico')"
         - "PitadaButton(primary) 'Salvar' -> PlanController.renameOption; vazio volta a 'Opção N'"
+  - showGoalSheet:
+      file: lib/features/plans/presentation/sheets/plan/goal_sheet.dart
+      assinatura: "void showGoalSheet(BuildContext context, {required Plan plan})"
+      proposito: "Editar as metas diárias do plano (link 'Editar metas' sob o anel)."
+      conteudo:
+        - grip
+        - "título 'Editar metas'"
+        - "4 EditTextField numéricos: Calorias (kcal), Proteína (g), Carboidratos (g), Gorduras (g)"
+        - "PitadaButton(primary) 'Salvar' -> PlanController.updateGoals"
+  - showCompareOptionsSheet:
+      file: lib/features/plans/presentation/sheets/plan/compare_options_sheet.dart
+      assinatura: "void showCompareOptionsSheet(BuildContext context, {required Meal meal})"
+      proposito: "Comparar as opções da refeição lado a lado e escolher uma."
+      conteudo:
+        - grip
+        - "título 'Comparar opções · <refeição>'"
+        - "um HairlineRow por opção: nome (ou 'Opção N') + macros P/C/G embaixo;
+           kcal + selo 'Hoje' (PitadaTag sage) se escolhida à direita"
+        - "tocar => PlanController.chooseOption + fecha"
 
 components_reutilizados: [Masthead, SectionHeader, HairlineRow, PitadaTag,
   RecipeThumb, PitadaSearchField, PitadaButton, PitadaIconButton, Editable, EmptyState]
 
 usa_de_outras_features:
   - recipes/application/recipe_providers.dart (recipesProvider)  # lista p/ showAddOptionSheet
+  - recipes/presentation/widgets/list/recipe_row.dart (RecipeMark)  # marca-página nos pratos linkados
+  - recipes/application/recipe_filters.dart (Mastery)  # estado do RecipeMark
   - navegação a /recipe/:id (RecipeDetailScreen) em pratos linkados

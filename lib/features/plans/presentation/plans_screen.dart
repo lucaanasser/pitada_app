@@ -1,11 +1,11 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/plans/presentation/plans_screen.dart
-// O QUÊ:     Aba Plano: cabeçalho compartilhado (marca + título 'Plano' + anel de
-//            macros do dia) e, logo abaixo, sub-abas "Cardápio" (refeições) e
-//            "Progresso" (peso + aderência). Título e DaySummaryView são fixos nas duas
-//            sub-abas; o switcher fica logo abaixo do anel. Alterna por setState.
+// O QUÊ:     Aba Plano: cabeçalho compartilhado (marca + título 'Plano' + data de
+//            hoje + anel de macros com legenda + linha 'Restam N kcal'/'Editar
+//            metas') e, abaixo, sub-abas "Cardápio" (refeições) e "Progresso"
+//            (peso + aderência). Alterna por setState.
 // USA:       core/widgets (Masthead, PitadaTabs, PitadaScaffold), theme/*,
-//            plan_providers (DaySummaryView), MenuView e ProgressView.
+//            utils/format, plan_providers, goal_sheet, MenuView e ProgressView.
 // USADO POR: core/router/router.dart (branch /plans).
 // SPEC:      specs/features/plans/progress.yaml (navegacao) e plans.yaml (PlansScreen)
 // ─────────────────────────────────────────────────────────────────────────────
@@ -16,11 +16,13 @@ import '../../../core/theme/app_icons.dart';
 import '../../../core/theme/pitada_colors.dart';
 import '../../../core/theme/spacing.dart';
 import '../../../core/theme/typography.dart';
+import '../../../core/utils/format.dart';
 import '../../../core/widgets/layout/masthead.dart';
 import '../../../core/widgets/controls/pitada_button.dart';
 import '../../../core/widgets/layout/pitada_scaffold.dart';
 import '../../../core/widgets/tabs/pitada_tabs.dart';
 import '../application/plan_providers.dart';
+import 'sheets/plan/goal_sheet.dart';
 import 'sheets/plan/plan_add_sheet.dart';
 import 'widgets/meal/menu_view.dart';
 import 'widgets/meal/day_summary_view.dart';
@@ -56,16 +58,25 @@ class _PlansScreenState extends ConsumerState<PlansScreen> {
               AppSpacing.titleGap,
             ),
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Expanded(
-                  child: Text(
-                    'Plano',
-                    style: AppType.on(AppType.screenTitle, pit.text),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Plano',
+                        style: AppType.on(AppType.screenTitle, pit.text),
+                      ),
+                      const SizedBox(height: AppSpacing.xs),
+                      Text(
+                        formatTodayLabel(DateTime.now()),
+                        style: AppType.on(AppType.bodySm, pit.muted),
+                      ),
+                    ],
                   ),
                 ),
                 PitadaIconButton(
-                  icon: AppIcons.add,
+                  icon: AppIcons.calendarPattern,
                   filled: true,
                   size: AppSpacing.iconButtonSm,
                   onPressed: () => showPlanAddSheet(context),
@@ -74,6 +85,7 @@ class _PlansScreenState extends ConsumerState<PlansScreen> {
             ),
           ),
           _daySummary(),
+          _goalsRow(),
           Align(
             alignment: Alignment.centerLeft,
             child: PitadaTabs(
@@ -88,7 +100,7 @@ class _PlansScreenState extends ConsumerState<PlansScreen> {
     );
   }
 
-  /// Resumo do dia (anel de macros concêntrico interativo), fixo entre o título
+  /// Resumo do dia (anel de macros interativo + legenda), fixo entre o título
   /// e as sub-abas (é o 1º conteúdo abaixo do título). Usada por: [build].
   Widget _daySummary() {
     final plan = ref.watch(planControllerProvider);
@@ -98,7 +110,7 @@ class _PlansScreenState extends ConsumerState<PlansScreen> {
         AppSpacing.gutter,
         0,
         AppSpacing.gutter,
-        AppSpacing.xl,
+        AppSpacing.lg,
       ),
       child: DaySummaryView(
         goalKcal: plan.dailyKcalGoal,
@@ -106,6 +118,41 @@ class _PlansScreenState extends ConsumerState<PlansScreen> {
         carbGoal: plan.carbGoal,
         fatGoal: plan.fatGoal,
         totals: totals,
+      ),
+    );
+  }
+
+  /// Linha sob o anel: 'Restam N kcal' à esquerda e 'Editar metas' à direita
+  /// (abre o sheet de metas diárias). Usada por: [build].
+  Widget _goalsRow() {
+    final pit = context.pit;
+    final plan = ref.watch(planControllerProvider);
+    final totals = ref.watch(dayTotalsProvider);
+    final left = plan.dailyKcalGoal - totals.kcal;
+    final label = left >= 0
+        ? 'Restam ${formatKcal(left)} kcal'
+        : '${formatKcal(-left)} kcal acima';
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(
+        AppSpacing.gutter,
+        0,
+        AppSpacing.gutter,
+        AppSpacing.xl,
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Text(label, style: AppType.on(AppType.bodySm, pit.muted)),
+          ),
+          GestureDetector(
+            onTap: () => showGoalSheet(context, plan: plan),
+            behavior: HitTestBehavior.opaque,
+            child: Text(
+              'Editar metas',
+              style: AppType.on(AppType.bodySm, pit.text2),
+            ),
+          ),
+        ],
       ),
     );
   }

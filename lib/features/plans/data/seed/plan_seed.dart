@@ -21,12 +21,11 @@ const kSeedPlan = Plan(
   meals: [
     Meal(
       id: 'cafe',
-      name: 'Café',
+      name: 'Café da manhã',
       kcalGoal: 500,
       options: [
         MealOption(
           id: 'cafe-opt1',
-          name: 'Clássico',
           fits: true,
           fitLabel: 'cabe',
           chosen: true,
@@ -34,6 +33,8 @@ const kSeedPlan = Plan(
             MealOptionItem(
               name: 'Panqueca de banana',
               kcal: 286,
+              recipeId: 'panqueca-banana',
+              portion: '1 porção',
               protein: 12,
               carb: 40,
               fat: 8,
@@ -41,6 +42,7 @@ const kSeedPlan = Plan(
             MealOptionItem(
               name: 'Iogurte natural',
               kcal: 100,
+              portion: '1 unidade',
               protein: 10,
               carb: 8,
               fat: 3,
@@ -48,6 +50,7 @@ const kSeedPlan = Plan(
             MealOptionItem(
               name: 'Café com leite',
               kcal: 60,
+              portion: '1 xícara',
               protein: 3,
               carb: 6,
               fat: 3,
@@ -56,13 +59,13 @@ const kSeedPlan = Plan(
         ),
         MealOption(
           id: 'cafe-opt2',
-          name: 'Aveia',
           fits: true,
           fitLabel: 'cabe',
           items: [
             MealOptionItem(
               name: 'Overnight oats',
               kcal: 320,
+              portion: '1 pote',
               protein: 14,
               carb: 48,
               fat: 8,
@@ -70,6 +73,7 @@ const kSeedPlan = Plan(
             MealOptionItem(
               name: 'Fruta',
               kcal: 120,
+              portion: '1 unidade',
               protein: 1,
               carb: 30,
               fat: 0,
@@ -77,6 +81,7 @@ const kSeedPlan = Plan(
             MealOptionItem(
               name: 'Iogurte',
               kcal: 60,
+              portion: '1 unidade',
               protein: 6,
               carb: 5,
               fat: 2,
@@ -100,6 +105,7 @@ const kSeedPlan = Plan(
               name: 'Frango xadrez',
               kcal: 512,
               recipeId: 'frango-xadrez',
+              portion: '1 porção',
               protein: 42,
               carb: 38,
               fat: 18,
@@ -107,6 +113,7 @@ const kSeedPlan = Plan(
             MealOptionItem(
               name: 'Salada verde',
               kcal: 80,
+              portion: '1 prato',
               protein: 3,
               carb: 8,
               fat: 4,
@@ -122,6 +129,7 @@ const kSeedPlan = Plan(
               name: 'Bowl de quinoa',
               kcal: 438,
               recipeId: 'bowl-quinoa',
+              portion: '1 bowl',
               protein: 20,
               carb: 60,
               fat: 12,
@@ -129,6 +137,7 @@ const kSeedPlan = Plan(
             MealOptionItem(
               name: 'Frango grelhado',
               kcal: 200,
+              portion: '150 g',
               protein: 38,
               carb: 0,
               fat: 5,
@@ -152,6 +161,7 @@ const kSeedPlan = Plan(
               name: 'Strogonoff de carne',
               kcal: 680,
               recipeId: 'strogonoff',
+              portion: '1 porção',
               protein: 45,
               carb: 30,
               fat: 40,
@@ -166,6 +176,7 @@ const kSeedPlan = Plan(
             MealOptionItem(
               name: 'Sopa de legumes',
               kcal: 320,
+              portion: '1 prato',
               protein: 12,
               carb: 45,
               fat: 8,
@@ -173,6 +184,7 @@ const kSeedPlan = Plan(
             MealOptionItem(
               name: 'Pão',
               kcal: 120,
+              portion: '2 fatias',
               protein: 4,
               carb: 22,
               fat: 2,

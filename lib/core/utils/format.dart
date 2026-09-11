@@ -24,8 +24,23 @@ String formatMl(num? ml) {
   return '${_trim(ml)} ml';
 }
 
-/// Formata kcal como inteiro. Ex.: 512.0 -> "512". Usada por: NutritionCard, Planos.
-String formatKcal(num? kcal) => kcal == null ? '' : '${kcal.round()}';
+/// Formata kcal como inteiro com milhar pt-BR. Ex.: 1718 -> "1.718".
+/// Usada por: NutritionCard, Planos (anel de macros, painéis de opção).
+String formatKcal(num? kcal) {
+  if (kcal == null) return '';
+  final digits = kcal.round().abs().toString();
+  final buffer = StringBuffer(kcal.round() < 0 ? '-' : '');
+  for (var i = 0; i < digits.length; i++) {
+    if (i > 0 && (digits.length - i) % 3 == 0) buffer.write('.');
+    buffer.write(digits[i]);
+  }
+  return buffer.toString();
+}
+
+/// Rótulo do dia de hoje pro cabeçalho do Plano. Ex.: -> "Hoje, 10 set".
+/// Usada por: PlansScreen (subtítulo sob o título).
+String formatTodayLabel(DateTime date) =>
+    'Hoje, ${date.day} ${formatMonthAbbr(date)}';
 
 /// Formata macro em gramas curtinho. Ex.: 42 -> "42 g". Usada por: NutritionCard.
 String formatMacro(num? grams) => grams == null ? '' : '${_trim(grams)} g';

@@ -8,12 +8,14 @@
 
 /// Um prato dentro de uma opção de refeição.
 /// `recipeId != null` => prato linkado (abrível na tela de detalhe da receita).
+/// `portion` é a referência humana exibida sob o nome ("1 porção", "1 xícara").
 /// Macros (protein/carb/fat) alimentam o agregado do dia; kcal é a base do encaixe.
 /// Usada por: MealOption, plan_seed, MealOptionPanel (lista de pratos).
 class MealOptionItem {
   final String name;
   final int kcal;
   final String? recipeId;
+  final String? portion;
   final num protein;
   final num carb;
   final num fat;
@@ -22,6 +24,7 @@ class MealOptionItem {
     required this.name,
     required this.kcal,
     this.recipeId,
+    this.portion,
     this.protein = 0,
     this.carb = 0,
     this.fat = 0,

@@ -1,22 +1,21 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/plans/presentation/widgets/meal/option_tabs.dart
-// O QUÊ:     Fita de abas estilo pasta das opções de uma refeição, sobre o painel
-//            da opção ativa. A aba ativa (opção escolhida) conecta-se ao painel
-//            (mesmo surf2, sem filete embaixo) e leva o selo "Hoje"; as demais ficam
-//            fechadas/muted. Aba "+" adiciona. Rótulo livre (cai em "Opção N").
-// USA:       theme/*, core/widgets (Editable, PitadaTag), data/meal_option.
+// O QUÊ:     Fita de abas de pasta das opções de uma refeição (como as abas
+//            Ingredientes/Preparo/Histórico do detalhe da receita): abas de
+//            largura igual preenchendo a fita, topo arredondado, sem borda.
+//            A ativa tem a cor do corpo e funde com ele; inativas ficam muted.
+//            Aba "+" estreita adiciona. Rótulo vazio cai em "Opção N".
+// USA:       theme/*, core/widgets (Editable), data/meal_option.
 // USADO POR: MealCard (envolve o MealOptionPanel).
 // SPEC:      specs/features/plans/plans.yaml (widgets_da_feature: MealOptionTabs)
 // ─────────────────────────────────────────────────────────────────────────────
-import '../../../../../core/theme/app_icons.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../../core/theme/colors.dart';
+import '../../../../../core/theme/app_icons.dart';
 import '../../../../../core/theme/pitada_colors.dart';
 import '../../../../../core/theme/spacing.dart';
 import '../../../../../core/theme/typography.dart';
 import '../../../../../core/widgets/controls/editable.dart';
-import '../../../../../core/widgets/tags/pitada_tag.dart';
 import '../../../data/models/meal_option.dart';
 
 /// Fita de abas das opções sobre o [panel] da opção ativa. Tocar numa aba =>
@@ -40,102 +39,80 @@ class MealOptionTabs extends StatelessWidget {
   final ValueChanged<int> onRename;
   final VoidCallback onAdd;
 
-  /// Altura da aba e quanto ela avança sobre o painel (esconde o filete do topo).
-  static const double _tabH = 40;
-  static const double _overlap = 4;
+  /// Altura da fita e largura fixa da aba "+".
+  static const double _tabH = 44;
+  static const double _addW = 48;
 
-  /// Empilha o painel (recuado p/ caber as abas) e a fita de abas por cima.
-  /// Usada por: MealCard.
+  /// Empilha a fita de abas (largura cheia) sobre o corpo — a aba ativa e o
+  /// corpo têm a mesma cor, sem emenda. Usada por: MealCard.
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      clipBehavior: Clip.none,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Padding(
-          padding: const EdgeInsets.only(top: _tabH - _overlap),
-          child: panel,
-        ),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
+        SizedBox(
+          height: _tabH,
           child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              for (var i = 0; i < options.length; i++) _tab(context, i),
+              for (var i = 0; i < options.length; i++)
+                Expanded(child: _tab(context, i)),
               _addTab(context),
             ],
           ),
         ),
+        panel,
       ],
     );
   }
 
-  /// Uma aba de opção. Ativa: surf2 + sem filete embaixo (conecta ao painel) +
-  /// selo "Hoje" se escolhida; inativa: fechada e muted. Usada por: [build].
+  /// Uma aba de opção: topo arredondado, cor do corpo quando ativa (funde),
+  /// pit.surf e texto muted quando inativa. Usada por: [build].
   Widget _tab(BuildContext context, int i) {
     final pit = context.pit;
-    final option = options[i];
     final on = i == active;
-    final label = option.name.isEmpty ? 'Opção ${i + 1}' : option.name;
-    final side = BorderSide(color: pit.line2, width: AppSpacing.borderStrong);
+    final label = options[i].name.isEmpty ? 'Opção ${i + 1}' : options[i].name;
     return GestureDetector(
       onTap: () => onChoose(i),
       behavior: HitTestBehavior.opaque,
       child: Editable(
         onEdit: on ? () => onRename(i) : null,
         child: Container(
-          height: _tabH,
           margin: const EdgeInsets.only(right: AppSpacing.xs),
-          padding: const EdgeInsets.only(
-            left: AppSpacing.md,
-            right: AppSpacing.md,
-            bottom: _overlap,
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
+          alignment: Alignment.center,
           decoration: BoxDecoration(
             color: on ? pit.surf2 : pit.surf,
-            border: Border(
-              top: side,
-              left: side,
-              right: side,
-              bottom: on ? BorderSide.none : side,
+            borderRadius: const BorderRadius.vertical(
+              top: Radius.circular(AppSpacing.radiusMd),
             ),
           ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                label,
-                style: AppType.on(AppType.titleXs, on ? pit.text : pit.muted),
-              ),
-              if (option.chosen) ...[
-                const SizedBox(width: AppSpacing.sm),
-                const PitadaTag(label: 'Hoje', color: AppColors.sage),
-              ],
-            ],
+          child: Text(
+            label,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: AppType.on(AppType.titleXs, on ? pit.text : pit.muted),
           ),
         ),
       ),
     );
   }
 
-  /// Aba "+" (fechada) que adiciona uma opção. Usada por: [build].
+  /// Aba "+" estreita (inativa) que adiciona uma opção. Usada por: [build].
   Widget _addTab(BuildContext context) {
     final pit = context.pit;
-    final side = BorderSide(color: pit.line2, width: AppSpacing.borderStrong);
     return GestureDetector(
       onTap: onAdd,
       behavior: HitTestBehavior.opaque,
       child: Container(
-        height: _tabH,
-        padding: const EdgeInsets.only(
-          left: AppSpacing.md,
-          right: AppSpacing.md,
-          bottom: _overlap,
-        ),
+        width: _addW,
+        alignment: Alignment.center,
         decoration: BoxDecoration(
           color: pit.surf,
-          border: Border(top: side, left: side, right: side, bottom: side),
+          borderRadius: const BorderRadius.vertical(
+            top: Radius.circular(AppSpacing.radiusMd),
+          ),
         ),
-        child: Center(child: Icon(AppIcons.add, size: 17, color: pit.muted)),
+        child: Icon(AppIcons.add, size: 17, color: pit.muted),
       ),
     );
   }
