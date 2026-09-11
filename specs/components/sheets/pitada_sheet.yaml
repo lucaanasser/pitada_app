@@ -6,7 +6,7 @@ purpose: >
   antes duplicada em ~13 telas (fundo surf, topo arredondado radiusXxl,
   isScrollControlled) e — o ponto-chave — abre SEMPRE no root navigator.
 motivo_root_navigator: >
-  A navbar é o bottomNavigationBar (pílula flutuante) do Scaffold do shell, pintado
+  A navbar é o bottomNavigationBar (barra ancorada) do Scaffold do shell, pintado
   ACIMA do body. Um sheet aberto no navigator do branch (default useRootNavigator:
   false) fica DENTRO do body, então a navbar aparece na frente dele. Abrindo no root
   navigator, o sheet e seu scrim cobrem o shell inteiro — a navbar some sob o scrim

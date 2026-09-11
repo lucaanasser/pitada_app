@@ -2,19 +2,17 @@
 component: PitadaTabBar
 file: lib/core/widgets/tabs/pitada_tab_bar.dart
 purpose: >
-  "Pílula fantasma": o dock das abas do app — flutuante, minimalista, compacto e
-  centralizado, só ícones. Fundo surf + filete fino; o único ponto de cor é o
-  ícone ativo em accent, para a barra não competir com o conteúdo. Flat: sem
-  sombra, sem degradê.
+  O dock das abas do app: barra ANCORADA no rodapé, borda a borda, minimalista,
+  só ícones. Fundo surf + filete fino no topo; o único ponto de cor é o ícone
+  ativo em accent, para a barra não competir com o conteúdo. Flat: sem sombra,
+  sem degradê.
 uses:
-  - context.pit.surf     # fundo da pílula
-  - context.pit.line2    # filete
+  - context.pit.surf     # fundo da barra
+  - context.pit.line2    # filete do topo
   - context.pit.muted    # ícone inativo
   - AppColors.accent     # ícone ativo
-  - AppSpacing.radiusPill
   - AppSpacing.hair      # largura do filete
-  - AppSpacing.md        # margem do fundo + área de toque do item
-  - AppSpacing.xs        # padding horizontal da pílula
+  - AppSpacing.md        # padding vertical do ícone — define a altura (enxuta) da barra
 api:
   - tabs: List<PitadaTab>       # abas, na ordem da barra
   - currentIndex: int           # índice ativo
@@ -23,19 +21,22 @@ helpers:
   - PitadaTab: {icon: IconData, activeIcon: IconData, label: String}  # rótulo só p/ Semantics
 icones: [forkKnife, chefHat, clipboardText, carrot, user]  # AppIcons.* (+ *Fill ativo)
 historico: >
-  Iterações com o dono (jul/2026): dock flutuante com cápsula -> células
-  ancoradas -> células suavizadas -> DE VOLTA à pílula flutuante, agora
-  minimalista. Pedido literal: "clean, sem pesar visualmente, a navbar não
-  pode competir com nada da página".
+  Iterações com o dono (jul/2026): cápsula flutuante -> células ancoradas ->
+  células suavizadas -> pílula flutuante minimalista. set/2026: a pílula
+  flutuante incomodava o dono; DE VOLTA à barra ANCORADA borda a borda, mantendo
+  o tratamento minimalista (só ícone, ativo em accent).
 forma: >
-  Pílula compacta CENTRALIZADA (largura intrínseca, não borda a borda)
-  flutuando com margem md do fundo, sobre a SafeArea. Fundo pit.surf e
-  filete pit.line2 em AppSpacing.hair — exceção consciente à regra de borda
-  grossa, a pedido do dono (minimalismo > peso neo-brutalista aqui).
-  Flat: sem sombra, sem degradê. Raio AppSpacing.radiusPill.
+  Barra ancorada no rodapé, borda a borda (largura cheia). Fundo pit.surf com um
+  único filete pit.line2 (AppSpacing.hair) no topo separando do conteúdo —
+  exceção consciente à borda grossa neo-brutalista, a pedido do dono
+  (minimalismo). Sem raio (encosta nas bordas), sem sombra, sem degradê. Barra
+  ENXUTA e discreta: a altura vem só do padding vertical AppSpacing.md em volta
+  do ícone (~46dp), não de altura fixa; SafeArea(bottom) acrescenta o inset do
+  sistema (home indicator).
 item: >
   Só o ícone, sem rótulo nenhum (Semantics(label) preserva acessibilidade).
-  Área de toque generosa via padding md em volta do ícone de 22.
+  Cada aba ocupa uma célula de largura igual (Expanded); o ícone de 22 fica
+  centralizado e a célula inteira (padding md) é a área de toque.
 item_ativo: >
   Ícone *Fill em AppColors.accent — o único ponto de cor da barra; nada de
   cápsula, bloco ou pastel para não competir com o conteúdo.
@@ -44,11 +45,9 @@ animacao: >
   Troca de aba com crossfade (AnimatedSwitcher ~160ms easeOut) entre o ícone
   regular/muted e o *Fill/accent — a cor "acende" suave em vez de pular.
 layout_nota: >
-  A pílula centraliza dentro de um Row(mainAxisAlignment: center) — NUNCA
-  via Center/Container(alignment) direto no bottomNavigationBar, que recebem
-  altura livre e esticariam a barra pela tela inteira. Altura da pílula é
-  intrínseca (~46dp + filetes).
-proibido: [sombra, degradê, rótulos visíveis, cápsula/bloco no ativo,
-           Container(alignment)/Center soltos no bottomNavigationBar]
+  A barra é o bottomNavigationBar do Scaffold com extendBody: false — o corpo
+  fica ACIMA dela (ancorada, não flutua). Célula por aba via Expanded; o padding
+  vertical md dá a altura e o ícone centraliza dentro da célula.
+proibido: [sombra, degradê, rótulos visíveis, cápsula/bloco no ativo, raio nas bordas]
 used_by:
   - app_shell (dock das 5 abas — a ordem vive em specs/core/router/app_shell.yaml)

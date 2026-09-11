@@ -12,8 +12,8 @@ import '../../theme/pitada_colors.dart';
 import '../../theme/spacing.dart';
 
 /// Padding inferior padrão das listas de aba: [respiro] + inset do sistema.
-/// Com o shell em extendBody, o inset inclui a altura da pílula flutuante —
-/// sem ele o fim da lista ficaria escondido sob a barra.
+/// Com o dock ancorado (extendBody: false) o corpo já fica acima da barra, então
+/// o inset é só o do sistema; o respiro dá a folga final antes da barra.
 /// Usada por: ListViews das telas de aba (recipes, notebook, plans, groceries,
 /// profile).
 EdgeInsets tabListPadding(BuildContext context,

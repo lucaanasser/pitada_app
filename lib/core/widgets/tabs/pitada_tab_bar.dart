@@ -1,8 +1,8 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/core/widgets/tabs/pitada_tab_bar.dart
-// O QUÊ:     "Pílula fantasma": dock flutuante minimalista, compacto e
-//            centralizado, só ícones. Fundo surf + filete fino; o único ponto
-//            de cor é o ícone ativo em accent — a barra não compete com o
+// O QUÊ:     Dock das abas: barra ancorada no rodapé, borda a borda,
+//            minimalista, só ícones. Fundo surf + filete fino no topo; o único
+//            ponto de cor é o ícone ativo em accent — a barra não compete com o
 //            conteúdo. Flat: sem sombra, sem degradê.
 // USA:       core/theme (AppColors, PitadaColors via context.pit, spacing).
 // USADO POR: core/router/app_shell.dart.
@@ -22,7 +22,7 @@ class PitadaTab {
   const PitadaTab(this.icon, this.activeIcon, this.label);
 }
 
-/// Pílula flutuante minimalista: destaca [currentIndex] só pela cor accent do
+/// Barra ancorada minimalista: destaca [currentIndex] só pela cor accent do
 /// ícone preenchido e chama [onSelect]. Sem rótulos visíveis — Semantics
 /// preserva a acessibilidade. Usada por: app_shell.dart.
 class PitadaTabBar extends StatelessWidget {
@@ -40,35 +40,29 @@ class PitadaTabBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final pit = context.pit;
-    return SafeArea(
-      top: false,
-      minimum: const EdgeInsets.only(bottom: AppSpacing.md),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xs),
-            decoration: BoxDecoration(
-              color: pit.surf,
-              borderRadius: AppSpacing.br(AppSpacing.radiusPill),
-              border: Border.all(color: pit.line2, width: AppSpacing.hair),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                for (var i = 0; i < tabs.length; i++)
-                  _item(pit, tabs[i], i, i == currentIndex),
-              ],
-            ),
-          ),
-        ],
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: pit.surf,
+        border: Border(
+          top: BorderSide(color: pit.line2, width: AppSpacing.hair),
+        ),
+      ),
+      child: SafeArea(
+        top: false,
+        child: Row(
+          children: [
+            for (var i = 0; i < tabs.length; i++)
+              Expanded(child: _item(pit, tabs[i], i, i == currentIndex)),
+          ],
+        ),
       ),
     );
   }
 
-  /// Um item: só o ícone, com padding generoso como área de toque. Ativo =
-  /// ícone preenchido em accent; inativo = regular em muted. A troca faz
-  /// crossfade (cor "acende" suave em vez de pular). Usada por: [build].
+  /// Um item: só o ícone, centralizado numa célula de largura igual cuja altura
+  /// vem do padding vertical (barra enxuta, discreta) e que é toda a área de
+  /// toque. Ativo = ícone preenchido em accent; inativo = regular em muted. A
+  /// troca faz crossfade (cor "acende" suave em vez de pular). Usada por: [build].
   Widget _item(PitadaColors pit, PitadaTab tab, int index, bool active) {
     return GestureDetector(
       onTap: () => onSelect(index),
@@ -78,10 +72,7 @@ class PitadaTabBar extends StatelessWidget {
         selected: active,
         label: tab.label,
         child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.md,
-            vertical: AppSpacing.md,
-          ),
+          padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
           child: AnimatedSwitcher(
             duration: const Duration(milliseconds: 160),
             switchInCurve: Curves.easeOut,

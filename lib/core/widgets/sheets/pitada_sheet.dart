@@ -2,7 +2,7 @@
 // lib/core/widgets/sheets/pitada_sheet.dart
 // O QUÊ:     Helper único p/ abrir bottom sheets no padrão do app (fundo surf, topo
 //            arredondado, isScrollControlled) e SEMPRE no root navigator — assim o
-//            sheet e seu scrim cobrem o shell inteiro, escondendo a navbar flutuante
+//            sheet e seu scrim cobrem o shell inteiro, escondendo a navbar ancorada
 //            (que, como bottomNavigationBar, ficaria na frente de um sheet do branch).
 // USA:       theme/pitada_colors (context.pit.surf), theme/spacing (radiusXxl).
 // USADO POR: todos os show*Sheet do app (plans, notebook, recipes, groceries)

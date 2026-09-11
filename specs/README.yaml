@@ -35,7 +35,7 @@ components:                                 # -> lib/core/widgets/<grupo>/ (espe
     - specs/components/sheets/sheet_grip.yaml          # grip no topo de todo sheet
   tabs:                                     # navegação por abas
     - specs/components/tabs/pitada_tabs.yaml           # abas de texto (ex-ChapterTabs/SegTabs)
-    - specs/components/tabs/pitada_tab_bar.yaml        # "pílula fantasma": o dock das 5 abas
+    - specs/components/tabs/pitada_tab_bar.yaml        # barra ancorada: o dock das 5 abas
   tags:                                     # pílulas coloridas — SÓ classificação
     - specs/components/tags/pitada_tag.yaml
     - specs/components/tags/expiry_tag.yaml

@@ -12,9 +12,9 @@ layout: "ColoredBox(background ?? pit.bg) > SafeArea(bottom: false) > Column: [t
 helpers:
   tabListPadding: >
     tabListPadding(context, {respiro = AppSpacing.xxl}) — padding inferior
-    padrão das listas de aba: respiro + MediaQuery.padding.bottom. Com o
-    shell em extendBody, o inset inferior inclui a altura da pílula
-    flutuante; sem ele o fim da lista ficaria escondido sob a barra.
+    padrão das listas de aba: respiro + MediaQuery.padding.bottom. Com o dock
+    ancorado (extendBody: false) o corpo já fica acima da barra, então o inset
+    é só o do sistema; o respiro dá a folga final antes da barra.
     Toda lista de aba usa este helper no lugar de EdgeInsets.only(bottom).
 used_by:
   scaffold: [recipes_screen, recipe_edit_screen, notebook_screen, notes_screen,

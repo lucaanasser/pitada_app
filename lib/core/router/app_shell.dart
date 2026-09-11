@@ -1,9 +1,10 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/core/router/app_shell.dart
 // O QUÊ:     Casca de navegação com as 5 abas (mantém o estado de cada aba).
-//            Fundo tingido com o pastel da aba atual — o dock flutua sem emenda.
-//            Ao trocar de aba, o conteúdo entra deslizando (direção conforme a
-//            posição relativa da aba) via _SlideTabView.
+//            Fundo tingido com o pastel da aba atual; o dock fica ancorado no
+//            rodapé, com o conteúdo acima dele. Ao trocar de aba, o conteúdo
+//            entra deslizando (direção conforme a posição relativa) via
+//            _SlideTabView.
 // USA:       go_router (StatefulNavigationShell), core/theme/app_icons,
 //            core/theme/pitada_colors (pit.tabBg), core/widgets/tabs/pitada_tab_bar.
 // USADO POR: core/router/router.dart (StatefulShellRoute).
@@ -26,7 +27,7 @@ const kPitadaTabs = <PitadaTab>[
   PitadaTab(AppIcons.profile, AppIcons.profileFill, 'Perfil'),
 ];
 
-/// Envolve as abas: mostra o conteúdo da aba atual + o dock flutuante.
+/// Envolve as abas: mostra o conteúdo da aba atual + o dock ancorado no rodapé.
 /// Usada por: router.dart. [shell] é fornecido pelo StatefulShellRoute.
 class AppShell extends StatelessWidget {
   const AppShell({super.key, required this.shell});
@@ -37,7 +38,7 @@ class AppShell extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: context.pit.tabBg(shell.currentIndex),
-      extendBody: true,
+      extendBody: false,
       body: _SlideTabView(index: shell.currentIndex, child: shell),
       bottomNavigationBar: PitadaTabBar(
         tabs: kPitadaTabs,
