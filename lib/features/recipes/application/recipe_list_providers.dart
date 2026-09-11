@@ -130,3 +130,9 @@ final recipeMasteryProvider = Provider.family<String, String>((ref, id) {
 final recipeCooksProvider = Provider.family<int, String>(
   (ref, id) => ref.watch(_cooksByIdProvider)[id] ?? 0,
 );
+
+/// Nível de maestria (enum) de uma receita — o eixo do marca-página da lista.
+/// Usada por: RecipeRow (RecipeMark).
+final recipeMasteryLevelProvider = Provider.family<Mastery, String>(
+  (ref, id) => ref.watch(_masteryByIdProvider)[id] ?? Mastery.never,
+);

@@ -62,6 +62,7 @@ class AppIcons {
   static const journal = PhosphorIconsRegular.notebook;
   static const editNote = PhosphorIconsRegular.notePencil;
   static const bookmark = PhosphorIconsRegular.bookmarkSimple;
+  static const star = PhosphorIconsFill.star;
   static const history = PhosphorIconsRegular.clockCounterClockwise;
   static const timeline = PhosphorIconsRegular.chartLineUp;
   static const school = PhosphorIconsRegular.graduationCap;

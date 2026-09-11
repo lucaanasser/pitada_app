@@ -9,6 +9,10 @@ analyzer:
     # Reforça a regra de reuso: cores/estilos devem vir dos tokens.
     # (não impede build; ajuda a revisar)
     prefer_const_constructors: warning
+  exclude:
+    - build/**
+    - web/**
+    - linux/**
 
 linter:
   rules:

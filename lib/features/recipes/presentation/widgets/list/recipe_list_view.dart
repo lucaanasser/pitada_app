@@ -1,50 +1,35 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/recipes/presentation/widgets/list/recipe_list_view.dart
-// O QUÊ:     Renderiza a lista de receitas como filetes, cada item com a
-//            capitular na cor da pasta.
-// USA:       recipe_providers (pastas), recipe_row, go_router.
+// O QUÊ:     Renderiza a lista de receitas como filetes, cada item com o
+//            marca-página de maestria à esquerda.
+// USA:       recipe_row, go_router.
 // USADO POR: recipes_screen (tab Receitas).
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../application/recipe_providers.dart';
-import '../../../data/models/folder.dart';
 import '../../../data/models/recipe/recipe.dart';
 import 'recipe_row.dart';
 
-/// Lista de receitas em filetes, com capitular por item.
+/// Lista de receitas em filetes, com o marca-página por item.
 /// Usada por: recipes_screen.
-class RecipeListView extends ConsumerWidget {
+class RecipeListView extends StatelessWidget {
   const RecipeListView({super.key, required this.recipes});
 
   final List<Recipe> recipes;
 
-  /// Monta os filetes com a capitular por item. Usada por: framework.
+  /// Monta os filetes de receita. Usada por: framework.
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final folders = ref.watch(foldersProvider).valueOrNull ?? const <Folder>[];
+  Widget build(BuildContext context) {
     return Column(
       children: [
         for (var i = 0; i < recipes.length; i++)
           RecipeRow(
             recipe: recipes[i],
-            folderHero: _folderHeroOf(recipes[i], folders),
             showDivider: i != recipes.length - 1,
             onTap: () => context.push('/recipe/${recipes[i].id}'),
           ),
       ],
     );
-  }
-
-  /// Cor hero da primeira pasta da receita (para a capitular). Usada por: [build].
-  String? _folderHeroOf(Recipe recipe, List<Folder> folders) {
-    for (final id in recipe.folderIds) {
-      for (final f in folders) {
-        if (f.id == id) return f.heroColor;
-      }
-    }
-    return null;
   }
 }
