@@ -2,17 +2,14 @@
 component: PitadaTabBar
 file: lib/core/widgets/tabs/pitada_tab_bar.dart
 purpose: >
-  O dock das abas do app: barra ANCORADA no rodapé, borda a borda, minimalista,
-  só ícones. Fundo surf + filete fino no topo; o único ponto de cor é o ícone
-  ativo em accent, para a barra não competir com o conteúdo. Flat: sem sombra,
-  sem degradê.
+  O dock das abas do app: só os ícones ANCORADOS no rodapé, sem faixa nem filete
+  — o fundo é o próprio pastel da aba (pit.tabBg do Scaffold), então a barra não
+  rouba área da tela nem vira um bloco. Único ponto de cor: o ícone ativo em
+  accent. Flat: sem sombra, sem degradê.
 uses:
-  - context.pit.surf     # fundo da barra
-  - context.pit.line2    # filete do topo
   - context.pit.muted    # ícone inativo
   - AppColors.accent     # ícone ativo
-  - AppSpacing.hair      # largura do filete
-  - AppSpacing.md        # padding vertical do ícone — define a altura (enxuta) da barra
+  - AppSpacing.sm        # padding vertical do ícone — define a altura (enxuta) da barra
 api:
   - tabs: List<PitadaTab>       # abas, na ordem da barra
   - currentIndex: int           # índice ativo
@@ -23,20 +20,19 @@ icones: [forkKnife, chefHat, clipboardText, carrot, user]  # AppIcons.* (+ *Fill
 historico: >
   Iterações com o dono (jul/2026): cápsula flutuante -> células ancoradas ->
   células suavizadas -> pílula flutuante minimalista. set/2026: a pílula
-  flutuante incomodava o dono; DE VOLTA à barra ANCORADA borda a borda, mantendo
-  o tratamento minimalista (só ícone, ativo em accent).
+  flutuante incomodava o dono; virou barra ANCORADA. A faixa surf + filete ficou
+  GROSSA e o dono reclamou do "bloco preto que come tela sem informar nada" —
+  removidos ambos: sobraram só os ícones ancorados sobre o pastel da aba.
 forma: >
-  Barra ancorada no rodapé, borda a borda (largura cheia). Fundo pit.surf com um
-  único filete pit.line2 (AppSpacing.hair) no topo separando do conteúdo —
-  exceção consciente à borda grossa neo-brutalista, a pedido do dono
-  (minimalismo). Sem raio (encosta nas bordas), sem sombra, sem degradê. Barra
-  ENXUTA e discreta: a altura vem só do padding vertical AppSpacing.md em volta
-  do ícone (~46dp), não de altura fixa; SafeArea(bottom) acrescenta o inset do
-  sistema (home indicator).
+  Só os ícones ancorados no rodapé, borda a borda (Expanded por aba). SEM faixa
+  de fundo e SEM filete: o fundo é o pastel da aba (pit.tabBg do Scaffold), então
+  nada de bloco/moldura roubando tela. Barra ENXUTA: a altura vem só do padding
+  vertical AppSpacing.sm em volta do ícone (~38dp); SafeArea(bottom) acrescenta o
+  inset do sistema (home indicator). Sem raio, sem sombra, sem degradê.
 item: >
   Só o ícone, sem rótulo nenhum (Semantics(label) preserva acessibilidade).
   Cada aba ocupa uma célula de largura igual (Expanded); o ícone de 22 fica
-  centralizado e a célula inteira (padding md) é a área de toque.
+  centralizado e a célula inteira (padding sm) é a área de toque.
 item_ativo: >
   Ícone *Fill em AppColors.accent — o único ponto de cor da barra; nada de
   cápsula, bloco ou pastel para não competir com o conteúdo.
@@ -46,8 +42,10 @@ animacao: >
   regular/muted e o *Fill/accent — a cor "acende" suave em vez de pular.
 layout_nota: >
   A barra é o bottomNavigationBar do Scaffold com extendBody: false — o corpo
-  fica ACIMA dela (ancorada, não flutua). Célula por aba via Expanded; o padding
-  vertical md dá a altura e o ícone centraliza dentro da célula.
-proibido: [sombra, degradê, rótulos visíveis, cápsula/bloco no ativo, raio nas bordas]
+  fica ACIMA dela (ancorada, não flutua) e o pastel do Scaffold pinta atrás dos
+  ícones. Célula por aba via Expanded; o padding vertical sm dá a altura e o
+  ícone centraliza dentro da célula.
+proibido: [sombra, degradê, rótulos visíveis, cápsula/bloco no ativo, raio nas
+           bordas, faixa/banda de fundo, filete separando do conteúdo]
 used_by:
   - app_shell (dock das 5 abas — a ordem vive em specs/core/router/app_shell.yaml)

@@ -1,9 +1,8 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/core/widgets/tabs/pitada_tab_bar.dart
-// O QUÊ:     Dock das abas: barra ancorada no rodapé, borda a borda,
-//            minimalista, só ícones. Fundo surf + filete fino no topo; o único
-//            ponto de cor é o ícone ativo em accent — a barra não compete com o
-//            conteúdo. Flat: sem sombra, sem degradê.
+// O QUÊ:     Dock das abas: só os ícones ancorados no rodapé, sem faixa nem
+//            filete — o fundo é o próprio pastel da aba, então a barra não rouba
+//            área da tela. O único ponto de cor é o ícone ativo em accent. Flat.
 // USA:       core/theme (AppColors, PitadaColors via context.pit, spacing).
 // USADO POR: core/router/app_shell.dart.
 // SPEC:      specs/components/tabs/pitada_tab_bar.yaml
@@ -40,21 +39,13 @@ class PitadaTabBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final pit = context.pit;
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: pit.surf,
-        border: Border(
-          top: BorderSide(color: pit.line2, width: AppSpacing.hair),
-        ),
-      ),
-      child: SafeArea(
-        top: false,
-        child: Row(
-          children: [
-            for (var i = 0; i < tabs.length; i++)
-              Expanded(child: _item(pit, tabs[i], i, i == currentIndex)),
-          ],
-        ),
+    return SafeArea(
+      top: false,
+      child: Row(
+        children: [
+          for (var i = 0; i < tabs.length; i++)
+            Expanded(child: _item(pit, tabs[i], i, i == currentIndex)),
+        ],
       ),
     );
   }
@@ -72,7 +63,7 @@ class PitadaTabBar extends StatelessWidget {
         selected: active,
         label: tab.label,
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
+          padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
           child: AnimatedSwitcher(
             duration: const Duration(milliseconds: 160),
             switchInCurve: Curves.easeOut,
