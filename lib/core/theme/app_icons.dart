@@ -40,6 +40,7 @@ class AppIcons {
   static const unlink = PhosphorIconsRegular.linkBreak;
   static const folder = PhosphorIconsRegular.folderOpen;
   static const dragHandle = PhosphorIconsRegular.dotsSixVertical;
+  static const more = PhosphorIconsRegular.dotsThree;
   static const viewSingle = PhosphorIconsRegular.square;
   static const viewGrid = PhosphorIconsRegular.squaresFour;
   static const viewList = PhosphorIconsRegular.list;

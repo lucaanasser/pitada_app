@@ -1,13 +1,17 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/groceries/presentation/groceries_screen.dart
-// O QUÊ:     Aba Ingredientes: título + PitadaTabs (Lista/Despensa) e o corpo conforme a aba.
-// USA:       core/widgets (Masthead, PitadaScaffold, PitadaTabs), GroceryListView,
-//            PantryView, theme/*. Estado da aba num StateProvider local à tela.
+// O QUÊ:     Aba Ingredientes: título + PitadaTabs (Compras/Despensa) e o corpo
+//            conforme a aba. Nada rola no nível da tela (o miolo do card ou a
+//            própria Despensa é que rolam).
+// USA:       core/widgets (Masthead, PitadaScaffold, PitadaTabs, PitadaIconButton),
+//            GroceryListView, PantryView, go_router (atalho p/ o Plano), theme/*.
+//            Estado da aba num StateProvider local à tela.
 // USADO POR: core/router/router.dart (branch /groceries).
 // SPEC:      specs/features/groceries.yaml (screens.GroceriesScreen)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/app_icons.dart';
 import '../../../core/theme/pitada_colors.dart';
@@ -17,15 +21,15 @@ import '../../../core/widgets/layout/masthead.dart';
 import '../../../core/widgets/controls/pitada_button.dart';
 import '../../../core/widgets/layout/pitada_scaffold.dart';
 import '../../../core/widgets/tabs/pitada_tabs.dart';
-import 'add_sheet.dart';
 import 'widgets/pantry_view.dart';
 import 'widgets/grocery_list_view.dart';
 
-/// Aba selecionada em Ingredientes (0 = Lista, 1 = Despensa). Estado só da tela.
+/// Aba selecionada em Ingredientes (0 = Compras, 1 = Despensa). Estado só da tela.
 /// Usada por: GroceriesScreen (PitadaTabs). Fica aqui pois é estado de apresentação.
 final groceriesTabProvider = StateProvider<int>((ref) => 0);
 
-/// Tela principal de Ingredientes: alterna Lista/Despensa por PitadaTabs. Usada por: router.
+/// Tela principal de Ingredientes: alterna Compras/Despensa por PitadaTabs.
+/// Usada por: router.
 class GroceriesScreen extends ConsumerWidget {
   const GroceriesScreen({super.key});
 
@@ -58,10 +62,10 @@ class GroceriesScreen extends ConsumerWidget {
                   ),
                 ),
                 PitadaIconButton(
-                  icon: AppIcons.add,
+                  icon: AppIcons.calendarPattern,
                   filled: true,
                   size: AppSpacing.iconButtonSm,
-                  onPressed: () => showGroceriesAddSheet(context, ref),
+                  onPressed: () => context.go('/plans'),
                 ),
               ],
             ),
@@ -69,7 +73,7 @@ class GroceriesScreen extends ConsumerWidget {
           Align(
             alignment: Alignment.centerLeft,
             child: PitadaTabs(
-              tabs: const ['Lista', 'Despensa'],
+              tabs: const ['Compras', 'Despensa'],
               selected: tab,
               onSelect: (i) => ref.read(groceriesTabProvider.notifier).state = i,
             ),

@@ -4,7 +4,7 @@
 //            opções (miniatura hero + título + subtítulo). Destino do '+' do
 //            header de cada aba. Promovido do notebook/add_sheet (reuso).
 // USA:       pitada_sheet, sheet_grip, hairline_row, recipe_thumb, theme/*.
-// USADO POR: notebook/add_sheet, plans/plan_add_sheet, groceries/add_sheet.
+// USADO POR: notebook/add_sheet, plans/plan_add_sheet.
 // SPEC:      specs/components/sheets/add_options_sheet.yaml
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
@@ -21,7 +21,7 @@ import 'sheet_grip.dart';
 
 /// Uma opção do sheet: dados visuais + ação executada DEPOIS do pop, com o
 /// contexto externo (da tela) — que sobrevive ao fechamento do sheet.
-/// Usada por: notebook/add_sheet, plans/plan_add_sheet, groceries/add_sheet.
+/// Usada por: notebook/add_sheet, plans/plan_add_sheet.
 class AddSheetOption {
   final String title;
   final String subtitle;
@@ -39,7 +39,7 @@ class AddSheetOption {
 
 /// Abre o sheet "escolher o que adicionar" com [title] e [options]. As ações
 /// são SEMPRE atalhos para fluxos já existentes (mesmo destino, nunca novo).
-/// Usada por: showNotebookAddSheet, showPlanAddSheet, showGroceriesAddSheet.
+/// Usada por: showNotebookAddSheet, showPlanAddSheet.
 void showAddOptionsSheet(
   BuildContext context, {
   required String title,

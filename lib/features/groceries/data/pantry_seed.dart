@@ -17,19 +17,21 @@ final _pantryDates = <String, DateTime>{
   'tomate': _inDays(1),
   'cebola': _inDays(14),
   'frango': _inDays(3),
-  'iogurte': _inDays(2),
   'ovos': _inDays(9),
 };
 
-/// Despensa de exemplo (o que já tenho, com validade). Usada por: repository.
+/// Despensa de exemplo (o que já tenho, com validade). Tomate em gramas casa
+/// com o carrinho da semana (gera o 'Precisa de 800 g · tem 300 g'); itens que
+/// cobririam linhas inteiras do carrinho ficam fora. Usada por: repository.
 /// `final` (não const) porque as validades são relativas a hoje.
 final kSeedPantry = <PantryItem>[
   PantryItem(
     id: 'pt-tomate',
     name: 'Tomate',
     category: kCatHortifruti,
-    quantity: 6,
-    unit: 'un',
+    quantity: 300,
+    unit: 'g',
+    grams: 300,
     expiresOn: _pantryDates['tomate'],
   ),
   PantryItem(
@@ -51,14 +53,6 @@ final kSeedPantry = <PantryItem>[
     expiresOn: _pantryDates['frango'],
   ),
   PantryItem(
-    id: 'pt-iogurte',
-    name: 'Iogurte natural',
-    category: kCatLaticinios,
-    quantity: 4,
-    unit: 'un',
-    expiresOn: _pantryDates['iogurte'],
-  ),
-  PantryItem(
     id: 'pt-ovos',
     name: 'Ovos',
     category: kCatLaticinios,
@@ -66,14 +60,6 @@ final kSeedPantry = <PantryItem>[
     unit: 'un',
     grams: 240,
     expiresOn: _pantryDates['ovos'],
-  ),
-  const PantryItem(
-    id: 'pt-arroz',
-    name: 'Arroz',
-    category: kCatMercearia,
-    quantity: 1,
-    unit: 'kg',
-    grams: 1000,
   ),
   const PantryItem(
     id: 'pt-azeite',

@@ -1,30 +1,32 @@
 # specs/features/groceries.yaml -> lib/features/groceries/
-feature: Ingredientes    # rótulo da aba (antes "Compras"); reúne Lista + Despensa
-prototype: "TAB-COMPRAS (Lista / Despensa), SHEET-ADD-PANTRY"
+feature: Ingredientes    # rótulo da aba (antes "Compras"); reúne Compras + Despensa
+prototype: "TAB-COMPRAS (Compras / Despensa), SHEET-ADD-PANTRY"
 route: /groceries         # renomeada de /shopping junto com a pasta
 purpose: >
-  Listas de compras (a pessoa pode ter VÁRIAS: 'Semana', 'Praia'...) e a
-  despensa (o que já tenho, com validade). Cada lista escolhe se DESCONTA a
-  despensa ou não — ex.: na praia, longe de casa, a lista precisa aparecer
-  completa, sem subtrair o que ficou na despensa. As quantidades das listas são
-  guardadas CRUAS (somadas por unidade humana); o desconto da despensa é
+  Carrinhos de compras (a pessoa pode ter VÁRIOS: 'Semana', 'Feira'...) e a
+  despensa (o que já tenho, com validade). Cada carrinho escolhe se DESCONTA a
+  despensa ou não — ex.: na feira, longe de casa, a lista precisa aparecer
+  completa, sem subtrair o que ficou na despensa. As quantidades dos carrinhos
+  são guardadas CRUAS (somadas por unidade humana); o desconto da despensa é
   derivado na hora de exibir. Grama é a base; a lista SOMA por unidade.
 
 data:
   models:
-    - GroceryList:             # uma lista de compras nomeada
+    - GroceryList:             # um carrinho de compras nomeado
         file: lib/features/groceries/data/grocery_list.dart
-        fields: "id, name, usePantry, items: List<GroceryItem>"
+        fields: "id, name, label?, usePantry, items: List<GroceryItem>"
         obs: >
-          usePantry = true -> a exibição desconta a despensa; false -> mostra
-          as quantidades cruas (caso praia). items SEMPRE crus (somados, sem
-          subtrair) — o desconto nunca é gravado, só derivado. Classe pura
-          imutável, const constructor; copyWith(name, usePantry, items).
-    - GroceryItem:             # um item de uma lista (quantidade CRUA)
+          name é o título do card ('Compras da semana'); label é o rótulo CURTO
+          da aba-pasta ('Semana') — tabLabel devolve label ?? name. usePantry =
+          true -> a exibição desconta a despensa; false -> mostra as quantidades
+          cruas (caso feira). items SEMPRE crus (somados, sem subtrair) — o
+          desconto nunca é gravado, só derivado. Classe pura imutável, const
+          constructor; copyWith(name, usePantry, items).
+    - GroceryItem:             # um item de um carrinho (quantidade CRUA)
         file: lib/features/groceries/data/grocery_item.dart
         fields: "id, name, category, humanQty, humanUnit, grams?, checked"
         obs: >
-          category ∈ {Hortifrúti, Açougue, Laticínios & ovos, Mercearia}.
+          category ∈ {Hortifrúti, Açougue, Laticínios, Mercearia}.
           humanQty/humanUnit na unidade humana (2 un, 500 g); grams só
           referência. Classe pura imutável, const constructor (como Recipe);
           sem freezed/json. copyWith só troca checked.
@@ -43,14 +45,17 @@ data:
     file: lib/features/groceries/data/list_seed.dart
     obs: >
       kGroceryCategories (ordem canônica das 4 categorias) + kSeedLists:
-      'Semana' (usePantry=true; cruas desenhadas p/ o desconto reproduzir a
-      lista clássica: cebola 6un-4un=2un etc.) e 'Praia' (usePantry=false;
-      churrasco de praia: tilápia, limão, queijo coalho, pão de alho).
+      'Compras da semana' (label 'Semana', usePantry=true; cruas desenhadas p/ o
+      desconto reproduzir o mock: tomate 800g−300g=500g, 2 de 8 comprados) e
+      'Feira' (usePantry=false; churrasco: tilápia, limão, queijo coalho, pão
+      de alho).
   pantry_seed:
     file: lib/features/groceries/data/pantry_seed.dart
     obs: >
       kSeedPantry é `final` (validades DateTime relativas a hoje). Importa as
-      categorias de list_seed.dart.
+      categorias de list_seed.dart. Tomate 300 g casa com o carrinho da semana
+      (gera o 'Precisa de 800 g · tem 300 g'); itens que cobririam linhas do
+      mock por inteiro (iogurte, arroz) ficam FORA para a lista não encolher.
 
   regra_de_soma:              # a regra canônica vive em core/utils/units.dart
     - "monta HumanQty de cada ingrediente das receitas do plano"
@@ -77,18 +82,25 @@ application:
     - groceriesRepositoryProvider (Provider<GroceriesRepository>)
     - groceryListsProvider (StateNotifierProvider<GroceryListsNotifier, List<GroceryList>>):
         acoes: ["toggleItem(listId, itemId)", "checkAll(listId)",
-                "addList(name) -> id", "togglePantry(listId)"]
-    - activeListIdProvider (StateProvider<String>)   # lista selecionada no sheet de listas
-    - activeListProvider (Provider<GroceryList>)     # a lista ativa (fallback: primeira)
+                "addList(name) -> id", "addItem(listId, item)", "togglePantry(listId)"]
+    - activeListIdProvider (StateProvider<String>):
+        obs: "carrinho selecionado nas abas; LÊ as listas só p/ o valor inicial
+              (observar resetaria a seleção a cada mutação de item)"
+    - activeListProvider (Provider<GroceryList>)     # o carrinho ativo (fallback: primeiro)
     - activeListItemsProvider (Provider<List<GroceryItem>>):
-        obs: "itens crus da ativa; se usePantry, aplica discountPantry(despensa)"
+        obs: "itens crus do ativo; se usePantry, aplica discountPantry(despensa)"
     - pantryProvider (FutureProvider<List<PantryItem>>)
+    - pantryCoverageProvider (Provider<Map<String, ({num need, num have})>>):
+        obs: "por id de item do carrinho ativo: quanto a receita PEDE (cru) e
+              quanto a despensa TEM (casa nome+unidade, como discountPantry);
+              só entra item com have > 0 e só quando usePantry — alimenta o
+              'Precisa de X · tem Y' da linha"
     - listByCategoryProvider (Provider<Map<String, List<GroceryItem>>>)   # agrupa por category
     - pantryByCategoryProvider (Provider<Map<String, List<PantryItem>>>)  # idem p/ a despensa
   fora_deste_arquivo:
     - scannerProvider          # application/scanner_service.dart
     - groceriesTabProvider      # presentation/groceries_screen.dart — estado de apresentação
-                               # (aba ativa: Lista | Despensa)
+                               # (aba ativa: Compras | Despensa)
 
 screens:
   - GroceriesScreen:
@@ -97,30 +109,42 @@ screens:
       fundo: pit.tabBg(3)   # pastel da aba — casa com a faixa do shell atrás do dock
       layout: >
         PitadaScaffold com Masthead, título 'Ingredientes' + PitadaIconButton
-        '+' (filled, iconButtonSm) à direita -> showGroceriesAddSheet (mesmo
-        padrão de Receitas/Caderno), PitadaTabs([Lista, Despensa]) alinhadas à
-        ESQUERDA (Align centerLeft — a Column centraliza filhos que encolhem),
-        corpo conforme aba (GroceryListView / PantryView).
-      lista:                 # aba 0 — SEM chips: cápsula é só para tag (regra do dono)
+        calendário (calendarPattern, filled, iconButtonSm) à direita -> vai ao
+        Plano (a lista nasce do plano), PitadaTabs([Compras, Despensa])
+        alinhadas à ESQUERDA, corpo conforme aba (GroceryListView / PantryView).
+        NADA rola no nível da tela: só o miolo do card (Compras) ou a própria
+        aba (Despensa).
+      compras:               # aba 0 — carrinho como PASTA (estilo da aba Receitas)
         file: lib/features/groceries/presentation/widgets/grocery_list_view.dart
         itens:
-          - "ListHeaderRow (widgets/list_header.dart): nome da lista ativa em
-             Space Grotesk (titleSm) + caret (AppIcons.expand) — tocar abre
-             showListsSheet; à direita, contagem sóbria 'N itens' (caption, muted)"
-          - "toggle como HairlineRow: title 'Descontar a despensa' + trailing
-             CheckItem(square); subtitle explica o estado ('O que já está na
-             despensa sai da conta' / 'Mostrando tudo, sem descontar') — substitui
-             a legenda solta. Desligado = caso praia."
-          - "CategorySection por categoria (Hortifrúti, Açougue, Laticínios & ovos,
-             Mercearia) — SectionHeader + linhas"
-          - "_GroceryRow (privado, HairlineRow): leading CheckItem(shape circle)
-             marca comprado (nome riscado); title nome; trailing quantidade somada
-             (formatHuman) e, abaixo, a grama de referência (formatGrams) quando a
-             unidade não é 'g'"
-          - "EmptyState quando não há nada a exibir: 'Lista vazia' (sem itens) ou
-             'Nada a comprar' (a despensa cobriu tudo); cabeçalho/toggle continuam visíveis"
-          - "barra: PitadaButton('Comprei tudo') marca todos da lista ativa (SnackBar
-             'Guardado na despensa')"
+          - "rótulo 'Meus carrinhos' (bodyLg, pit.text)"
+          - "CartTabBar (widgets/cart_tab_bar.dart): abas-pasta dos carrinhos
+             (trapézio de topo arredondado, CustomPaint) + aba '+' que cai em
+             createAndSelectList. Ativa = mesmo surf do card, texto pit.text,
+             colada no card (sem filete embaixo); inativa = fundo pit.bg com
+             contorno pit.line2 e texto pit.muted"
+          - "card-pasta (Container pit.surf, radiusCard; canto sup. ESQ. reto
+             quando o 1º carrinho está ativo — a aba emenda no corpo): dentro,
+             CartHeader fixo + miolo ROLÁVEL + rodapé fixo. Margem screenH; em
+             baixo, MediaQuery.padding.bottom + sm (respira sobre a dock)"
+          - "CartHeader (widgets/cart_header.dart): nome do carrinho (title) +
+             ícone ⋯ (AppIcons.more, pit.text2 — SEM ação por enquanto, menu de
+             opções fica p/ depois); 'X de Y itens comprados' (bodySm, text2);
+             FuelBar(accent, 8px); linha PitadaToggle(sage) + 'Descontar
+             despensa' (body). Contagem/barra somem com o carrinho vazio."
+          - "miolo (ListView): por categoria, título em DESTAQUE (titleSm,
+             pit.text — sem versalete) + GroceryRow; fecha com a linha
+             '+ Adicionar ingrediente' (accent) -> showAddItemSheet"
+          - "GroceryRow (widgets/grocery_row.dart, HairlineRow): leading
+             CheckItem(circle, sage); title nome (comprado = pit.muted, sem
+             riscar); subtitle 'Precisa de X · tem Y' (bodySm, muted) quando o
+             pantryCoverageProvider tem o item; trailing SÓ a quantidade humana
+             (formatHuman/numeral; muted quando comprado)"
+          - "EmptyState no miolo quando não há nada a exibir: 'Lista vazia'
+             (sem itens) ou 'Nada a comprar' (a despensa cobriu tudo)"
+          - "rodapé FIXO do card (filete pit.line em cima): 'N itens restantes'
+             (title) + PitadaButton('Concluir compra') -> checkAll + SnackBar
+             'Guardado na despensa'"
       despensa:              # aba 1
         file: lib/features/groceries/presentation/widgets/pantry_view.dart
         itens:
@@ -134,43 +158,35 @@ screens:
              urgent/soon, ou ExpiryTag('acabando') quando low; SEM CheckItem"
           - "EmptyState 'Despensa vazia' + PitadaButton('Adicionar à despensa')"
           - "barra: PitadaButton('Adicionar à despensa') -> showAddPantrySheet"
-      navega: showGroceriesAddSheet('+'), showListsSheet, showNewListSheet, showAddPantrySheet
+      navega: showAddItemSheet, showNewListSheet (via aba '+'), showAddPantrySheet
+      futuro: "menu do ⋯ no card (renomear/excluir carrinho, compartilhar) e a
+               ação real do botão-calendário (gerar carrinho do plano)"
 
 sheets:
-  - showGroceriesAddSheet:
-      file: lib/features/groceries/presentation/add_sheet.dart
-      api: "void showGroceriesAddSheet(BuildContext, WidgetRef)"
+  - showAddItemSheet:
+      file: lib/features/groceries/presentation/add_item_sheet.dart
+      api: "void showAddItemSheet(BuildContext, WidgetRef)"
       proposito: >
-        Atalho do '+' do cabeçalho. NÃO substitui os fluxos existentes — só os
-        reúne num lugar. Usa o AddOptionsSheet compartilhado.
+        Linha '+ Adicionar ingrediente' do card. Adiciona um item manual ao
+        carrinho ativo — nasce cru (sem desconto), como tudo na lista.
       conteudo:
-        - "título 'Adicionar'"
-        - "Nova lista (moss, AppIcons.addToList) -> createAndSelectList (mesmo fluxo do ListsSheet)"
-        - "Adicionar à despensa (ochre, AppIcons.basket) -> showAddPantrySheet (mesmo da Despensa)"
-  - showListsSheet:
-      file: lib/features/groceries/presentation/lists_sheet.dart
-      api: >
-        Future<bool?> showListsSheet(BuildContext) — true = pediu nova lista
-        (o chamador dispara createAndSelectList); null/false = só trocou/fechou.
-      conteudo:
-        - SheetGrip + "título 'Minhas listas'"
-        - "HairlineRow por lista: nome (body; ativa com check accent no trailing) +
-           subtitle 'N itens · desconta a despensa / não desconta a despensa'
-           (captionSm, muted); tocar seleciona (activeListIdProvider) e fecha"
-        - "última linha: '+ Nova lista' (accent) -> pop(true)"
+        - SheetGrip + "título 'Adicionar ingrediente'"
+        - "EditTextField nome (autofocus) + Row[quantidade (número), unidade
+           (hint 'un, g, ml...')]"
+        - "categoria: PitadaChip por categoria (ativa = variant accent)"
+        - "PitadaButton 'Adicionar' -> groceryListsProvider.addItem(ativo, item)"
   - showNewListSheet:
       file: lib/features/groceries/presentation/new_list_sheet.dart
       api: >
         Future<String?> showNewListSheet(BuildContext) — devolve o nome ou null.
         createAndSelectList(BuildContext, WidgetRef) — fluxo completo (sheet ->
-        addList -> ativa a nova lista); usado pelo ListHeaderRow (via ListsSheet)
-        e pelo showGroceriesAddSheet, para o atalho cair no MESMO fluxo.
+        addList -> ativa o novo carrinho); usado pela aba '+' do CartTabBar.
       conteudo:
         - SheetGrip + "título 'Nova lista'"
         - "campo de nome (hint 'Ex.: Praia, Churrasco, Mês')"
         - "PitadaButton 'Criar lista' -> pop(nome). Quem cria/seleciona é
            createAndSelectList (addList + activeListId). Nasce com usePantry=true."
-      futuro: "renomear/excluir lista — fora do escopo desta rodada"
+      futuro: "renomear/excluir carrinho — vai morar no menu do ⋯"
   - showAddPantrySheet:
       file: lib/features/groceries/presentation/add_pantry_sheet.dart
       api: void showAddPantrySheet(BuildContext)
@@ -189,9 +205,15 @@ sheets:
       manual: "origem 'À mão' (scan: false) pula o scan e vai direto à conferência"
       usa_service: scannerProvider (scanBarcode)
 
+removidos:                   # mortos com o redesenho do card (spec e código juntos)
+  - lists_sheet.dart          # trocar de carrinho virou as abas-pasta
+  - list_header.dart          # nome+caret virou o CartHeader dentro do card
+  - add_sheet.dart            # '+' do cabeçalho saiu do mock; fluxos seguem vivos
+                              # (nova lista na aba '+', despensa na aba Despensa)
+
 components_reutilizados: [Masthead, PitadaScaffold, PitadaTabs, SectionHeader, HairlineRow,
-  CheckItem, ExpiryTag, PitadaButton, PitadaIconButton, StepProgress, EmptyState,
-  AddOptionsSheet, showPitadaSheet, SheetGrip]
+  CheckItem, PitadaToggle, FuelBar, ExpiryTag, PitadaButton, PitadaIconButton, PitadaChip,
+  EditTextField, StepProgress, EmptyState, showPitadaSheet, SheetGrip]
 
 utils_reutilizados: [format.dart (formatHuman, formatGrams, formatDayMonth),
   app_log.dart (AppLog — tag 'groceries' em toda a feature)]
@@ -209,12 +231,13 @@ arquivos:                    # cada .dart < 200 linhas; quebre em widgets se pas
     - scanner_service.dart        # ScannerService abstrato + MockScannerService + scannerProvider
   presentation:
     - groceries_screen.dart
-    - add_sheet.dart
+    - add_item_sheet.dart
     - new_list_sheet.dart
-    - lists_sheet.dart
     - add_pantry_sheet.dart
-    - widgets/list_header.dart
     - widgets/grocery_list_view.dart
+    - widgets/cart_tab_bar.dart
+    - widgets/cart_header.dart
+    - widgets/grocery_row.dart
     - widgets/pantry_view.dart
     - widgets/category_section.dart
     - widgets/add_pantry_data.dart

@@ -1,7 +1,8 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/groceries/data/list_seed.dart
-// O QUÊ:     Categorias canônicas + DUAS listas de compras de exemplo (quantidades
-//            CRUAS — 'Semana' desconta a despensa na exibição, 'Praia' não).
+// O QUÊ:     Categorias canônicas + DOIS carrinhos de exemplo (quantidades
+//            CRUAS — 'Compras da semana' desconta a despensa na exibição,
+//            'Feira' não).
 // USA:       grocery_item.dart, grocery_list.dart.
 // USADO POR: repository (fetchLists), providers (ordem das categorias) e
 //            pantry_seed (categorias).
@@ -12,7 +13,7 @@ import 'grocery_list.dart';
 
 const kCatHortifruti = 'Hortifrúti';
 const kCatAcougue = 'Açougue';
-const kCatLaticinios = 'Laticínios & ovos';
+const kCatLaticinios = 'Laticínios';
 const kCatMercearia = 'Mercearia';
 
 /// Ordem canônica das categorias. Usada por: agrupadores de providers.
@@ -23,73 +24,90 @@ const kGroceryCategories = <String>[
   kCatMercearia,
 ];
 
-/// Listas de exemplo com quantidades CRUAS (somadas, sem subtrair a despensa).
-/// 'Semana' desconta a despensa na exibição (cebola 6-4=2 un...); 'Praia' não
-/// (o caso "estou fora de casa, quero a lista completa").
-/// Usada por: repository (fetchLists) / groceryListsProvider.
+/// Carrinhos de exemplo com quantidades CRUAS (somadas, sem subtrair a
+/// despensa). 'Compras da semana' desconta a despensa na exibição (tomate
+/// 800 g − 300 g = 500 g); 'Feira' não (o caso "estou fora de casa, quero a
+/// lista completa"). Usada por: repository (fetchLists) / groceryListsProvider.
 const kSeedLists = <GroceryList>[
   GroceryList(
     id: 'list-semana',
-    name: 'Semana',
+    name: 'Compras da semana',
+    label: 'Semana',
     usePantry: true,
     items: [
       GroceryItem(
-        id: 'sh-pimentao',
-        name: 'Pimentão',
+        id: 'sh-tomate',
+        name: 'Tomate',
         category: kCatHortifruti,
-        humanQty: 3,
-        humanUnit: 'un',
-        grams: 360,
+        humanQty: 800,
+        humanUnit: 'g',
+        grams: 800,
       ),
       GroceryItem(
-        id: 'sh-cebola',
-        name: 'Cebola',
+        id: 'sh-banana',
+        name: 'Banana',
         category: kCatHortifruti,
         humanQty: 6,
         humanUnit: 'un',
-        grams: 720,
+        grams: 600,
       ),
       GroceryItem(
-        id: 'sh-frango',
-        name: 'Peito de frango',
-        category: kCatAcougue,
-        humanQty: 1600,
-        humanUnit: 'g',
-        grams: 1600,
-      ),
-      GroceryItem(
-        id: 'sh-ovos',
-        name: 'Ovos',
-        category: kCatLaticinios,
-        humanQty: 8,
+        id: 'sh-cenoura',
+        name: 'Cenoura',
+        category: kCatHortifruti,
+        humanQty: 3,
         humanUnit: 'un',
-        grams: 320,
+        grams: 210,
       ),
       GroceryItem(
-        id: 'sh-shoyu',
-        name: 'Shoyu',
-        category: kCatMercearia,
-        humanQty: 2,
+        id: 'sh-maca',
+        name: 'Maçã',
+        category: kCatHortifruti,
+        humanQty: 4,
         humanUnit: 'un',
+        grams: 520,
         checked: true,
       ),
       GroceryItem(
-        id: 'sh-amendoim',
-        name: 'Amendoim',
-        category: kCatMercearia,
-        humanQty: 160,
+        id: 'sh-iogurte',
+        name: 'Iogurte natural',
+        category: kCatLaticinios,
+        humanQty: 4,
+        humanUnit: 'un',
+      ),
+      GroceryItem(
+        id: 'sh-leite',
+        name: 'Leite',
+        category: kCatLaticinios,
+        humanQty: 1,
+        humanUnit: 'L',
+      ),
+      GroceryItem(
+        id: 'sh-queijo',
+        name: 'Queijo',
+        category: kCatLaticinios,
+        humanQty: 200,
         humanUnit: 'g',
-        grams: 160,
+        grams: 200,
+        checked: true,
+      ),
+      GroceryItem(
+        id: 'sh-arroz',
+        name: 'Arroz',
+        category: kCatMercearia,
+        humanQty: 1,
+        humanUnit: 'kg',
+        grams: 1000,
       ),
     ],
   ),
   GroceryList(
-    id: 'list-praia',
-    name: 'Praia',
+    id: 'list-feira',
+    name: 'Feira',
     usePantry: false,
     items: [
       GroceryItem(
-        id: 'pr-limao',
+        id: 'fr-limao',
         name: 'Limão',
         category: kCatHortifruti,
         humanQty: 4,
@@ -97,7 +115,7 @@ const kSeedLists = <GroceryList>[
         grams: 400,
       ),
       GroceryItem(
-        id: 'pr-tilapia',
+        id: 'fr-tilapia',
         name: 'Filé de tilápia',
         category: kCatAcougue,
         humanQty: 600,
@@ -105,7 +123,7 @@ const kSeedLists = <GroceryList>[
         grams: 600,
       ),
       GroceryItem(
-        id: 'pr-coalho',
+        id: 'fr-coalho',
         name: 'Queijo coalho',
         category: kCatLaticinios,
         humanQty: 400,
@@ -113,7 +131,7 @@ const kSeedLists = <GroceryList>[
         grams: 400,
       ),
       GroceryItem(
-        id: 'pr-paoalho',
+        id: 'fr-paoalho',
         name: 'Pão de alho',
         category: kCatMercearia,
         humanQty: 2,

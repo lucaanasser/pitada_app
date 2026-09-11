@@ -1,10 +1,10 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/groceries/presentation/new_list_sheet.dart
-// O QUÊ:     Sheet de criar lista de compras (só o nome) + createAndSelectList,
-//            o fluxo completo que cria a lista e a torna ativa.
+// O QUÊ:     Sheet de criar carrinho (só o nome) + createAndSelectList,
+//            o fluxo completo que cria o carrinho e o torna ativo.
 // USA:       theme/*, core/widgets (PitadaButton, pitada_sheet, SheetGrip),
 //            flutter_riverpod + providers (createAndSelectList).
-// USADO POR: ListHeaderRow (via ListsSheet), add_sheet ('+' do header).
+// USADO POR: CartTabBar (aba '+' dos carrinhos).
 // SPEC:      specs/features/groceries.yaml (sheets.showNewListSheet)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
@@ -28,9 +28,8 @@ Future<String?> showNewListSheet(BuildContext context) {
   );
 }
 
-/// Fluxo completo de criar lista: abre o sheet de nome, cria e a torna ativa.
-/// Usada por: ListHeaderRow (sheet de listas) e showGroceriesAddSheet — o atalho
-/// do header cai exatamente no mesmo fluxo.
+/// Fluxo completo de criar carrinho: abre o sheet de nome, cria e o torna ativo.
+/// Usada por: CartTabBar (aba '+').
 Future<void> createAndSelectList(BuildContext context, WidgetRef ref) async {
   final name = await showNewListSheet(context);
   if (name == null || name.trim().isEmpty) return;

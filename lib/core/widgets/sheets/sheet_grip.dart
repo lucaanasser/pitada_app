@@ -4,7 +4,7 @@
 //            Promovido de plans/ e recipes/ (havia duas cópias iguais).
 // USA:       theme/pitada_colors, theme/spacing.
 // USADO POR: add_options_sheet e sheets de plans, recipes (import/cook_chat) e
-//            groceries (lists_sheet, new_list_sheet).
+//            groceries (new_list_sheet, add_item_sheet).
 // SPEC:      specs/components/sheets/sheet_grip.yaml
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';

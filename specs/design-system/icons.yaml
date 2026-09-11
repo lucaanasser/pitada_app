@@ -31,6 +31,7 @@ acoes:
   unlink:    linkBreak      # desvincular subreceita (vira cópia local)
   folder:    folderOpen
   dragHandle: dotsSixVertical   # pega de arrastar (reordenar refeições no Plano)
+  more:      dotsThree          # menu de opções (⋯ do card de compras)
 
 dominio:
   dish:       cookingPot
