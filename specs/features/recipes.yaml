@@ -265,6 +265,10 @@ screens:
           Card de pasta: silhueta pastel do hero com aba, papéis off-white saindo
           de dentro e BOLSO frontal cobrindo a metade de baixo (seam em 0.50h) —
           bolso mais alto p/ dar respiro à "boca" e caber título em 2 linhas.
+          A quantidade de papéis (0..3) escala DEVAGAR com o nº de receitas, não
+          1:1, em faixas de 5: 0 papéis com pasta vazia, 1 papel de 1 a 5 receitas,
+          2 de 6 a 10, 3 só a partir de 11 — assim uma pasta comum não encosta logo
+          no teto e o ícone insinua o volume sem virar "3 papéis" em quase toda pasta.
           Nome no bolso em AppType.titleXs (14, Space Grotesk), até 2 LINHAS antes
           do "..."; contagem "N receitas" em captionSm logo abaixo. Padding inferior
           do texto = sm (bolso curto). Press: encolhe o card (0.97) e levanta os

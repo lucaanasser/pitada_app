@@ -3,38 +3,24 @@
 // O QUÊ:     Resumo do dia (SEM caixa): anel de macros à ESQUERDA + legenda com
 //            valores ('nome' + 'valor / meta') à DIREITA. Tocar (anel ou legenda)
 //            seleciona: engrossa o anel e o centro mostra só o número dele.
-// USA:       theme/*, utils/format, plan_providers (DayTotals), MacroRingPainter.
-// USADO POR: plans_screen (cabeçalho fixo do Plano, acima das sub-abas).
+// USA:       theme/*, utils/format, MacroRing/MacroRingPainter.
+// USADO POR: plans_screen (forma EXPANDIDA do resumo, em repouso).
 // SPEC:      specs/features/plans/plans.yaml (DaySummaryView)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
 
-import '../../../../../core/theme/colors.dart';
 import '../../../../../core/theme/pitada_colors.dart';
 import '../../../../../core/theme/spacing.dart';
 import '../../../../../core/theme/typography.dart';
 import '../../../../../core/utils/format.dart';
-import '../../../application/plan_providers.dart';
 import 'macro_ring_painter.dart';
 
 /// Resumo nutricional do dia: anel de macros interativo + legenda com valores.
-/// [totals] são as opções escolhidas; os `*Goal` são as metas diárias do plano.
-/// Usada por: plans_screen.
+/// [rings] são os 4 macros já montados (dayMacroRings). Usada por: plans_screen.
 class DaySummaryView extends StatefulWidget {
-  const DaySummaryView({
-    super.key,
-    required this.goalKcal,
-    required this.proteinGoal,
-    required this.carbGoal,
-    required this.fatGoal,
-    required this.totals,
-  });
+  const DaySummaryView({super.key, required this.rings});
 
-  final int goalKcal;
-  final int proteinGoal;
-  final int carbGoal;
-  final int fatGoal;
-  final DayTotals totals;
+  final List<MacroRing> rings;
 
   @override
   State<DaySummaryView> createState() => _DaySummaryViewState();
@@ -50,29 +36,13 @@ class _DaySummaryViewState extends State<DaySummaryView> {
   /// Anel selecionado: 0 Calorias, 1 Proteína, 2 Carboidratos, 3 Gorduras.
   int _selected = 0;
 
-  /// Os 4 anéis na ordem de fora p/ dentro (Calorias externo). Usada por: [build].
-  List<MacroRing> _rings() {
-    final t = widget.totals;
-    final specs = <(String, num, num, Color, String)>[
-      ('Calorias', t.kcal, widget.goalKcal, AppColors.accent, 'kcal'),
-      ('Proteína', t.protein, widget.proteinGoal, AppColors.sage, 'g'),
-      ('Carboidratos', t.carb, widget.carbGoal, AppColors.macroCarb, 'g'),
-      ('Gorduras', t.fat, widget.fatGoal, AppColors.macroFat, 'g'),
-    ];
-    return [
-      for (final (label, value, goal, color, unit) in specs)
-        MacroRing(
-            label: label, value: value, goal: goal, color: color, unit: unit),
-    ];
-  }
-
   /// Seleciona o anel [i] (toque no anel ou na legenda). Usada por: [build].
   void _select(int i) => setState(() => _selected = i);
 
   /// Monta a linha anel (esquerda) + legenda (direita). Usada por: plans_screen.
   @override
   Widget build(BuildContext context) {
-    final rings = _rings();
+    final rings = widget.rings;
     return LayoutBuilder(
       builder: (context, constraints) {
         final side =

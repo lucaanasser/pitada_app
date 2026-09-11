@@ -3,18 +3,23 @@
 // O QUÊ:     Anéis concêntricos de macro (CustomPaint, sem lib externa). Arco
 //            sempre em cor cheia sobre trilho NEUTRO; o anel selecionado ganha
 //            traço mais grosso e trilho mais visível. Flat: sem sombra/gradiente.
-// USA:       material (Canvas), dart:math (arco).
-// USADO POR: DaySummaryView (resumo do dia como anel de macros).
+//            Traz também dayMacroRings — a fonte única da ordem/cor/rótulo dos 4
+//            macros do dia, usada pelo anel e pelas linhas colapsadas.
+// USA:       material (Canvas), dart:math (arco), theme/colors (cores dos macros).
+// USADO POR: DaySummaryView (anel) e MacroLinesView (barras) — ambos via dayMacroRings.
 // SPEC:      specs/features/plans/plans.yaml (widgets_da_feature: MacroRingPainter)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
-/// Dado de um anel: rótulo, valor atual, meta, cor e unidade. Imutável.
-/// Usada por: DaySummaryView (monta a lista) e MacroRingPainter (pinta).
+import '../../../../../core/theme/colors.dart';
+
+/// Dado de um anel: rótulo, rótulo curto (linhas), valor atual, meta, cor e
+/// unidade. Imutável. Usada por: DaySummaryView (anel) e MacroLinesView (barras).
 class MacroRing {
   final String label;
+  final String shortLabel;
   final num value;
   final num goal;
   final Color color;
@@ -22,6 +27,7 @@ class MacroRing {
 
   const MacroRing({
     required this.label,
+    required this.shortLabel,
     required this.value,
     required this.goal,
     required this.color,
@@ -31,6 +37,51 @@ class MacroRing {
   /// Fração preenchida (0..1), limitada em 1. Usada por: MacroRingPainter e o centro.
   double get fraction =>
       goal <= 0 ? 0 : (value / goal).clamp(0.0, 1.0).toDouble();
+}
+
+/// Monta os 4 macros do dia na ordem de fora p/ dentro (Calorias, Proteína,
+/// Carboidratos, Gorduras) com cor, unidade e rótulos fixos — fonte única
+/// consumida pelo anel (DaySummaryView) e pelas linhas (MacroLinesView).
+List<MacroRing> dayMacroRings({
+  required num kcal,
+  required int goalKcal,
+  required num protein,
+  required int proteinGoal,
+  required num carb,
+  required int carbGoal,
+  required num fat,
+  required int fatGoal,
+}) {
+  return [
+    MacroRing(
+        label: 'Calorias',
+        shortLabel: 'Cal',
+        value: kcal,
+        goal: goalKcal,
+        color: AppColors.accent,
+        unit: 'kcal'),
+    MacroRing(
+        label: 'Proteína',
+        shortLabel: 'Prot',
+        value: protein,
+        goal: proteinGoal,
+        color: AppColors.sage,
+        unit: 'g'),
+    MacroRing(
+        label: 'Carboidratos',
+        shortLabel: 'Carb',
+        value: carb,
+        goal: carbGoal,
+        color: AppColors.macroCarb,
+        unit: 'g'),
+    MacroRing(
+        label: 'Gorduras',
+        shortLabel: 'Gord',
+        value: fat,
+        goal: fatGoal,
+        color: AppColors.macroFat,
+        unit: 'g'),
+  ];
 }
 
 /// Pinta anéis concêntricos (índice 0 = mais externo) com arco em cor cheia

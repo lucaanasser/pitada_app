@@ -90,6 +90,12 @@ screens:
            toque seleciona (no item ou no próprio anel). Começa em Calorias."
         - "linha abaixo do anel (mesmo gutter): 'Restam N kcal' (pit.muted) à esquerda
            e 'Editar metas' (pit.text2) à direita -> showGoalSheet"
+        - "COLAPSA NO SCROLL (snap animado ~220ms, AnimatedCrossFade): ao rolar o
+           corpo além de ~32px o bloco 'anel + legenda + linha de metas' encolhe e
+           vira MacroLinesView — 4 barras horizontais finas fixas no cabeçalho (uma
+           por macro, mesma ordem/cor do anel), pra acompanhar as metas sem roubar
+           altura das refeições. De volta ao topo reaparece o anel; trocar de sub-aba
+           reseta pro anel. O anel é herói só em repouso; ao editar, cede espaço."
         - "PitadaTabs ['Cardápio', 'Progresso'] abaixo dos macros, alinhadas à
            ESQUERDA (como nas demais telas) e com respiro xl após os macros"
         - "sub-aba 0 = MenuView; sub-aba 1 = ProgressView (peso + aderência, ver plans_progress.yaml)"
@@ -124,7 +130,8 @@ screens:
         - "PitadaButton(outline) 'Adicionar refeição' -> showMealSheet(novo)"
       widgets_da_feature:   # em presentation/widgets/meal/ (tela > 200 linhas => quebrar)
         - DaySummaryView      # anel de macros interativo (anel à esquerda + legenda com valores à direita), sem caixa
-        - MacroRingPainter    # CustomPainter dos anéis concêntricos (macro_ring_painter.dart)
+        - MacroLinesView      # forma COLAPSADA do resumo: 4 barras horizontais (FuelBar) — uma por macro — pro cabeçalho durante o scroll
+        - MacroRingPainter    # CustomPainter dos anéis concêntricos + dayMacroRings (fonte única da ordem/cor/rótulo dos 4 macros, usada pelo anel e pelas linhas)
         - MealCard            # seção da refeição (cabeçalho + pasta de opções + comparar), sem caixa
         - MealOptionTabs      # fita de abas (pasta) das opções + aba '+'
         - MealOptionPanel     # corpo da pasta (pratos + adicionar + rodapé)
@@ -195,7 +202,7 @@ sheets:
            kcal + selo 'Hoje' (PitadaTag sage) se escolhida à direita"
         - "tocar => PlanController.chooseOption + fecha"
 
-components_reutilizados: [Masthead, SectionHeader, HairlineRow, PitadaTag,
+components_reutilizados: [Masthead, SectionHeader, HairlineRow, PitadaTag, FuelBar,
   RecipeThumb, PitadaSearchField, PitadaButton, PitadaIconButton, Editable, EmptyState]
 
 usa_de_outras_features:

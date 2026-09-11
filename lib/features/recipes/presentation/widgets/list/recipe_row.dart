@@ -8,7 +8,8 @@
 //            recipe_list_providers (recipeMasteryLevelProvider), recipe_meta_text,
 //            Recipe.
 // USADO POR: recipes_screen (via RecipeListView), framework_detail_screen,
-//            technique_detail_screen; framework_row (usa InitialStamp).
+//            technique_detail_screen; framework_row (usa InitialStamp);
+//            plans/option_panel (usa RecipeMark nos pratos linkados).
 // SPEC:      specs/features/recipes.yaml (RecipesScreen: recipe_row)
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';

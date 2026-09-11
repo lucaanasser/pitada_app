@@ -17,4 +17,4 @@ details: >
   Trilho (pit.surf2, raio 4) com FractionallySizedBox alinhado à esquerda;
   widthFactor = progress clampado em 0..1. O preenchimento é color ?? sage e
   accent2 quando over=true. Flat, sem sombra.
-used_by: [plans (DaySummaryView), groceries (rodapé do card de compras)]
+used_by: [plans (MacroLinesView — resumo colapsado), groceries (rodapé do card de compras)]

@@ -54,8 +54,8 @@ Path _folderBackPath(double w, double h, double i) {
     ..close();
 }
 
-/// Posições dos papéis por quantidade (esqFrac, topoFrac, ângulo rad).
-/// Menos receitas = menos papéis; teto 3 para não ficar lotado.
+/// Posições dos papéis por nível de pilha (esqFrac, topoFrac, ângulo rad).
+/// Índice 0..3 = nível vindo de [_paperLevel]; teto 3 para não ficar lotado.
 /// Usada por: [FolderPainter.paint].
 const _paperLayouts = <List<(double, double, double)>>[
   [],
@@ -63,6 +63,17 @@ const _paperLayouts = <List<(double, double, double)>>[
   [(.11, .11, -.08), (.43, .08, .07)],
   [(.06, .11, -.10), (.46, .07, .09), (.24, .15, -.02)],
 ];
+
+/// Nível da pilha (0..3) para uma pasta com [recipes] receitas — escala DEVAGAR,
+/// não 1:1, em faixas de 5: 0 papéis vazia, 1 de 1 a 5 receitas, 2 de 6 a 10,
+/// 3 a partir de 11, para uma pasta comum não encostar logo no teto.
+/// Usada por: [FolderPainter.paint].
+int _paperLevel(int recipes) {
+  if (recipes <= 0) return 0;
+  if (recipes <= 5) return 1;
+  if (recipes <= 10) return 2;
+  return 3;
+}
 
 /// Pinta a pasta inteira: fundo + papéis + bolso — SEM contorno (referência é
 /// limpa; a separação vem da cor e da sombra pequena). O último papel da pilha
@@ -93,8 +104,9 @@ class FolderPainter extends CustomPainter {
     final w = size.width, h = size.height;
     canvas.drawPath(folderSilhouette(size), Paint()..color = pastel);
 
-    for (final (j, spec) in _paperLayouts[count.clamp(0, 3)].indexed) {
-      final isFront = j == _paperLayouts[count.clamp(0, 3)].length - 1;
+    final layout = _paperLayouts[_paperLevel(count)];
+    for (final (j, spec) in layout.indexed) {
+      final isFront = j == layout.length - 1;
       _paper(canvas, size, spec, isFront);
     }
 
