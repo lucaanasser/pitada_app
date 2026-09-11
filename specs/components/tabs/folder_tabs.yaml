@@ -4,21 +4,23 @@ file: lib/core/widgets/tabs/folder_tabs.dart
 purpose: >
   Fonte ÚNICA do UX de abas-pasta do app. As abas dividem a largura e se
   SOBREPÕEM como abas de uma pasta de arquivo empilhada: a da esquerda vem na
-  frente da direita; a inativa fica recuada (tom recess) e ~3px mais baixa, a
-  ativa é levantada à frente de todas (tom surface) com base ABERTA que se funde
-  no corpo logo abaixo. A ativa distingue-se pelo texto (pit.text); as inativas
-  ficam muted. Profundidade por tom + sobreposição + z-order + uma sombra pequena
-  na emenda da sobreposição (exceção pontual ao flat, como o card de pasta).
-  Contida e discreta, no gosto do dono (nada de selo/tag dentro da aba).
-  Substitui as abas duplicadas de compras e cardápio.
+  frente da direita; TODAS têm a cor do corpo — a de trás não muda de cor, ela
+  está no plano de trás e por isso leva um véu de sombra e desce ~3px; a ativa é
+  levantada à frente de todas com base ABERTA que se funde no corpo logo abaixo.
+  A ativa distingue-se pelo texto (pit.text); as de trás ficam muted. As abas
+  param um respiro ANTES do fim do card: o canto direito do card aparece
+  arredondado; à esquerda a 1ª aba conecta reta no card. Contida e discreta, no
+  gosto do dono (nada de selo/tag dentro da aba). Substitui as abas duplicadas
+  de compras e cardápio.
 uses:
-  - context.pit.surf   # tom-corpo padrão da ativa (funde no corpo)
-  - context.pit.bg     # tom recuado padrão das inativas (recess)
+  - context.pit.surf   # cor única das abas e do corpo (via [surface])
   - context.pit.text   # rótulo da aba ativa
-  - context.pit.muted  # rótulo das inativas + ícone '+'
+  - context.pit.muted  # rótulo das de trás + ícone '+'
   - context.pit.line   # filete sutil que define a silhueta contra o fundo
+  - AppColors.shadow   # sombra das emendas + véu das abas de trás
   - AppType.titleXs
-  - AppSpacing.radiusMd
+  - AppSpacing.md
+  - AppSpacing.xxxl
   - AppSpacing.hair
   - AppIcons.add
 api:
@@ -26,28 +28,32 @@ api:
   - active: int                  # índice da aba levantada à frente
   - onSelect: ValueChanged<int>  # toque numa aba => escolhe
   - onAdd: VoidCallback?         # se != null, mostra a aba '+' estreita no fim
-  - surface: Color?              # tom da ativa/corpo (default context.pit.surf)
-  - recess: Color?               # tom recuado das inativas (default context.pit.bg)
+  - surface: Color?              # cor das abas/corpo (default context.pit.surf)
 helpers:
   - FolderTab: {label: String, onEdit: VoidCallback?}  # onEdit só dispara na aba ativa
 geometria: >
   Altura fixa folderTabsHeight (40). Cada aba = TRAPÉZIO de cantos superiores
-  arredondados (bézier, _round=8) e base aberta: laterais EXTERNAS retas (esquerda
-  da 1ª aba, direita do último segmento) e INTERNAS anguladas p/ dentro no topo
-  (_slant=9) — as do meio anguladas dos dois lados. Fatia da largura estendida
-  _overlap (20) sobre a vizinha da direita. Inativas com topo em _drop (3) e
-  preenchidas com [recess]; a ativa com topo em 0 e [surface]. Ordem de pintura
-  (z): '+' e inativas do fundo p/ frente (direita→esquerda), depois a ativa por
-  cima de todas — cada aba com uma sombra curta deslocada (2,1; blur 2.5) que cai
-  na emenda da sobreposição. O preenchimento é opaco (fecha a base); o traço
-  pit.line desenha só topo+laterais (base fica aberta). Aba '+' = último segmento
-  estreito (_addWidth), sempre inativo, com AppIcons.add em muted.
+  arredondados (bézier, _round=8) e base aberta: laterais EXTERNAS retas
+  (esquerda da 1ª aba) e INTERNAS anguladas p/ dentro no topo (_slant=9) — as do
+  meio anguladas dos dois lados. Fatia da largura estendida _overlap (12, md)
+  sobre a vizinha da direita — curto de propósito: no alto da emenda as duas
+  curvinhas divergem e o vão escuro aparece, como na pasta real. A fita ocupa
+  largura − _endGap (30, xxxl): o respiro à direita deixa o canto arredondado do
+  card visível (o corpo precisa de topRight radiusCard). Abas de trás com topo em
+  _drop (3); a ativa com topo em 0. Ordem de pintura (z): '+' e abas de trás do
+  fundo p/ frente (direita→esquerda), depois a ativa por cima — cada aba com uma
+  sombra curta deslocada (2.5,1; blur 2.5) na emenda; as de trás recebem por cima
+  um véu AppColors.shadow a 18%. Preenchimento opaco com 1px de sobrepintura
+  abaixo da fita + clip duro: a ativa emenda no corpo sem filete de AA. Aba '+' =
+  último segmento estreito (_addWidth 46), sempre atrás, com AppIcons.add em muted.
 merge: >
   A aba ativa usa [surface]; o corpo logo abaixo (card de compras = pit.surf,
-  MealOptionPanel = pit.surf2) precisa ter a MESMA cor e encostar sem vão para a
-  fusão ler certo. Quem usa passa [surface] igual à cor do corpo.
+  MealOptionPanel = pit.surf2) precisa ter a MESMA cor, encostar sem vão e ter
+  raio no topo SÓ à direita (topRight radiusCard) — o topo-esquerdo fica reto,
+  conectado à 1ª aba. Quem usa passa [surface] igual à cor do corpo.
 proibido: [degradê, selo/tag dentro da aba, borda grossa em volta de cada aba,
-           sombra grande/genérica (só a sombra pontual da emenda é permitida)]
+           tom de fundo diferente p/ aba de trás (profundidade é sombra, não cor),
+           sombra grande/genérica (só a das emendas + véu do plano de trás)]
 used_by:
   - MealOptionTabs   # cardápio: abas das opções de refeição (surface = pit.surf2)
   - CartTabBar       # compras: abas dos carrinhos (surface = pit.surf)

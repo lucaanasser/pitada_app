@@ -1,10 +1,11 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/core/widgets/tabs/folder_tabs.dart
 // O QUÊ:     Fita de abas-pasta empilhadas: trapézios de cantos arredondados —
-//            laterais EXTERNAS retas, INTERNAS anguladas — que dividem a largura
-//            e se sobrepõem (esquerda na frente). Inativas recuadas (recess) e a
-//            ativa à frente (surface, base funde no corpo). Sombra pequena na
-//            sobreposição p/ profundidade — exceção pontual ao flat, como a pasta.
+//            laterais externas retas, internas anguladas — que dividem a largura
+//            até um respiro antes do canto direito do card (visível e redondo).
+//            Todas as abas têm a cor do corpo; as de trás descem ~3px e levam um
+//            véu de sombra (plano de trás); a ativa vem à frente com a base
+//            aberta, fundindo no corpo. Sombra curta nas emendas dá a profundidade.
 // USA:       theme/* (tokens, AppColors.shadow), core/widgets (Editable).
 // USADO POR: MealOptionTabs (cardápio), CartTabBar (compras).
 // ─────────────────────────────────────────────────────────────────────────────
@@ -21,12 +22,12 @@ import '../controls/editable.dart';
 const double folderTabsHeight = 40;
 
 /// Quanto cada aba encobre a vizinha da direita. Usada por: [FolderTabs].
-const double _overlap = AppSpacing.xl;
+const double _overlap = AppSpacing.md;
 
 /// Recuo horizontal da lateral angulada no topo (trapézio). Usada por: pintura.
 const double _slant = 9;
 
-/// Recuo vertical (topo) das abas inativas. Usada por: [FolderTabs].
+/// Recuo vertical (topo) das abas de trás. Usada por: [FolderTabs].
 const double _drop = 3;
 
 /// Raio de arredondamento dos cantos superiores. Usada por: pintura.
@@ -34,6 +35,9 @@ const double _round = 8;
 
 /// Largura da aba '+' estreita. Usada por: [FolderTabs].
 const double _addWidth = 46;
+
+/// Respiro à direita até o canto do card (que aparece arredondado). Usada por: [FolderTabs].
+const double _endGap = AppSpacing.xxxl;
 
 /// Uma aba: rótulo e [onEdit] opcional (só dispara quando ativa). Usada por: [FolderTabs].
 class FolderTab {
@@ -44,8 +48,7 @@ class FolderTab {
 
 /// Fita de abas-pasta (trapézios) empilhadas: [tabs] dividem a largura e se
 /// sobrepõem, [active] à frente e toque => [onSelect]; [onAdd] mostra a aba '+'.
-/// [surface] é a cor da ativa/corpo (default pit.surf); [recess] o tom das
-/// inativas (default pit.bg).
+/// [surface] é a cor de TODAS as abas e do corpo (default pit.surf).
 class FolderTabs extends StatelessWidget {
   const FolderTabs({
     super.key,
@@ -54,7 +57,6 @@ class FolderTabs extends StatelessWidget {
     required this.onSelect,
     this.onAdd,
     this.surface,
-    this.recess,
   });
 
   final List<FolderTab> tabs;
@@ -62,7 +64,6 @@ class FolderTabs extends StatelessWidget {
   final ValueChanged<int> onSelect;
   final VoidCallback? onAdd;
   final Color? surface;
-  final Color? recess;
 
   /// Empilha a pintura das silhuetas (na ordem de profundidade) sob os rótulos
   /// toca-veis, posicionados aba a aba. Usada por: framework.
@@ -77,14 +78,15 @@ class FolderTabs extends StatelessWidget {
       height: folderTabsHeight,
       child: LayoutBuilder(
         builder: (context, c) {
-          final slot = (c.maxWidth - (hasAdd ? _addWidth : 0)) / n;
+          final span = c.maxWidth - _endGap;
+          final slot = (span - (hasAdd ? _addWidth : 0)) / n;
+          final actR = ((act + 1) * slot + _overlap).clamp(0.0, span);
           return Stack(
             children: [
               Positioned.fill(
                 child: CustomPaint(
                   painter: _FolderStackPainter(
                     fill: surface ?? pit.surf,
-                    recess: recess ?? pit.bg,
                     line: pit.line,
                     count: n,
                     active: act,
@@ -94,12 +96,12 @@ class FolderTabs extends StatelessWidget {
               ),
               for (var i = 0; i < n; i++)
                 if (i != act)
-                  _slot(i * slot, slot, _drop, () => onSelect(i),
-                      _label(context, i, false)),
+                  _slot(i * slot + (i == 0 ? 0 : _overlap), slot, _drop,
+                      () => onSelect(i), _label(context, i, false)),
               if (hasAdd)
-                _slot(n * slot, _addWidth, _drop, onAdd,
+                _slot(n * slot + _overlap, _addWidth - _overlap, _drop, onAdd,
                     Icon(AppIcons.add, size: 16, color: pit.muted)),
-              _slot(act * slot, slot, 0, () => onSelect(act),
+              _slot(act * slot, actR - act * slot, 0, () => onSelect(act),
                   _label(context, act, true)),
             ],
           );
@@ -145,25 +147,21 @@ class FolderTabs extends StatelessWidget {
   }
 }
 
-/// Ponto a distância [_round] de [a] rumo a [b] (arredonda cantos). Usada por: [_corner].
-Offset _toward(Offset a, Offset b) {
-  final v = b - a;
-  final len = v.distance;
-  final t = len <= _round ? 0.5 : _round / len;
-  return Offset(a.dx + v.dx * t, a.dy + v.dy * t);
-}
+/// Arredonda o canto [c] (vindo de [a], indo a [b]) com uma bézier. Usada por: [_tabPath].
+void _corner(Path path, Offset a, Offset c, Offset b) {
+  Offset at(Offset o) {
+    final v = o - c;
+    return c + v * (v.distance <= _round ? 0.5 : _round / v.distance);
+  }
 
-/// Arredonda o canto [corner] (entre [from] e [to]) com uma bézier. Usada por: [_tabPath].
-void _corner(Path path, Offset from, Offset corner, Offset to) {
-  final p1 = _toward(corner, from), p2 = _toward(corner, to);
+  final p1 = at(a), p2 = at(b);
   path
     ..lineTo(p1.dx, p1.dy)
-    ..quadraticBezierTo(corner.dx, corner.dy, p2.dx, p2.dy);
+    ..quadraticBezierTo(c.dx, c.dy, p2.dx, p2.dy);
 }
 
 /// Silhueta de uma aba: trapézio com lateral angulada quando [la]/[ra] (senão
-/// reta, borda externa), cantos superiores arredondados e base aberta (fecha só
-/// no preenchimento). Usada por: [_FolderStackPainter].
+/// reta), cantos superiores arredondados e base aberta em [h]. Usada por: painter.
 Path _tabPath(double l, double r, double top, double h, bool la, bool ra) {
   final bl = Offset(l, h), br = Offset(r, h);
   final tl = Offset(la ? l + _slant : l, top);
@@ -174,66 +172,61 @@ Path _tabPath(double l, double r, double top, double h, bool la, bool ra) {
   return path..lineTo(br.dx, br.dy);
 }
 
-/// Pinta as silhuetas do fundo p/ frente: '+', inativas (esquerda na frente) e a
-/// ativa por cima, cada uma com uma sombra curta na sobreposição. Usada por: [FolderTabs].
+/// Pinta as silhuetas do fundo p/ frente: '+', abas de trás (esquerda na frente,
+/// mesma cor + véu de sombra) e a ativa por cima, cada uma com sombra curta na
+/// emenda; recorta na fita p/ nada vazar sob o corpo. Usada por: [FolderTabs].
 class _FolderStackPainter extends CustomPainter {
   const _FolderStackPainter({
     required this.fill,
-    required this.recess,
     required this.line,
     required this.count,
     required this.active,
     required this.hasAdd,
   });
 
-  final Color fill, recess, line;
+  final Color fill, line;
   final int count, active;
   final bool hasAdd;
 
-  /// Desenha uma aba: sombra curta deslocada p/ a direita → preenchimento opaco →
-  /// contorno (sem a base). Usada por: [paint].
-  void _tab(Canvas canvas, double l, double r, double top, Color color, bool la,
+  /// Uma aba: sombra da emenda → cor do corpo → véu de sombra (se atrás) →
+  /// contorno sem a base. Usada por: [paint].
+  void _tab(Canvas canvas, double l, double r, double top, bool behind, bool la,
       bool ra, Paint stroke) {
-    final path = _tabPath(l, r, top, folderTabsHeight, la, ra);
+    final path = _tabPath(l, r, top, folderTabsHeight + 1, la, ra);
     canvas.save();
-    canvas.translate(2, 1);
+    canvas.translate(2.5, 1);
     canvas.drawPath(
       path,
       Paint()
         ..color = AppColors.shadow
-        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 2),
+        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 2.5),
     );
     canvas.restore();
-    canvas.drawPath(path, Paint()..color = color);
+    canvas.drawPath(path, Paint()..color = fill);
+    if (behind) {
+      canvas.drawPath(
+          path, Paint()..color = AppColors.shadow.withValues(alpha: 0.18));
+    }
     canvas.drawPath(path, stroke);
   }
 
-  /// Desenha '+' → inativas (direita p/ esquerda) → ativa levantada — recortando
-  /// na altura da fita p/ a sombra não vazar sob o corpo. Usada por: framework.
+  /// Desenha '+' → abas de trás (direita p/ esquerda) → ativa levantada. Usada por: framework.
   @override
   void paint(Canvas canvas, Size size) {
-    canvas.clipRect(Offset.zero & size);
-    final w = size.width;
-    final slot = (w - (hasAdd ? _addWidth : 0)) / count;
+    canvas.clipRect(Offset.zero & size, doAntiAlias: false);
+    final span = size.width - _endGap;
+    final slot = (span - (hasAdd ? _addWidth : 0)) / count;
     final stroke = Paint()
       ..color = line
       ..style = PaintingStyle.stroke
       ..strokeWidth = AppSpacing.hair;
-    final cap = hasAdd ? count * slot : w;
-    double right(int i) {
-      final base = (i + 1) * slot + _overlap;
-      return base < cap ? base : cap;
-    }
-
-    bool ra(int i) => i != count - 1 || hasAdd;
-    if (hasAdd) {
-      _tab(canvas, count * slot, w, _drop, recess, true, false, stroke);
-    }
+    double right(int i) => ((i + 1) * slot + _overlap).clamp(0.0, span);
+    if (hasAdd) _tab(canvas, count * slot, span, _drop, true, true, true, stroke);
     for (var i = count - 1; i >= 0; i--) {
       if (i == active) continue;
-      _tab(canvas, i * slot, right(i), _drop, recess, i != 0, ra(i), stroke);
+      _tab(canvas, i * slot, right(i), _drop, true, i != 0, true, stroke);
     }
-    _tab(canvas, active * slot, right(active), 0, fill, active != 0, ra(active),
+    _tab(canvas, active * slot, right(active), 0, false, active != 0, true,
         stroke);
   }
 
@@ -241,7 +234,6 @@ class _FolderStackPainter extends CustomPainter {
   @override
   bool shouldRepaint(_FolderStackPainter o) =>
       o.fill != fill ||
-      o.recess != recess ||
       o.line != line ||
       o.count != count ||
       o.active != active ||

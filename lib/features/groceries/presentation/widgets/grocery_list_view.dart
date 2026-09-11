@@ -72,8 +72,10 @@ class GroceryListView extends ConsumerWidget {
       ),
       decoration: BoxDecoration(
         color: pit.surf,
-        borderRadius: const BorderRadius.vertical(
-          bottom: Radius.circular(AppSpacing.radiusCard),
+        borderRadius: const BorderRadius.only(
+          topRight: Radius.circular(AppSpacing.radiusCard),
+          bottomLeft: Radius.circular(AppSpacing.radiusCard),
+          bottomRight: Radius.circular(AppSpacing.radiusCard),
         ),
       ),
       child: Column(

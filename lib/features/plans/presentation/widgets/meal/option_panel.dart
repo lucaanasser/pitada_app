@@ -3,7 +3,8 @@
 // O QUÊ:     Corpo da pasta da opção ativa (abaixo da fita de abas): pratos com
 //            marca-página de receita (linkado) ou bolinha (avulso) + porção,
 //            linha '+ Receita ou alimento' e rodapé (total + encaixe + P/C/G).
-//            Sem borda: cor chapada, raio só nos cantos de baixo (abas no topo).
+//            Sem borda: cor chapada, raio embaixo e no topo-direito (as abas
+//            param antes do fim e o canto do card aparece).
 // USA:       theme/*, utils/format, core/widgets (HairlineRow), data/meal_option,
 //            recipes (RecipeMark + Mastery — o mesmo marca-página da lista).
 // USADO POR: MealCard (via MealOptionTabs).
@@ -55,8 +56,10 @@ class MealOptionPanel extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         color: pit.surf2,
-        borderRadius: const BorderRadius.vertical(
-          bottom: Radius.circular(AppSpacing.radiusCard),
+        borderRadius: const BorderRadius.only(
+          topRight: Radius.circular(AppSpacing.radiusCard),
+          bottomLeft: Radius.circular(AppSpacing.radiusCard),
+          bottomRight: Radius.circular(AppSpacing.radiusCard),
         ),
       ),
       child: Column(

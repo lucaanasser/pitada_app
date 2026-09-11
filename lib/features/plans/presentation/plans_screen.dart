@@ -1,9 +1,8 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // lib/features/plans/presentation/plans_screen.dart
-// O QUÊ:     Aba Plano: cabeçalho (marca + título + data + resumo do dia) e
-//            sub-abas "Cardápio"/"Progresso". Ao rolar o corpo, o resumo COLAPSA
-//            do anel (DaySummaryView) p/ barras de macro (MacroLinesView), pra
-//            liberar altura das refeições. Sub-aba e colapso via setState.
+// O QUÊ:     Aba Plano: cabeçalho (marca + título + resumo do dia) e sub-abas
+//            "Cardápio"/"Progresso". Ao rolar, o cabeçalho recolhe num snap só —
+//            título + anel viram as barras de macro. Sub-aba e colapso via setState.
 // USA:       core/widgets, theme/*, utils/format, plan_providers, goal_sheet,
 //            DaySummaryView, MacroLinesView, dayMacroRings, MenuView, ProgressView.
 // USADO POR: core/router/router.dart (branch /plans).
@@ -39,32 +38,23 @@ class PlansScreen extends ConsumerStatefulWidget {
 }
 
 class _PlansScreenState extends ConsumerState<PlansScreen> {
-  /// Limiares de scroll: rolou além de [_ringAt] o anel vira barras; além de
-  /// [_titleAt] o título 'Plano' recolhe. Snap de [_dur] nos dois.
-  static const double _ringAt = 24;
-  static const double _titleAt = 132;
+  /// Scroll do corpo além do qual o cabeçalho recolhe: título + anel + metas
+  /// somem juntos e viram as barras de macro. Snap de [_dur].
+  static const double _collapseAt = 28;
   static const Duration _dur = Duration(milliseconds: 220);
 
   /// Sub-aba ativa: 0 = Cardápio (refeições), 1 = Progresso (peso + aderência).
   int _tab = 0;
 
-  /// Anel recolhido em barras de macro (rolou além de [_ringAt]).
+  /// Cabeçalho recolhido: título + anel viram as barras de macro (rolou o corpo).
   bool _collapsed = false;
 
-  /// Título 'Plano' recolhido, liberando mais altura (rolou além de [_titleAt]).
-  bool _titleHidden = false;
-
-  /// Recolhe o cabeçalho em dois estágios pelos limiares de scroll; só reconstrói
-  /// na virada (sem spam por frame). Usada por: [build].
+  /// Recolhe/expande o cabeçalho na virada de [_collapseAt] px; só reconstrói na
+  /// virada (sem spam por frame). Usada por: [build].
   bool _onScroll(ScrollNotification n) {
     if (n.metrics.axis != Axis.vertical) return false;
-    final p = n.metrics.pixels;
-    if ((p > _ringAt) != _collapsed || (p > _titleAt) != _titleHidden) {
-      setState(() {
-        _collapsed = p > _ringAt;
-        _titleHidden = p > _titleAt;
-      });
-    }
+    final collapsed = n.metrics.pixels > _collapseAt;
+    if (collapsed != _collapsed) setState(() => _collapsed = collapsed);
     return false;
   }
 
@@ -78,17 +68,7 @@ class _PlansScreenState extends ConsumerState<PlansScreen> {
       top: Column(
         children: [
           const Masthead(),
-          AnimatedCrossFade(
-            duration: _dur,
-            sizeCurve: Curves.easeOutCubic,
-            alignment: Alignment.topCenter,
-            crossFadeState: _titleHidden
-                ? CrossFadeState.showSecond
-                : CrossFadeState.showFirst,
-            firstChild: _titleRow(pit),
-            secondChild: const SizedBox(width: double.infinity),
-          ),
-          _summary(),
+          _summary(pit),
           Align(
             alignment: Alignment.centerLeft,
             child: PitadaTabs(
@@ -97,7 +77,6 @@ class _PlansScreenState extends ConsumerState<PlansScreen> {
               onSelect: (i) => setState(() {
                 _tab = i;
                 _collapsed = false;
-                _titleHidden = false;
               }),
             ),
           ),
@@ -110,8 +89,7 @@ class _PlansScreenState extends ConsumerState<PlansScreen> {
     );
   }
 
-  /// Título fixo do topo: 'Plano' + 'Hoje, D mmm' + botão '+' (showPlanAddSheet).
-  /// Recolhe ao rolar (2º estágio). Usada por: [build].
+  /// Título do topo: 'Plano' + data + botão '+' (showPlanAddSheet). Usada por: [_summary].
   Widget _titleRow(PitadaColors pit) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(
@@ -146,10 +124,9 @@ class _PlansScreenState extends ConsumerState<PlansScreen> {
     );
   }
 
-  /// Resumo do dia que colapsa no scroll: anel + legenda + 'Restam/Editar metas'
-  /// em repouso; barras de macro (MacroLinesView) ao rolar. Snap animado ~220ms.
-  /// Usada por: [build].
-  Widget _summary() {
+  /// Cabeçalho que recolhe no scroll: título 'Plano' + anel + legenda + metas em
+  /// repouso; só as barras de macro ao rolar (um snap). Usada por: [build].
+  Widget _summary(PitadaColors pit) {
     final plan = ref.watch(planControllerProvider);
     final totals = ref.watch(dayTotalsProvider);
     final rings = dayMacroRings(
@@ -162,48 +139,54 @@ class _PlansScreenState extends ConsumerState<PlansScreen> {
       fat: totals.fat,
       fatGoal: plan.fatGoal,
     );
-    return Padding(
-      padding: AppSpacing.screenH,
-      child: AnimatedCrossFade(
-        duration: _dur,
-        sizeCurve: Curves.easeOutCubic,
-        alignment: Alignment.topCenter,
-        crossFadeState:
-            _collapsed ? CrossFadeState.showSecond : CrossFadeState.showFirst,
-        firstChild: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            DaySummaryView(rings: rings),
-            const SizedBox(height: AppSpacing.lg),
-            _goalsRow(),
-            const SizedBox(height: AppSpacing.xl),
-          ],
+    final left = plan.dailyKcalGoal - totals.kcal;
+    final remaining = left >= 0
+        ? 'Restam ${formatKcal(left)} kcal'
+        : '${formatKcal(-left)} kcal acima';
+    return AnimatedCrossFade(
+      duration: _dur,
+      sizeCurve: Curves.easeOutCubic,
+      alignment: Alignment.topCenter,
+      crossFadeState:
+          _collapsed ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+      firstChild: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _titleRow(pit),
+          Padding(
+            padding: AppSpacing.screenH,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                DaySummaryView(rings: rings),
+                const SizedBox(height: AppSpacing.lg),
+                _goalsRow(
+                    pit, remaining, () => showGoalSheet(context, plan: plan)),
+              ],
+            ),
+          ),
+          const SizedBox(height: AppSpacing.xl),
+        ],
+      ),
+      secondChild: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.gutter,
+          vertical: AppSpacing.sm,
         ),
-        secondChild: Padding(
-          padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
-          child: MacroLinesView(rings: rings),
-        ),
+        child: MacroLinesView(rings: rings),
       ),
     );
   }
 
-  /// Linha sob o anel: 'Restam N kcal' à esquerda e 'Editar metas' (showGoalSheet)
-  /// à direita. Usada por: [_summary].
-  Widget _goalsRow() {
-    final pit = context.pit;
-    final plan = ref.watch(planControllerProvider);
-    final totals = ref.watch(dayTotalsProvider);
-    final left = plan.dailyKcalGoal - totals.kcal;
-    final label = left >= 0
-        ? 'Restam ${formatKcal(left)} kcal'
-        : '${formatKcal(-left)} kcal acima';
+  /// Linha sob o anel: 'Restam N kcal' + 'Editar metas' ([onEdit]). Usada por: [_summary].
+  Widget _goalsRow(PitadaColors pit, String remaining, VoidCallback onEdit) {
     return Row(
       children: [
         Expanded(
-          child: Text(label, style: AppType.on(AppType.bodySm, pit.muted)),
+          child: Text(remaining, style: AppType.on(AppType.bodySm, pit.muted)),
         ),
         GestureDetector(
-          onTap: () => showGoalSheet(context, plan: plan),
+          onTap: onEdit,
           behavior: HitTestBehavior.opaque,
           child: Text(
             'Editar metas',
