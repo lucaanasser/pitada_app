@@ -4,9 +4,10 @@
 //            laterais externas retas, internas anguladas — que dividem a largura
 //            até um respiro antes do canto direito do card (visível e redondo).
 //            Todas as abas têm a cor do corpo; as de trás descem ~3px e levam um
-//            véu de sombra (plano de trás); a ativa vem à frente com a base
-//            aberta, fundindo no corpo. Sombra curta nas emendas dá a profundidade.
-// USA:       theme/* (tokens, AppColors.shadow), core/widgets (Editable).
+//            véu de sombra (plano de trás); a ativa vem à frente e deságua no
+//            corpo por um filete côncavo na base, sem linha nem quina.
+// USA:       theme/* (tokens, AppColors.shadow), core/widgets (Editable);
+//            folder_tab_painter.dart (part) pinta as silhuetas.
 // USADO POR: MealOptionTabs (cardápio), CartTabBar (compras).
 // ─────────────────────────────────────────────────────────────────────────────
 import 'package:flutter/material.dart';
@@ -17,6 +18,8 @@ import '../../theme/pitada_colors.dart';
 import '../../theme/spacing.dart';
 import '../../theme/typography.dart';
 import '../controls/editable.dart';
+
+part 'folder_tab_painter.dart';
 
 /// Altura fixa da fita de abas-pasta. Usada por: quem encosta o corpo abaixo.
 const double folderTabsHeight = 40;
@@ -32,6 +35,9 @@ const double _drop = 3;
 
 /// Raio de arredondamento dos cantos superiores. Usada por: pintura.
 const double _round = 8;
+
+/// Raio do filete côncavo onde a lateral deságua na base. Usada por: pintura.
+const double _fillet = 6;
 
 /// Largura da aba '+' estreita. Usada por: [FolderTabs].
 const double _addWidth = 46;
@@ -82,6 +88,7 @@ class FolderTabs extends StatelessWidget {
           final slot = (span - (hasAdd ? _addWidth : 0)) / n;
           final actR = ((act + 1) * slot + _overlap).clamp(0.0, span);
           return Stack(
+            clipBehavior: Clip.none,
             children: [
               Positioned.fill(
                 child: CustomPaint(
@@ -99,7 +106,7 @@ class FolderTabs extends StatelessWidget {
                   _slot(i * slot + (i == 0 ? 0 : _overlap), slot, _drop,
                       () => onSelect(i), _label(context, i, false)),
               if (hasAdd)
-                _slot(n * slot + _overlap, _addWidth - _overlap, _drop, onAdd,
+                _slot(n * slot, _addWidth, _drop, onAdd,
                     Icon(AppIcons.add, size: 16, color: pit.muted)),
               _slot(act * slot, actR - act * slot, 0, () => onSelect(act),
                   _label(context, act, true)),
@@ -145,97 +152,4 @@ class FolderTabs extends StatelessWidget {
       ),
     );
   }
-}
-
-/// Arredonda o canto [c] (vindo de [a], indo a [b]) com uma bézier. Usada por: [_tabPath].
-void _corner(Path path, Offset a, Offset c, Offset b) {
-  Offset at(Offset o) {
-    final v = o - c;
-    return c + v * (v.distance <= _round ? 0.5 : _round / v.distance);
-  }
-
-  final p1 = at(a), p2 = at(b);
-  path
-    ..lineTo(p1.dx, p1.dy)
-    ..quadraticBezierTo(c.dx, c.dy, p2.dx, p2.dy);
-}
-
-/// Silhueta de uma aba: trapézio com lateral angulada quando [la]/[ra] (senão
-/// reta), cantos superiores arredondados e base aberta em [h]. Usada por: painter.
-Path _tabPath(double l, double r, double top, double h, bool la, bool ra) {
-  final bl = Offset(l, h), br = Offset(r, h);
-  final tl = Offset(la ? l + _slant : l, top);
-  final tr = Offset(ra ? r - _slant : r, top);
-  final path = Path()..moveTo(bl.dx, bl.dy);
-  _corner(path, bl, tl, tr);
-  _corner(path, tl, tr, br);
-  return path..lineTo(br.dx, br.dy);
-}
-
-/// Pinta as silhuetas do fundo p/ frente: '+', abas de trás (esquerda na frente,
-/// mesma cor + véu de sombra) e a ativa por cima, cada uma com sombra curta na
-/// emenda; recorta na fita p/ nada vazar sob o corpo. Usada por: [FolderTabs].
-class _FolderStackPainter extends CustomPainter {
-  const _FolderStackPainter({
-    required this.fill,
-    required this.line,
-    required this.count,
-    required this.active,
-    required this.hasAdd,
-  });
-
-  final Color fill, line;
-  final int count, active;
-  final bool hasAdd;
-
-  /// Uma aba: sombra da emenda → cor do corpo → véu de sombra (se atrás) →
-  /// contorno sem a base. Usada por: [paint].
-  void _tab(Canvas canvas, double l, double r, double top, bool behind, bool la,
-      bool ra, Paint stroke) {
-    final path = _tabPath(l, r, top, folderTabsHeight + 1, la, ra);
-    canvas.save();
-    canvas.translate(2.5, 1);
-    canvas.drawPath(
-      path,
-      Paint()
-        ..color = AppColors.shadow
-        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 2.5),
-    );
-    canvas.restore();
-    canvas.drawPath(path, Paint()..color = fill);
-    if (behind) {
-      canvas.drawPath(
-          path, Paint()..color = AppColors.shadow.withValues(alpha: 0.18));
-    }
-    canvas.drawPath(path, stroke);
-  }
-
-  /// Desenha '+' → abas de trás (direita p/ esquerda) → ativa levantada. Usada por: framework.
-  @override
-  void paint(Canvas canvas, Size size) {
-    canvas.clipRect(Offset.zero & size, doAntiAlias: false);
-    final span = size.width - _endGap;
-    final slot = (span - (hasAdd ? _addWidth : 0)) / count;
-    final stroke = Paint()
-      ..color = line
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = AppSpacing.hair;
-    double right(int i) => ((i + 1) * slot + _overlap).clamp(0.0, span);
-    if (hasAdd) _tab(canvas, count * slot, span, _drop, true, true, true, stroke);
-    for (var i = count - 1; i >= 0; i--) {
-      if (i == active) continue;
-      _tab(canvas, i * slot, right(i), _drop, true, i != 0, true, stroke);
-    }
-    _tab(canvas, active * slot, right(active), 0, false, active != 0, true,
-        stroke);
-  }
-
-  /// Repinta quando cor, contagem ou aba ativa mudarem. Usada por: framework.
-  @override
-  bool shouldRepaint(_FolderStackPainter o) =>
-      o.fill != fill ||
-      o.line != line ||
-      o.count != count ||
-      o.active != active ||
-      o.hasAdd != hasAdd;
 }
